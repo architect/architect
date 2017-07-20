@@ -1,6 +1,6 @@
 var fs = require('fs')
 var path = require('path')
-var parse = require('@smallwins/arc-parser')
+var parse = require('@architect/parser')
 
 module.exports = function _readEnv(callback) {
 

@@ -1,6 +1,6 @@
 var waterfall = require('run-waterfall')
 var cookie = require('cookie')
-var parse = require('@smallwins/arc-parser')
+var parse = require('@architect/parser')
 var body = require('body-parser')
 var fs = require('fs')
 var join = require('path').join

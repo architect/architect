@@ -1,5 +1,5 @@
 var glob = require('glob')
-var parse = require('@smallwins/arc-parser')
+var parse = require('@architect/parser')
 var fs = require('fs')
 var parallel = require('run-parallel')
 var exec = require('child_process').exec

@@ -1,6 +1,6 @@
 var fs = require('fs')
 var path = require('path')
-var parse = require('@smallwins/arc-parser')
+var parse = require('@architect/parser')
 var assert = require('@smallwins/validate/assert')
 var zipit = require('zipit')
 var glob = require('glob')
