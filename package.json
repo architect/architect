@@ -14,7 +14,8 @@
     "arc-sandbox": "./sandbox/cli.js"
   },
   "scripts": {
-    "lint": "eslint . --fix"
+    "lint": "eslint . --fix",
+    "test": "tape test/**/*-test.js | tap-spec"
   },
   "keywords": [],
   "author": "Brian LeRoux <b@brian.io>",
@@ -41,7 +42,7 @@
     "zipit": "^1.0.2"
   },
   "devDependencies": {
-    "eslint": "^4.1.1",
+    "eslint": "^3.10.0",
     "rimraf": "^2.6.1",
     "tap-spec": "^4.1.1",
     "tape": "^4.6.3",
