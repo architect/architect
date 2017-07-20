@@ -21,7 +21,7 @@
   "author": "Brian LeRoux <b@brian.io>",
   "license": "Apache-2.0",
   "dependencies": {
-    "@smallwins/arc-parser": "^1.0.0",
+    "@architect/parser": "^1.0.0",
     "@smallwins/validate": "^4.3.0",
     "body-parser": "^1.17.2",
     "cookie": "^0.3.1",
