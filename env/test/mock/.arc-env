@@ -1,0 +1,11 @@
+# example .arc-env
+# `arc-sandbox` will only concern itself with @testing vars
+# npm run apply
+@testing 
+GLOBAL_KEY testing
+
+@staging
+GLOBAL_KEY staging
+
+@production
+GLOBAL_KEY production

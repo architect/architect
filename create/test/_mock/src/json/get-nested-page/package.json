@@ -1,0 +1,6 @@
+{
+  "name": "testapp-get-nested-page",
+  "dependencies": {
+    "@smallwins/arc-prototype": "^1.1.0"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "name": "@architect/workflows",
+  "version": "1.0.0",
+  "description": "cloud function workflows implemented as npm scripts for creating, deploying, working offline and more",
+  "main": "index",
+  "bin": {
+    "arc-create": "./create/cli.js",
+    "arc-deploy": "./deploy/cli.js",
+    "arc-env": "./env/cli.js",
+    "arc-install": "./modules/_install.js",
+    "arc-link": "./modules/_link.js",
+    "arc-uninstall": "./modules/_uninstall.js",
+    "arc-update": "./modules/_update.js",
+    "arc-sandbox": "./sandbox/cli.js"
+  },
+  "scripts": {
+    "lint": "eslint . --fix"
+  },
+  "keywords": [],
+  "author": "Brian LeRoux <b@brian.io>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@smallwins/arc-parser": "^1.0.0",
+    "@smallwins/validate": "^4.3.0",
+    "body-parser": "^1.17.2",
+    "cookie": "^0.3.1",
+    "express": "^4.15.3",
+    "dynalite": "^1.2.0",
+    "lodash.padend": "^4.6.1",
+    "chalk": "^1.1.3",
+    "aws-sdk": "^2.52.0",
+    "glob": "^7.1.1",
+    "file-exists": "^4.0.0",
+    "run-parallel": "^1.1.6",
+    "run-waterfall": "^1.1.3",
+    "zipit": "^1.0.1",
+    "chalk": "^1.1.3",
+    "cp": "^0.2.0",
+    "glob": "^7.1.1",
+    "mkdirp": "^0.5.1",
+    "zipit": "^1.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^4.1.1",
+    "rimraf": "^2.6.1",
+    "tap-spec": "^4.1.1",
+    "tape": "^4.6.3",
+    "tiny-json-http": "^5.1.1"
+  }
+}

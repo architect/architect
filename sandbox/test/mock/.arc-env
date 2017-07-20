@@ -1,0 +1,4 @@
+@testing
+GLOBAL_ONE 1
+GLOBAL_TWO too
+GLOBAL_THREE http://localhost:3333

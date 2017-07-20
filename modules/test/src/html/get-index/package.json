@@ -1,0 +1,6 @@
+{
+  "name": "mock-1",
+  "dependencies": {
+    "lodash": "^1.3.1"
+  }
+}
