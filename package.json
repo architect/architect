@@ -7,10 +7,10 @@
     "arc-create": "./src/create/cli.js",
     "arc-deploy": "./src/deploy/cli.js",
     "arc-env": "./src/env/cli.js",
-    "arc-install": "./src/modules/_install.js",
-    "arc-link": "./src/modules/_link.js",
-    "arc-uninstall": "./src/modules/_uninstall.js",
-    "arc-update": "./src/modules/_update.js",
+    "arc-modules-install": "./src/modules/_install.js",
+    "arc-modules-link": "./src/modules/_link.js",
+    "arc-modules-uninstall": "./src/modules/_uninstall.js",
+    "arc-modules-update": "./src/modules/_update.js",
     "arc-sandbox": "./src/sandbox/cli.js"
   },
   "scripts": {
