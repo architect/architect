@@ -14,8 +14,8 @@ test('env', t=> {
 
 test('cleanup lambdas', t=> {
   t.plan(2)
-  rm('test/_mock')
-  t.ok(true, 'deleted test/_mock')
+  rm('test/create/_mock')
+  t.ok(true, 'deleted test/create/_mock')
   nukeLambdas([
     'testapp-production-get-nested-page',
     'testapp-production-post-nested-000paramID',
@@ -58,10 +58,10 @@ test('cleanup apis', t=> {
 
 test('setup', t=> {
   t.plan(1)
-  mkdir('test/_mock')
-  cp('test/02-http-mock.arc', 'test/_mock/.arc')
-  process.chdir('test/_mock')
-  t.ok(true, 'created test/_mock/.arc')
+  mkdir('test/create/_mock')
+  cp('test/create/02-http-mock.arc', 'test/create/_mock/.arc')
+  process.chdir('test/create/_mock')
+  t.ok(true, 'created test/create/_mock/.arc')
   console.log(process.cwd())
 })
 

@@ -14,10 +14,10 @@ test('env', t=> {
 
 test('setup', t=> {
   t.plan(1)
-  mkdir('test/_mock')
-  cp('test/03-scheduled-mock.arc', 'test/_mock/.arc')
-  process.chdir('test/_mock')
-  t.ok(true, 'created test/_mock/.arc')
+  mkdir('test/create/_mock')
+  cp('test/create/03-scheduled-mock.arc', 'test/create/_mock/.arc')
+  process.chdir('test/create/_mock')
+  t.ok(true, 'created test/create/_mock/.arc')
   console.log(process.cwd())
 })
 

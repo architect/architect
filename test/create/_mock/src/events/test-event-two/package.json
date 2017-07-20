@@ -1,5 +1,5 @@
 {
-  "name": "testapp-get-nested-page",
+  "name": "testapp-test-event-two",
   "dependencies": {
     "@smallwins/arc-prototype": "^1.1.3"
   }

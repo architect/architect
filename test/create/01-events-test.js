@@ -91,3 +91,9 @@ test('cleanup sns topics', t=> {
     }
   })
 })
+
+test('return home', t=> {
+  t.plan(1)
+  process.chdir(path.join(__dirname, '..', '..', '..'))
+  t.ok(true, 'returned back to cwd')
+})

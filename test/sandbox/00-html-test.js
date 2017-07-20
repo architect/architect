@@ -10,13 +10,11 @@ var server
 
 test('setup', t=> {
   t.plan(1)
-    /**
-     *  !important
-     *
-     *  tests following this test will execute in test/mock
-     */
-  process.chdir('test/mock')
-  t.ok(process.cwd(), process.cwd())
+  mkdir('test/sandbox/mock')
+  cp('test/sandbox/00-events-mock.arc', 'test/create/_mock/.arc')
+  process.chdir('test/create/_mock')
+  t.ok(true, 'created test/_mock/.arc')
+  console.log(process.cwd())
 })
 
 test('setup db server', t=> {

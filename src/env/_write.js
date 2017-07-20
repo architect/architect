@@ -23,13 +23,13 @@ module.exports = function _write(config, callback) {
             var name = require(pkg).name.replace(app, '')
             var FunctionName = `${app}-staging-${name}`
             callback()
-          }  
+          }
         ], callback)
         /*
         lambda.updateFunctionConfiguration({
-          FunctionName: "myFunction", 
-          MemorySize: 128, 
-          Timeout: 123, 
+          FunctionName: "myFunction",
+          MemorySize: 128,
+          Timeout: 123,
           Environment: {
             Variables: {}
           }

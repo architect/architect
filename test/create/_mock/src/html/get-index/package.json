@@ -1,6 +1,6 @@
 {
   "name": "testapp-get-index",
   "dependencies": {
-    "@smallwins/arc-prototype": "^1.1.0"
+    "@smallwins/arc-prototype": "^1.1.3"
   }
 }

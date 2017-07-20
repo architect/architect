@@ -1,5 +1,5 @@
 {
-  "name": "testapp-get-nested-page",
+  "name": "testapp-ppl-insert",
   "dependencies": {
     "@smallwins/arc-prototype": "^1.1.3"
   }
