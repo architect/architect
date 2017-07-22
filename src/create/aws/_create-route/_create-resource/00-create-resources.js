@@ -15,10 +15,8 @@ module.exports = function _00createResources(params, callback) {
       create(params.stage, params.route, params.type, callback)
     },
     function _getResources(restApiId, callback) {
-      setTimeout(function _latency() {
-        tmpRestApiId = restApiId
-        resources({restApiId}, callback)
-      }, 3000)
+      tmpRestApiId = restApiId
+      resources({restApiId}, callback)
     },
   ],
   function _done(err, resources) {

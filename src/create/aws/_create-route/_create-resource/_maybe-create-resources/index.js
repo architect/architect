@@ -9,7 +9,8 @@ module.exports = function _maybeCreateResources(stage, route, type, callback) {
 
   waterfall([
     function _getAPI(callback) {
-      gateway.getRestApis({}, callback)
+      // h/t to @kj for finding this limit 
+      gateway.getRestApis({limit: 500}, callback)
     },
     function _createResources(apis, callback) {
       var api = apis.items.find(i=> i.name === stage)

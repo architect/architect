@@ -1,6 +1,0 @@
-{
-  "name": "testapp-ppl-update",
-  "dependencies": {
-    "@smallwins/arc-prototype": "^1.1.3"
-  }
-}
