@@ -1,4 +1,4 @@
-var arc = require('@smallwins/arc-prototype')
+var arc = require('@architect/functions')
 
 function handler(record, callback) {
   console.log(JSON.stringify(record), null, 2)
