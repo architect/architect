@@ -1,5 +1,5 @@
 node_modules/
-npm-debug.log
-text/_mock
-test/_mock/
+text/**/mock/
+test/**/_mock/
 .DS_Store
+npm-debug.log

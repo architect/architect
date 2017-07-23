@@ -72,8 +72,7 @@ function createTrigger(app, table, mthd, callback) {
     // npm i latest deps in the hello world template
     exec(`
       cd ${base} && \
-      npm rm @smallwins/arc-prototype --save && \
-      npm i @smallwins/arc-prototype --save
+      npm i @architect/functions --save --production
     `,
     function _exec(err) {
       if (err) {

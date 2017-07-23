@@ -39,8 +39,7 @@ module.exports = function _createCode(params, callback) {
 
     exec(`
       cd ${localPath} && \
-      npm rm @smallwins/arc-prototype --save && \
-      npm i @smallwins/arc-prototype --save
+      npm i @architect/functions --save --production
     `,
     function _exec(err) {
       if (err) {

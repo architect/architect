@@ -45,8 +45,7 @@ module.exports = function _createLambdaCode(params, callback) {
 
     exec(`
       cd ${pathToTmpl} && \
-      npm rm @smallwins/arc-prototype --save && \
-      npm i @smallwins/arc-prototype --save
+      npm i @architect/functions --save --production
     `,
     function _exec(err) {
       if (err) {

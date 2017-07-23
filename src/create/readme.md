@@ -2,12 +2,6 @@
 
 > Generate local cloud function code and deployment infrastructure on AWS from an `.arc` text file
 
-### install
-
-```
-npm i @smallwins/arc-create --save-dev
-```
-
 ## usage
 
 1. Add `arc-create` to your npm scripts.
@@ -17,7 +11,7 @@ npm i @smallwins/arc-create --save-dev
 // package.json
 {
   "scripts": {
-    "create": "arc-create"
+    "create": "AWS_PROFILE=xxx AWS_REGION=us-west-1 arc-create"
   }
 }
 ```
