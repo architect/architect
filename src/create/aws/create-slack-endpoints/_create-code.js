@@ -6,6 +6,7 @@ var cp = require('cp').sync
 var parallel = require('run-parallel')
 var waterfall = require('run-waterfall')
 var assert = require('@smallwins/validate/assert')
+var exec = require('child_process').exec
 
 /**
  * creates:
@@ -38,22 +39,36 @@ module.exports = function createSlackLambdaCode(params, callback) {
   mkdir(`src/slack/${botName}-slash`)
 
   // copy in hello worlds if they don't exist
-  function copy(part) {
+  function copy(part, callback) {
     var dest = `src/slack/${botName}-${part}/index.js`
     if (!exists(dest)) {
       var src = join(__dirname, 'tmpl', part, 'index.js')
       cp(src, dest)
-      var pkg = join(process.cwd(), 'src', 'slack', `${botName}-${part}`, 'package.json')
+      var home = process.cwd()
+      var curr = join(home, 'src', 'slack', `${botName}-${part}`)
+      var pkg = join(curr, 'package.json')
       var name = `${appName}-slack-${botName}-${part}`
       var str = val=> JSON.stringify({name:val}, null, 2)
       fs.writeFileSync(pkg, str(name))
+      exec(`
+        cd ${curr} && \
+        npm i slack --production --save && \
+        cd ${home}
+      `, 
+      function(){
+        callback()
+      })
     }
   }
 
-  copy('actions')
-  copy('events')
-  copy('options')
-  copy('slash')
+  waterfall([
+    copy.bind({}, 'actions'),
+    copy.bind({}, 'events'),
+    /*
+    copy.bind({}, 'options'),
+    copy.bind({}, 'slash'),
+    */
+  ], callback)
 
   // cont
   callback()

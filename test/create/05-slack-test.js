@@ -12,20 +12,19 @@ test('env', t=> {
   t.ok(run, 'run exists')
 })
 
-/*
 test('cleanup lambdas', t=> {
   t.plan(2)
   rm('test/create/_mock')
   t.ok(true, 'deleted test/create/_mock')
   nukeLambdas([
-    'testapp-slack-testbot-production-actions',
-    'testapp-slack-testbot-production-events',
-    'testapp-slack-testbot-production-slash',
-    'testapp-slack-testbot-production-options',
-    'testapp-slack-testbot-staging-actions',
-    'testapp-slack-testbot-staging-events',
-    'testapp-slack-testbot-staging-slash',
-    'testapp-slack-testbot-staging-options',
+    'testapp-production-slack-testbot-actions',
+    'testapp-production-slack-testbot-events',
+    'testapp-production-slack-testbot-slash',
+    'testapp-production-slack-testbot-options',
+    'testapp-staging-slack-testbot-actions',
+    'testapp-staging-slack-testbot-events',
+    'testapp-staging-slack-testbot-slash',
+    'testapp-staging-slack-testbot-options',
   ],
   function _nuke(err) {
     if (err) {
@@ -35,7 +34,7 @@ test('cleanup lambdas', t=> {
       t.ok(true, 'lambdas nuked')
     }
   })
-})*/
+})
 
 test('cleanup apis', t=> {
   t.plan(1)
