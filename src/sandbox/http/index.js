@@ -57,7 +57,7 @@ function registerRoutes(type) {
       app[verb](route, function _http(req, res) {
         // api gateway 'Cookie' from express 'cookie'
         req.headers.Cookie = req.headers.cookie
-        // 
+        //
         // run the lambda sig locally
         local(funct, {
           method: verb,
@@ -81,7 +81,7 @@ function registerRoutes(type) {
             res.status(v.statusCode).end(v.html)
           }
           else if (err) {
-            res.status(500).end(err) 
+            res.status(500).end(err)
           }
           else {
             var arcCookie = cookie.parse(result.cookie)
@@ -92,7 +92,7 @@ function registerRoutes(type) {
             else if (type === 'html' && result.html) {
               res.set('Content-Type', 'text/html');
               res.end(err? err : result.html)
-            }  
+            }
           }
         })
       })

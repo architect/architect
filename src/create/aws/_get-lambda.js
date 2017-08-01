@@ -27,6 +27,7 @@ module.exports = function _getLambda(params, callback) {
       waterfall([
         function _read(callback) {
           var pathToCode = path.join('src', section, codename, '*')
+            console.log({pathToCode})
           glob(pathToCode, callback)
         },
         function _zip(files, callback) {

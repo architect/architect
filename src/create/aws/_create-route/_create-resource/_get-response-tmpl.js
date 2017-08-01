@@ -30,7 +30,7 @@ function _getJSON(statusCode) {
   var out = ''
   if (statusCode === '200') out = "$input.json('$.json')"
   if (statusCode === '302') out = "$input.path('$.errorMessage')"
-  if (statusCode === '403') out = vtl 
+  if (statusCode === '403') out = vtl
   if (statusCode === '404') out = vtl
   if (statusCode === '500') out = vtl
   return {

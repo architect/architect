@@ -73,7 +73,7 @@ module.exports = function planner(arc) {
   }
 
    // build up a plan for api gateway
-  var api = arc.hasOwnProperty('json') || arc.hasOwnProperty('html')
+  var api = arc.hasOwnProperty('json') || arc.hasOwnProperty('html') || arc.hasOwnProperty('slack')
 
   // first create api gateway restapis
   if (api) {
@@ -92,6 +92,12 @@ module.exports = function planner(arc) {
     arc.json.forEach(route=> {
       // json is configured for appplication/json: 200, 201, 403, 404, 500
       plans.push({action:'create-json-route', route, app})
+    })
+  }
+
+  if (arc.slack) {
+    arc.slack.forEach(bot=> {
+      plans.push({action:'create-slack-endpoints', bot, app})
     })
   }
 
