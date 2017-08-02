@@ -58,16 +58,17 @@ module.exports = function createSlackLambdaCode(params, callback) {
         callback()
       })
     }
+    else {
+      console.log('skip')
+      callback()
+    }
   }
 
-  waterfall([
+  parallel([
     copy.bind({}, 'actions'),
     copy.bind({}, 'events'),
     copy.bind({}, 'options'),
     copy.bind({}, 'slash'),
   ], callback)
-
-  // cont
-  callback()
 }
 

@@ -12,6 +12,7 @@ test('env', t=> {
   t.ok(run, 'run exists')
 })
 
+/*
 test('cleanup lambdas', t=> {
   t.plan(2)
   rm('test/create/_mock')
@@ -49,7 +50,7 @@ test('cleanup apis', t=> {
     t.ok(true, 'lambdas nuked')
   })
 })
-
+*/
 test('setup', t=> {
   t.plan(1)
   mkdir('test/create/_mock')
