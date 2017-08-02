@@ -1,3 +1,6 @@
+var fs = require('fs')
+var path = require('path')
+
 module.exports = function _getReqTmpl(type) {
   if (type === 'events') {
     return {
@@ -18,8 +21,9 @@ module.exports = function _getReqTmpl(type) {
     }
   }
   else if (type === 'slash') {
+    var ugh2 = fs.readFileSync(path.join(__dirname, '_slash.vtl')).toString()
     return {
-      'application/json': "$input.json('$')",
+      'application/x-www-form-urlencoded': ugh2
     }
   }
   else {
