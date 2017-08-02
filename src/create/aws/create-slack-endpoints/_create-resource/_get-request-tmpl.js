@@ -12,6 +12,16 @@ module.exports = function _getReqTmpl(type) {
       'application/x-www-form-urlencoded': ugh   
     }
   }
+  else if (type === 'options') {
+    return {
+      'application/json': "$input.json('$')",
+    }
+  }
+  else if (type === 'slash') {
+    return {
+      'application/json': "$input.json('$')",
+    }
+  }
   else {
     throw Error('only actions and events impl')
   }

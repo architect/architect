@@ -14,13 +14,12 @@ var exec = require('child_process').exec
  *  /
  *  |-src
  *  | |-slack
- *  | | '-botname <----------------------- localName
- *  | |   |-actions
- *  | |   | |-index.js
- *  | |   | '-package.json <-------------- w name set to appname-slack-botname-actions
- *  | |   |-events
- *  | |   |-slash
- *  | |   '-options
+ *  | | |-botname-actions
+ *  | | | |-index.js
+ *  | | | '-package.json <-------------- w name set to appname-slack-botname-actions
+ *  | | |-botname-events
+ *  | | |-botname-slash
+ *  | | '-botname-options
  */
 module.exports = function createSlackLambdaCode(params, callback) {
 
@@ -64,10 +63,8 @@ module.exports = function createSlackLambdaCode(params, callback) {
   waterfall([
     copy.bind({}, 'actions'),
     copy.bind({}, 'events'),
-    /*
     copy.bind({}, 'options'),
     copy.bind({}, 'slash'),
-    */
   ], callback)
 
   // cont

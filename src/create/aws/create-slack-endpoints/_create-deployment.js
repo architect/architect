@@ -54,10 +54,8 @@ module.exports = function _createSlackBot(params, callback) {
       waterfall([
         r.bind({}, param(`events`)),
         r.bind({}, param(`actions`)),
-        /*
         r.bind({}, param(`options`)),
         r.bind({}, param(`slash`)),
-        */
       ], callback)
     }
   ], callback)
