@@ -20,10 +20,6 @@ module.exports = function _createResource(params, callback) {
   var deployname = params.deploy
   var httpMethod = 'post'
 
-  console.log('creating…', {
-    stage, route, httpMethod, type, deployname
-  })
-
   waterfall([
     function _00(callback) {
       create({

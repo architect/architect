@@ -7,17 +7,12 @@ module.exports = function _getReqTmpl(type) {
       'application/json': "$input.json('$')",
     }
   }
-  else if (type === 'actions') {
+  else if (type === 'actions' || type === 'options') {
     var ugh = ''
     ugh += '#set ($encodedJSON = $input.body.substring(8))\n'
     ugh += '$util.urlDecode(${encodedJSON})'
     return {
       'application/x-www-form-urlencoded': ugh   
-    }
-  }
-  else if (type === 'options') {
-    return {
-      'application/json': "$input.json('$')",
     }
   }
   else if (type === 'slash') {
@@ -27,6 +22,14 @@ module.exports = function _getReqTmpl(type) {
     }
   }
   else {
-    throw Error('only actions and events impl')
+    throw Error('unknown slack handler type ' + type)
   }
 }
+/*
+  else if (type === 'options') {
+    var ugh2 = fs.readFileSync(path.join(__dirname, '_slash.vtl')).toString()
+    return {
+      'application/x-www-form-urlencoded': ugh2
+    }
+  }
+  */
