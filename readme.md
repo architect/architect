@@ -1,4 +1,4 @@
-# <kdb>@architect/workflows</kbd> 
+# <kbd>:cloud_with_lightning: @architect/workflows</kbd>
 
 > create, deploy, work offline and more
 

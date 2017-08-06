@@ -1,8 +1,10 @@
-# <kbd>:cloud_with_lightning: @architect/create</kbd>
+# <kbd>:cloud_with_lightning: create</kbd>
 
 > Generate local cloud function code and deployment infrastructure on AWS from an `.arc` text file
 
 ## usage
+
+0. `npm i @architect/workflows --save`
 
 1. Add `arc-create` to your npm scripts.
 
