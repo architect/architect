@@ -1,6 +1,6 @@
-var aws = require('aws-sdk')
+var AWS = require('aws-sdk')
 AWS.config.update({region: 'us-west-1'})
-var endpoint = new aws.Endpoint('http://localhost:5000')
-var client = new aws.DynamoDB.DocumentClient({endpoint})
+var endpoint = new AWS.Endpoint('http://localhost:5000')
+var client = new AWS.DynamoDB.DocumentClient({endpoint})
 
 module.exports = client
