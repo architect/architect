@@ -19,6 +19,10 @@
     "t": "NODE_ENV=testing AWS_PROFILE=smallwins AWS_REGION=us-west-1 tape test/create/05-slack-test.js | tap-spec"
   },
   "keywords": [],
+  "repository" :{ 
+    "type" : "git", 
+    "url" : "https://github.com/arc-repos/arc-workflows.git"
+  },
   "author": "Brian LeRoux <b@brian.io>",
   "license": "Apache-2.0",
   "dependencies": {
