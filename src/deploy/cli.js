@@ -19,7 +19,7 @@ var env = (process.env.ARC_DEPLOY === 'production')? 'production' : 'staging'
 // deploy everything in ./src by default
 var isMany = process.argv.length === 2
 if (isMany) {
-  var pattern = 'src/@(html|json|events|scheduled|tables)/*'
+  var pattern = 'src/@(html|json|events|scheduled|tables|slack)/*'
   glob(pattern, function _glob(err, results) {
     if (err) {
       console.log(chalk.red('failed to glob'), err)
