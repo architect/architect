@@ -45,9 +45,9 @@ module.exports = function _02setupRequest(params, callback) {
         type: 'AWS',
         integrationHttpMethod: 'POST',
         uri,
-        requestTemplates: getReqTmpl(type) 
+        requestTemplates: getReqTmpl(type)
       }, callback)
-    }, 
+    },
     function _getAccountID(noop, callback) {
       iam.getUser({}, function _getUser(err, result) {
         if (err) {

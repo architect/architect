@@ -30,8 +30,8 @@ module.exports = function _03setupResponse(params, callback) {
             restApiId,
             statusCode,
             responseParameters: {
-              'method.response.header.Content-Type': false, 
-              'method.response.header.X-Powered-By': false // let 'em know 
+              'method.response.header.Content-Type': false,
+              'method.response.header.X-Powered-By': false // let 'em know
             },
           },
           function _putMethod(err) {

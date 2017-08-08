@@ -45,8 +45,8 @@ module.exports = function _createSlackBot(params, callback) {
       function param(part) {
         return {
           app: params.app,
-          env: params.env, 
-          route: `/${params.bot}/${part}`, 
+          env: params.env,
+          route: `/${params.bot}/${part}`,
           deploy: `${params.app}-${params.env}-slack-${params.bot}-${part}`,
           type: part
         }

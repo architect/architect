@@ -53,7 +53,7 @@ module.exports = function createSlackLambdaCode(params, callback) {
         cd ${curr} && \
         npm i slack --production --save && \
         cd ${home}
-      `, 
+      `,
       function(){
         callback()
       })

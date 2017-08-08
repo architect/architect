@@ -1,8 +1,8 @@
-var create = require('./create')
-var deploy = require('./deploy')
-var env = require('./env')
-var modules = require('./modules')
-var sandbox = require('./sandbox')
+var create = require('./src/create')
+var deploy = require('./src/deploy')
+var env = require('./src/env')
+var modules = require('./src/modules')
+var sandbox = require('./src/sandbox')
 
 module.exports = {
   create, deploy, env, modules, sandbox

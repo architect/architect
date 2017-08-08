@@ -13,8 +13,8 @@ module.exports = function _createSlackEndpoints(params, callback) {
   createCode(params, function done(err) {
     if (err) throw err
 
-    var staging = createDeploy.bind({}, Object.assign({}, params, {env:'staging'})) 
-    var production = createDeploy.bind({}, Object.assign({}, params, {env:'production'})) 
+    var staging = createDeploy.bind({}, Object.assign({}, params, {env:'staging'}))
+    var production = createDeploy.bind({}, Object.assign({}, params, {env:'production'}))
 
     parallel([
       staging,

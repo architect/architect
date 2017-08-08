@@ -5,6 +5,6 @@ exports.handler = function _event(event, context, callback) {
     callback(null, {challenge: event.challenge})
   }
   else {
-    callback()   
+    callback()
   }
 }

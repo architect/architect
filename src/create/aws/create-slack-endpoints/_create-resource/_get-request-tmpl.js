@@ -12,7 +12,7 @@ module.exports = function _getReqTmpl(type) {
     ugh += '#set ($encodedJSON = $input.body.substring(8))\n'
     ugh += '$util.urlDecode(${encodedJSON})'
     return {
-      'application/x-www-form-urlencoded': ugh   
+      'application/x-www-form-urlencoded': ugh
     }
   }
   else if (type === 'slash') {
