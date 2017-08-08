@@ -9,9 +9,8 @@ module.exports = function start(callback) {
   waterfall([
     function _db(callback) {
       client = db.start(function() {
-        var start = chalk.dim('Started db @')
-        var end = chalk.cyan.underline('http://localhost:5000')
-        console.log(`${start} ${end}`)
+        var start = chalk.dim('Started Dynalite DynamoDB')
+        console.log(`${start}`)
         callback()
       })
     },
