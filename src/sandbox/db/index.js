@@ -23,7 +23,7 @@ function init(callback) {
       var keys = Object.keys(clean(attr))
       dynamo.createTable({
          TableName: 'arc-sessions',
-         AttributeDefinitions: getAttributeDefinitions(keys),
+         AttributeDefinitions: getAttributeDefinitions(attr),
          KeySchema: getKeySchema(attr, keys),
          ProvisionedThroughput: {
            ReadCapacityUnits: 5,
