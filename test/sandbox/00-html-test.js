@@ -10,9 +10,9 @@ var server
 
 test('setup', t=> {
   t.plan(1)
-  mkdir('test/sandbox/mock')
-  cp('test/sandbox/00-events-mock.arc', 'test/create/_mock/.arc')
-  process.chdir('test/create/_mock')
+  mkdir('test/sandbox/_mock')
+  cp('test/sandbox/00-sandbox-mock.arc', 'test/sandbox/_mock/.arc')
+  process.chdir('test/sandbox/_mock')
   t.ok(true, 'created test/_mock/.arc')
   console.log(process.cwd())
 })
@@ -44,7 +44,7 @@ test('can read /', t=> {
     else {
       t.ok(true, 'got /')
       t.equals('hello world', data.body, 'is hello world')
-      console.log(data)    
+      console.log({data})    
     }
   })
 })

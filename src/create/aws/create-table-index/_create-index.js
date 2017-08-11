@@ -9,7 +9,6 @@ var getGlobalSecondaryIndexes = require('./_get-global-secondary-indexes')
 
 module.exports = function _createTable(name, attr, callback) {
 
-  var keys = Object.keys(clean(attr))
   var gsiName = getGsiName(attr)
 
   waterfall([
@@ -53,7 +52,7 @@ module.exports = function _createTable(name, attr, callback) {
     function _updateTableIndex(callback) {
       dynamo.updateTable({
         TableName: name,
-        AttributeDefinitions: getAttributeDefinitions(keys), // FIXME hardcodes S
+        AttributeDefinitions: getAttributeDefinitions(attr),
         GlobalSecondaryIndexUpdates: getGlobalSecondaryIndexes(gsiName, attr),
       }, callback)
     }

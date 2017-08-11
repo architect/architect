@@ -12,6 +12,7 @@ test('setup', t=> {
   })
 })
 
+/*
 test('can read /api', t=> {
   t.plan(5)
   tiny.get({
@@ -31,7 +32,7 @@ test('can read /api', t=> {
       //console.log(data.body)    
     }
   })
-})
+})*/
 
 test('teardown', t=> {
   t.plan(1)
