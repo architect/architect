@@ -1,9 +1,39 @@
 var aws = require('aws-sdk')
+var assert = require('@smallwins/validate/assert')
 var waterfall = require('run-waterfall')
 var parallel = require('run-parallel')
 var route53 = new aws.Route53
 var gw = new aws.APIGateway
 
+function _createAlias(params, callback) {
+  assert(params, {
+    domain: String,
+    cloudfrontDomain: String,
+    zoneID: String,
+  })
+  route53.changeResourceRecordSets({
+    ChangeBatch: {
+       Changes: [{
+         Action: "CREATE",
+         ResourceRecordSet: {
+           AliasTarget: {
+             DNSName: params.cloudfrontDomain,
+             EvaluateTargetHealth: false,
+             HostedZoneId: 'Z2FDTNDATAQYW2', /* ah, yes of course */
+           },
+           Name: params.domain,
+           Type: "A"
+         }
+       }],
+       Comment: "defined by .arc @domain " + params.domain
+    },
+    HostedZoneId: params.zoneID
+  },
+  function _create(err, data) {
+    if (err) throw err
+    callback()
+  })
+}
 
 module.exports = function createDomain(app, domain, callback) {
   // get the hosted zone for the domain
@@ -19,14 +49,15 @@ module.exports = function createDomain(app, domain, callback) {
     route53.listResourceRecordSets({
       HostedZoneId:  zone.Id,
       StartRecordName: 'A',
-      StartRecordType: 'A'
-    }, 
+      StartRecordType: 'A', // yes, both of these are required!
+    },
     function(err, result) {
       if (err) throw err
-      var hasA = result.ResourceRecordSets.find(r=> r.Type === 'A')
-        console.log('HHHHHHH',result)
-      if (hasA) {
-        console.log('alias found')
+      var stagingAlias = result.ResourceRecordSets.find(r=> r.Type === 'A' && r.Name === `staging.${domain}`) || false
+      var productionAlias = result.ResourceRecordSets.find(r=> r.Type === 'A' && r.Name === domain) || false
+      var skip = !!(stagingAlias && productionAlias)
+      if (skip) {
+        console.log('aliases found')
         callback()
       }
       else {
@@ -34,40 +65,32 @@ module.exports = function createDomain(app, domain, callback) {
         // lookup cloudfront dist name
         gw.getDomainNames({
           limit: 500,
-        }, 
+        },
         function _list(err, data) {
           if (err) throw err
-          // look for domain.com and staging.domain.com
-          var staging = data.items.find(r=> r.domainName === `staging.${domain}`)
-          var production = data.items.find(r=> r.domainName === domain)
-          console.log({staging, production})
-          callback()
-        })
-        
-          /*
-        route53.changeResourceRecordSets({
-          ChangeBatch: {
-             Changes: [{
-               Action: "CREATE", 
-               ResourceRecordSet: {
-                 AliasTarget: {
-                   DNSName: "d123rk29d0stfj.cloudfront.net", 
-                   EvaluateTargetHealth: false, 
-                   HostedZoneId: "Z2FDTNDATAQYW2"
-                 }, 
-                 Name: "example.com", 
-                 Type: "A"
-               }
-             }], 
-             Comment: "CloudFront distribution for example.com"
-          }, 
-          HostedZoneId: "Z3M3LMPEXAMPLE"// Depends on the type of resource that you want to route traffic to
-        }, 
-        function _create(err, data) {
-          if (err) throw err
-          callback()
-        })*/
 
+          var stagingDomain = `staging.${domain}`
+          var productionDomain = domain
+          var staging = data.items.find(r=> r.domainName === stagingDomain)
+          var production = data.items.find(r=> r.domainName === productionDomain)
+
+          var stageAlias = _createAlias.bind({}, {
+            domain: 'staging.' + domain,
+            cloudfrontDomain: staging.distributionDomainName,
+            zoneID: zone.Id.replace('/hostedzone/', '')
+          })
+
+          var productionAlias = _createAlias.bind({}, {
+            domain,
+            cloudfrontDomain: production.distributionDomainName,
+            zoneID: zone.Id.replace('/hostedzone/', '')
+          })
+
+          parallel([
+            stageAlias,
+            productionAlias
+          ], callback)
+        })
       }
     })
   })

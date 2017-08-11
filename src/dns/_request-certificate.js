@@ -1,7 +1,7 @@
 var aws = require('aws-sdk')
 
 module.exports = function _requestCertificate(name, callback) {
-  // need to suss out the apex to send the cert req to 
+  // need to suss out the apex to send the cert req to
   var apex = name.split('.')
   var tld = apex.pop() //FIXME this does not work for co.uk or other dot delimated tlds
   var base = apex.pop()
@@ -13,7 +13,7 @@ module.exports = function _requestCertificate(name, callback) {
       DomainName: name,
       ValidationDomain: apex,
     }],
-  }, 
+  },
   function(err, data) {
     if (err) {
       console.log(err)

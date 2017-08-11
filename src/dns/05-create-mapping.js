@@ -6,7 +6,7 @@ var gw = new aws.APIGateway
 function _create(name, restApiId, stage, callback) {
   gw.getBasePathMappings({
     domainName: name,
-  }, 
+  },
   function(err, result) {
     if (err) throw err
     var skip = result.items && result.items.length >= 1
@@ -18,7 +18,7 @@ function _create(name, restApiId, stage, callback) {
         domainName: name,
         restApiId,
         stage,
-      }, 
+      },
       function _create(err) {
         if (err) throw err
         callback()
@@ -30,7 +30,7 @@ function _create(name, restApiId, stage, callback) {
 module.exports = function createDomain(app, domain, callback) {
   gw.getRestApis({
     limit: 500,
-  }, 
+  },
   function _list(err, result) {
     if (err) throw err
     var stagingName = `${app}-staging`

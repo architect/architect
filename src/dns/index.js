@@ -9,14 +9,12 @@ var createAlias = require('./06-create-alias')
 
 function dns(app, domain, callback) {
   waterfall([
-  /*
     listCerts.bind({}, domain),
     verifyCerts.bind({}, domain),
     ensureCerts.bind({}, domain),
     createHostedZone.bind({}, domain),
     createDomain.bind({}, domain),
     createMapping.bind({}, app, domain),
-  */
     createAlias.bind({}, app, domain),
   ], callback)
 }

@@ -5,7 +5,7 @@ module.exports = function createHostedZone(domain, callback) {
   route53.listHostedZonesByName({
     DNSName: domain,
     MaxItems: '1'
-  }, 
+  },
   function _list(err, result) {
     if (err) throw err
     var hasOne = result.HostedZones.length === 1
@@ -14,12 +14,12 @@ module.exports = function createHostedZone(domain, callback) {
     if (skip) {
       console.log(`found hosted zone ${domain}\n`)
       //console.log(result)
-      // list the nameservers 
+      // list the nameservers
       route53.listResourceRecordSets({
         HostedZoneId: result.HostedZones[0].Id,
         StartRecordType: 'NS',
         StartRecordName: domain,
-      }, 
+      },
       function(err, data) {
         if (err) throw err
         console.log(`make sure these nameservers are setup:`)
@@ -32,7 +32,7 @@ module.exports = function createHostedZone(domain, callback) {
       route53.createHostedZone({
         CallerReference: `_idx-${Date.now()}`,
         Name: domain,
-      }, 
+      },
       function _created(err, data) {
         if (err) throw err
           // FIXME check to see if this domain is registered on amazon

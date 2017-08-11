@@ -11,7 +11,8 @@
     "arc-modules-link": "./src/modules/_link.js",
     "arc-modules-uninstall": "./src/modules/_uninstall.js",
     "arc-modules-update": "./src/modules/_update.js",
-    "arc-sandbox": "./src/sandbox/cli.js"
+    "arc-sandbox": "./src/sandbox/cli.js",
+    "arc-dns": "./src/dns/cli.js"
   },
   "scripts": {
     "dns": "AWS_REGION=us-east-1 AWS_PROFILE=personal node src/dns",

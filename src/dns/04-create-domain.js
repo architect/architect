@@ -6,7 +6,7 @@ function _create(name, arn, callback) {
   gw.createDomainName({
     domainName: name,
     certificateArn: arn,
-  }, 
+  },
   function _create(err) {
     if (err) throw err
     callback()
@@ -17,7 +17,7 @@ module.exports = function createDomain(domain, callback) {
   // list domains
   gw.getDomainNames({
     limit: 500,
-  }, 
+  },
   function _list(err, data) {
     if (err) throw err
     // look for domain.com and staging.domain.com
@@ -30,17 +30,17 @@ module.exports = function createDomain(domain, callback) {
     else {
       // need to create staging and/or production
       // first, read certs
-      ;(new aws.ACM).listCertificates({
+      (new aws.ACM).listCertificates({
         CertificateStatuses: ['ISSUED'],
-      }, 
+      },
       function(err, result) {
         if (err) throw err
-        // then create staging and production 
+        // then create staging and production
         var staging = `staging.${domain}`
         var production = domain
         var stagingArn = result.CertificateSummaryList.find(c=> c.DomainName === `*.${domain}`).CertificateArn
         var productionArn = result.CertificateSummaryList.find(c=> c.DomainName === domain).CertificateArn
-    
+
         var creates = []
         if (!hasStaging) {
           creates.push(_create.bind({}, staging, stagingArn))
@@ -56,4 +56,4 @@ module.exports = function createDomain(domain, callback) {
     }
   })
 }
-  
+

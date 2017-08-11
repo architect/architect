@@ -3,7 +3,7 @@ var parallel = require('run-parallel')
 var _requestCertificate = require('./_request-certificate')
 
 module.exports = function _acm(domain, callback) {
-    ;(new aws.ACM).listCertificates({}, function(err, result) {
+    (new aws.ACM).listCertificates({}, function(err, result) {
       if (err) throw err
       var hasStaging = result.CertificateSummaryList.find(c=> c.DomainName === `*.${domain}`)
       var hasProduction = result.CertificateSummaryList.find(c=> c.DomainName === domain)

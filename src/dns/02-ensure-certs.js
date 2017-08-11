@@ -1,17 +1,17 @@
 var aws = require('aws-sdk')
 
 var CertificateStatuses = [
-  'INACTIVE', 
-  'EXPIRED', 
-  'VALIDATION_TIMED_OUT', 
-  'REVOKED', 
+  'INACTIVE',
+  'EXPIRED',
+  'VALIDATION_TIMED_OUT',
+  'REVOKED',
   'FAILED',
 ]
 
 module.exports = function _verified(domain, callback) {
-   ;(new aws.ACM).listCertificates({
+   (new aws.ACM).listCertificates({
      CertificateStatuses
-   }, 
+   },
    function(err, result) {
     if (err) throw err
     var hasStaging = result.CertificateSummaryList.find(c=> c.DomainName === `*.${domain}`)
@@ -24,5 +24,5 @@ module.exports = function _verified(domain, callback) {
     else {
       callback()
     }
-  })   // ensure the domain is verified 
+  })   // ensure the domain is verified
 }
