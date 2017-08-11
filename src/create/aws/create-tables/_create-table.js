@@ -32,7 +32,7 @@ module.exports = function _createTable(name, attr, callback) {
           function _createTable(callback) {
             dynamo.createTable({
               TableName,
-              AttributeDefinitions: getAttributeDefinitions(attr),
+              AttributeDefinitions: getAttributeDefinitions(clean(attr)),
               KeySchema: getKeySchema(attr, keys),
               ProvisionedThroughput: {
                 ReadCapacityUnits: 5,
