@@ -27,7 +27,7 @@ function _create(name, restApiId, stage, callback) {
   })
 }
 
-module.exports = function createDomain(app, domain, callback) {
+module.exports = function createMapping(app, domain, callback) {
   gw.getRestApis({
     limit: 500,
   },

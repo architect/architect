@@ -14,7 +14,7 @@ function _createAlias(params, callback) {
   route53.changeResourceRecordSets({
     ChangeBatch: {
        Changes: [{
-         Action: "CREATE",
+         Action: 'UPSERT', /*"CREATE",*/
          ResourceRecordSet: {
            AliasTarget: {
              DNSName: params.cloudfrontDomain,
@@ -43,9 +43,6 @@ module.exports = function createDomain(app, domain, callback) {
   route53.listHostedZones({}, function(err, data) {
     if (err) throw err
     var zone = data.HostedZones.find(i=>i.Name === `${domain}.`)
-
-    console.log({zone})
-
     route53.listResourceRecordSets({
       HostedZoneId:  zone.Id,
       StartRecordName: 'A',
@@ -53,15 +50,15 @@ module.exports = function createDomain(app, domain, callback) {
     },
     function(err, result) {
       if (err) throw err
-      var stagingAlias = result.ResourceRecordSets.find(r=> r.Type === 'A' && r.Name === `staging.${domain}`) || false
-      var productionAlias = result.ResourceRecordSets.find(r=> r.Type === 'A' && r.Name === domain) || false
-      var skip = !!(stagingAlias && productionAlias)
+      var stagingAlias = result.ResourceRecordSets.find(r=> r.Type === 'A' && r.Name === `staging.${domain}.`)
+      var productionAlias = result.ResourceRecordSets.find(r=> r.Type === 'A' && r.Name === `${domain}.`)
+
+      var skip = false //!!(stagingAlias && productionAlias)
       if (skip) {
-        console.log('aliases found')
+        // console.log('aliases found')
         callback()
       }
       else {
-        console.log('create alias')
         // lookup cloudfront dist name
         gw.getDomainNames({
           limit: 500,
@@ -89,7 +86,13 @@ module.exports = function createDomain(app, domain, callback) {
           parallel([
             stageAlias,
             productionAlias
-          ], callback)
+          ], 
+          function _done(err) {
+            if (err) {
+              console.log(err)
+            }
+            callback()
+          })
         })
       }
     })

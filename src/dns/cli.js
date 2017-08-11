@@ -31,7 +31,7 @@ waterfall([
     // check for app
     var app = arc.app[0]
     var domain = arc.domain[0]
-    var api = !!(arc.hasOwnProperty('html') && arc.hasOwnProperty('json'))
+    var api = !!(arc.hasOwnProperty('html') || arc.hasOwnProperty('json'))
     if (!app) {
       callback('missing @app')
     }

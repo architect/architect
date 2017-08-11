@@ -13,7 +13,6 @@ module.exports = function createHostedZone(domain, callback) {
     var skip = hasOne && isSame
     if (skip) {
       console.log(`found hosted zone ${domain}\n`)
-      //console.log(result)
       // list the nameservers
       route53.listResourceRecordSets({
         HostedZoneId: result.HostedZones[0].Id,
@@ -35,7 +34,7 @@ module.exports = function createHostedZone(domain, callback) {
       },
       function _created(err, data) {
         if (err) throw err
-          // FIXME check to see if this domain is registered on amazon
+          // TODO check to see if this domain is registered on amazon
           // if it is update hte name servers
           // otherwise show this message
         console.log(`created ${domain}`)
