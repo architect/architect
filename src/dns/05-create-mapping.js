@@ -1,9 +1,18 @@
 var aws = require('aws-sdk')
+var assert = require('@smallwins/validate/assert')
 var waterfall = require('run-waterfall')
 var parallel = require('run-parallel')
 var gw = new aws.APIGateway
 
-function _create(name, restApiId, stage, callback) {
+function _create(params, callback) {
+  assert(params, {
+    name: String,
+    restApiId: String,
+    stage: String,
+    app: String,
+  })
+  var {name, restApiId, stage, app} = params
+  // rather than skip always remove then add it
   gw.getBasePathMappings({
     domainName: name,
   },
@@ -11,7 +20,23 @@ function _create(name, restApiId, stage, callback) {
     if (err) throw err
     var skip = result.items && result.items.length >= 1
     if (skip) {
-      callback()
+      gw.deleteBasePathMapping({
+        basePath: "(none)", // omg, this api!
+        domainName: name,
+      },
+      function _del(err, result) {
+        if (err) throw err
+        gw.createBasePathMapping({
+          domainName: name,
+          restApiId,
+          stage,
+        },
+        function _create(err, data) {
+          if (err) throw err
+          callback()
+        })
+      })
+
     }
     else {
       gw.createBasePathMapping({
@@ -40,8 +65,18 @@ module.exports = function createMapping(app, domain, callback) {
     if (!staging) throw Error(`missing api! ${staging} not found`)
     if (!production) throw Error(`missing api! ${production} not found`)
     waterfall([
-      _create.bind({}, `staging.${domain}`, staging.id, 'staging'),
-      _create.bind({}, domain, production.id, 'production'),
+      _create.bind({}, {
+        name: `staging.${domain}`, 
+        restApiId: staging.id, 
+        stage: 'staging', 
+        app,
+      }),
+      _create.bind({}, {
+        name: domain, 
+        restApiId: production.id, 
+        stage: 'production',
+        app,
+      }),
     ], callback)
   })
 }

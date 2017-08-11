@@ -19,7 +19,13 @@ module.exports = function _acm(domain, callback) {
         ],
         function _done() {
           // exit with a message to rerun this command
-          console.log('requested certs pls verify via email and rerun this command to continue')
+          var banner = chalk.dim('Requested certificates for')
+          var body = chalk.cyan.underline(domain)
+          var footer = chalk.yellow.dim('Check domain admin email to verify certs and then rerun ')
+          var footer1 = chalk.dim.green('npm run dns')
+          var footer2 = chalk.yellow.dim('to continue.')
+          var foot = `${footer} ${footer1} ${footer2}`
+          console.log(`\n${banner} ${body}\n${foot}\n`)
           process.exit(0)
         })
       }

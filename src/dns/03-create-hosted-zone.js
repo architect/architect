@@ -1,5 +1,7 @@
 var aws = require('aws-sdk')
 var route53 = new aws.Route53
+var chalk = require('chalk')
+var pls = chalk.dim('Please ensure to add these nameservers to your domain registration:')
 
 module.exports = function createHostedZone(domain, callback) {
   route53.listHostedZonesByName({
@@ -12,7 +14,8 @@ module.exports = function createHostedZone(domain, callback) {
     var isSame = result.HostedZones[0].Name === `${domain}.`
     var skip = hasOne && isSame
     if (skip) {
-      console.log(`found hosted zone ${domain}\n`)
+      var msg = chalk.dim(`Found Route53 hosted zone`)
+      console.log(`\n${msg} ${chalk.cyan.underline(domain)}\n`)
       // list the nameservers
       route53.listResourceRecordSets({
         HostedZoneId: result.HostedZones[0].Id,
@@ -21,13 +24,13 @@ module.exports = function createHostedZone(domain, callback) {
       },
       function(err, data) {
         if (err) throw err
-        console.log(`make sure these nameservers are setup:`)
-        console.log(data.ResourceRecordSets.find(t=> t.Type === 'NS').ResourceRecords.map(x=> x.Value).join('\n'))
+        console.log(pls)
+        var ns = data.ResourceRecordSets.find(t=> t.Type === 'NS').ResourceRecords.map(x=> x.Value).join('\n')
+        console.log(chalk.dim.cyan.underline(ns))
         callback()
       })
     }
     else {
-      console.log('hosted zone not found creating')
       route53.createHostedZone({
         CallerReference: `_idx-${Date.now()}`,
         Name: domain,
@@ -37,9 +40,9 @@ module.exports = function createHostedZone(domain, callback) {
           // TODO check to see if this domain is registered on amazon
           // if it is update hte name servers
           // otherwise show this message
-        console.log(`created ${domain}`)
-        console.log('please ensure to add these nameservers to your domain registration:')
-        console.log(data.DelegationSet.NameServers.join('\n'))
+        console.log(`\n${chalk.dim('Created')} ${chalk.cyan.underline(domain)}`)
+        console.log(pls)
+        console.log(chalk.dim.cyan.underline(data.DelegationSet.NameServers.join('\n')))
         callback()
       })
     }
