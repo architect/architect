@@ -1,4 +1,5 @@
 var aws = require('aws-sdk')
+
 var CertificateStatuses = [
   'INACTIVE', 
   'EXPIRED', 

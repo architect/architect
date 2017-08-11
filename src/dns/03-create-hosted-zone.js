@@ -12,8 +12,20 @@ module.exports = function createHostedZone(domain, callback) {
     var isSame = result.HostedZones[0].Name === `${domain}.`
     var skip = hasOne && isSame
     if (skip) {
-      console.log(`found hosted zone ${domain}`)
-      callback()
+      console.log(`found hosted zone ${domain}\n`)
+      //console.log(result)
+      // list the nameservers 
+      route53.listResourceRecordSets({
+        HostedZoneId: result.HostedZones[0].Id,
+        StartRecordType: 'NS',
+        StartRecordName: domain,
+      }, 
+      function(err, data) {
+        if (err) throw err
+        console.log(`make sure these nameservers are setup:`)
+        console.log(data.ResourceRecordSets.find(t=> t.Type === 'NS').ResourceRecords.map(x=> x.Value).join('\n'))
+        callback()
+      })
     }
     else {
       console.log('hosted zone not found creating')
