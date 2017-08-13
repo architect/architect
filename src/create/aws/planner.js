@@ -3,7 +3,6 @@ module.exports = function planner(arc) {
   var app = arc.app[0]
   var plans = [{action:'create-iam-role', app}]
 
-  // build up a plan for events
   if (arc.events) {
     arc.events.forEach(event=> {
       plans.push({action:'create-events', event, app})
@@ -12,11 +11,24 @@ module.exports = function planner(arc) {
     })
   }
 
-  // build up a plan for html
   if (arc.html) {
     arc.html.forEach(route=> {
       plans.push({action:'create-html-lambda-code', route, app})
       plans.push({action:'create-html-lambda-deployments', route, app})
+    })
+  }
+
+  if (arc.css) {
+    arc.css.forEach(filename=> {
+      // plans.push({action:'create-css-lambda-code', filename, app})
+      // plans.push({action:'create-css-lambda-deployments', route, app})
+    })
+  }
+
+  if (arc.js) {
+    arc.js.forEach(filename=> {
+      //plans.push({action:'create-js-lambda-code', filename, app})
+      // plans.push({action:'create-js-lambda-deployments', route, app})
     })
   }
 
