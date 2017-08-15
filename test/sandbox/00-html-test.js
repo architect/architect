@@ -10,8 +10,19 @@ var server
 
 test('setup', t=> {
   t.plan(1)
+
   mkdir('test/sandbox/_mock')
-  cp('test/sandbox/00-sandbox-mock.arc', 'test/sandbox/_mock/.arc')
+  cp('test/sandbox/00-mock.arc', 'test/sandbox/_mock/.arc')
+
+  mkdir('test/sandbox/_mock/src')
+  mkdir('test/sandbox/_mock/src/json')
+  mkdir('test/sandbox/_mock/src/html')
+  mkdir('test/sandbox/_mock/src/json/get-api')
+  mkdir('test/sandbox/_mock/src/html/get-index')
+
+  cp('test/sandbox/00-get-index-mock.js', 'test/sandbox/_mock/src/html/get-index/index.js')
+  cp('test/sandbox/00-get-api-mock.js', 'test/sandbox/_mock/src/json/get-api/index.js')
+
   process.chdir('test/sandbox/_mock')
   t.ok(true, 'created test/_mock/.arc')
   console.log(process.cwd())
