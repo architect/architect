@@ -1,4 +1,5 @@
 var aws = require('aws-sdk')
+var chalk = require('chalk')
 var parallel = require('run-parallel')
 var _requestCertificate = require('./_request-certificate')
 
