@@ -11,7 +11,7 @@ module.exports = function createHostedZone(domain, callback) {
   function _list(err, result) {
     if (err) throw err
     var hasOne = result.HostedZones.length === 1
-    var isSame = result.HostedZones[0].Name === `${domain}.`
+    var isSame = result.HostedZones && result.HostedZones.length === 1 && result.HostedZones[0].Name === `${domain}.`
     var skip = hasOne && isSame
     if (skip) {
       var msg = chalk.dim(`Found Route53 hosted zone`)
