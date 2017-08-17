@@ -60,6 +60,24 @@ test('can read /', t=> {
   })
 })
 
+test('can read /hello.css', t=> {
+  t.plan(1)
+    console.log(process.cwd())
+  tiny.get({
+    url: 'http://localhost:3333/hello.css'
+  }, 
+  function _got(err, data) {
+    if (err) {
+      t.fail(err)
+      console.log(err)
+    }
+    else {
+      t.ok(true, 'got /hello.css')
+      console.log({data})    
+    }
+  })
+})
+
 test('teardown', t=> {
   t.plan(1)
   server.close()

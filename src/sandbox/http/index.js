@@ -16,6 +16,7 @@ app.use(body.urlencoded({extended:false}))
 app.disable('x-powered-by')
 
 app.start = function _start(callback) {
+  app.use(express.static('.views')) 
   registerRoutes('json')
   registerRoutes('html')
   return app.listen(3333, callback)
