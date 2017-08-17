@@ -1,6 +1,6 @@
 {
   "name": "@architect/workflows",
-  "version": "1.0.24",
+  "version": "1.0.25",
   "description": "cloud function workflows implemented as npm scripts for creating, deploying, working offline and more",
   "main": "index",
   "bin": {
