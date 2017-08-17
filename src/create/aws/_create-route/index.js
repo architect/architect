@@ -11,7 +11,7 @@ module.exports = function _createRoute(params, callback) {
   })
 
   var route = params.route[1]
-  var method = params.route[0]
+  var method = params.route[0].toUpperCase()
   var type = params.type
 
   var staging = create.bind({}, `${params.app}-staging`, route, method, type)
