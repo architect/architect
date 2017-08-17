@@ -1,4 +1,5 @@
 var aws = require('aws-sdk')
+var msg = require('./_messages').verifyCerts
 
 module.exports = function _verified(domain, callback) {
    (new aws.ACM).listCertificates({
@@ -12,7 +13,7 @@ module.exports = function _verified(domain, callback) {
     var hasProduction = result.CertificateSummaryList.find(c=> c.DomainName === domain)
     var halt = !!(hasStaging && hasProduction)
     if (halt) {
-      console.log('certificates pending verification; check your email and follow the instructions to verify the certificates and then re-run this command to continue')
+      msg()
       process.exit(0)
     }
     else {

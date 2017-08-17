@@ -1,28 +1,28 @@
 var aws = require('aws-sdk')
+var acm = new aws.ACM
+var msg = require('./_messages').ensureCerts
 
-var CertificateStatuses = [
-  'INACTIVE',
-  'EXPIRED',
-  'VALIDATION_TIMED_OUT',
-  'REVOKED',
-  'FAILED',
-]
-
-module.exports = function _verified(domain, callback) {
-   (new aws.ACM).listCertificates({
-     CertificateStatuses
-   },
-   function(err, result) {
+module.exports = function _ensure(domain, callback) {
+  acm.listCertificates({
+    CertificateStatuses: [
+      'INACTIVE',
+      'EXPIRED',
+      'VALIDATION_TIMED_OUT',
+      'REVOKED',
+      'FAILED',
+    ]
+  },
+  function _listCerts(err, result) {
     if (err) throw err
     var hasStaging = result.CertificateSummaryList.find(c=> c.DomainName === `*.${domain}`)
     var hasProduction = result.CertificateSummaryList.find(c=> c.DomainName === domain)
     var halt = !!(hasStaging && hasProduction)
     if (halt) {
-      console.log('certificates in an invalid state; please manually delete the cert and recreate')
+      msg()
       process.exit(0)
     }
     else {
       callback()
     }
-  })   // ensure the domain is verified
+  })
 }

@@ -1,7 +1,7 @@
 var aws = require('aws-sdk')
-var route53 = new aws.Route53
 var chalk = require('chalk')
-var pls = chalk.dim('Please ensure to add these nameservers to your domain registration:')
+var route53 = new aws.Route53
+var msgs = require('./_messages')
 
 module.exports = function createHostedZone(domain, callback) {
   route53.listHostedZonesByName({
@@ -22,11 +22,10 @@ module.exports = function createHostedZone(domain, callback) {
         StartRecordType: 'NS',
         StartRecordName: domain,
       },
-      function(err, data) {
+      function _listRecordSets(err, data) {
         if (err) throw err
-        console.log(pls)
         var ns = data.ResourceRecordSets.find(t=> t.Type === 'NS').ResourceRecords.map(x=> x.Value).join('\n')
-        console.log(chalk.dim.cyan.underline(ns))
+        msgs.foundHostedZone(ns)
         callback()
       })
     }
@@ -37,12 +36,11 @@ module.exports = function createHostedZone(domain, callback) {
       },
       function _created(err, data) {
         if (err) throw err
-          // TODO check to see if this domain is registered on amazon
-          // if it is update hte name servers
-          // otherwise show this message
-        console.log(`\n${chalk.dim('Created')} ${chalk.cyan.underline(domain)}`)
-        console.log(pls)
-        console.log(chalk.dim.cyan.underline(data.DelegationSet.NameServers.join('\n')))
+        // TODO check to see if this domain is registered on amazon
+        // if it is update hte name servers
+        // otherwise show this message
+        var ns = data.DelegationSet.NameServers.join('\n')
+        msgs.createHostedZone(domain, ns)
         callback()
       })
     }
