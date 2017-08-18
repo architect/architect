@@ -22,7 +22,7 @@ module.exports = function _01addMethod(params, callback) {
     // put the http method if it isn't there
     putMethod({
       authorizationType: 'NONE',
-      httpMethod: httpMethod, //.toUpperCase(),
+      httpMethod: httpMethod.toUpperCase(),
       resourceId,
       restApiId,
     },
