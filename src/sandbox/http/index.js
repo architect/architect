@@ -59,6 +59,9 @@ function registerRoutes(type) {
         // api gateway 'Cookie' from express 'cookie'
         req.headers.Cookie = req.headers.cookie
         //
+        res.set('Access-Control-Allow-Origin', '*')
+        res.set('Access-Control-Allow-Credentials', true)
+
         // run the lambda sig locally
         local(funct, {
           method: verb,
