@@ -18,18 +18,8 @@ module.exports = function planner(arc) {
     })
   }
 
-  if (arc.css) {
-    arc.css.forEach(filename=> {
-      // plans.push({action:'create-css-lambda-code', filename, app})
-      // plans.push({action:'create-css-lambda-deployments', route, app})
-    })
-  }
-
-  if (arc.js) {
-    arc.js.forEach(filename=> {
-      //plans.push({action:'create-js-lambda-code', filename, app})
-      // plans.push({action:'create-js-lambda-deployments', route, app})
-    })
+  if (arc.static) {
+    plans.push({action:'create-static-deployments', app})
   }
 
   // build up a plan for json
