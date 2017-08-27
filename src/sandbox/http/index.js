@@ -5,6 +5,7 @@ var body = require('body-parser')
 var fs = require('fs')
 var join = require('path').join
 var express = require('express')
+var cors = require('cors')
 var chalk = require('chalk')
 var padend = require('lodash.padend')
 var local = require('./_local')
@@ -13,6 +14,7 @@ var local = require('./_local')
 var app = express()
 app.use(body.json())
 app.use(body.urlencoded({extended:false}))
+app.use(cors())
 app.disable('x-powered-by')
 
 app.start = function _start(callback) {
@@ -58,9 +60,6 @@ function registerRoutes(type) {
       app[verb](route, function _http(req, res) {
         // api gateway 'Cookie' from express 'cookie'
         req.headers.Cookie = req.headers.cookie
-        //
-        res.set('Access-Control-Allow-Origin', '*')
-        res.set('Access-Control-Allow-Credentials', true)
 
         // run the lambda sig locally
         local(funct, {
