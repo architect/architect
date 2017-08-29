@@ -76,7 +76,7 @@ function registerRoutes(type) {
           }
           else if (err && type === 'json') {
             var v = JSON.parse(err)
-            res.status(v.statusCode).json(v.json)
+            res.status(v.statusCode).json(JSON.parse(v.json))
           }
           else if (err && type === 'html') {
             var v = JSON.parse(err)
