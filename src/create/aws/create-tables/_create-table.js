@@ -35,8 +35,8 @@ module.exports = function _createTable(name, attr, callback) {
               AttributeDefinitions: getAttributeDefinitions(clean(attr)),
               KeySchema: getKeySchema(attr, keys),
               ProvisionedThroughput: {
-                ReadCapacityUnits: 5,
-                WriteCapacityUnits: 5
+                ReadCapacityUnits: 1,
+                WriteCapacityUnits: 1
               }
             }, callback)
           },

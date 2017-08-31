@@ -9,8 +9,8 @@ module.exports = function _getGsi(name, attr) {
         ProjectionType: 'ALL'
       },
       ProvisionedThroughput: {
-        ReadCapacityUnits: 5,
-        WriteCapacityUnits: 5
+        ReadCapacityUnits: 1,
+        WriteCapacityUnits: 1
       }
     }
   }]
