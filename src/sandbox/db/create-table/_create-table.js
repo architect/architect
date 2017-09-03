@@ -24,8 +24,8 @@ module.exports = function _createTable(name, attr, indexes, callback) {
   list(function _tables(err, result) {
     if (err) {
       // blow up if a programmer config err
-      throw Error('Unable to list Dynamo tables')
       console.log(err)
+      throw Error('Unable to list Dynamo tables')
     }
     else {
       var found = result.TableNames.find(tbl=> tbl === name)
