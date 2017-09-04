@@ -1,5 +1,6 @@
 var assert = require('@smallwins/validate/assert')
-var _createCode = require('../_create-code')
+var getName = require('../_get-lambda-name')
+var createCode = require('../_create-code')
 
 module.exports = function _createLambdaCode(params, callback) {
 
@@ -9,10 +10,10 @@ module.exports = function _createLambdaCode(params, callback) {
   })
 
   var mthd = params.route[0].toLowerCase()
-  var pth = params.route[1] === '/'? '-index' : params.route[1].replace(/\//g, '-').replace(/:/g, '000')
+  var pth = getName(params.route[1])
   var name = `${mthd}${pth}`
 
-  _createCode({
+  createCode({
     space: 'json',
     idx: name,
     app: params.app

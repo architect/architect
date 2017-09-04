@@ -3,10 +3,11 @@ var create = require('./00-create-resources')
 var addMethod = require('./01-add-method')
 var setupRequest = require('./02-setup-request')
 var setupResponse = require('./03-setup-response')
+var getName = require('../../_get-lambda-name')
 
 module.exports = function _createResource(stage, route, httpMethod, type, callback) {
 
-  var pth = route === '/'? '-index' : route.replace(/\//g, '-').replace(/:/g, '000')
+  var pth = getName(route)
   var deployname = `${stage}-${httpMethod}${pth}`
 
   waterfall([

@@ -5,6 +5,7 @@ var aws = require('aws-sdk')
 var lambda = new aws.Lambda
 var print = require('../../_print')
 var getLambda = require('../_get-lambda')
+var getName = require('../_get-lambda-name')
 
 module.exports = function _createDeployments(params, callback) {
 
@@ -14,7 +15,7 @@ module.exports = function _createDeployments(params, callback) {
   })
 
   var mthd = params.route[0].toLowerCase()
-  var pth = params.route[1] === '/'? '-index' : params.route[1].replace(/\//g, '-').replace(/:/g, '000')
+  var pth = getName(params.route[1])
   var name = `${mthd}${pth}`
 
   function _create(app, stage, callback) {
