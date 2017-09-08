@@ -49,7 +49,7 @@ function registerRoutes(type) {
 
       var verb = r[0].toLowerCase()
       var route = r[1]
-      var path = route === '/'? '-index' : route.replace(/\//g, '-').replace(/:/g, '000')
+      var path = route === '/'? '-index' : route.replace(/\//g, '-').replace('.', '-').replace(/:/g, '000')
       var funct = require(join(process.cwd(), 'src', type, `${verb}${path}`)).handler
       var left = `@${chalk.dim(type)}${chalk.dim(verb === 'get'? ' get' : verb)}`
       var right = `${padend(chalk.cyan(route), 44, '.')} ${verb}${path}`
