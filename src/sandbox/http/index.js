@@ -18,7 +18,7 @@ app.use(cors())
 app.disable('x-powered-by')
 
 app.start = function _start(callback) {
-  app.use(express.static('.views')) 
+  app.use(express.static('.views'))
   registerRoutes('json')
   registerRoutes('html')
   return app.listen(3333, callback)
@@ -64,7 +64,7 @@ function registerRoutes(type) {
         // run the lambda sig locally
         local(funct, {
           method: verb,
-          path: route,
+          path: req.path,
           headers: req.headers,
           query: req.query,
           body: req.body,
