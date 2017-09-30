@@ -18,7 +18,8 @@
     "dns": "AWS_REGION=us-east-1 AWS_PROFILE=personal node src/dns",
     "lint": "eslint . --fix",
     "test": "NODE_ENV=testing AWS_PROFILE=jsf AWS_REGION=us-west-1 tape test/create/02-http-test.js | tap-spec",
-    "t": "NODE_ENV=testing AWS_PROFILE=smallwins AWS_REGION=us-west-1 tape test/create/06-static-test.js | tap-spec"
+    "t": "NODE_ENV=testing AWS_PROFILE=smallwins AWS_REGION=us-west-1 tape test/sandbox/*-test.js | tap-spec",
+    "tt":"dynalite -h"
   },
   "keywords": [],
   "repository": {

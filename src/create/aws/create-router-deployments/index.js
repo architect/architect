@@ -25,13 +25,13 @@ module.exports = function createRouters(params, callback) {
           callback(null, url)
         }
       })
-    }, 1111)
+    }, 6000)
   }
 
   function list(callback) {
     setTimeout(function _chill() {
       gateway.getRestApis({}, callback)
-    }, 1111)
+    }, 6000)
   }
 
   list(function _list(err, result) {

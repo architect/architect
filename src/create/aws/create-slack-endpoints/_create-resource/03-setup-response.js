@@ -25,7 +25,7 @@ module.exports = function _03setupResponse(params, callback) {
       waterfall([
         function _saveMthd(callback) {
           gateway.putMethodResponse({
-            httpMethod,
+            httpMethod: httpMethod.toUpperCase(),
             resourceId,
             restApiId,
             statusCode,
@@ -46,7 +46,7 @@ module.exports = function _03setupResponse(params, callback) {
         },
         function _saveIngResp(callback) {
           gateway.putIntegrationResponse({
-            httpMethod,
+            httpMethod: httpMethod.toUpperCase(),
             resourceId,
             restApiId,
             statusCode,

@@ -39,7 +39,7 @@ module.exports = function _02setupRequest(params, callback) {
       var region = (new aws.Config).region || 'us-east-1' // – ̗̀ 𝓗𝔞𝔱𝔢𝔯𝔰 𝔤𝔬𝔫𝔫𝔞 𝔥𝔞𝔱𝔢 ̖́- ᕕ( ᐛ )ᕗ✧ platform voodoo
       var uri = `arn:aws:apigateway:${region}:lambda:path/2015-03-31/functions/${arn}/invocations`
       gateway.putIntegration({
-        httpMethod,
+        httpMethod: httpMethod.toUpperCase(),
         resourceId,
         restApiId,
         type: 'AWS',
