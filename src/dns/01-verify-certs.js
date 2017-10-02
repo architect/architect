@@ -2,7 +2,7 @@ var aws = require('aws-sdk')
 var msg = require('./_messages').verifyCerts
 
 module.exports = function _verified(domain, callback) {
-   (new aws.ACM).listCertificates({
+   (new aws.ACM({region:'us-east-1'})).listCertificates({
      CertificateStatuses: [
        'PENDING_VALIDATION',
      ]

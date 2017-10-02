@@ -66,14 +66,14 @@ module.exports = function createMapping(app, domain, callback) {
     if (!production) throw Error(`missing api! ${production} not found`)
     waterfall([
       _create.bind({}, {
-        name: `staging.${domain}`, 
-        restApiId: staging.id, 
-        stage: 'staging', 
+        name: `staging.${domain}`,
+        restApiId: staging.id,
+        stage: 'staging',
         app,
       }),
       _create.bind({}, {
-        name: domain, 
-        restApiId: production.id, 
+        name: domain,
+        restApiId: production.id,
         stage: 'production',
         app,
       }),

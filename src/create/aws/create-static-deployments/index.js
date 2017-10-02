@@ -47,16 +47,16 @@ function _create(app, bucket, callback) {
     },
     function _putWebsite(callback) {
       s3.putBucketWebsite({
-        Bucket: bucket, 
+        Bucket: bucket,
         WebsiteConfiguration: {
           ErrorDocument: {
             Key: "error.html"
-          }, 
+          },
           IndexDocument: {
             Suffix: "index.html"
           }
         }
-      }, 
+      },
       function _putWWW(err, data) {
         if (err) {
           console.log(err)

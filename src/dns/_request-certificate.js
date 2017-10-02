@@ -7,7 +7,7 @@ module.exports = function _requestCertificate(name, callback) {
   var base = apex.pop()
   apex = `${base}.${tld}` // good enuf for now
   // req the cert
-  ;(new aws.ACM).requestCertificate({
+  ;(new aws.ACM({region:'us-east-1'})).requestCertificate({
     DomainName: name,
     DomainValidationOptions: [{
       DomainName: name,

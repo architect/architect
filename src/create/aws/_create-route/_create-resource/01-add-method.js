@@ -29,7 +29,7 @@ module.exports = function _01addMethod(params, callback) {
     function _putMethod(err) {
       // ignore if this already exists…
       if (err && err.code != 'ConflictException') {
-        console.log(err) 
+        console.log(err)
       }
       callback(null, resourceId, restApiId)
     })

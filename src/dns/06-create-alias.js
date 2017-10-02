@@ -86,7 +86,7 @@ module.exports = function createDomain(app, domain, callback) {
           parallel([
             stageAlias,
             productionAlias
-          ], 
+          ],
           function _done(err) {
             if (err) {
               console.log(err)

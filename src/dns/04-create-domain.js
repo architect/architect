@@ -30,7 +30,7 @@ module.exports = function createDomain(domain, callback) {
     else {
       // need to create staging and/or production
       // first, read certs
-      (new aws.ACM).listCertificates({
+      (new aws.ACM({region:'us-east-1'})).listCertificates({
         CertificateStatuses: ['ISSUED'],
       },
       function(err, result) {
