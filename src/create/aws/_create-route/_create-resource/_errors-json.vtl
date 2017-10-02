@@ -1,2 +1,4 @@
-#set ($errorMessageObj = $util.parseJson($input.path('$.errorMessage')))
-$errorMessageObj.json
+#set($raw = $input.path('$.errorMessage'))
+#set($len = $input.path('$.errorMessage').length() - 1)
+#set($body = $raw.substring(25, $len))
+$body
