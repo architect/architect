@@ -30,7 +30,9 @@ module.exports = function createRouters(params, callback) {
 
   function list(callback) {
     setTimeout(function _chill() {
-      gateway.getRestApis({}, callback)
+      gateway.getRestApis({
+        limit: 500,
+      }, callback)
     }, 6000)
   }
 
