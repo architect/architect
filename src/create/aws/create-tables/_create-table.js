@@ -56,7 +56,7 @@ module.exports = function _createTable(name, attr, callback) {
                     _maybeWaitForCreateComplete(result, callback)
                   }
                 })
-              }, 6000)
+              }, 12000)
             }
             else {
               callback()
