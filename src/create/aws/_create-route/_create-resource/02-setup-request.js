@@ -34,6 +34,7 @@ module.exports = function _02setupRequest(params, callback) {
         }
       })
     },
+    /*
     function _putIntegrationRequest(arn, callback) {
       var region = (new aws.Config).region || 'us-east-1' // – ̗̀ 𝓗𝔞𝔱𝔢𝔯𝔰 𝔤𝔬𝔫𝔫𝔞 𝔥𝔞𝔱𝔢 ̖́- ᕕ( ᐛ )ᕗ✧ platform voodoo
       var uri = `arn:aws:apigateway:${region}:lambda:path/2015-03-31/functions/${arn}/invocations`
@@ -51,6 +52,49 @@ module.exports = function _02setupRequest(params, callback) {
           'application/json': vtl,
         }
       }, callback)
+    }*/,
+    function _putIntegrationRequest(arn, callback) {
+      gateway.getIntegration({
+        httpMethod: httpMethod.toUpperCase(),
+        resourceId,
+        restApiId,
+      },
+      function(err, result) {
+        if (err && err.name != 'NotFoundException') {
+          console.log('getIntegeration failed', err)
+          callback(err)
+        }
+        else if (err && err.name === 'NotFoundException') {
+          var region = (new aws.Config).region || 'us-east-1' // – ̗̀ 𝓗𝔞𝔱𝔢𝔯𝔰 𝔤𝔬𝔫𝔫𝔞 𝔥𝔞𝔱𝔢 ̖́- ᕕ( ᐛ )ᕗ✧ platform voodoo
+          var uri = `arn:aws:apigateway:${region}:lambda:path/2015-03-31/functions/${arn}/invocations`
+          gateway.putIntegration({
+            httpMethod: httpMethod.toUpperCase(),
+            resourceId,
+            restApiId,
+            type: 'AWS',
+            integrationHttpMethod: 'POST',
+            uri,
+            requestTemplates: {
+              'text/html': vtl,
+              'application/x-www-form-urlencoded': vtlForm,
+              'multipart/form-data': vtl,
+              'application/json': vtl,
+            }
+          },
+          function(err,result) {
+            if (err) {
+              console.log('putIntegration failed', err.name, {restApiId, resourceId})
+              callback(err)
+            }
+            else {
+              callback(null, result)
+            }
+          })
+        }
+        else {
+          callback(null, result)
+        }
+      })
     },
     function _getAccountID(noop, callback) {
       iam.getUser({}, function _getUser(err, result) {
