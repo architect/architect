@@ -52,7 +52,7 @@ module.exports = function _02setupRequest(params, callback) {
           'application/json': vtl,
         }
       }, callback)
-    }*/,
+    }*/
     function _putIntegrationRequest(arn, callback) {
       gateway.getIntegration({
         httpMethod: httpMethod.toUpperCase(),
