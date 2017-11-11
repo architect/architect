@@ -9,6 +9,8 @@ var cors = require('cors')
 var chalk = require('chalk')
 var padend = require('lodash.padend')
 var local = require('./_local')
+var copyShared = require('./_copy-shared')
+var copyArc = require('./_copy-arc')
 
 // configure express
 var app = express()
@@ -19,6 +21,8 @@ app.disable('x-powered-by')
 
 app.start = function _start(callback) {
   app.use(express.static('.views'))
+  copyShared()
+  copyArc()
   registerRoutes('json')
   registerRoutes('html')
   return app.listen(3333, callback)
