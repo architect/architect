@@ -9,12 +9,10 @@ module.exports = function _shared(params, callback) {
   var src = path.join(process.cwd(), 'src', 'shared')
   var exists = fs.pathExistsSync(src) 
   if (exists) {
-    glob('src/@(html|json|events|scheduled|tables|slack)/*', function _glob(err, paths) {
-      if (err) throw err
-      paths.forEach(pathToCode=> {
-        var dest = path.join(process.cwd(), pathToCode, 'node_modules', '@architect', 'shared')
-        fs.copySync(src, dest, {overwrite:true})
-      })
+    var paths = glob.sync('src/@(html|json|events|scheduled|tables|slack)/*') 
+    paths.forEach(pathToCode=> {
+      var dest = path.join(process.cwd(), pathToCode, 'node_modules', '@architect', 'shared')
+      fs.copySync(src, dest, {overwrite:true})
     })
   }
 }
