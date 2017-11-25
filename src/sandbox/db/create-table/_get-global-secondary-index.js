@@ -9,7 +9,7 @@ module.exports = function _getGSI(name, indexes) {
       }
       var hasOne = keys.length === 1
       var hasTwo = keys.length === 2
-      var IndexName = hasOne? `${keys[0]}-index` : `${keys[0]}-${keys[1]}-index`
+      var IndexName = hasOne? `${tableName}-${keys[0]}-index` : `${tableName}-${keys[0]}-${keys[1]}-index`
       // always add the HASH key (partition)
       var KeySchema = [{
         AttributeName: keys[0],
