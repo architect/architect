@@ -9,7 +9,7 @@ var getGlobalSecondaryIndexes = require('./_get-global-secondary-indexes')
 
 module.exports = function _createTable(name, attr, callback) {
 
-  var gsiName = getGsiName(attr)
+  var gsiName = `${name}-${getGsiName(attr)}`
 
   waterfall([
     function _maybeWaitForCreateComplete(callback) {

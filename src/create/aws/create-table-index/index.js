@@ -13,11 +13,11 @@ module.exports = function _createIndex(params, callback) {
   var attr = params.index[name]
 
   parallel([
-    function _createStaging(callback) {
-      index(`${params.app}-staging-${name}`, attr, callback)
+    function _createStaging(cb) {
+      index(`${params.app}-staging-${name}`, attr, cb)
     },
-    function _createProduction(callback) {
-      index(`${params.app}-production-${name}`, attr, callback)
+    function _createProduction(cb) {
+      index(`${params.app}-production-${name}`, attr, cb)
     }
   ],
   function _done(err) {
