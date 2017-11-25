@@ -17,7 +17,7 @@
   "scripts": {
     "dns": "AWS_REGION=us-east-1 AWS_PROFILE=personal node src/dns",
     "lint": "eslint . --fix",
-    "test": "NODE_ENV=testing AWS_PROFILE=personal AWS_REGION=us-west-1 tape test/create/05-table-index-test.js | tap-spec",
+    "test": "NODE_ENV=testing AWS_PROFILE=personal AWS_REGION=us-west-1 tape test/create/00-patterns-test.js | tap-spec",
     "t": "NODE_ENV=testing AWS_PROFILE=smallwins AWS_REGION=us-west-1 tape test/sandbox/*-test.js | tap-spec"
   },
   "keywords": [],
