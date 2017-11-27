@@ -1,61 +1,53 @@
-var fs = require('fs')
-var path = require('path')
-var parse = require('@architect/parser')
+// deps
 var assert = require('@smallwins/validate/assert')
-var zipit = require('zipit')
-var glob = require('glob')
-var chalk = require('chalk')
-var aws = require('aws-sdk')
 var waterfall = require('run-waterfall')
-var lambda = new aws.Lambda
+
+// local deps
+var _getName = require('./src/_get-function-name')
+var validate = require('./src/00-validate')
+var beforeDeploy = require('./src/01-before-deploy')
+var installModules = require('./src/02-install-modules')
+var copyShared = require('./src/03-copy-shared')
+var uploadZip = require('./src/05-upload-zip')
+var afterDeploy = require('./src/06-after-deploy')
+var done = require('./src/07-done')
 
 module.exports = function deploy(params, callback) {
 
+  // module contract
   assert(params, {
     env: String,
-    pathToArc: String,
+    arc: Object,
     pathToCode: String,
+    tick: Function,
   })
 
-  var {env, pathToArc, pathToCode} = params
-  var appName = parse(fs.readFileSync(pathToArc).toString()).app[0]
-  var pathToPkg = path.join(pathToCode, 'package.json')
+  // local state
+  // - env; one of staging or production
+  // - arc; the parsed .arc file contents
+  // - pathToCode; absolute path to the lambda function being deployed
+  // - tick; function to notify progress
+  // - lambda; the name of the lambda being deployed
+  let {env, arc, pathToCode, tick} = params
+  let lambda = _getName({env, pathToCode, arc})
 
-  var pkgExists = fs.existsSync(pathToPkg)
-  if (!pkgExists) {
-    console.log(chalk.yellow.dim('skip ' + pathToPkg + ' not found'))
-    callback()
-  }
-  else {
-    var packageName = JSON.parse(fs.readFileSync(`./${pathToPkg}`).toString()).name
-    var FunctionName = `${appName}-${env}${packageName.replace(appName, '')}`
+  // binds local state above to the functions below
+  const _validate = validate.bind({}, {pathToCode, tick})
+  const _before = beforeDeploy.bind({}, {env, pathToCode, arc, tick})
+  const _modules = installModules.bind({}, {pathToCode, tick})
+  const _shared = copyShared.bind({}, {pathToCode, tick})
+  const _upload = uploadZip.bind({}, {pathToCode, lambda, tick})
+  const _after = afterDeploy.bind({}, {env, pathToCode, arc, tick})
+  const _done = done.bind({}, {arc, env, pathToCode, lambda, callback, tick})
 
-    waterfall([
-      function _read(callback) {
-        glob(path.join(process.cwd(), pathToCode, '/*'), callback)
-      },
-      function _zip(files, callback) {
-        zipit({
-          input: files,
-        }, callback)
-      },
-      function _upload(buffer, callback) {
-        console.log(`${chalk.dim('deploy')} ${chalk.yellow(FunctionName)} ${chalk.dim('start')}`)
-        lambda.updateFunctionCode({
-          FunctionName,
-          ZipFile: buffer
-        }, callback)
-      }
-    ],
-    function _done(err) {
-      if (err) {
-        console.log(`${chalk.dim('deploy')} ${chalk.red.bold(FunctionName)} ${chalk.dim('failed')}`)
-        console.log(chalk.dim(err))
-      }
-      else {
-        console.log(`${chalk.dim('deploy')} ${chalk.green.bold(FunctionName)} ${chalk.dim('success')}`)
-      }
-      callback()
-    })
-  }
+  // executes the functions above
+  // in series sharing no state between them
+  waterfall([
+    _validate,
+    _before,
+    _modules,
+    _shared,
+    _upload,
+    _after,
+  ], _done)
 }
