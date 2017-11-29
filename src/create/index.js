@@ -4,6 +4,8 @@ var assert = require('@smallwins/validate/assert')
 var parse = require('@architect/parser')
 var validate = require('./aws/validate')
 var planner = require('./aws/planner')
+var beforeCreate = require('./before-create')
+var afterCreate = require('./after-create')
 var exec = require('./_exec')
 
 // {arcFile:'path/to/.arc', execute:false} returns .arc execution plan
@@ -28,20 +30,29 @@ module.exports = function generate(params, callback) {
     function _arcFileValid(arc, callback) {
       validate(arc, callback)
     },
+    function _beforeCreate(arc, callback) {
+      beforeCreate({arc}, (err) => callback(err, arc))
+    },
     function _arcFilePlan(arc, callback) {
       var plans = planner(arc)
-      callback(null, plans)
+      callback(null, {arc, plans})
     }
   ],
-  function _done(err, plans) {
+  function _done(err, {arc, plans}) {
     if (err) {
-      callback(err)
+      return callback(err)
     }
-    else if (params.execute) {
-      exec(plans, callback)
-    }
-    else {
-      callback(null, plans)
+
+    if (params.execute) {
+      exec(plans, (err, data) => {
+        if (err) {
+          callback(err)
+        } else {
+          afterCreate({arc}, (err) => callback(err, data))
+        }
+      })
+    } else {
+      afterCreate({arc}, (err) => callback(err, plans))
     }
   })
 }
