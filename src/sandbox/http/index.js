@@ -21,6 +21,7 @@ app.disable('x-powered-by')
 
 app.start = function _start(callback) {
   app.use(express.static('.views'))
+  app.use(express.static('.static'))
   copyShared()
   copyArc()
   registerRoutes('json')

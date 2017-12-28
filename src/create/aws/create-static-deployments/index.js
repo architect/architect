@@ -9,11 +9,11 @@ var chalk = require('chalk')
 module.exports = function _createDeployments(params, callback) {
 
   assert(params, {
-    app: String
+    static: Array
   })
 
-  var staging = _create.bind({}, params.app, `arc-${params.app}-staging`)
-  var production = _create.bind({}, params.app, `arc-${params.app}-production`)
+  var staging = _create.bind({}, params.app, params.static[0][1])
+  var production = _create.bind({}, params.app, params.static[1][1])
 
   parallel([
     staging,
@@ -29,6 +29,7 @@ module.exports = function _createDeployments(params, callback) {
 
 function _create(app, bucket, callback) {
   print.create('@static', bucket)
+  var ok = true
   waterfall([
     function _createBukkit(callback) {
       s3.createBucket({
@@ -37,32 +38,43 @@ function _create(app, bucket, callback) {
       },
       function _bukkit(err) {
         if (err && err.code === 'BucketAlreadyOwnedByYou') {
+          ok = false
+          print.skip('@static', bucket)
+        }
+        else if (err && err.code === 'BucketAlreadyExists') {
+          ok = false
           print.skip('@static', bucket)
         }
         else if (err) {
+          ok = false
           console.log(err)
         }
         callback()
       })
     },
     function _putWebsite(callback) {
-      s3.putBucketWebsite({
-        Bucket: bucket,
-        WebsiteConfiguration: {
-          ErrorDocument: {
-            Key: "error.html"
-          },
-          IndexDocument: {
-            Suffix: "index.html"
+      if (ok) {
+        s3.putBucketWebsite({
+          Bucket: bucket,
+          WebsiteConfiguration: {
+            ErrorDocument: {
+              Key: "error.html"
+            },
+            IndexDocument: {
+              Suffix: "index.html"
+            }
           }
-        }
-      },
-      function _putWWW(err, data) {
-        if (err) {
-          console.log(err)
-        }
+        },
+        function _putWWW(err, data) {
+          if (err) {
+            console.log(err)
+          }
+          callback()
+        })
+      }
+      else {
         callback()
-      })
+      }
     }
   ], callback)
 }

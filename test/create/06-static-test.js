@@ -69,6 +69,7 @@ test('exec', t=> {
   function _ran(err) {
     if (err) {
       t.fail(err)
+      console.log(err)
     }
     else {
       t.ok(true, 'got plans')

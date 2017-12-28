@@ -45,6 +45,9 @@ module.exports = function _createCode(params, callback) {
       if (err) {
         console.log(err)
       }
+      var pathToLocalArcCopy = path.join(localPath, 'node_modules', '@architect', 'shared')
+      mkdir(pathToLocalArcCopy)
+      cp(path.join(process.cwd(), '.arc'), path.join(pathToLocalArcCopy, '.arc'))
       callback()
     })
   }

@@ -1,9 +1,0 @@
-{
-  "name":"base",
-  "scripts": {
-    "install": "arc-modules-install",
-    "link": "arc-modules-link",
-    "uninstall": "arc-modules-uninstall",
-    "update": "arc-modules-update"
-  }
-}

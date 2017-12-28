@@ -19,7 +19,7 @@ module.exports = function planner(arc) {
   }
 
   if (arc.static) {
-    plans.push({action:'create-static-deployments', app})
+    plans.push({action:'create-static-deployments', static:arc.static})
   }
 
   // build up a plan for json
