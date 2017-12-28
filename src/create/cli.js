@@ -6,6 +6,10 @@ generate({
   arcFile: path.join(process.cwd(), '.arc'),
   execute: true
 },
-function() {
-  console.log('\n')
+function(err) {
+  if (err) {
+    console.error('Error creating resources: ', err)
+  } else {
+    console.log('\n')
+  }
 })
