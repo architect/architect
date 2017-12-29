@@ -1,3 +1,5 @@
+var parse = require('@architect/parser')
+var fs = require('fs')
 // create _mock
 // copy in .arc
 // run a create
@@ -42,7 +44,7 @@ test('plan', t=> {
     }
   })
 })
-
+/*
 test('exec', t=> {
   t.plan(1)
   create({
@@ -59,6 +61,52 @@ test('exec', t=> {
   })
 })
 
+
+test('deploy.lambda', t=> {
+  t.plan(1)
+  var noop = x=> !x
+  var arc = parse(fs.readFileSync(path.join(process.cwd(), '.arc')).toString())
+  deploy.lambda({
+    env: 'staging',
+    arc,
+    pathToCode: path.join('src', 'html', 'get-index'),
+    tick: noop,
+    start: Date.now(),
+  },
+  function _ran(err, result) {
+    if (err) {
+      t.fail(err)
+    }
+    else {
+      t.ok(true, 'deployed')
+      console.log(result)
+    }
+  })
+})
+*/
+
+test('deploy.static', t=> {
+  t.plan(1)
+  var noop = x=> !x
+  var arc = parse(fs.readFileSync(path.join(process.cwd(), '.arc')).toString())
+  deploy.static({
+    env: 'staging',
+    arc,
+    pathToCode: path.join('src', 'html', 'get-index'),
+    tick: noop,
+    start: Date.now(),
+  },
+  function _ran(err, result) {
+    if (err) {
+      t.fail(err)
+      console.log(err, result)
+    }
+    else {
+      t.ok(true, 'deployed')
+      console.log(result)
+    }
+  })
+})
 /*
 test('cleanup lambdas', t=> {
   t.plan(1)
