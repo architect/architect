@@ -17,6 +17,7 @@ module.exports = function _done(params, err, stats) {
   }
   else if (err) {
     console.log(`\n${chalk.dim('deploy')} ${chalk.red.bold(lambda)} ${chalk.dim('failed')}`)
+    console.log(err)
     return callback(err)
   }
   callback(null, stats)

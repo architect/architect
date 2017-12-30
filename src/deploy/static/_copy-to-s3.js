@@ -10,6 +10,8 @@ var done = false
 
 module.exports = function factory(bucket, callback) {
   return function upload(keyPath) {
+    console.log(`${chalk.green('Success!')} ${chalk.green.dim('Deployed .static')}`)
+    console.log(chalk.cyan.dim('-------------------------'))
     var s3Path = path.join(process.cwd(), '.static', '/**/*')
     glob(s3Path, function _glob(err, files) {
       //console.log(files)  
@@ -20,22 +22,22 @@ module.exports = function factory(bucket, callback) {
             callback() // noop
           }
           else if (stats.isFile()) {
-             function getContentType(file) {
-               var bits = file.split('.')
-               var last = bits[bits.length - 1]
-               if (last === 'html') {
-                 return 'text/html'
-               }
-               else if (last === 'js') {
-                  return 'text/javascript' 
-               }
-               else if (last === 'css') {
-                 return 'text/css'
-               }
-               else {
-                 return 'binary/octet-stream'
-               }
-             }
+            function getContentType(file) {
+              var bits = file.split('.')
+              var last = bits[bits.length - 1]
+              if (last === 'html') {
+                return 'text/html'
+              }
+              else if (last === 'js') {
+                 return 'text/javascript' 
+              }
+              else if (last === 'css') {
+                return 'text/css'
+              }
+              else {
+                return 'binary/octet-stream'
+              }
+            }
             s3.putObject({
               ACL: 'public-read', 
               Bucket: bucket, 
@@ -49,8 +51,10 @@ module.exports = function factory(bucket, callback) {
                 callback()
               } 
               else {
-                console.log(data)
-                console.log(chalk.green(`deployed ${file} to ${bucket}`))
+                var before = file.replace(process.cwd(), '').substr(1)
+                var after = before.replace('.static', '')
+                var domain = `https://s3-${process.env.AWS_REGION}.amazonaws.com/`
+                console.log(chalk.underline.cyan(`${domain}${bucket}${after}`))
                 callback()
               }
             })
@@ -62,33 +66,5 @@ module.exports = function factory(bucket, callback) {
       })
       parallel(fns, callback)
     })
-    /*
-    var s3Path = path.join(process.cwd(), '.static')
-    let fullPath = path.join(s3Path, keyPath || key)
-    fs.readdirSync(fullPath).forEach(file=> {
-      let stats = fs.lstatSync(path.join(fullPath, file))
-      if (stats.isDirectory()) {
-        key = path.join(key, file)
-        upload(key)
-      }
-      else if (stats.isFile()) {
-        s3.putObject({
-          ACL: 'public-read', 
-          Bucket: bucket, 
-          Key: path.join(key, file), 
-          Body: fs.readFileSync(path.join(fullPath, file)) 
-        }, 
-        function _putObj(err, data) {
-          if (err) {
-            console.log(err)
-          } 
-          else {
-            setTimeout(function() {callback()}, 10000)
-            console.log(chalk.green(`.static deployed to ${bucket}`))
-          }
-        })
-      }
-    })
-    */
   }
 }

@@ -1,12 +1,12 @@
 var chalk = require('chalk')
 var pad = require('lodash.padend')
-var _getName = require('./_get-function-name')
-var _getUrl = require('./_get-url')
+var _getName = require('./lambda/_get-function-name')
+var _getUrl = require('./lambda/_get-url')
 
 /**
  * generates the completion report
  */
-module.exports = function _report(params) {
+module.exports = function _report(params, callback) {
   var {results, env, arc, start, stats} = params
   var end = Date.now()
   var h1 = `Success!`
@@ -52,6 +52,10 @@ module.exports = function _report(params) {
         console.log('\n' + pretty)
         console.log('\n')
       }
+      callback()
     })
+  }
+  else {
+    callback()
   }
 }

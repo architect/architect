@@ -11,8 +11,6 @@ module.exports = function deploy(params, callback) {
   assert(params, {
     env: String,
     arc: Object,
-    pathToCode: String,
-    tick: Function,
   })
 
   var ignore = !params.arc.static

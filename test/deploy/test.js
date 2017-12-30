@@ -44,6 +44,7 @@ test('plan', t=> {
     }
   })
 })
+
 /*
 test('exec', t=> {
   t.plan(1)
@@ -60,7 +61,7 @@ test('exec', t=> {
     }
   })
 })
-
+*/
 
 test('deploy.lambda', t=> {
   t.plan(1)
@@ -83,7 +84,6 @@ test('deploy.lambda', t=> {
     }
   })
 })
-*/
 
 test('deploy.static', t=> {
   t.plan(1)
@@ -124,24 +124,6 @@ test('cleanup lambdas', t=> {
     }
     else {
       t.ok(true, 'lambdas nuked')
-    }
-  })
-})
-
-test('cleanup sns topics', t=> {
-  t.plan(1)
-  nukeTopics([
-    'testapp-staging-test-event',
-    'testapp-production-test-event',
-    'testapp-staging-test-event-two',
-    'testapp-production-test-event-two',
-  ],
-  function _nuke(err) {
-    if (err) {
-      t.fail(err)
-    }
-    else {
-      t.ok(true, 'topics nuked')
     }
   })
 })

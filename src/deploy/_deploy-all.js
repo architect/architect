@@ -1,9 +1,12 @@
+var waterfall = require('run-waterfall')
 var chalk = require('chalk')
 var assert = require('@smallwins/validate/assert')
 var deploy = require('./lambda')
 var _report = require('./_report')
+var _progress = require('./_progress')
 var parallel = require('run-parallel')
 var glob = require('glob')
+var s3 = require('./static')
 var steps = 7 // magic number of steps in src
 var start = Date.now()
 
@@ -46,13 +49,11 @@ module.exports = function deployAll(params) {
         arc, 
         start, 
         stats
-      })
-      callback()
+      }, callback)
     },
     // upload .static to s3 based on @static config
     function _statics(callback) {
-      console.log('deplying .static in many')
-      callback() 
+      s3(params, callback)
     }
   ])
 }
