@@ -4,7 +4,6 @@ var assert = require('@smallwins/validate/assert')
 var aws = require('aws-sdk')
 var print = require('../../_print')
 var s3 = new aws.S3
-var chalk = require('chalk')
 
 module.exports = function _createDeployments(params, callback) {
 

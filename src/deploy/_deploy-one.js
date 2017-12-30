@@ -24,10 +24,10 @@ module.exports = function deployOne(params) {
       }
       else {
         _report({
-          results:[params.pathToCode], 
-          env:params.env, 
-          arc:params.arc, 
-          start:params.start, 
+          results:[params.pathToCode],
+          env:params.env,
+          arc:params.arc,
+          start:params.start,
           stats:[stats]
         }, x=> !x)
       }

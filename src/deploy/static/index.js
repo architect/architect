@@ -21,7 +21,7 @@ module.exports = function deploy(params, callback) {
     var pathToStatic = path.join(process.cwd(), '.static')
     // create .static if it does exist
     mkdir(pathToStatic)
-    // see if there are files in .static 
+    // see if there are files in .static
     fs.readdir(pathToStatic, function _readdir(err, items) {
       if (items.length === 0) {
         console.log(chalk.dim('skip @static deploy (.static is empty)'))

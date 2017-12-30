@@ -44,10 +44,10 @@ module.exports = function deployAll(params) {
     // report the lambda deployment results
     function _reports(stats, callback) {
       _report({
-        results, 
-        env, 
-        arc, 
-        start, 
+        results,
+        env,
+        arc,
+        start,
         stats
       }, callback)
     },

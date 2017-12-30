@@ -10,17 +10,17 @@ module.exports = function validate(arc, callback) {
     // TODO routes[1] must not end in /
     // TODO routes must be unique
   }
-  
+
   if (arc.static) {
     // expect arc.static = [['staging', 'some-bukkit'], ['production', 'some-other-bukkit']]
-    var validTypes = Array.isArray(arc.static) && Array.isArray(arc.static[0]) && Array.isArray(arc.static[1]) 
+    var validTypes = Array.isArray(arc.static) && Array.isArray(arc.static[0]) && Array.isArray(arc.static[1])
     var validStaging = validTypes && arc.static[0][0] === 'staging' && arc.static[0].length === 2
     var validProduction = validTypes && arc.static[1][0] === 'production' && arc.static[1].length === 2
     var validLocally = validStaging && validProduction
     // TODO check staging has a valid bucket name
     // TODO check production has a valid bucket name
     if (!validLocally) {
-      errors.push(Error('@static invalid')) 
+      errors.push(Error('@static invalid'))
     }
   }
 

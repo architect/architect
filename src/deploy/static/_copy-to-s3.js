@@ -14,7 +14,7 @@ module.exports = function factory(bucket, callback) {
     console.log(chalk.cyan.dim('-------------------------'))
     var s3Path = path.join(process.cwd(), '.static', '/**/*')
     glob(s3Path, function _glob(err, files) {
-      //console.log(files)  
+      //console.log(files)
       var fns = files.map(file=> {
         return function _maybeUpload(callback) {
           let stats = fs.lstatSync(file)
@@ -29,7 +29,7 @@ module.exports = function factory(bucket, callback) {
                 return 'text/html'
               }
               else if (last === 'js') {
-                 return 'text/javascript' 
+                 return 'text/javascript'
               }
               else if (last === 'css') {
                 return 'text/css'
@@ -39,17 +39,17 @@ module.exports = function factory(bucket, callback) {
               }
             }
             s3.putObject({
-              ACL: 'public-read', 
-              Bucket: bucket, 
+              ACL: 'public-read',
+              Bucket: bucket,
               Key: file.replace(path.join(process.cwd(), '.static'), '').substr(1),
               Body: fs.readFileSync(file),
               ContentType: getContentType(file),
-            }, 
+            },
             function _putObj(err, data) {
               if (err) {
                 console.log(err)
                 callback()
-              } 
+              }
               else {
                 var before = file.replace(process.cwd(), '').substr(1)
                 var after = before.replace('.static', '')
@@ -60,7 +60,7 @@ module.exports = function factory(bucket, callback) {
             })
           }
           else {
-            callback() 
+            callback()
           }
         }
       })
