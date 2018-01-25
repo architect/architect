@@ -45,7 +45,6 @@ test('plan', t=> {
   })
 })
 
-/*
 test('exec', t=> {
   t.plan(1)
   create({
@@ -61,7 +60,6 @@ test('exec', t=> {
     }
   })
 })
-*/
 
 test('deploy.lambda', t=> {
   t.plan(1)

@@ -12,8 +12,7 @@
   },
   "scripts": {
     "lint": "eslint . --fix",
-    "test": "NODE_ENV=testing AWS_PROFILE=personal AWS_REGION=us-west-1 tape test/deploy/test.js | tap-spec",
-    "t": "NODE_ENV=testing AWS_PROFILE=smallwins AWS_REGION=us-west-1 tape test/sandbox/*-test.js | tap-spec"
+    "test": "NODE_ENV=testing AWS_PROFILE=personal AWS_REGION=us-west-1 tape test/deploy/test.js | tap-spec"
   },
   "keywords": [],
   "repository": {
