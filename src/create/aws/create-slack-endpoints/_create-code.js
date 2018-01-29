@@ -59,7 +59,6 @@ module.exports = function createSlackLambdaCode(params, callback) {
       })
     }
     else {
-      console.log('skip')
       callback()
     }
   }
