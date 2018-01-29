@@ -27,7 +27,10 @@ module.exports = function _01addMethod(params, callback) {
       restApiId,
     },
     function _putMethod(err) {
-      if (err) {
+      if (err && err.code === 'ConflictException') {
+        // silently continue if it made it here we are ok
+      }
+      else if (err) {
         console.log(err)
       }
       callback(null, resourceId, restApiId)
