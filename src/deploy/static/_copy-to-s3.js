@@ -5,15 +5,14 @@ var chalk = require('chalk')
 var path = require('path')
 var fs = require('fs')
 var s3 = new aws.S3
-var key = ""
-var done = false
 
 module.exports = function factory(bucket, callback) {
-  return function upload(keyPath) {
+  return function upload() {
     console.log(`${chalk.green('Success!')} ${chalk.green.dim('Deployed .static')}`)
     console.log(chalk.cyan.dim('-------------------------'))
     var s3Path = path.join(process.cwd(), '.static', '/**/*')
     glob(s3Path, function _glob(err, files) {
+      if (err) console.log(err)
       //console.log(files)
       var fns = files.map(file=> {
         return function _maybeUpload(callback) {
@@ -45,7 +44,7 @@ module.exports = function factory(bucket, callback) {
               Body: fs.readFileSync(file),
               ContentType: getContentType(file),
             },
-            function _putObj(err, data) {
+            function _putObj(err) {
               if (err) {
                 console.log(err)
                 callback()

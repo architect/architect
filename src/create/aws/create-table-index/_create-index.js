@@ -3,7 +3,6 @@ var aws = require('aws-sdk')
 var dynamo = new aws.DynamoDB
 var getAttributeDefinitions = require('./_get-attribute-definitions')
 var print = require('../../_print')
-var clean = require('./_remove-ttl-and-lambda')
 var getGsiName = require('./_get-gsi-name')
 var getGlobalSecondaryIndexes = require('./_get-global-secondary-indexes')
 

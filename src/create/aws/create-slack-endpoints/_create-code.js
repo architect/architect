@@ -4,7 +4,6 @@ var mkdir = require('mkdirp').sync
 var join = require('path').join
 var cp = require('cp').sync
 var parallel = require('run-parallel')
-var waterfall = require('run-waterfall')
 var assert = require('@smallwins/validate/assert')
 var exec = require('child_process').exec
 

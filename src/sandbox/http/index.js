@@ -1,4 +1,4 @@
-var waterfall = require('run-waterfall')
+/* eslint global-require: "off" */
 var cookie = require('cookie')
 var parse = require('@architect/parser')
 var body = require('body-parser')

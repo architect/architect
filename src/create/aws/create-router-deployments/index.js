@@ -2,7 +2,6 @@ var aws = require('aws-sdk')
 var chalk = require('chalk')
 var assert = require('@smallwins/validate/assert')
 var parallel = require('run-parallel')
-var waterfall = require('run-waterfall')
 
 module.exports = function createRouters(params, callback) {
 
@@ -14,7 +13,7 @@ module.exports = function createRouters(params, callback) {
 
   function deploy(params, callback) {
     setTimeout(function _chill() {
-      gateway.createDeployment(params, function _deploy(err, result) {
+      gateway.createDeployment(params, function _deploy(err) {
         if (err) {
           callback(err)
         }

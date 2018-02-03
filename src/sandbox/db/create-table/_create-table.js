@@ -1,9 +1,7 @@
-var waterfall = require('run-waterfall')
 var dynamo = require('../_get-db-client')
 var list = errback=> dynamo.listTables({}, errback)
 var getAttributeDefinitions = require('./_get-attribute-definitions')
 var getKeySchema = require('./_get-key-schema')
-var getTTL = require('./_get-ttl')
 var clean = require('./_remove-ttl-and-lambda')
 var getGSI = require('./_get-global-secondary-index')
 var getAttributeDefinitionsWithGsi = require('./_get-attribute-definitions-with-gsi')
@@ -19,7 +17,6 @@ var print = {
 module.exports = function _createTable(name, attr, indexes, callback) {
 
   var keys = Object.keys(clean(attr))
-  var _ttl = getTTL(attr)
 
   list(function _tables(err, result) {
     if (err) {

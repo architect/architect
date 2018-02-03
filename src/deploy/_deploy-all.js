@@ -8,7 +8,7 @@ var parallel = require('run-parallel')
 var glob = require('glob')
 var s3 = require('./static')
 var steps = 7 // magic number of steps in src
-var start = Date.now()
+//var start = Date.now()
 
 module.exports = function deployAll(params) {
   assert(params, {

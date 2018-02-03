@@ -1,5 +1,4 @@
-module.exports = function _getResponseTemplates(type) {
-  var noop = type
+module.exports = function _getResponseTemplates() {
   return {
     'application/json': "$input.json('$')"
   }

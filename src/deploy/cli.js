@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 var fs = require('fs')
 var path = require('path')
-var glob = require('glob')
 var chalk = require('chalk')
 var parse = require('@architect/parser')
 var deployOne = require('./_deploy-one')

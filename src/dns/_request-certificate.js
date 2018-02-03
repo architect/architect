@@ -14,7 +14,7 @@ module.exports = function _requestCertificate(name, callback) {
       ValidationDomain: apex,
     }],
   },
-  function(err, data) {
+  function _reqCert(err) {
     if (err) {
       console.log(err)
     }

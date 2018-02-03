@@ -64,7 +64,7 @@ function _create(app, bucket, callback) {
             }
           }
         },
-        function _putWWW(err, data) {
+        function _putWWW(err) {
           if (err) {
             console.log(err)
           }

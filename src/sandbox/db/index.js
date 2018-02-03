@@ -49,7 +49,8 @@ function init(callback) {
         })
       })
     }
-    waterfall(plans, function(err, result){
+    waterfall(plans, function(err) {
+      if (err) console.log(err)
       callback()
     })
 }

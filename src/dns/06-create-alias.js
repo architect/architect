@@ -1,6 +1,5 @@
 var aws = require('aws-sdk')
 var assert = require('@smallwins/validate/assert')
-var waterfall = require('run-waterfall')
 var parallel = require('run-parallel')
 var route53 = new aws.Route53
 var gw = new aws.APIGateway
@@ -14,7 +13,7 @@ function _createAlias(params, callback) {
   route53.changeResourceRecordSets({
     ChangeBatch: {
        Changes: [{
-         Action: 'UPSERT', /*"CREATE",*/
+         Action: 'UPSERT',
          ResourceRecordSet: {
            AliasTarget: {
              DNSName: params.cloudfrontDomain,
@@ -29,7 +28,7 @@ function _createAlias(params, callback) {
     },
     HostedZoneId: params.zoneID
   },
-  function _create(err, data) {
+  function _create(err) {
     if (err) throw err
     callback()
   })
@@ -48,10 +47,10 @@ module.exports = function createDomain(app, domain, callback) {
       StartRecordName: 'A',
       StartRecordType: 'A', // yes, both of these are required!
     },
-    function(err, result) {
+    function(err) {
       if (err) throw err
-      var stagingAlias = result.ResourceRecordSets.find(r=> r.Type === 'A' && r.Name === `staging.${domain}.`)
-      var productionAlias = result.ResourceRecordSets.find(r=> r.Type === 'A' && r.Name === `${domain}.`)
+      //var stagingAlias = result.ResourceRecordSets.find(r=> r.Type === 'A' && r.Name === `staging.${domain}.`)
+      //var productionAlias = result.ResourceRecordSets.find(r=> r.Type === 'A' && r.Name === `${domain}.`)
 
       var skip = false //!!(stagingAlias && productionAlias)
       if (skip) {

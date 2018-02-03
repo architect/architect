@@ -1,6 +1,4 @@
 var assert = require('@smallwins/validate/assert')
-var fs = require('fs')
-var path = require('path')
 var waterfall = require('run-waterfall')
 var aws = require('aws-sdk')
 var iam = new aws.IAM

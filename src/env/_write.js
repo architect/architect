@@ -1,13 +1,15 @@
+/* eslint-disable */
 var parallel = require('run-parallel')
 var glob = require('glob')
 var aws = require('aws-sdk')
-var lambda = new aws.Lambda
+//var lambda = new aws.Lambda
 
 module.exports = function _write(config, callback) {
   console.log(JSON.stringify(config,null,2))
   glob('src/@(html|json|events|scheduled|tables)/*', function _glob(err, results) {
     if (err) throw err
     var fns = results.map(result=> {
+      console.log(result)
       return function _i(callback) {
         var app = config.arc.app[0]
         // this method writes staging and production lambdas config in parallel

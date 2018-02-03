@@ -1,7 +1,6 @@
 var aws = require('aws-sdk')
 var assert = require('@smallwins/validate/assert')
 var waterfall = require('run-waterfall')
-var parallel = require('run-parallel')
 var gw = new aws.APIGateway
 
 function _create(params, callback) {
@@ -11,7 +10,7 @@ function _create(params, callback) {
     stage: String,
     app: String,
   })
-  var {name, restApiId, stage, app} = params
+  var {name, restApiId, stage} = params
   // rather than skip always remove then add it
   gw.getBasePathMappings({
     domainName: name,
@@ -24,14 +23,14 @@ function _create(params, callback) {
         basePath: "(none)", // omg, this api!
         domainName: name,
       },
-      function _del(err, result) {
+      function _del(err) {
         if (err) throw err
         gw.createBasePathMapping({
           domainName: name,
           restApiId,
           stage,
         },
-        function _create(err, data) {
+        function _create(err) {
           if (err) throw err
           callback()
         })

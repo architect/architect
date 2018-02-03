@@ -1,3 +1,4 @@
+/* eslint-disable */
 var glob = require('glob')
 var parse = require('@architect/parser')
 var fs = require('fs')

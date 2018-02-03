@@ -5,7 +5,7 @@ var path = require('path')
 /**
  * copies ./src/shared into ./node_modules/@architect/shared/
  */
-module.exports = function _shared(params, callback) {
+module.exports = function _shared() {
   var src = path.join(process.cwd(), 'src', 'shared')
   var exists = fs.pathExistsSync(src)
   if (exists) {
