@@ -33,15 +33,17 @@ module.exports = function planner(arc) {
   // html and json are session enabled by default
   // which means: we create a sessions table by default
   // (arc-sessions; can override with SESSIONS_TABLE env var)
-  var sessions = arc.hasOwnProperty('json') || arc.hasOwnProperty('html')
-  if (sessions) {
-    var table = {
-      'arc-sessions': {
-        _idx: '*String',
-        _ttl: 'TTL'
+  if (!process.env.ARC_DISABLE_SESSION) {
+    var sessions = arc.hasOwnProperty('json') || arc.hasOwnProperty('html')
+    if (sessions) {
+      var table = {
+        'arc-sessions': {
+          _idx: '*String',
+          _ttl: 'TTL'
+        }
       }
+      plans.push({action:'create-tables', table, app})
     }
-    plans.push({action:'create-tables', table, app})
   }
 
   if (arc.tables) {

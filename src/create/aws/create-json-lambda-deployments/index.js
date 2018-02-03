@@ -30,8 +30,6 @@ module.exports = function _createDeployments(params, callback) {
           callback(err)
         }
         else {
-        // noop if it exists
-        //console.log(`skip: ${stage} exists`)
           print.skip('@json', stage)
           callback()
         }
@@ -80,17 +78,20 @@ function _createLambda(app, name, env, callback) {
     },
     function _addEnvVars(arn, callback) {
       var sessionTableName = `${env.replace(name, '')}arc-sessions`
-      lambda.updateFunctionConfiguration({
+      var config = {
         FunctionName: env,
         Environment: {
           Variables: {
-            'SESSION_TABLE_NAME': sessionTableName,
             'ARC_APP_NAME': app,
             'NODE_ENV': env.includes('staging')? 'staging' : 'production',
           }
         }
-      },
-      function _update(err) {
+      }
+      // allow for opting out of session
+      if (!process.env.ARC_DISABLE_SESSION) {
+        config.Environment.Variables['SESSION_TABLE_NAME'] = sessionTableName
+      }
+      lambda.updateFunctionConfiguration(config, function _update(err) {
         if (err) {
           console.log(err)
         }
