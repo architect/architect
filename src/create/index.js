@@ -40,19 +40,20 @@ module.exports = function generate(params, callback) {
   ],
   function _done(err, {arc, plans}) {
     if (err) {
-      return callback(err)
+      callback(err)
     }
-
-    if (params.execute) {
-      exec(plans, (err, data) => {
+    else if (params.execute) {
+      exec(plans, function _exec(err, data) {
         if (err) {
           callback(err)
-        } else {
-          afterCreate({arc}, (err) => callback(err, data))
+        } 
+        else {
+          afterCreate({arc}, err=> callback(err, data))
         }
       })
-    } else {
-      afterCreate({arc}, (err) => callback(err, plans))
+    } 
+    else {
+      afterCreate({arc}, err=> callback(err, plans))
     }
   })
 }
