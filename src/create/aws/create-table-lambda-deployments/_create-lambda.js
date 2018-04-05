@@ -47,7 +47,7 @@ module.exports = function _createLambda(app, name, env, callback) {
         MemorySize: 1152,
         Publish: true,
         Role: role.Arn,
-        Runtime: "nodejs6.10",
+        Runtime: 'nodejs8.10',
         Timeout: 5,
         Environment: {
           Variables: {
