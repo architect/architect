@@ -22,7 +22,7 @@
   "author": "Brian LeRoux <b@brian.io>",
   "license": "Apache-2.0",
   "dependencies": {
-    "@architect/parser": "^1.0.6",
+    "@architect/parser": "^1.1.0",
     "@smallwins/validate": "^4.3.0",
     "aws-sdk": "^2.52.0",
     "body-parser": "^1.17.2",
