@@ -39,7 +39,7 @@ module.exports = function _createCode(params, callback) {
 
     exec(`
       cd ${localPath} && \
-      npm i @architect/functions --save --production
+      npm i @architect/functions @architect/data --save --production
     `,
     function _exec(err) {
       if (err) {

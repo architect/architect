@@ -72,7 +72,7 @@ function createTrigger(app, table, mthd, callback) {
     // npm i latest deps in the hello world template
     exec(`
       cd ${base} && \
-      npm i @architect/functions --save --production
+      npm i @architect/functions @architect/data --save --production
     `,
     function _exec(err) {
       if (err) {

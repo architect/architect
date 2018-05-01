@@ -50,7 +50,7 @@ module.exports = function createSlackLambdaCode(params, callback) {
       fs.writeFileSync(pkg, str(name))
       exec(`
         cd ${curr} && \
-        npm i slack --production --save && \
+        npm i slack @architect/data --production --save && \
         cd ${home}
       `,
       function(){
