@@ -1,4 +1,3 @@
-var chalk = require('chalk')
 var path = require('path')
 var spawn = require('child_process').spawn
 

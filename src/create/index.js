@@ -46,12 +46,12 @@ module.exports = function generate(params, callback) {
       exec(plans, function _exec(err, data) {
         if (err) {
           callback(err)
-        } 
+        }
         else {
           afterCreate({arc}, err=> callback(err, data))
         }
       })
-    } 
+    }
     else {
       afterCreate({arc}, err=> callback(err, plans))
     }
