@@ -7,7 +7,9 @@ var spawn = require('child_process').spawn
 module.exports = function _modules(params, callback) {
   let {pathToCode} = params
   let lock = path.join(process.cwd(), pathToCode)
-  let p = spawn('npm', ['ci', '--ignore-scripts'], {cwd:lock, shell:true,})
+  // uses qdd dep to install modules after too many troubles with npm ci
+  let qdd = path.join(process.cwd(), 'node_modules', 'qdd', 'index.js')
+  let p = spawn(qdd, [], {cwd:lock, shell:true,})
   p.on('close', function win() {
     if (params.tick) params.tick()
     callback()
