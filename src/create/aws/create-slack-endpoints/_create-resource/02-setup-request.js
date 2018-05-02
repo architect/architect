@@ -1,7 +1,7 @@
 var assert = require('@smallwins/validate/assert')
 var waterfall = require('run-waterfall')
 var aws = require('aws-sdk')
-var iam = new aws.IAM
+var sts = new aws.STS
 var lambda = new aws.Lambda
 var gateway = new aws.APIGateway
 var getReqTmpl = require('./_get-request-tmpl')
@@ -47,13 +47,12 @@ module.exports = function _02setupRequest(params, callback) {
       }, callback)
     },
     function _getAccountID(noop, callback) {
-      iam.getUser({}, function _getUser(err, result) {
+      sts.getCallerIdentity({}, function _getIdx(err, result) {
         if (err) {
           callback(err)
         }
         else {
-          var accountID = result.User.Arn.split(':')[4] // FIXME feels so brittle..
-          callback(null, accountID)
+          callback(null, result.Account)
         }
       })
     },

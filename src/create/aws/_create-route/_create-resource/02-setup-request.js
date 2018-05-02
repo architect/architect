@@ -3,7 +3,7 @@ var fs = require('fs')
 var path = require('path')
 var waterfall = require('run-waterfall')
 var aws = require('aws-sdk')
-var iam = new aws.IAM
+var sts = new aws.STS
 var lambda = new aws.Lambda
 var gateway = new aws.APIGateway
 
@@ -34,25 +34,6 @@ module.exports = function _02setupRequest(params, callback) {
         }
       })
     },
-    /*
-    function _putIntegrationRequest(arn, callback) {
-      var region = (new aws.Config).region || 'us-east-1' // – ̗̀ 𝓗𝔞𝔱𝔢𝔯𝔰 𝔤𝔬𝔫𝔫𝔞 𝔥𝔞𝔱𝔢 ̖́- ᕕ( ᐛ )ᕗ✧ platform voodoo
-      var uri = `arn:aws:apigateway:${region}:lambda:path/2015-03-31/functions/${arn}/invocations`
-      gateway.putIntegration({
-        httpMethod: httpMethod.toUpperCase(),
-        resourceId,
-        restApiId,
-        type: 'AWS',
-        integrationHttpMethod: 'POST',
-        uri,
-        requestTemplates: {
-          'text/html': vtl,
-          'application/x-www-form-urlencoded': vtlForm,
-          'multipart/form-data': vtl,
-          'application/json': vtl,
-        }
-      }, callback)
-    }*/
     function _putIntegrationRequest(arn, callback) {
       gateway.getIntegration({
         httpMethod: httpMethod.toUpperCase(),
@@ -97,13 +78,12 @@ module.exports = function _02setupRequest(params, callback) {
       })
     },
     function _getAccountID(noop, callback) {
-      iam.getUser({}, function _getUser(err, result) {
+      sts.getCallerIdentity({}, function _getIdx(err, result) {
         if (err) {
           callback(err)
         }
         else {
-          var accountID = result.User.Arn.split(':')[4] // FIXME feels so brittle..
-          callback(null, accountID)
+          callback(null, result.Account)
         }
       })
     },
