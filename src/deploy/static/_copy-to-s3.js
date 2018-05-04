@@ -1,5 +1,6 @@
 var aws = require('aws-sdk')
 var parallel = require('run-parallel')
+var mime = require('mime-types')
 var glob = require('glob')
 var chalk = require('chalk')
 var path = require('path')
@@ -24,18 +25,7 @@ module.exports = function factory(bucket, callback) {
             function getContentType(file) {
               var bits = file.split('.')
               var last = bits[bits.length - 1]
-              if (last === 'html') {
-                return 'text/html'
-              }
-              else if (last === 'js') {
-                 return 'text/javascript'
-              }
-              else if (last === 'css') {
-                return 'text/css'
-              }
-              else {
-                return 'binary/octet-stream'
-              }
+              return mime.lookup(last)
             }
             s3.putObject({
               ACL: 'public-read',
