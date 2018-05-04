@@ -6,6 +6,22 @@ var cp = require('cp').sync
 var fs = require('fs')
 var print = require('../_print')
 
+function _setBase(localPath, callback){
+  exec(`
+    cd ${localPath} && \
+    npm i @architect/functions @architect/data --save --production
+  `,
+  function _exec(err) {
+    if (err) {
+      console.log(err)
+    }
+    var pathToLocalArcCopy = path.join(localPath, 'node_modules', '@architect', 'shared')
+    mkdir(pathToLocalArcCopy)
+    cp(path.join(process.cwd(), '.arc'), path.join(pathToLocalArcCopy, '.arc'))
+    callback()
+  })
+}
+
 module.exports = function _createCode(params, callback) {
 
   assert(params, {
@@ -20,9 +36,10 @@ module.exports = function _createCode(params, callback) {
 
   var localPath = path.join(process.cwd(), 'src', params.space, params.idx)
   var exists = fs.existsSync(localPath)
+
   if (exists) {
     print.skip(`@${params.space} code`, `src/${params.space}/${params.idx}`)
-    callback()
+    _setBase(localPath, callback)
   }
   else {
     print.create(`@${params.space} code`, `src/${params.space}/${params.idx}`)
@@ -36,19 +53,6 @@ module.exports = function _createCode(params, callback) {
     mkdir(lambda)
     fs.writeFileSync(pathToPkg, pkg)
     cp(index, path.join(localPath, 'index.js'))
-
-    exec(`
-      cd ${localPath} && \
-      npm i @architect/functions @architect/data --save --production
-    `,
-    function _exec(err) {
-      if (err) {
-        console.log(err)
-      }
-      var pathToLocalArcCopy = path.join(localPath, 'node_modules', '@architect', 'shared')
-      mkdir(pathToLocalArcCopy)
-      cp(path.join(process.cwd(), '.arc'), path.join(pathToLocalArcCopy, '.arc'))
-      callback()
-    })
+    _setBase(localPath, callback)
   }
 }
