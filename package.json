@@ -12,7 +12,7 @@
   },
   "scripts": {
     "lint": "eslint . --fix",
-    "t": "NODE_ENV=testing tape test/validation/*-test.js | tap-spec",
+    "t": "NODE_ENV=testing tape 'test/validation/*-test.js' | tap-spec",
     "test": "NODE_ENV=testing AWS_PROFILE=personal AWS_REGION=us-west-1 tape test/deploy/test.js | tap-spec"
   },
   "keywords": [],
@@ -37,6 +37,7 @@
     "file-exists": "^4.0.0",
     "fs-extra": "^4.0.2",
     "glob": "^7.1.1",
+    "is-domain-name": "^1.0.1",
     "lodash.padend": "^4.6.1",
     "mime-types": "^2.1.18",
     "mkdirp": "^0.5.1",

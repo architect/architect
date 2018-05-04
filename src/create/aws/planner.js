@@ -1,7 +1,13 @@
 module.exports = function planner(arc) {
 
+  // grab the app name
   var app = arc.app[0]
-  var plans = [{action:'create-iam-role', app}]
+
+  // some default plans
+  var plans = [
+    {action:'create-iam-role', app},
+    {action:'create-shared', app},
+  ]
 
   if (arc.events) {
     arc.events.forEach(event=> {
