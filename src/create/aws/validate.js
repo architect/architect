@@ -1,7 +1,33 @@
+var regexp = {
+  appname: /^[a-z][a-z|\-|0-9]+/,
+}
+
+// function that returns an array of errors if any exist
+function validateAppName(arc) {
+  var errors = []
+  // validate app name
+  var appname = Array.isArray(arc.app) && arc.app[0]
+  if (appname) {
+    // ensure appname is 20 chars or less
+    if (appname.length > 20) {
+      errors.push(Error('@app name too long; must be <= 20 characters'))
+    }
+    // ensure appname is alphanumeric, locase and dashes
+    if (!regexp.appname.test(appname)) {
+      errors.push(Error('@app name must start with a letter, be alphanumeric, lowercase and dasherized'))
+    }
+  }
+  else {
+    errors.push(ReferenceError('@app name is not defined'))
+  }
+  return errors
+}
+
+
 module.exports = function validate(arc, callback) {
 
   // setup error queue
-  var errors = []
+  var errors = [].concat(validateAppName(arc))
 
   if (arc.html) {
     // TODO must be a tuple
