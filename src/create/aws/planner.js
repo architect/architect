@@ -5,8 +5,10 @@ module.exports = function planner(arc) {
 
   if (arc.events) {
     arc.events.forEach(event=> {
-      plans.push({action:'create-events', event, app})
-      plans.push({action:'create-event-lambda-code', event, app})
+      if (!process.env.ARC_LOCAL) {
+        plans.push({action:'create-events', event, app})
+        plans.push({action:'create-event-lambda-code', event, app})
+      }
       plans.push({action:'create-event-lambda-deployments', event, app})
     })
   }
@@ -14,11 +16,13 @@ module.exports = function planner(arc) {
   if (arc.html) {
     arc.html.forEach(route=> {
       plans.push({action:'create-html-lambda-code', route, app})
-      plans.push({action:'create-html-lambda-deployments', route, app})
+      if (!process.env.ARC_LOCAL) {
+        plans.push({action:'create-html-lambda-deployments', route, app})
+      }
     })
   }
 
-  if (arc.static) {
+  if (arc.static && !process.env.ARC_LOCAL) {
     plans.push({action:'create-static-deployments', static:arc.static})
   }
 
@@ -26,14 +30,16 @@ module.exports = function planner(arc) {
   if (arc.json) {
     arc.json.forEach(route=> {
       plans.push({action:'create-json-lambda-code', route, app})
-      plans.push({action:'create-json-lambda-deployments', route, app})
+      if (!process.env.ARC_LOCAL) {
+        plans.push({action:'create-json-lambda-deployments', route, app})
+      }
     })
   }
 
   // html and json are session enabled by default
   // which means: we create a sessions table by default
   // (arc-sessions; can override with SESSIONS_TABLE env var)
-  if (!process.env.ARC_DISABLE_SESSION) {
+  if (!process.env.ARC_DISABLE_SESSION && !process.env.ARC_LOCAL) {
     var sessions = arc.hasOwnProperty('json') || arc.hasOwnProperty('html')
     if (sessions) {
       var table = {
@@ -46,7 +52,7 @@ module.exports = function planner(arc) {
     }
   }
 
-  if (arc.tables) {
+  if (arc.tables && !process.env.ARC_LOCAL) {
     arc.tables.forEach(table=> {
       plans.push({action:'create-tables', table, app})
       var name = Object.keys(table)[0]
@@ -62,14 +68,14 @@ module.exports = function planner(arc) {
   }
 
   // build up a plan for indexes
-  if (arc.indexes) {
+  if (arc.indexes && !process.env.ARC_LOCAL) {
     arc.indexes.forEach(index=> {
       plans.push({action:'create-table-index', index, app})
     })
   }
 
   // build up a plan for scheduled
-  if (arc.scheduled) {
+  if (arc.scheduled && !process.env.ARC_LOCAL) {
     arc.scheduled.forEach(scheduled=> {
       plans.push({action:'create-scheduled-lambda-code', scheduled, app})
       plans.push({action:'create-scheduled-lambda-deployments', scheduled, app})
@@ -80,32 +86,32 @@ module.exports = function planner(arc) {
   var api = arc.hasOwnProperty('json') || arc.hasOwnProperty('html') || arc.hasOwnProperty('slack')
 
   // first create api gateway restapis
-  if (api) {
+  if (api && !process.env.ARC_LOCAL) {
     plans.push({action:'create-routers', app})
   }
 
   // kickup any html routes
-  if (arc.html) {
+  if (arc.html && !process.env.ARC_LOCAL) {
     arc.html.forEach(route=> {
       // html is configured for text/html: 200, 302, 403, 404, 500
       plans.push({action:'create-html-route', route, app})
     })
   }
 
-  if (arc.json) {
+  if (arc.json && !process.env.ARC_LOCAL) {
     arc.json.forEach(route=> {
       // json is configured for appplication/json: 200, 201, 403, 404, 500
       plans.push({action:'create-json-route', route, app})
     })
   }
 
-  if (arc.slack) {
+  if (arc.slack && !process.env.ARC_LOCAL) {
     arc.slack.forEach(bot=> {
       plans.push({action:'create-slack-endpoints', bot, app})
     })
   }
 
-  if (api) {
+  if (api && !process.env.ARC_LOCAL) {
     // always deploy!
     plans.push({action:'create-router-deployments', app})
   }
