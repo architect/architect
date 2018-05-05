@@ -17,12 +17,15 @@ module.exports = {
     var footer = chalk.yellow('to continue.')
     console.log(`\n${banner}\n${body} ${cmd} ${footer}\n`)
   },
-  ensureCerts() {
-    var banner = chalk.dim('Certificates in an invalid state')
-    var body = chalk.yellow('Please manually delete the certificate request in the AWS Certificate Manager console and then rerun')
+  ensureCerts(params) {
+    var banner = chalk.bold('Certificates not issued')
+    var sub = `
+${typeof params.staging === 'undefined'? '𝗑' : '✔'} staging
+${typeof params.production === 'undefined'? '𝗑' : '✔'} production`
+    var body = chalk.yellow('AWS Certificate Manager sends two emails. Please ensure you clicked approve for both and then ')
     var cmd = chalk.green('npm run dns')
     var footer = chalk.yellow('to continue.')
-    console.log(`\n${banner}\n${body} ${cmd} ${footer}\n`)
+    console.log(`${banner}\n${sub}\n\n${body} ${cmd} ${footer}\n`)
   },
   foundHostedZone(ns) {
     var pls = chalk.dim('Please ensure your domain registration is using these nameeservers:')

@@ -5,20 +5,16 @@ var msg = require('./_messages').ensureCerts
 module.exports = function _ensure(domain, callback) {
   acm.listCertificates({
     CertificateStatuses: [
-      'INACTIVE',
-      'EXPIRED',
-      'VALIDATION_TIMED_OUT',
-      'REVOKED',
-      'FAILED',
+      'ISSUED',
     ]
   },
   function _listCerts(err, result) {
     if (err) throw err
-    var hasStaging = result.CertificateSummaryList.find(c=> c.DomainName === `*.${domain}`)
-    var hasProduction = result.CertificateSummaryList.find(c=> c.DomainName === domain)
-    var halt = !!(hasStaging && hasProduction)
+    var staging = result.CertificateSummaryList.find(c=> c.DomainName === `*.${domain}`)
+    var production = result.CertificateSummaryList.find(c=> c.DomainName === domain)
+    var halt = (typeof staging === 'undefined' || typeof production === 'undefined')
     if (halt) {
-      msg()
+      msg({staging, production})
       process.exit(0)
     }
     else {
