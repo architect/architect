@@ -1,11 +1,13 @@
 #!/usr/bin/env node
+var net = require('net')
 var chalk = require('chalk')
 var start = require('./start')
 var noop = x=>!x
 
 inUse(3333, function _available(err, ok) {
   if (err) {
-    callback(err) 
+    console.log(chalk.bold.red(`Error`), chalk.white.bold(err.message))
+    process.exit(1)
   }
   else if (ok) {
     console.log(chalk.bold.red(`Error`), chalk.white.bold(`.arc sandbox cannot start\n`))
@@ -19,7 +21,6 @@ inUse(3333, function _available(err, ok) {
 })
 
 function inUse(port, fn) {
-  var net = require('net')
   var tester = net.createServer()
   .once('error', function (err) {
     if (err.code != 'EADDRINUSE') return fn(err)

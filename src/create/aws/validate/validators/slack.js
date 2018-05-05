@@ -2,7 +2,7 @@ var regexp = require('../_regexp')
 
 // lodash alpha numeric, dashes between one and 50 chars
 // FIXME this impl is copy/pasted from events
-module.exports = function slack(arc, raw) {
+module.exports = function slack(arc/*, raw*/) {
   var errors = []
   if (arc.slack) {
     var isNotString = v=> typeof v != 'string'

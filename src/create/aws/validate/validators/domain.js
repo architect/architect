@@ -11,7 +11,7 @@ module.exports = function domain(arc, raw) {
   var errors = []
   if (arc.domain && !isDomain(arc.domain[0])) {
     errors.push(Err({
-      message: `@domain is invalid`, 
+      message: `@domain is invalid`,
       linenumber: findLineNumber(arc.domain[0], raw),
       raw,
       arc,

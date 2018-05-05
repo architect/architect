@@ -18,7 +18,7 @@ module.exports = function app(arc, raw) {
     // ensure appname is 20 chars or less
     if (appname.length > 20) {
       errors.push(Err({
-        message: `@app name > 20 characters`, 
+        message: `@app name > 20 characters`,
         linenumber: findLineNumber(appname, raw),
         raw,
         arc,
@@ -28,7 +28,7 @@ module.exports = function app(arc, raw) {
     // ensure appname is alphanumeric, locase and dashes
     if (!regexp.appname.test(appname)) {
       errors.push(Err({
-        message: `@app name contains invalid characters`, 
+        message: `@app name contains invalid characters`,
         linenumber: findLineNumber(appname, raw),
         raw,
         arc,

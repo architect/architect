@@ -14,17 +14,17 @@ function(err) {
       prettyPrintArc(err)
     }
     if (err.detail) {
-      console.log(err.detail) 
+      console.log(err.detail)
       console.log('\n')
     }
     process.exit(0)
-  } 
+  }
   else if (err && err.message === 'Too Many Requests') {
     console.log(chalk.dim('-----'))
     console.log(chalk.bold.red(`Error`), chalk.bold.white(err.message))
     console.log(chalk.dim('-----'))
     console.log(`Congratulations: you have been throttled! This is a very common error with AWS and nothing to worry about. This means you are working faster than your account is currently provisioned to handle. Try re-running ` + chalk.cyan.bold('npm run create') + ' after a few minutes. If the problem persists you can request limit increases by contacting AWS support.')
-  
+
   }
   else if (err) {
     console.log(chalk.bold.red(`Error`), chalk.bold.white(err.message))

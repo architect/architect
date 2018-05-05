@@ -12,9 +12,8 @@ module.exports = function scheduled(arc, raw) {
         var expressionName = expression.shift()
         var expressionValue = expression.join(' ')
         if (expressionName.length > 20) {
-          var msg = `@scheduled name ${expressionName} too long (must be less than 20 characters)`
           errors.push(Err({
-            message: `@scheduled ${expressionName} > 20 characters`, 
+            message: `@scheduled ${expressionName} > 20 characters`,
             linenumber: findLineNumber(copy.join(' '), raw),
             raw,
             arc,
@@ -23,7 +22,7 @@ module.exports = function scheduled(arc, raw) {
         }
         if (!regexp.schedulename.test(expressionName)) {
           errors.push(Err({
-            message: `@scheduled ${expressionName} contains invalid characters`, 
+            message: `@scheduled ${expressionName} contains invalid characters`,
             linenumber: findLineNumber(copy.join(' '), raw),
             raw,
             arc,
@@ -37,7 +36,7 @@ module.exports = function scheduled(arc, raw) {
         var isNotEither = isRate === false && isCron === false
         if (isNotEither) {
           errors.push(Err({
-            message: `@scheduled invalid expression`, 
+            message: `@scheduled invalid expression`,
             linenumber: findLineNumber(copy.join(' '), raw),
             raw,
             arc,
@@ -55,7 +54,7 @@ module.exports = function scheduled(arc, raw) {
             var plural = right.split('').reverse()[0] === 's'
             if (plural) {
               errors.push(Err({
-                message: `@scheduled expression plural for singular value`, 
+                message: `@scheduled expression plural for singular value`,
                 linenumber: findLineNumber(copy.join(' '), raw),
                 raw,
                 arc,
@@ -68,7 +67,7 @@ module.exports = function scheduled(arc, raw) {
             //var msg = `@scheduled rate expression: ${guts} is invalid. See: ${url}`
             //errors.push(Error(msg))
               errors.push(Err({
-                message: `@scheduled expression invalid`, 
+                message: `@scheduled expression invalid`,
                 linenumber: findLineNumber(copy.join(' '), raw),
                 raw,
                 arc,
@@ -84,7 +83,7 @@ module.exports = function scheduled(arc, raw) {
       else {
         // errors.push(Error(`@scheduled invalid expression`))
         errors.push(Err({
-          message: `@scheduled section values invalid`, 
+          message: `@scheduled section values invalid`,
           linenumber: findLineNumber(copy.join(' '), raw),
           raw,
           arc,

@@ -27,21 +27,20 @@ module.exports = function _http(type, arc, raw) {
       var invalidVerbs = arc[type].filter(notGetOrPost)
       invalidVerbs.forEach(fkdtuple=> {
         errors.push(Err({
-          message: `@${type} unknown verb ${fkdtuple[0]}`, 
+          message: `@${type} unknown verb ${fkdtuple[0]}`,
           linenumber: findLineNumber(fkdtuple, raw),
           raw,
           arc,
           detail: 'Currently .arc only supports get and post for routes. Read more here: https://arc.codes/guides/http',
         }))
       })
-     
+
       arc[type].forEach(route=> {
-        var method = route[0]
         var path = route[1]
         var err = validPath(path)
         if (err) {
             errors.push(Err({
-              message: `@${type} invalid route`, 
+              message: `@${type} invalid route`,
               linenumber: findLineNumber(route, raw),
               raw,
               arc,
@@ -51,7 +50,7 @@ module.exports = function _http(type, arc, raw) {
       })
       // for each route in routes
       // check for errors.length
-      
+
       // errors.push(Error(`invalid url`))
       /*
       var validUrl =   // TODO routes[1] must be a valid url that starts with /

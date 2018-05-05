@@ -30,7 +30,7 @@ module.exports = function events(arc, raw) {
       arc.events.forEach(event=> {
         if (event.length > 50) {
           errors.push(Err({
-            message: `@events ${event} > 50 characters`, 
+            message: `@events ${event} > 50 characters`,
             linenumber: findLineNumber(event, raw),
             raw,
             arc,
@@ -39,7 +39,7 @@ module.exports = function events(arc, raw) {
         }
         if (!regexp.eventname.test(event)) {
           errors.push(Err({
-            message: `@events ${event} contains invalid characters`, 
+            message: `@events ${event} contains invalid characters`,
             linenumber: findLineNumber(event, raw),
             raw,
             arc,
