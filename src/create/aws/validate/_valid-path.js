@@ -8,7 +8,7 @@ module.exports = function validPath(p) {
     return Error('Path must be less than 25 characters.')
 
   // does not end with a slash
-  if (p.split('').reverse()[0] === '/')
+  if (p.length > 1 && p.split('').reverse()[0] === '/')
     return Error('Path must not end with /.')
 
   // can have letters, numbers, dashes, slashes and/or :params

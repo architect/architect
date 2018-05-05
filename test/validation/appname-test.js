@@ -82,4 +82,3 @@ get /
     t.ok(/^[a-z]/.test(arc.app[0]), 'first char is a lowercase letter')
   })
 })
-
