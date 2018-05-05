@@ -53,19 +53,20 @@ module.exports = function createRouters(params, callback) {
       ],
       function _create(err, urls) {
         if (err) {
-          console.log(err)
           callback(err)
         }
-        if (urls) {
-          console.log('\n')
-          console.log(chalk.cyan.dim('successfully deployed'))
-          urls.forEach(url=> {
-            var pretty = chalk.cyan.underline(url)
-            console.log(pretty)
-          })
-          console.log('\n')
+        else {
+          if (urls.length === 2) {
+            console.log('\n')
+            console.log(chalk.cyan.dim('successfully deployed'))
+            urls.forEach(url=> {
+              var pretty = chalk.cyan.underline(url)
+              console.log(pretty)
+            })
+            console.log('\n')
+          }
+          callback()
         }
-        callback()
       })
     }
   })

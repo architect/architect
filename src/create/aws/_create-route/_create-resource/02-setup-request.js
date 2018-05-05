@@ -42,7 +42,6 @@ module.exports = function _02setupRequest(params, callback) {
       },
       function(err, result) {
         if (err && err.name != 'NotFoundException') {
-          console.log('getIntegeration failed', err)
           callback(err)
         }
         else if (err && err.name === 'NotFoundException') {
@@ -104,8 +103,10 @@ module.exports = function _02setupRequest(params, callback) {
   ],
   function _addPermission(err) {
     if (err) {
-      console.log(err)
+      callback(err)
     }
-    callback(null, resourceId, restApiId)
+    else {
+      callback(null, resourceId, restApiId)
+    }
   })
 }

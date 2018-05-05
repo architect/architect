@@ -1,4 +1,5 @@
-var regexp = require('./_regexp')
+let regexp = require('../_regexp')
+let Err = require('../_error-factory')
 
 /**
  * events
@@ -17,7 +18,7 @@ var regexp = require('./_regexp')
  * - lowercase alphanumeric plus hyphens (no underscores; for symmetry with other lambda names)
  *
  */
-module.exports = function events(arc) {
+module.exports = function events(arc, raw) {
   var errors = []
   if (arc.events) {
     var isNotString = v=> typeof v != 'string'
@@ -28,10 +29,22 @@ module.exports = function events(arc) {
     else {
       arc.events.forEach(event=> {
         if (event.length > 50) {
-          errors.push(Error(`@event ${event} greater than 50 characters (it is ${event.length}!)`))
+          errors.push(Err({
+            message: `@events ${event} > 50 characters`, 
+            linenumber: findLineNumber(event, raw),
+            raw,
+            arc,
+            detail: 'Event names must be 50 characters or less.',
+          }))
         }
         if (!regexp.eventname.test(event)) {
-          errors.push(Error(`@event ${event} invalid characters (must be lowercase, alphanumeric, dashes)`))
+          errors.push(Err({
+            message: `@events ${event} contains invalid characters`, 
+            linenumber: findLineNumber(event, raw),
+            raw,
+            arc,
+            detail: 'Event names must start with a letter and be lowercase, alphanumeric and dasherized.',
+          }))
         }
       })
     }
@@ -39,3 +52,12 @@ module.exports = function events(arc) {
   return errors
 }
 
+function findLineNumber(search, raw) {
+  var lines = raw.split('\n')
+  for (var i = 0; i <= lines.length; i++) {
+    if (lines[i] && lines[i].startsWith(search)) {
+      return i + 1
+    }
+  }
+  return -1
+}

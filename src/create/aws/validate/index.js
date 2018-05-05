@@ -1,18 +1,18 @@
-var app = require('./_app')
-var domain = require('./_domain')
-var events = require('./_events')
-var html = require('./_html')
-var indexes = require('./_indexes')
-var json = require('./_json')
-var slack = require('./_slack')
-var static = require('./_static')
-var scheduled = require('./_scheduled')
-var tables = require('./_tables')
+var app = require('./validators/app')
+var domain = require('./validators/domain')
+var events = require('./validators/events')
+var html = require('./validators/html')
+var indexes = require('./validators/indexes')
+var json = require('./validators/json')
+var slack = require('./validators/slack')
+var static = require('./validators/static')
+var scheduled = require('./validators/scheduled')
+var tables = require('./validators/tables')
 
 /**
  * validates a parsed .arc file
  */
-module.exports = function validate(arc, callback) {
+module.exports = function validate(arc, raw, callback) {
 
   // an array of the validators
   //
@@ -20,7 +20,7 @@ module.exports = function validate(arc, callback) {
   //
   // all validator functions below:
   //
-  // - accept a parsed arc object
+  // - accept a parsed arc object and a raw arc file as a string
   // - return an array of error objects
   //
   let validators = [
@@ -37,7 +37,7 @@ module.exports = function validate(arc, callback) {
   ]
 
   // map function: accepts a validater; applies it to arc
-  let validate = validator=> validator(arc)
+  let validate = validator=> validator(arc, raw)
 
   // reduce function: just concats the error arrays into one array
   let flatten = (a, b)=> a.concat(b)

@@ -1,4 +1,3 @@
-
 // solve and create all our problems in one place (!)
 module.exports = {
   appname: /^[a-z][a-z|\-|0-9]+/,      // lowercase alphanumeric dasherized (must start with a letter)

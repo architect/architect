@@ -23,8 +23,10 @@ module.exports = function _createRoute(params, callback) {
   ],
   function _done(err) {
     if (err) {
-      console.log(err)
+      callback(err)
     }
-    callback()
+    else {
+      callback()
+    }
   })
 }

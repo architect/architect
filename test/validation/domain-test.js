@@ -4,7 +4,7 @@ var validate = require('../../src/create/aws/validate')
 
 test('domain legit', t=> {
   t.plan(1)
-  var arc = parse(`
+  var raw = `
 @app
 testy
 
@@ -13,9 +13,11 @@ ohai.com
 
 @html
 get /
-  `)
-  validate(arc, function _validate(err, result) {
+  `
+  var arc = parse(raw)
+  validate(arc, raw, function _validate(err, result) {
     t.ok(err == null,`${arc.domain[0]} is a valid domain`)
+    console.log('wat', err, result)
   })
 })
 

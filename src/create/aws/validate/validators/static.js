@@ -8,7 +8,7 @@
  * - asserts the first element of the first tuple is 'staging'
  * - asserts the first element of the second tuple is 'production'
  */
-module.exports = function static(arc) {
+module.exports = function static(arc, raw) {
   var errors = []
   if (arc.static) {
     // expect arc.static = [['staging', 'some-bukkit'], ['production', 'some-other-bukkit']]

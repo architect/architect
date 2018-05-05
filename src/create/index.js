@@ -24,11 +24,12 @@ module.exports = function generate(params, callback) {
       fs.readFile(params.arcFile, callback)
     },
     function _arcFileParse(buffer, callback) {
-      var arc = parse(buffer.toString())
-      callback(null, arc)
+      var raw = buffer.toString()
+      var arc = parse(raw)
+      callback(null, arc, raw)
     },
-    function _arcFileValid(arc, callback) {
-      validate(arc, callback)
+    function _arcFileValid(arc, raw, callback) {
+      validate(arc, raw, callback)
     },
     function _beforeCreate(arc, callback) {
       beforeCreate({arc}, (err) => callback(err, arc))
@@ -38,11 +39,12 @@ module.exports = function generate(params, callback) {
       callback(null, {arc, plans})
     }
   ],
-  function _done(err, {arc, plans}) {
+  function _done(err, result) {
     if (err) {
       callback(err)
     }
     else if (params.execute) {
+      var {arc, plans} = result
       exec(plans, function _exec(err, data) {
         if (err) {
           callback(err)
@@ -53,6 +55,7 @@ module.exports = function generate(params, callback) {
       })
     }
     else {
+      var {arc, plans} = result
       afterCreate({arc}, err=> callback(err, plans))
     }
   })
