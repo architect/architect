@@ -26,7 +26,7 @@ module.exports = function _createSnsTopics(params, callback) {
       if (err) {
         console.log(err)
       }
-      callback()
+      setTimeout(callback, 0)
     })
   }
 

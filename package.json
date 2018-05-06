@@ -8,6 +8,7 @@
     "arc-sandbox": "./src/sandbox/cli.js",
     "arc-deploy": "./src/deploy/cli.js",
     "arc-dns": "./src/dns/cli.js",
+    "arc-inventory": "./src/inventory/cli.js",
     "arc-env": "./src/env/cli.js"
   },
   "scripts": {
@@ -44,6 +45,7 @@
     "progress": "^2.0.0",
     "qdd": "^1.1.0",
     "run-parallel": "^1.1.6",
+    "run-series": "^1.1.8",
     "run-waterfall": "^1.1.3",
     "slack": "^9.0.3",
     "tiny-json-http": "^7.0.0",

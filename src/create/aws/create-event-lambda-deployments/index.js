@@ -1,12 +1,13 @@
-var parallel = require('run-parallel')
-var waterfall = require('run-waterfall')
-var assert = require('@smallwins/validate/assert')
-var zip = require('zipit')
-var aws = require('aws-sdk')
-var lambda = new aws.Lambda
-var sns = new aws.SNS
-var getIAM = require('../_get-iam-role')
-var print = require('../../_print')
+let parallel = require('run-parallel')
+let waterfall = require('run-waterfall')
+let assert = require('@smallwins/validate/assert')
+let zip = require('zipit')
+let aws = require('aws-sdk')
+let lambda = new aws.Lambda
+let sns = new aws.SNS
+let getIAM = require('../_get-iam-role')
+let print = require('../../_print')
+let getTopicArn = require('./_get-sns-topic-arn')
 
 /**
  * creates sns lambdas
@@ -123,21 +124,11 @@ function _createLambda(app, event, env, callback) {
     },
     function _subscribeLambda(lambdaArn, callback) {
       // the sns topic name === lambda name
-      sns.listTopics({}, function _listTopics(err, data) {
+      getTopicArn(env, function _getName(err, topicArn) {
         if (err) {
-          console.log(err)
           callback(err)
         }
         else {
-          var topicArn
-          data.Topics.forEach(t=> {
-            var parts = t.TopicArn.split(':')
-            var last = parts[parts.length - 1]
-            var found = last === env
-            if (found) {
-              topicArn = t.TopicArn
-            }
-          })
           sns.subscribe({
             Protocol: 'lambda',
             TopicArn: topicArn,
