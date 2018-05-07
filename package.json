@@ -34,7 +34,6 @@
     "dynalite": "^1.2.0",
     "express": "^4.15.3",
     "file-exists": "^4.0.0",
-    "fs-extra": "^4.0.2",
     "glob": "^7.1.1",
     "is-domain-name": "^1.0.1",
     "lodash.padend": "^4.6.1",
