@@ -7,7 +7,7 @@ var fs = require('fs')
 var path = require('path')
 var rm = require('rimraf').sync
 var mkdir = require('mkdirp').sync
-var cp = require('cp').sync
+var cp = fs.copyFileSync
 var test = require('tape')
 
 var create = require('../../src/create')

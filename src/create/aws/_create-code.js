@@ -2,8 +2,8 @@ var assert = require('@smallwins/validate/assert')
 var path = require('path')
 var mkdir = require('mkdirp').sync
 var exec = require('child_process').exec
-var cp = require('cp').sync
 var fs = require('fs')
+var cp = fs.copyFileSync
 var print = require('../_print')
 
 function _setBase(localPath, callback){

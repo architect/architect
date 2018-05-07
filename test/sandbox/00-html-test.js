@@ -1,5 +1,5 @@
 var tiny = require('tiny-json-http')
-var cp = require('cp').sync
+var cp = require('fs').copyFileSync
 var join = require('path').join
 var mkdir = require('mkdirp')
 var test = require('tape')

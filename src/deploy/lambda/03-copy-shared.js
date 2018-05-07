@@ -20,9 +20,9 @@ module.exports = function _shared(params, callback) {
     if (params.tick) {
       params.tick()
     }
-    // move along 
+    // move along
     if (err) {
-      callback(err) 
+      callback(err)
     }
     else {
       callback()

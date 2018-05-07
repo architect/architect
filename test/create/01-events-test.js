@@ -3,7 +3,7 @@ var nukeTopics = require('./_nuke-topics')
 var path = require('path')
 var rm = require('rimraf').sync
 var mkdir = require('mkdirp').sync
-var cp = require('cp').sync
+var cp = require('fs').copyFileSync
 var test = require('tape')
 var run = require('../../src/create')
 

@@ -3,7 +3,7 @@ var path = require('path')
 var mkdir = require('mkdirp').sync
 var exec = require('child_process').exec
 var fs = require('fs')
-var cp = require('cp').sync
+var cp = fs.copyFileSync
 var print = require('../../_print')
 
 module.exports = function _createLambdaCode(params, callback) {
