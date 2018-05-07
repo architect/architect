@@ -4,22 +4,22 @@ let aws = require('aws-sdk')
 let _longest = require('./_get-longest-subject')
 
 module.exports = function _cloud(inventory) {
-  
+
   let longest = _longest(inventory)
 
   function title() {
-    console.log(chalk.cyan.bold(inventory.app)) 
+    console.log(chalk.cyan.bold(inventory.app))
   }
 
   function header(msg) {
     console.log('\n'+chalk.grey.bold(msg))
   }
-  
+
   function found(subject, arn) {
     var subj = `${subject} `.padEnd(longest, '.') + ' '
     console.log(chalk.dim(subj), chalk.green(arn))
   }
-  
+
   function notfound(msg) {
     var subj = `${msg} `.padEnd(longest, '.') + ' '
     console.log(chalk.dim(subj), chalk.yellow('ARN not found'))
@@ -60,7 +60,7 @@ module.exports = function _cloud(inventory) {
       let s3 = new aws.S3
       series(inventory.s3buckets.map(Bucket=> {
         return function _getBucket(callback) {
-          s3.headBucket({Bucket}, function _prettyPrint(err, result) {
+          s3.headBucket({Bucket}, function _prettyPrint(err) {
             if (err && err.code === 'NotFound') {
               notfound(Bucket)
             }
@@ -80,7 +80,7 @@ module.exports = function _cloud(inventory) {
       let api = new aws.APIGateway
       api.getRestApis({
         limit: 500 // FIXME this needs pagination; tho most api gateways are limited to 60 by default so no rush..
-      }, 
+      },
       function _getRestApis(err, result) {
         if (err) {
           error(err.message)
@@ -185,6 +185,7 @@ module.exports = function _cloud(inventory) {
             notfound(t)
           }
         })
+        callback()
       })
     }
   ])

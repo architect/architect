@@ -4,22 +4,22 @@ let aws = require('aws-sdk')
 let _longest = require('./_get-longest-subject')
 
 module.exports = function _cloud(inventory) {
-  
+
   let longest = _longest(inventory)
 
   function title() {
-    console.log(chalk.red.bold(inventory.app)) 
+    console.log(chalk.red.bold(inventory.app))
   }
 
   function header(msg) {
     console.log('\n'+chalk.grey.bold(msg))
   }
-  
+
   function deleted(subject, arn) {
     var subj = `${subject} `.padEnd(longest, '.') + ' '
     console.log(chalk.dim(subj), chalk.red(arn))
   }
-  
+
   function notfound(msg) {
     var subj = `${msg} `.padEnd(longest, '.') + ' '
     console.log(chalk.dim(subj), chalk.yellow('ARN not found'))
@@ -40,7 +40,7 @@ module.exports = function _cloud(inventory) {
       let s3 = new aws.S3
       series(inventory.s3buckets.map(Bucket=> {
         return function _getBucket(callback) {
-          s3.deleteBucket({Bucket}, function _prettyPrint(err, result) {
+          s3.deleteBucket({Bucket}, function _prettyPrint(err) {
             if (err && err.code === 'NoSuchBucket') {
               notfound(Bucket)
             }
@@ -60,7 +60,7 @@ module.exports = function _cloud(inventory) {
       let lambda = new aws.Lambda
       series(inventory.lambdas.map(FunctionName=> {
         return function _getLambda(callback) {
-          lambda.deleteFunction({FunctionName}, function _prettyPrint(err, result) {
+          lambda.deleteFunction({FunctionName}, function _prettyPrint(err) {
             if (err && err.code === 'ResourceNotFoundException') {
               notfound(FunctionName)
             }
@@ -107,7 +107,7 @@ module.exports = function _cloud(inventory) {
             return function deleteApi(callback) {
               setTimeout(function delay() {
                 timeout = 30*1000
-                api.deleteRestApi({restApiId:subject.id}, function _deleted(err, result) {
+                api.deleteRestApi({restApiId:subject.id}, function _deleted(err) {
                   if (err) {
                     callback(err)
                   }
@@ -152,7 +152,7 @@ module.exports = function _cloud(inventory) {
                     error(err.message)
                   }
                   else {
-                    deleted(t, TopicArn) 
+                    deleted(t, TopicArn)
                   }
                 })
               }
@@ -173,6 +173,7 @@ module.exports = function _cloud(inventory) {
             notfound(t)
           }
         })
+        callback()
       })
     }
   ])

@@ -1,29 +1,28 @@
 let parse = require('@architect/parser')
 let fs = require('fs')
-let chalk = require('chalk')
 
 /**
  * {
- *   app, 
- *   restapis, 
- *   lambdas, 
- *   iamroles, 
+ *   app,
+ *   restapis,
+ *   lambdas,
+ *   iamroles,
  *   snstopics,
  *   s3buckets,
- *   tables, 
- * 
+ *   tables,
+ *
  *   TODO @domain certs
  *   TODO @domain recordsets
  *   TODO cloudwatch rules
  * }
  */
 module.exports = function inventory(arcFilePath, callback) {
-  
+
   let arc = parse(fs.readFileSync(arcFilePath).toString())
   let app = arc.app[0]
 
   let report = {
-    app, 
+    app,
     restapis: [
       `${app}-staging`,
       `${app}-production`,
@@ -34,7 +33,7 @@ module.exports = function inventory(arcFilePath, callback) {
     s3buckets: [],
     tables: [],
   }
-    
+
   // gets an http lambda name
   function getName(tuple) {
     var verb = tuple[0]
@@ -69,8 +68,8 @@ module.exports = function inventory(arcFilePath, callback) {
   if (arc.events) {
     report.lambdas = report.lambdas.concat(arc.events.map(getEventName).reduce((a,b)=>a.concat(b)))
     arc.events.forEach(e=> {
-      report.snstopics.push(`${app}-staging-${e}`) 
-      report.snstopics.push(`${app}-production-${e}`) 
+      report.snstopics.push(`${app}-staging-${e}`)
+      report.snstopics.push(`${app}-production-${e}`)
     })
   }
 

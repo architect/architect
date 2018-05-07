@@ -5,22 +5,22 @@ let _longest = require('./_get-longest-subject')
 let db = new aws.DynamoDB
 
 module.exports = function _nukeTables(inventory) {
-  
+
   let longest = _longest(inventory)
 
   function title() {
-    console.log(chalk.red.bold(inventory.app)) 
+    console.log(chalk.red.bold(inventory.app))
   }
 
   function header(msg) {
     console.log('\n'+chalk.grey.bold(msg))
   }
-  
+
   function deleted(subject, arn) {
     var subj = `${subject} `.padEnd(longest, '.') + ' '
     console.log(chalk.dim(subj), chalk.red(arn))
   }
-  
+
   function notfound(msg) {
     var subj = `${msg} `.padEnd(longest, '.') + ' '
     console.log(chalk.dim(subj), chalk.yellow('ARN not found'))
