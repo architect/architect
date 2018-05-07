@@ -36,7 +36,6 @@
     "file-exists": "^4.0.0",
     "glob": "^7.1.1",
     "is-domain-name": "^1.0.1",
-    "lodash.padend": "^4.6.1",
     "mime-types": "^2.1.18",
     "mkdirp": "^0.5.1",
     "progress": "^2.0.0",

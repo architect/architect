@@ -7,7 +7,6 @@ var join = require('path').join
 var express = require('express')
 var cors = require('cors')
 var chalk = require('chalk')
-var padend = require('lodash.padend')
 var local = require('./_local')
 var copyShared = require('./_copy-shared')
 var copyArc = require('./_copy-arc')
@@ -57,7 +56,9 @@ function registerRoutes(type) {
       var path = route === '/'? '-index' : route.replace(/\//g, '-').replace('.', '-').replace(/:/g, '000')
       var funct = require(join(process.cwd(), 'src', type, `${verb}${path}`)).handler
       var left = `@${chalk.dim(type)}${chalk.dim(verb === 'get'? ' get' : verb)}`
-      var right = `${padend(chalk.cyan(route), 44, '.')} ${verb}${path}`
+
+      var ri = (route + ' ').padEnd(44, '.')
+      var right = `${chalk.cyan.dim(ri)} ${verb}${path}`
 
       console.log(`${left} ${right}`)
 

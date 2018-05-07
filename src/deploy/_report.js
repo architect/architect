@@ -1,5 +1,4 @@
 var chalk = require('chalk')
-var pad = require('lodash.padend')
 var _getName = require('./lambda/_get-function-name')
 var _getUrl = require('./lambda/_get-url')
 
@@ -27,7 +26,8 @@ module.exports = function _report(params, callback) {
   })
   results.forEach(srcPath=> {
     var leftLen = longest + 4
-    var left = chalk.cyan.dim(pad(srcPath + ' ', leftLen, '.'))
+    var lef = (srcPath + ' ').padEnd( leftLen, '.')
+    var left = chalk.cyan.dim(lef)
     var name = _getName({arc, env, pathToCode:srcPath})
     var right = chalk.cyan(name)
     var padd = ' '
