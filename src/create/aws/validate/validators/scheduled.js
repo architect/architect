@@ -9,8 +9,9 @@ module.exports = function scheduled(arc, raw) {
     arc.scheduled.forEach(expression=> {
       if (Array.isArray(expression)) {
         var copy = expression.slice(0)
-        var expressionName = expression.shift()
-        var expressionValue = expression.join(' ')
+        var copy2 = expression.slice(0)
+        var expressionName = copy2.shift()
+        var expressionValue = copy2.join(' ')
         if (expressionName.length > 20) {
           errors.push(Err({
             message: `@scheduled ${expressionName} > 20 characters`,

@@ -43,7 +43,7 @@ function _create(deployname, codename, rule, callback) {
       callback(err)
     }
     else {
-      // noop if it existsna
+      // noop if it exists
       print.skip('@scheduled', deployname)
       callback()
     }
