@@ -24,10 +24,13 @@ module.exports = function _getUrl(params, callback) {
       if (err) {
         callback(err)
       }
-      else {
+      else if (result && result.items) {
         var restApiId = result.items.find(i=> i.name === `${params.arc.app[0]}-${params.env}`).id
         var url = `https://${restApiId}.execute-api.${process.env.AWS_REGION}.amazonaws.com/${params.env}`
         callback(null, url)
+      }
+      else {
+        callback() 
       }
     })
   }

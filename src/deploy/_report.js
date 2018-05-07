@@ -47,10 +47,13 @@ module.exports = function _report(params, callback) {
       if (err) {
         console.log(err)
       }
-      else {
+      else if (url) {
         var pretty = chalk.cyan.underline(url)
         console.log('\n' + pretty)
         console.log('\n')
+      }
+      else {
+        console.log(chalk.bold.red('Error: ') + chalk.yellow('URL for deployment not found.'))
       }
       callback()
     })
