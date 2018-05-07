@@ -30,7 +30,7 @@ module.exports = function _getUrl(params, callback) {
         callback(null, url)
       }
       else {
-        callback() 
+        callback()
       }
     })
   }
