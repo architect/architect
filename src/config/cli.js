@@ -4,6 +4,7 @@ let parse = require('@architect/parser')
 let _report = require('./_report')
 let _apply = require('./_apply')
 let error = msg=> console.log(chalk.bold.red('Error: ') + chalk.bold.white(msg))
+let chalk = require('chalk')
 
 // get the current .arc file
 let arc
