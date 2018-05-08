@@ -1,12 +1,13 @@
 ## many eyeballs where in this code
 ## convert HTML POST data or HTTP GET query string to JSON
-## most recent edit adds empty form var support
+## most recent edit adds proper escaping of values
 #*Ref: 
 
   https://gist.github.com/ryanray/668022ad2432e38493df
   https://github.com/mweagle/Sparta/blob/master/resources/provision/apigateway/inputmapping_formencoded.vtl
   https://forums.aws.amazon.com/thread.jspa?threadID=220274&tstart=0
   http://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-mapping-template-reference.html
+  https://forums.aws.amazon.com/message.jspa?messageID=675886
 
 *#
 
@@ -58,7 +59,7 @@
     #foreach( $kvPair in $tokenisedEquals )
       ## finally we output the JSON for this pair and append a comma if this isn't the last pair
       #set($kvTokenised = $kvPair.split("="))
-      "$util.urlDecode($kvTokenised[0])" : #if($kvTokenised.size() == 2)"$util.urlDecode($kvTokenised[1])"#{else}""#end#if( $foreach.hasNext ),#end
+      "$util.urlDecode($kvTokenised[0])" : #if($kvTokenised.size() == 2)"$util.escapeJavaScript($util.urlDecode($kvTokenised[1]))"#{else}""#end#if( $foreach.hasNext ),#end
     #end
   },
   "headers": {
