@@ -9,14 +9,7 @@ var arcFile = path.join(process.cwd(), '.arc')
 
 waterfall([
   function _exists(callback) {
-      var arcExists = exists(arcFile) 
-      if (!arcExists) {
-        callback('missing .arc')
-      }
-      else {
-        callback()
-      }
-    })
+    callback(exists(arcFile)? null : 'missing .arc')
   },
   function _arcFileRead(callback) {
     fs.readFile(arcFile, callback)
