@@ -2,6 +2,7 @@ var assert = require('@smallwins/validate/assert')
 var mkdir = require('mkdirp')
 var fs = require('fs')
 var path = require('path')
+var exists = require('path-exists').sync
 
 var docs = `# Magical \`src/shared\`
 
@@ -52,7 +53,7 @@ module.exports = function create(params, callback) {
     if (err) {
       console.log(err)
     }
-    if (!fs.existsSync(readme)) {
+    if (!exists(readme)) {
       fs.writeFileSync(readme, docs)
     }
     callback()

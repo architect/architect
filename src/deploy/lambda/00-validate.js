@@ -1,5 +1,6 @@
-var path = require('path')
-var fs = require('fs')
+let fs = require('fs')
+let path = require('path')
+let exists = require('path-exists').sync
 
 /**
  * ensures lambda/package.json and lambda/package-lock.json exist
@@ -9,8 +10,8 @@ module.exports = function _validate(params, callback) {
   let pathToCode = params.pathToCode
   let pathToPkg = path.join(pathToCode, 'package.json')
   let pathToLock = path.join(pathToCode, 'package-lock.json')
-  let pkgExists = fs.existsSync(pathToPkg) // FIXME perf (lets do this async)
-  let lockExists = fs.existsSync(pathToLock)
+  let pkgExists = exists(pathToPkg)
+  let lockExists = exists(pathToLock)
 
   if (!pkgExists) {
     callback(Error('cancel_missing_package'))

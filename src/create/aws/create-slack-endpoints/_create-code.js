@@ -1,4 +1,4 @@
-var exists = require('file-exists').sync
+var exists = require('path-exists').sync
 var mkdir = require('mkdirp').sync
 var join = require('path').join
 var fs = require('fs')

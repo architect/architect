@@ -5,6 +5,7 @@ var exec = require('child_process').exec
 var fs = require('fs')
 var cp = fs.copyFileSync
 var print = require('../_print')
+var exists = require('path-exists').sync
 
 function _setBase(localPath, callback){
   exec(`
@@ -35,9 +36,8 @@ module.exports = function _createCode(params, callback) {
   mkdir(`src/${params.space}`)
 
   var localPath = path.join(process.cwd(), 'src', params.space, params.idx)
-  var exists = fs.existsSync(localPath)
 
-  if (exists) {
+  if (exists(localPath)) {
     print.skip(`@${params.space} code`, `src/${params.space}/${params.idx}`)
     _setBase(localPath, callback)
   }

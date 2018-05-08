@@ -1,4 +1,5 @@
 var fs = require('fs')
+var exists = require('path-exists').sync
 var path = require('path')
 var parse = require('@architect/parser')
 
@@ -7,11 +8,11 @@ module.exports = function _readEnv(callback) {
   var pathToEnv = path.join(process.cwd(), '.arc-env')
   var pathToArc = path.join(process.cwd(), '.arc')
 
-  if (!fs.existsSync(pathToEnv)) {
+  if (!exists(pathToEnv)) {
     throw Error('missing .arc-env')
   }
 
-  if (!fs.existsSync(pathToArc)) {
+  if (!exists(pathToArc)) {
     throw Error('missing .arc')
   }
 

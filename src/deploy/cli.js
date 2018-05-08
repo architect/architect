@@ -1,8 +1,10 @@
 #!/usr/bin/env node
-var fs = require('fs')
-var path = require('path')
-var chalk = require('chalk')
 var parse = require('@architect/parser')
+var chalk = require('chalk')
+var exists = require('path-exists').sync
+var path = require('path')
+var fs = require('fs')
+
 var deployOne = require('./_deploy-one')
 var deployAll = require('./_deploy-all')
 var _progress = require('./_progress')
@@ -12,7 +14,7 @@ var start = Date.now()
 let pathToArc = path.join(process.cwd(), '.arc')
 
 // bail if .arc isn't there
-let arcExists = fs.existsSync(pathToArc)
+let arcExists = exists(pathToArc)
 if (!arcExists) {
   console.log(chalk.red('missing .arc file'))
   process.exit(1)

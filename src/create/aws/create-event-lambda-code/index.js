@@ -5,6 +5,7 @@ var exec = require('child_process').exec
 var fs = require('fs')
 var cp = fs.copyFileSync
 var print = require('../../_print')
+var exists = require('path-exists').sync
 
 module.exports = function _createLambdaCode(params, callback) {
 
@@ -18,7 +19,7 @@ module.exports = function _createLambdaCode(params, callback) {
   mkdir('src/events')
 
   var p = path.join(process.cwd(), 'src', 'events', params.event)
-  if (fs.existsSync(p)) {
+  if (exists(p)) {
     // skip if that dir exists
     // console.log(`skip: ${p} exists`)
     print.skip('@events', `src/events/${params.event}`)

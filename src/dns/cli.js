@@ -1,18 +1,16 @@
 #!/usr/bin/env node
 var waterfall = require('run-waterfall')
 var parse = require('@architect/parser')
-var exists = require('file-exists')
+var exists = require('path-exists').sync
 var fs = require('fs')
 var path = require('path')
 var dns = require('.')
-
 var arcFile = path.join(process.cwd(), '.arc')
 
-<!--wut h/t @feross-->
 waterfall([
   function _exists(callback) {
-    exists(arcFile, function _exists(err, exists) {
-      if (err || !exists) {
+      var arcExists = exists(arcFile) 
+      if (!arcExists) {
         callback('missing .arc')
       }
       else {

@@ -7,6 +7,7 @@ var cp = fs.copyFileSync
 var print = require('../../_print')
 var getTriggers = require('./_get-triggers')
 var parallel = require('run-parallel')
+var exists = require('path-exists').sync
 
 module.exports = function _createLambdaCode(params, callback) {
 
@@ -48,8 +49,8 @@ function createTrigger(app, table, mthd, callback) {
   var name = `${table}-${mthd}`
   //var p = path.join(process.cwd(), 'src', 'tables', name)
   var base = path.join(process.cwd(), 'src', 'tables', name)
-  var exists = fs.existsSync(base)
-  if (exists) {
+  var baseExists = exists(base)
+  if (baseExists) {
     // skip if that dir exists
     print.skip('@tables', `src/tables/${name}`)
     callback()

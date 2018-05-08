@@ -7,6 +7,7 @@ var join = require('path').join
 var express = require('express')
 var cors = require('cors')
 var chalk = require('chalk')
+var exists = require('path-exists').sync
 var local = require('./_local')
 var copyShared = require('./_copy-shared')
 var copyArc = require('./_copy-arc')
@@ -33,12 +34,12 @@ function registerRoutes(type) {
   var arcPath = join(process.cwd(), '.arc')
   var envPath = join(process.cwd(), '.arc-env')
 
-  if (!fs.existsSync(arcPath)) {
+  if (!exists(arcPath)) {
     throw Error('.arc file not found in ' + process.cwd())
   }
 
   var arc = parse(fs.readFileSync(arcPath).toString())
-  var env = fs.existsSync(envPath)? parse(fs.readFileSync(envPath).toString()) : false
+  var env = exists(envPath)? parse(fs.readFileSync(envPath).toString()) : false
 
   if (arc.hasOwnProperty(type)) {
     var routes = arc[type]
