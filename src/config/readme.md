@@ -4,7 +4,7 @@ Introduces two new manifest files and one new workflow:
 
 - `.arc-config` is a configuration manifest file that lives in the same folder as each lambda it configures
 - `npm run config` display a report of all `.arc-config` status to deployed lambdas
-- `npm run config apply` applies `.arc-config` to the corosponding staging and production lambdas (careful!)
+- `npm run config apply` applies `.arc-config` to the corresponding staging and production lambdas (careful!)
 
 ## Configuration Management
 
