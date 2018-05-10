@@ -13,12 +13,20 @@ module.exports = function _shared(params, callback) {
   var arcFileSrc = path.join(process.cwd(), '.arc')
   var arcFileDest = path.join(destDir, '.arc')
   var src = path.join(process.cwd(), 'src', 'shared')
-  var files = glob.sync(src + '/**/*', {dot:true, nodir:true})
+  var files = glob.sync(src + '/**/*', {dot:true})
 
   // mkdir the architect/shared dir if it does not exist
   mkdir(destDir)
+
+  // walk the files and dirs
   files.forEach(f=> {
-    fs.copyFileSync(f, f.replace(src, destDir))
+    var current = f.replace(src, destDir)
+    if (fs.statSync(f).isDirectory()) {
+      mkdir(current)
+    }
+    else {
+      fs.copyFileSync(f, current)
+    }
   })
 
   // overwrite architec/shared/.arc
