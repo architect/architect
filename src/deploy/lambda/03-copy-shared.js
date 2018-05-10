@@ -13,7 +13,7 @@ module.exports = function _shared(params, callback) {
   var arcFileSrc = path.join(process.cwd(), '.arc')
   var arcFileDest = path.join(destDir, '.arc')
   var src = path.join(process.cwd(), 'src', 'shared')
-  var files = glob.sync(src + '/*')
+  var files = glob.sync(src + '/**/*')
 
   // mkdir the architect/shared dir if it does not exist
   mkdir(destDir)
