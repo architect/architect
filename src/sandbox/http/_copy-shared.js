@@ -8,7 +8,7 @@ var mkdir = require('mkdirp').sync
  */
 module.exports = function _shared() {
   var src = path.join(process.cwd(), 'src', 'shared')
-  var files = glob.sync(src + '/*')
+  var files = glob.sync(src + '/**/*', {dot:true, nodir:true})
   var paths = glob.sync('src/@(html|json|events|scheduled|tables|slack)/*')
 
   files.forEach(f=> {
