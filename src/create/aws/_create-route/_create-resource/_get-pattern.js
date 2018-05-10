@@ -13,7 +13,7 @@
  */
 module.exports = function getPattern(statusCode) {
   if (statusCode === '200') return ''      // ok
-  if (statusCode === '302') return '(.*statusCode\\\":302.*)|^(http|\/.*)' // wait..
+  if (statusCode === '302') return '(.*statusCode\\\":302.*)|^(http|\/).*' // wait..
   if (statusCode === '403') return '.*statusCode\\\":403.*'
   if (statusCode === '404') return '.*statusCode\\\":404.*'
   if (statusCode === '500') return '.*statusCode\\\":500.*'
