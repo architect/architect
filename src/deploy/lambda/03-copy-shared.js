@@ -7,11 +7,11 @@ let cp = require('cpr')
  */
 module.exports = function _shared(params, callback) {
 
-  var {pathToCode} = params
-  var src = path.join(process.cwd(), 'src', 'shared')
-  var dest = path.join(process.cwd(), pathToCode, 'node_modules', '@architect', 'shared')
-  var arcFileSrc = path.join(process.cwd(), '.arc')
-  var arcFileDest = path.join(dest, '.arc')
+  let {pathToCode} = params
+  let src = path.join(process.cwd(), 'src', 'shared')
+  let dest = path.join(process.cwd(), pathToCode, 'node_modules', '@architect', 'shared')
+  let arcFileSrc = path.join(process.cwd(), '.arc')
+  let arcFileDest = path.join(dest, '.arc')
 
 
   series([
