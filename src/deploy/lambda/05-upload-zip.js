@@ -1,23 +1,19 @@
-var series = require('run-waterfall')
-var path = require('path')
-var zipit = require('zipit')
-var glob = require('glob')
-var aws = require('aws-sdk')
+let series = require('run-waterfall')
+let aws = require('aws-sdk')
+let zip = require('./_zip-impl')
 
 /**
  * zips and uploads the function to aws
  */
 module.exports = function uploadZip(params, callback) {
-  let {pathToCode, lambda} = params
+  let {
+    pathToCode,
+    lambda,
+  } = params
   series([
     // get a handle on the files to zip
-    function _read(callback) {
-      glob(path.join(process.cwd(), pathToCode, '/*'), callback)
-    },
-    function _zip(files, callback) {
-      zipit({ // FIXME need to investigate faster zip options
-        input: files,
-      }, callback)
+    function _zip(callback) {
+      zip(pathToCode, callback)
     },
     // upload the function
     function _upload(buffer, callback) {
@@ -31,10 +27,10 @@ module.exports = function uploadZip(params, callback) {
         }
         else {
           if (params.tick) params.tick()
-          var lambdaBytes = Buffer.byteLength(buffer, 'utf8')
-          var oneMegInBytes = 1000000
-          var lambdaMegs = (lambdaBytes/oneMegInBytes).toFixed(2)
-          var stats = {name: params.pathToCode, size: `${lambdaMegs} mb`}
+          let lambdaBytes = Buffer.byteLength(buffer, 'utf8')
+          let oneMegInBytes = 1000000
+          let lambdaMegs = (lambdaBytes/oneMegInBytes).toFixed(2)
+          let stats = {name: params.pathToCode, size: `${lambdaMegs} mb`}
           callback(null, stats)
         }
       })
