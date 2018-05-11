@@ -1,13 +1,13 @@
-var assert = require('@smallwins/validate/assert')
-var path = require('path')
-var mkdir = require('mkdirp').sync
-var exec = require('child_process').exec
-var fs = require('fs')
-var cp = fs.copyFileSync
-var print = require('../../_print')
-var getTriggers = require('./_get-triggers')
-var parallel = require('run-parallel')
-var exists = require('path-exists').sync
+let assert = require('@smallwins/validate/assert')
+let path = require('path')
+let mkdir = require('mkdirp').sync
+let fs = require('fs')
+let cp = fs.copyFileSync
+let print = require('../../_print')
+let getTriggers = require('./_get-triggers')
+let parallel = require('run-parallel')
+let exists = require('path-exists').sync
+let install = require('../_install-workflows-and-data')
 
 module.exports = function _createLambdaCode(params, callback) {
 
@@ -16,9 +16,9 @@ module.exports = function _createLambdaCode(params, callback) {
     app: String,
   })
 
-  var name = Object.keys(params.table)[0] // table name
-  var attr = params.table[name]           // table attributes
-  var mthd = getTriggers(attr)            // table triggers or false
+  let name = Object.keys(params.table)[0] // table name
+  let attr = params.table[name]           // table attributes
+  let mthd = getTriggers(attr)            // table triggers or false
 
   // non destructive setup dir
   mkdir('src')
@@ -26,7 +26,7 @@ module.exports = function _createLambdaCode(params, callback) {
 
   if (mthd) {
     // create triggers
-    var fns = mthd.map(method=> {
+    let fns = mthd.map(method=> {
       return function _createTriggerCode(callback) {
         // appname-tablename-insert | src/tables/tablename-insert
         createTrigger(params.app, name, method, callback)
@@ -46,40 +46,30 @@ module.exports = function _createLambdaCode(params, callback) {
 }
 
 function createTrigger(app, table, mthd, callback) {
-  var name = `${table}-${mthd}`
-  //var p = path.join(process.cwd(), 'src', 'tables', name)
-  var base = path.join(process.cwd(), 'src', 'tables', name)
-  var baseExists = exists(base)
+
+  let name = `${table}-${mthd}`
+  let base = path.join(process.cwd(), 'src', 'tables', name)
+  let baseExists = exists(base)
+
   if (baseExists) {
     // skip if that dir exists
     print.skip('@tables', `src/tables/${name}`)
-    callback()
   }
   else {
     console.log(`create: ${base}`)
     mkdir(`src/tables/${name}`)
 
     // write package.json
-    var pathToPkg = path.join(base, 'package.json')
-    var pkg = {
+    let pathToPkg = path.join(base, 'package.json')
+    let pkg = {
       name: `${app}-${name}`
     }
     fs.writeFileSync(pathToPkg, JSON.stringify(pkg, null, 2))
 
     // copy in index.js
-    var index = path.join(__dirname, '..', '..', 'templates', 'table-lambda', `${mthd}.js`)
+    let index = path.join(__dirname, '..', '..', 'templates', 'table-lambda', `${mthd}.js`)
     cp(index, path.join(base, 'index.js'))
-
-    // npm i latest deps in the hello world template
-    exec(`
-      cd ${base} && \
-      npm i @architect/functions @architect/data --save --production
-    `,
-    function _exec(err) {
-      if (err) {
-        console.log(err)
-      }
-      callback()
-    })
   }
+
+  install(base, callback)
 }

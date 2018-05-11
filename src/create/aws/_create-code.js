@@ -5,7 +5,7 @@ let fs = require('fs')
 let cp = fs.copyFileSync
 let print = require('../_print')
 let exists = require('path-exists').sync
-let _setBase = require('./_install-workflows-and-data')
+let install = require('./_install-workflows-and-data')
 
 module.exports = function _createCode(params, callback) {
 
@@ -23,7 +23,6 @@ module.exports = function _createCode(params, callback) {
 
   if (exists(localPath)) {
     print.skip(`@${params.space} code`, `src/${params.space}/${params.idx}`)
-    _setBase(localPath, callback)
   }
   else {
     print.create(`@${params.space} code`, `src/${params.space}/${params.idx}`)
@@ -37,6 +36,8 @@ module.exports = function _createCode(params, callback) {
     mkdir(lambda)
     fs.writeFileSync(pathToPkg, pkg)
     cp(index, path.join(localPath, 'index.js'))
-    _setBase(localPath, callback)
   }
+
+  install(localPath, callback)
+
 }

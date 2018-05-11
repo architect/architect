@@ -1,11 +1,13 @@
 var exists = require('path-exists').sync
 var mkdir = require('mkdirp').sync
-var join = require('path').join
+let path = require('path')
+var join = path.join
 var fs = require('fs')
 var cp = fs.copyFileSync
 var parallel = require('run-parallel')
 var assert = require('@smallwins/validate/assert')
-var exec = require('child_process').exec
+let spawn = require('child_process').spawn
+
 
 /**
  * creates:
@@ -48,14 +50,7 @@ module.exports = function createSlackLambdaCode(params, callback) {
       var name = `${appName}-slack-${botName}-${part}`
       var str = val=> JSON.stringify({name:val}, null, 2)
       fs.writeFileSync(pkg, str(name))
-      exec(`
-        cd ${curr} && \
-        npm i slack @architect/data --production --save && \
-        cd ${home}
-      `,
-      function(){
-        callback()
-      })
+      install(curr, callback)
     }
     else {
       callback()
@@ -70,3 +65,16 @@ module.exports = function createSlackLambdaCode(params, callback) {
   ], callback)
 }
 
+function install(localPath, callback) {
+  let cmd = process.platform.startsWith('win')? 'npm.cmd' : 'npm'
+  let args =  ['i', 'slack', '@architect/data', '--ignore-scripts']
+  let opts = {cwd:localPath, shell:true}
+  let npm = spawn(cmd, args, opts)
+  npm.on('close', function win() {
+    var pathToLocalArcCopy = path.join(localPath, 'node_modules', '@architect', 'shared')
+    mkdir(pathToLocalArcCopy)
+    cp(path.join(process.cwd(), '.arc'), path.join(pathToLocalArcCopy, '.arc'))
+    callback()
+  })
+  npm.on('error', callback)
+}
