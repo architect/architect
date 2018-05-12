@@ -1,5 +1,6 @@
 var regexp = require('../_regexp')
 
+// TODO we may want to look at consolidating some of this logic with events
 // lodash alpha numeric, dashes between one and 50 chars
 module.exports = function slack(arc/*, raw*/) {
   var errors = []
