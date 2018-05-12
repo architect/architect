@@ -1,37 +1,10 @@
-# <kbd>:cloud_with_lightning: `@architect/env`</kbd>
-
-Introduces two new manifest files and one new workflow:
-
-- `.arc-config`
-- `.arc-env`
-- `npm run config`
-
-## Configuration Management
-
-`.arc-confg`
-
-- these are checked in to the lambda itself
-- only options are memory and timeout (for now)
-- scoped under @aws so future configs can be, in theory, cloud agnostic (and YOU KNOW they'll config diff ;)
-
-```arc
-@aws
-memory 512
-timeout 5
-```
-### Workflows
-
-`npm run configure` applies `.arc-config` to all staging and production lambdas in parallel 
-
-(careful!)
-
-
----
+# <kbd>:cloud_with_lightning: `arc-env`</kbd>
 
 ## Environment Variables
 
 Managing sensitive configuration data like API keys needs to happen _outside_ of the codebase in revision control. 
 
+- `npm run env` displays environment variables for the current `.arc`
 - `npm run env testing` displays environment variables for testing (protip: `npm run env testing > .arc-env`)
 - `npm run env --put testing --key FOOBAZ --value somevalue` writes env variable to `testing`
 - `npm run env --delete testing --key FOOBAZ` 
