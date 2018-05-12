@@ -1,12 +1,11 @@
 var regexp = require('../_regexp')
 
 // lodash alpha numeric, dashes between one and 50 chars
-// FIXME this impl is copy/pasted from events
 module.exports = function slack(arc/*, raw*/) {
   var errors = []
   if (arc.slack) {
     var isNotString = v=> typeof v != 'string'
-    var typesOk = Array.isArray(arc.events) && arc.events.filter(isNotString).length === 0
+    var typesOk = Array.isArray(arc.slack) && arc.slack.filter(isNotString).length === 0
     if (!typesOk) {
       errors.push(Error(`@slack invalid`))
     }

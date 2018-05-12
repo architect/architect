@@ -1,3 +1,6 @@
+let aws = require('aws-sdk')
+let ssm = new aws.SSM
+
 ssm.putParameter({
   Name: 'STRING_VALUE', /* required */
   Value: 'STRING_VALUE', /* required */
