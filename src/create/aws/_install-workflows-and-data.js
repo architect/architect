@@ -4,9 +4,9 @@ let mkdir = require('mkdirp').sync
 let fs = require('fs')
 let cp = fs.copyFileSync
 
-module.exports = function _installWorkflowsAndData(localPath, callback) {
+module.exports = function _installFunctionsAndData(localPath, callback) {
   let cmd = process.platform.startsWith('win')? 'npm.cmd' : 'npm'
-  let args =  ['i', '@architect/workflows', '@architect/data', '--ignore-scripts']
+  let args =  ['i', '@architect/functions', '@architect/data', '--ignore-scripts']
   let opts = {cwd:localPath, shell:true}
   let npm = spawn(cmd, args, opts)
   npm.on('close', function win() {
