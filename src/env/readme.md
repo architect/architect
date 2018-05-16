@@ -9,6 +9,7 @@ Managing sensitive configuration data like API keys needs to happen _outside_ of
 - `npm run env testing FOOBAZ somevalue` writes env variable `FOOBAZ=somevalue` for testing env
 - `npm run env remove testing FOOBAZ` 
 - `npm run env verify` display a report of lambdas and their env variables
+- `npm run env sync` ensures env vars are synced to all lambdas defined by `.arc`
 
 Adding and removing variables automatically syncs all lambdas and, if present in the current working directory, `.arc-env`.
 
@@ -16,13 +17,10 @@ Adding and removing variables automatically syncs all lambdas and, if present in
 
 # `.arc-env`
 
-Goal: everything in one file! env var config is painful. The common `.env` file approach doesnt let you speficiy mulitple sets of env vars. It would also be nice to be able to see env vars for testing, staging and production at the same time all in one place.
-
 - never checked in!
 - lives in the root
 - automatically read by `arc-sandbox` and populates `process.env` when `npm start` runs offline
 - CANNOT overwrite `NODE_ENV`, `ARC_APP_NAME` or `SESSION_TABLE_NAME`
-- devs have to figure out how to store/share it themselves (keybase.io maybe?)
 
 ```arc
 # example .arc-env
@@ -35,4 +33,3 @@ GLOBAL_KEY val
 @production
 GLOBAL_KEY val3
 ```
-

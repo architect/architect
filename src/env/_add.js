@@ -23,13 +23,13 @@ module.exports = function _put(appname, params, callback) {
 
   // blow up if something bad happens otherwise write the param
   if (!valid.ns) {
-    callback(Error('invalid argument, --put can only be one of: testing, staging or production'))
+    callback(Error('invalid argument, namespace can only be one of: testing, staging or production'))
   }
   else if (!valid.key) {
-    callback(Error('invalid argument, --key must be all caps (and can contain underscores)'))
+    callback(Error('invalid argument, key must be all caps (and can contain underscores)'))
   }
   else if (!valid.val) {
-    callback(Error('invalid argument, --value must be alphanumeric'))
+    callback(Error('invalid argument, value must be alphanumeric'))
   }
   else {
     let ssm = new aws.SSM
@@ -38,6 +38,10 @@ module.exports = function _put(appname, params, callback) {
       Value: val,
       Type: 'SecureString',
       Overwrite: true
-    }, callback)
+    },
+    function done(err) {
+      if (err) callback(err)
+      else callback()
+    })
   }
 }

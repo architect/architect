@@ -16,7 +16,16 @@ module.exports = function _all(appname, env, callback) {
       callback(err)
     }
     else {
-      callback(null, data)
+      var result = data.Parameters.map(function(param) {
+        let bits = param.Name.split('/')
+        return {
+          env: bits[2],
+          name: bits[3],
+          value: param.Value,
+        }
+      })
+      callback(null, result)
+
     }
   })
 }

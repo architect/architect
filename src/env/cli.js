@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 let chalk = require('chalk')
+let series = require('run-series')
 let parse = require('@architect/parser')
 let fs = require('fs')
 let path = require('path')
@@ -11,6 +12,9 @@ let _one = require('./_one')
 let _add = require('./_add')
 let _remove = require('./_remove')
 let _verify = require('./_verify')
+
+// and a helper
+let _printer = require('./_printer')
 
 try {
   // get the current app name
@@ -33,59 +37,57 @@ try {
   }
 
   if (is.all) {
-    // npm run env ............................. all
-    _all(appname, function allPrinter(err, result) {
-      if (err) {
-        error(err)
-      }
-      else {
-        console.log(result)
-      }
-    })
+    // npm run env ............................ all
+    _all(appname, _printer)
   }
   else if (is.one) {
-    // npm run env testing ..................... one
+    // npm run env testing .................... one
     let env = copy[0]
-    _one(appname, env, function onePrinter(err, result) {
-      if (err) {
-        error(err)
-      }
-      else {
-        console.log(result)
-      }
-    })
+    _one(appname, env, _printer)
   }
   else if (is.verify) {
-    // npm run env verify ...................... verify
-    _verify(appname, function verifyPrinter(err, result) {
-      if (err) {
-        error(err)
-      }
-      else {
-        console.log(result)
-      }
-    })
+    // npm run env verify ..................... verify
+    _verify(appname, x=> !x)
   }
   else if (is.add) {
-    // npm run env testing FOOBAZ somevalue .... put
-    _add(appname, copy, function copyPrinter(err, result) {
-      if (err) {
-        error(err)
-      }
-      else {
-        console.log(result)
-      }
+    // npm run env testing FOOBAZ somevalue ... put
+    series([
+      function removes(callback) {
+        _add(appname, copy, callback)
+      },
+      function prints(callback) {
+        _all(appname, function(err, result) {
+          _printer(err, result)
+          callback()
+        })
+      },
+      function verifys(callback) {
+        _verify(appname, callback)
+      },
+    ],
+    function _removed(err) {
+      if (err) error(err)
     })
   }
   else if (is.remove) {
-    // npm run env remove testing FOOBAZ ....... remove
-    _remove(appname, copy, function delPrinter(err, result) {
-      if (err) {
-        error(err)
-      }
-      else {
-        console.log(result)
-      }
+    // npm run env remove testing FOOBAZ ...... remove
+    // remove/print all/verify all
+    series([
+      function removes(callback) {
+        _remove(appname, copy, callback)
+      },
+      function prints(callback) {
+        _all(appname, function(err, result) {
+          _printer(err, result)
+          callback()
+        })
+      },
+      function verifys(callback) {
+        _verify(appname, callback)
+      },
+    ],
+    function _removed(err) {
+      if (err) error(err)
     })
   }
   else {

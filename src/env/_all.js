@@ -7,16 +7,21 @@ module.exports = function _all(appname, callback) {
     Recursive: true,
     WithDecryption: true
   }
-  /*
-  if (opts.next) {
-    query.NextToken = opts.next
-  }*/
   ssm.getParametersByPath(query, function _query(err, data) {
     if (err) {
       callback(err)
     }
     else {
-      callback(null, data)
+      var result = data.Parameters.map(function(param) {
+        let bits = param.Name.split('/')
+        return {
+          app: bits[0],
+          env: bits[2],
+          name: bits[3],
+          value: param.Value,
+        }
+      })
+      callback(null, result)
     }
   })
 }
