@@ -1,4 +1,5 @@
 let aws = require('aws-sdk')
+let isReserved = require('./_is-reserved')
 
 module.exports = function _put(appname, params, callback) {
 
@@ -17,7 +18,7 @@ module.exports = function _put(appname, params, callback) {
   // the state we expect them in
   let valid = {
     ns: allowed.includes(ns),
-    key: /[A-Z|_]+/.test(key),
+    key: /[A-Z|_]+/.test(key) && !isReserved(key),
     val: /[a-z|0-9]+/.test(val),
   }
 
