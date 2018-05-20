@@ -28,6 +28,7 @@ function(err) {
   }
   else if (err) {
     console.log(chalk.bold.red(`Error`), chalk.bold.white(err.message))
+    console.log(chalk.dim(err.stack))
   }
   else {
     console.log('\n')

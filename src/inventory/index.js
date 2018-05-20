@@ -36,9 +36,15 @@ module.exports = function inventory(arcFilePath, callback) {
 
   // gets an http lambda name
   function getName(tuple) {
-    var verb = tuple[0]
-    var path = tuple[1] === '/'? '-index': tuple[1].replace(/\//g, '-').replace(':', '000')
-    return [`${app}-production-${verb}${path}`, `${app}-staging-${verb}${path}`]
+    if (Array.isArray(tuple)) {
+      var verb = tuple[0]
+      var path = tuple[1] === '/'? '-index': tuple[1].replace(/\//g, '-').replace('.', '-').replace(':', '000')
+      return [`${app}-production-${verb}${path}`, `${app}-staging-${verb}${path}`]
+    }
+    else {
+      var path = tuple.replace(/\//g, '-').replace('.', '-').replace(':', '000')
+      return [`${app}-production-get${path}`, `${app}-staging-get${path}`]
+    }
   }
 
   // get an sns lambda name
@@ -64,6 +70,23 @@ module.exports = function inventory(arcFilePath, callback) {
   if (arc.json) {
     report.lambdas = report.lambdas.concat(arc.json.map(getName).reduce((a,b)=>a.concat(b)))
   }
+
+  if (arc.js) {
+    report.lambdas = report.lambdas.concat(arc.js.map(getName).reduce((a,b)=>a.concat(b)))
+  }
+
+  if (arc.css) {
+    report.lambdas = report.lambdas.concat(arc.css.map(getName).reduce((a,b)=>a.concat(b)))
+  }
+
+  if (arc.text) {
+    report.lambdas = report.lambdas.concat(arc.text.map(getName).reduce((a,b)=>a.concat(b)))
+  }
+
+  if (arc.xml) {
+    report.lambdas = report.lambdas.concat(arc.xml.map(getName).reduce((a,b)=>a.concat(b)))
+  }
+  // TODO arc.jsonapi
 
   if (arc.events) {
     report.lambdas = report.lambdas.concat(arc.events.map(getEventName).reduce((a,b)=>a.concat(b)))

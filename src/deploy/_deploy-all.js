@@ -21,7 +21,7 @@ module.exports = function deployAll(params) {
   waterfall([
     // read all .arc known lambdas in src
     function _globs(callback) {
-      var pattern = 'src/@(html|json|events|scheduled|tables|slack)/*'
+      var pattern = 'src/@(html|css|js|text|xml|json|events|scheduled|tables|slack)/*'
       glob(pattern, callback)
     },
     // create a parallel deployment

@@ -1,7 +1,16 @@
 module.exports = function planner(arc) {
 
   // grab the app name
-  var app = arc.app[0]
+  let app = arc.app[0]
+  let hasAPI = arc.hasOwnProperty('json')    ||
+               arc.hasOwnProperty('html')    ||
+               arc.hasOwnProperty('js')      ||
+               arc.hasOwnProperty('css')     ||
+               arc.hasOwnProperty('text')    ||
+               arc.hasOwnProperty('xml')     ||
+               arc.hasOwnProperty('jsonapi') ||
+               arc.hasOwnProperty('slack')
+
 
   // some default plans
   var plans = [
@@ -9,6 +18,9 @@ module.exports = function planner(arc) {
     {action:'create-shared', app},
   ]
 
+  //
+  // sns events
+  //
   if (arc.events) {
     arc.events.forEach(event=> {
       if (!process.env.ARC_LOCAL) {
@@ -16,6 +28,25 @@ module.exports = function planner(arc) {
         plans.push({action:'create-event-lambda-code', event, app})
       }
       plans.push({action:'create-event-lambda-deployments', event, app})
+    })
+  }
+
+  //
+  // s3 buckets
+  //
+  if (arc.static && !process.env.ARC_LOCAL) {
+    plans.push({action:'create-static-deployments', static:arc.static})
+  }
+
+  //
+  // http lambdas
+  //
+  if (arc.json) {
+    arc.json.forEach(route=> {
+      plans.push({action:'create-json-lambda-code', route, app})
+      if (!process.env.ARC_LOCAL) {
+        plans.push({action:'create-json-lambda-deployments', route, app})
+      }
     })
   }
 
@@ -28,34 +59,65 @@ module.exports = function planner(arc) {
     })
   }
 
-  if (arc.static && !process.env.ARC_LOCAL) {
-    plans.push({action:'create-static-deployments', static:arc.static})
-  }
-
-  // build up a plan for json
-  if (arc.json) {
-    arc.json.forEach(route=> {
-      plans.push({action:'create-json-lambda-code', route, app})
+  if (arc.js) {
+    arc.js.forEach(route=> {
+      plans.push({action:'create-js-lambda-code', route, app})
       if (!process.env.ARC_LOCAL) {
-        plans.push({action:'create-json-lambda-deployments', route, app})
+        plans.push({action:'create-js-lambda-deployments', route, app})
       }
     })
   }
 
-  // html and json are session enabled by default
-  // which means: we create a sessions table by default
-  // (arc-sessions; can override with SESSIONS_TABLE env var)
-  if (!process.env.ARC_DISABLE_SESSION && !process.env.ARC_LOCAL) {
-    var sessions = arc.hasOwnProperty('json') || arc.hasOwnProperty('html')
-    if (sessions) {
-      var table = {
-        'arc-sessions': {
-          _idx: '*String',
-          _ttl: 'TTL'
-        }
+  if (arc.css) {
+    arc.css.forEach(route=> {
+      plans.push({action:'create-css-lambda-code', route, app})
+      if (!process.env.ARC_LOCAL) {
+        plans.push({action:'create-css-lambda-deployments', route, app})
       }
-      plans.push({action:'create-tables', table, app})
+    })
+  }
+
+  if (arc.text) {
+    arc.text.forEach(route=> {
+      plans.push({action:'create-text-lambda-code', route, app})
+      if (!process.env.ARC_LOCAL) {
+        plans.push({action:'create-text-lambda-deployments', route, app})
+      }
+    })
+  }
+
+  if (arc.xml) {
+    arc.xml.forEach(route=> {
+      plans.push({action:'create-xml-lambda-code', route, app})
+      if (!process.env.ARC_LOCAL) {
+        plans.push({action:'create-xml-lambda-deployments', route, app})
+      }
+    })
+  }
+
+  if (arc.jsonapi) {
+    arc.jsonapi.forEach(route=> {
+      plans.push({action:'create-jsonapi-lambda-code', route, app})
+      if (!process.env.ARC_LOCAL) {
+        plans.push({action:'create-jsonapi-lambda-deployments', route, app})
+      }
+    })
+  }
+
+  //
+  // dynamodb tables
+  //
+
+  // Sessions tables are created by default
+  let createSessionTables = hasAPI && !process.env.ARC_DISABLE_SESSION && !process.env.ARC_LOCAL
+  if (createSessionTables) {
+    var table = {
+      'arc-sessions': {
+        _idx: '*String',
+        _ttl: 'TTL',
+      }
     }
+    plans.push({action:'create-tables', table, app})
   }
 
   if (arc.tables && !process.env.ARC_LOCAL) {
@@ -88,36 +150,54 @@ module.exports = function planner(arc) {
     })
   }
 
-   // build up a plan for api gateway
-  var api = arc.hasOwnProperty('json') || arc.hasOwnProperty('html') || arc.hasOwnProperty('slack')
+  //
+  // api gateway
+  //
+  if (hasAPI && !process.env.ARC_LOCAL) {
 
-  // first create api gateway restapis
-  if (api && !process.env.ARC_LOCAL) {
     plans.push({action:'create-routers', app})
-  }
 
-  // kickup any html routes
-  if (arc.html && !process.env.ARC_LOCAL) {
-    arc.html.forEach(route=> {
-      // html is configured for text/html: 200, 302, 403, 404, 500
-      plans.push({action:'create-html-route', route, app})
-    })
-  }
+    if (arc.html) {
+      arc.html.forEach(route=> {
+        plans.push({action:'create-html-route', route, app})
+      })
+    }
+    if (arc.json) {
+      arc.json.forEach(route=> {
+        plans.push({action:'create-json-route', route, app})
+      })
+    }
+    if (arc.slack) {
+      arc.slack.forEach(bot=> {
+        plans.push({action:'create-slack-endpoints', bot, app})
+      })
+    }
+    if (arc.js) {
+      arc.js.forEach(route=> {
+        plans.push({action:'create-js-route', route, app})
+      })
+    }
+    if (arc.css) {
+      arc.css.forEach(route=> {
+        plans.push({action:'create-css-route', route, app})
+      })
+    }
+    if (arc.text) {
+      arc.text.forEach(route=> {
+        plans.push({action:'create-text-route', route, app})
+      })
+    }
+    if (arc.xml) {
+      arc.xml.forEach(route=> {
+        plans.push({action:'create-xml-route', route, app})
+      })
+    }
+    if (arc.jsonapi) {
+      arc.jsonapi.forEach(route=> {
+        plans.push({action:'create-jsonapi-route', route, app})
+      })
+    }
 
-  if (arc.json && !process.env.ARC_LOCAL) {
-    arc.json.forEach(route=> {
-      // json is configured for appplication/json: 200, 201, 403, 404, 500
-      plans.push({action:'create-json-route', route, app})
-    })
-  }
-
-  if (arc.slack && !process.env.ARC_LOCAL) {
-    arc.slack.forEach(bot=> {
-      plans.push({action:'create-slack-endpoints', bot, app})
-    })
-  }
-
-  if (api && !process.env.ARC_LOCAL) {
     // always deploy!
     plans.push({action:'create-router-deployments', app})
   }

@@ -20,7 +20,7 @@ module.exports = function _03setupResponse(params, callback) {
   var {httpMethod, resourceId, restApiId} = params
 
   // possibly a bit clever but statusCode needs to be a string so..
-  var statusCodes = '200 302 403 404 500'.split(' ').map(statusCode=> {
+  var statusCodes = '200 302 400 403 404 406 409 415 500'.split(' ').map(statusCode=> {
     return function _saveResponseBs(callback) {
       waterfall([
         function _saveMthd(callback) {

@@ -15,7 +15,7 @@ module.exports = function report(arc) {
 
   let lambda = new aws.Lambda
   let appname = arc.app[0]
-  let pattern = 'src/@(html|json|events|slack|scheduled|tables)/**/.arc-config'
+  let pattern = 'src/@(html|css|js|text|json|xml|events|slack|scheduled|tables)/**/.arc-config'
 
   glob(pattern, function _glob(err, files) {
     if (err) {

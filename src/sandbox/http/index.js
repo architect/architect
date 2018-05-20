@@ -26,6 +26,10 @@ app.start = function _start(callback) {
   copyArc()
   registerRoutes('json')
   registerRoutes('html')
+  registerRoutes('xml')
+  registerRoutes('text')
+  registerRoutes('js')
+  registerRoutes('css')
   return app.listen(3333, callback)
 }
 
@@ -42,7 +46,7 @@ function registerRoutes(type) {
   var env = exists(envPath)? parse(fs.readFileSync(envPath).toString()) : false
 
   if (arc.hasOwnProperty(type)) {
-    var routes = arc[type]
+    var routes = type === 'js' || type === 'css' || type === 'text'? arc[type].map(t=> ['get', t]) : arc[type]
 
     routes.forEach(r=> {
 
@@ -90,6 +94,26 @@ function registerRoutes(type) {
             res.set('Content-Type', 'text/html');
             res.status(v.statusCode).end(v.html)
           }
+          else if (err && type === 'css') {
+            var v = JSON.parse(err)
+            res.set('Content-Type', 'text/css');
+            res.status(v.statusCode).end(v.css)
+          }
+          else if (err && type === 'js') {
+            var v = JSON.parse(err)
+            res.set('Content-Type', 'text/javascript');
+            res.status(v.statusCode).end(v.js)
+          }
+          else if (err && type === 'text') {
+            var v = JSON.parse(err)
+            res.set('Content-Type', 'text/plain');
+            res.status(v.statusCode).end(v.text)
+          }
+          else if (err && type === 'xml') {
+            var v = JSON.parse(err)
+            res.set('Content-Type', 'application/xml');
+            res.status(v.statusCode).end(v.xml)
+          }
           else if (err) {
             res.status(500).end(err)
           }
@@ -102,6 +126,22 @@ function registerRoutes(type) {
             else if (type === 'html' && result.html) {
               res.set('Content-Type', 'text/html');
               res.end(err? err : result.html)
+            }
+            else if (type === 'js' && result.js) {
+              res.set('Content-Type', 'text/javascript');
+              res.end(err? err : result.js)
+            }
+            else if (type === 'css' && result.css) {
+              res.set('Content-Type', 'text/css');
+              res.end(err? err : result.css)
+            }
+            else if (type === 'text' && result.text) {
+              res.set('Content-Type', 'text/plain');
+              res.end(err? err : result.text)
+            }
+            else if (type === 'xml' && result.xml) {
+              res.set('Content-Type', 'application/xml');
+              res.end(err? err : result.xml)
             }
           }
         })
