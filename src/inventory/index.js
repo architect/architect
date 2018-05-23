@@ -42,7 +42,7 @@ module.exports = function inventory(arcFilePath, callback) {
       return [`${app}-production-${verb}${path}`, `${app}-staging-${verb}${path}`]
     }
     else {
-      var path = tuple.replace(/\//g, '-').replace('.', '-').replace(':', '000')
+      var path = tuple.replace(/\//g, '-').replace('.', '-').replace(/:/g, '000')
       return [`${app}-production-get${path}`, `${app}-staging-get${path}`]
     }
   }
@@ -63,32 +63,32 @@ module.exports = function inventory(arcFilePath, callback) {
     return Object.keys(tbl)[0]
   }
 
-  if (arc.html) {
+  if (arc.html.length > 0) {
     report.lambdas = arc.html.map(getName).reduce((a,b)=>a.concat(b))
   }
 
-  if (arc.json) {
+  if (arc.json.length > 0) {
     report.lambdas = report.lambdas.concat(arc.json.map(getName).reduce((a,b)=>a.concat(b)))
   }
 
-  if (arc.js) {
+  if (arc.js.length > 0) {
     report.lambdas = report.lambdas.concat(arc.js.map(getName).reduce((a,b)=>a.concat(b)))
   }
 
-  if (arc.css) {
+  if (arc.css.length > 0) {
     report.lambdas = report.lambdas.concat(arc.css.map(getName).reduce((a,b)=>a.concat(b)))
   }
 
-  if (arc.text) {
+  if (arc.text.length > 0) {
     report.lambdas = report.lambdas.concat(arc.text.map(getName).reduce((a,b)=>a.concat(b)))
   }
 
-  if (arc.xml) {
+  if (arc.xml.length > 0) {
     report.lambdas = report.lambdas.concat(arc.xml.map(getName).reduce((a,b)=>a.concat(b)))
   }
   // TODO arc.jsonapi
 
-  if (arc.events) {
+  if (arc.events.length > 0) {
     report.lambdas = report.lambdas.concat(arc.events.map(getEventName).reduce((a,b)=>a.concat(b)))
     arc.events.forEach(e=> {
       report.snstopics.push(`${app}-staging-${e}`)
