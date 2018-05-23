@@ -63,32 +63,32 @@ module.exports = function inventory(arcFilePath, callback) {
     return Object.keys(tbl)[0]
   }
 
-  if (arc.html.length > 0) {
+  if (arc.html && arc.html.length > 0) {
     report.lambdas = arc.html.map(getName).reduce((a,b)=>a.concat(b))
   }
 
-  if (arc.json.length > 0) {
+  if (arc.json && arc.json.length > 0) {
     report.lambdas = report.lambdas.concat(arc.json.map(getName).reduce((a,b)=>a.concat(b)))
   }
 
-  if (arc.js.length > 0) {
+  if (arc.js && arc.js.length > 0) {
     report.lambdas = report.lambdas.concat(arc.js.map(getName).reduce((a,b)=>a.concat(b)))
   }
 
-  if (arc.css.length > 0) {
+  if (arc.css && arc.css.length > 0) {
     report.lambdas = report.lambdas.concat(arc.css.map(getName).reduce((a,b)=>a.concat(b)))
   }
 
-  if (arc.text.length > 0) {
+  if (arc.text && arc.text.length > 0) {
     report.lambdas = report.lambdas.concat(arc.text.map(getName).reduce((a,b)=>a.concat(b)))
   }
 
-  if (arc.xml.length > 0) {
+  if (arc.xml && arc.xml.length > 0) {
     report.lambdas = report.lambdas.concat(arc.xml.map(getName).reduce((a,b)=>a.concat(b)))
   }
   // TODO arc.jsonapi
 
-  if (arc.events.length > 0) {
+  if (arc.events && arc.events.length > 0) {
     report.lambdas = report.lambdas.concat(arc.events.map(getEventName).reduce((a,b)=>a.concat(b)))
     arc.events.forEach(e=> {
       report.snstopics.push(`${app}-staging-${e}`)
