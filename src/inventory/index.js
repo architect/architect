@@ -38,7 +38,7 @@ module.exports = function inventory(arcFilePath, callback) {
   function getName(tuple) {
     if (Array.isArray(tuple)) {
       var verb = tuple[0]
-      var path = tuple[1] === '/'? '-index': tuple[1].replace(/\//g, '-').replace('.', '-').replace(':', '000')
+      var path = tuple[1] === '/'? '-index': tuple[1].replace(/\//g, '-').replace('.', '-').replace(/:/g, '000')
       return [`${app}-production-${verb}${path}`, `${app}-staging-${verb}${path}`]
     }
     else {
