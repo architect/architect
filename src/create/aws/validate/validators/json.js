@@ -1,5 +1,5 @@
-var http = require('../_http')
+var rest = require('../_rest')
 
 module.exports = function json(arc, raw) {
-  return http('json', arc, raw)
+  return rest('json', arc, raw)
 }
