@@ -11,8 +11,7 @@ module.exports = function _text(type, arc, raw) {
   if (arc[type]) {
     // text sections are arrays of tuples
     arc[type].forEach(route=> {
-      var path = route[1]
-      var err = validPath(path)
+      var err = validPath(route)
       if (err) {
         errors.push(Err({
           message: `@${type} invalid route`,
@@ -27,8 +26,7 @@ module.exports = function _text(type, arc, raw) {
   return errors
 }
 
-function findLineNumber(tuple, raw) {
-  var search = tuple.join(' ')
+function findLineNumber(search, raw) {
   var lines = raw.split('\n')
   for (var i = 0; i <= lines.length; i++) {
     if (lines[i] && lines[i].startsWith(search)) {

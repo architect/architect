@@ -13,7 +13,7 @@ module.exports = function validPath(p) {
 
   // can have letters, numbers, dashes, slashes and/or :params
   function bads(c) {
-    var allowed = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/:'.split('')
+    var allowed = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/:.'.split('')
     return !allowed.includes(c)
   }
   var bad = p.slice().split('').filter(bads)
