@@ -9,7 +9,8 @@ module.exports = function createRouters(params, callback) {
   })
 
   var gateway = new aws.APIGateway
-  var create = (name, callback)=> gateway.createRestApi({name}, callback)
+  var minimumCompressionSize = 0 // gzip everything by default
+  var create = (name, callback)=> gateway.createRestApi({name, minimumCompressionSize}, callback)
   var skip = (name, callback)=> callback()
   var list = callback=> gateway.getRestApis({}, callback)
   var staging = `${params.app}-staging`
