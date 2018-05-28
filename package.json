@@ -1,6 +1,6 @@
 {
   "name": "@architect/workflows",
-  "version": "2.11.7",
+  "version": "2.11.8",
   "description": "cloud function workflows implemented as npm scripts for creating, deploying, working offline and more",
   "main": "index",
   "bin": {
@@ -24,15 +24,27 @@
     "t": "cross-env NODE_ENV=testing tape 'test/validation/*-test.js' | tap-spec",
     "test": "cross-env NODE_ENV=testing cross-env AWS_PROFILE=smallwins cross-env AWS_REGION=us-west-1 tape test/deploy/test.js | tap-spec"
   },
-  "keywords": [],
+  "keywords": [
+    "aws",
+    "lambda",
+    "amazon",
+    "serverless",
+    "cloud",
+    "cloudfunctions",
+    "apigateway",
+    "dynamodb",
+    "s3",
+    "sns",
+    "api gateway",
+    "framework"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/arc-repos/arc-workflows.git"
   },
   "author": "Brian LeRoux <b@brian.io>",
   "license": "Apache-2.0",
-  "homepage":"https://arc.codes",
-  "keywords": ["aws", "lambda", "amazon", "serverless", "cloud", "cloudfunctions", "apigateway", "dynamodb", "s3", "sns", "api gateway", "framework"],
+  "homepage": "https://arc.codes",
   "dependencies": {
     "@architect/parser": "^1.1.1",
     "@smallwins/validate": "^4.3.0",
