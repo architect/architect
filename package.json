@@ -31,6 +31,7 @@
   },
   "author": "Brian LeRoux <b@brian.io>",
   "license": "Apache-2.0",
+  "homepage":"https://arc.codes",
   "keywords": ["aws", "lambda", "amazon", "serverless", "cloud", "cloudfunctions", "apigateway", "dynamodb", "s3", "sns", "api gateway", "framework"],
   "dependencies": {
     "@architect/parser": "^1.1.1",
