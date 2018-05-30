@@ -7,7 +7,7 @@ function getSome(appname, NextToken, callback) {
   let query = {
     Path: `/${appname}`,
     Recursive: true,
-    MaxResults: 10, 
+    MaxResults: 10,
     WithDecryption: true
   }
   // check if we're paginating
@@ -32,7 +32,7 @@ function getSome(appname, NextToken, callback) {
       }))
       // check for more data and, if so, recurse
       if (data.NextToken) {
-        getSome(appname, data.NextToken, callback) 
+        getSome(appname, data.NextToken, callback)
       }
       else {
         // otherwise callback
