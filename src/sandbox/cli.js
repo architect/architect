@@ -16,6 +16,12 @@ inUse(3333, function _available(err, ok) {
     process.exit(1)
   }
   else {
+    // enforce local guardrails (and more convenient)
+    // this still allows explicit override:
+    // NODE_ENV=staging npx sandbox
+    if (!process.env.hasOwnProperty('NODE_ENV')) {
+      process.env.NODE_ENV = 'testing'
+    }
     start(noop)
   }
 })
