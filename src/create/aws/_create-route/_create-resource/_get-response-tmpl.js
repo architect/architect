@@ -1,10 +1,37 @@
 let fs = require('fs')
 let path = require('path')
 
+/**
+ * vtl is just wow
+ * this helper sets up the integration response expecting a key for the content type
+ * if it does not find that key it looks for errorMessage and displays that as a fallback
+ */
+function ok(type) {
+  if (type === 'json') {
+    return `#if($input.json('$.${type}'))
+$input.json('$.${type}')
+#end
+
+#if($input.path('$.errorMessage'))
+$input.path('$.errorMessage')
+#end`
+  }
+  else {
+    return `#if($input.path('$.${type}'))
+$input.path('$.${type}')
+#end
+
+#if($input.path('$.errorMessage'))
+$input.path('$.errorMessage')
+#end`
+  }
+}
+
+
 function _getHTML(statusCode) {
   var vtl = fs.readFileSync(path.join(__dirname, '_errors-html.vtl')).toString()
   var out = ''
-  if (statusCode === '200') out = `$input.path('$.html')`
+  if (statusCode === '200') out = ok('html')
   if (statusCode === '302') out = `$input.path('$.errorMessage')`
   if (statusCode === '400') out = vtl
   if (statusCode === '403') out = vtl
@@ -21,7 +48,7 @@ function _getHTML(statusCode) {
 function _getJSON(statusCode) {
   var vtl = fs.readFileSync(path.join(__dirname, '_errors-json.vtl')).toString()
   var out = ''
-  if (statusCode === '200') out = "$input.json('$.json')"
+  if (statusCode === '200') out = ok('json')
   if (statusCode === '302') out = "$input.path('$.errorMessage')"
   if (statusCode === '400') out = vtl
   if (statusCode === '403') out = vtl
@@ -40,7 +67,7 @@ let _getJSONAPI = _getJSON
 function _getText(statusCode) {
   var vtl = '$errorMessageObj.text'
   var out = ''
-  if (statusCode === '200') out = "$input.path('$.text')"
+  if (statusCode === '200') out = ok('text')
   if (statusCode === '302') out = "$input.path('$.errorMessage')"
   if (statusCode === '400') out = vtl
   if (statusCode === '403') out = vtl
@@ -57,7 +84,7 @@ function _getText(statusCode) {
 function _getXML(statusCode) {
   var vtl = '$errorMessageObj.xml'
   var out = ''
-  if (statusCode === '200') out = "$input.path('$.xml')"
+  if (statusCode === '200') out = ok('xml')
   if (statusCode === '302') out = "$input.path('$.errorMessage')"
   if (statusCode === '400') out = vtl
   if (statusCode === '403') out = vtl
@@ -74,7 +101,7 @@ function _getXML(statusCode) {
 function _getCSS(statusCode) {
   var vtl = '$errorMessageObj.css'
   var out = ''
-  if (statusCode === '200') out = "$input.path('$.css')"
+  if (statusCode === '200') out = ok('css')
   if (statusCode === '302') out = "$input.path('$.errorMessage')"
   if (statusCode === '400') out = vtl
   if (statusCode === '403') out = vtl
@@ -91,7 +118,7 @@ function _getCSS(statusCode) {
 function _getJS(statusCode) {
   var vtl = '$errorMessageObj.js'
   var out = ''
-  if (statusCode === '200') out = "$input.path('$.js')"
+  if (statusCode === '200') out = ok('js')
   if (statusCode === '302') out = "$input.path('$.errorMessage')"
   if (statusCode === '400') out = vtl
   if (statusCode === '403') out = vtl

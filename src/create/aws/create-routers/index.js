@@ -2,17 +2,28 @@ var aws = require('aws-sdk')
 var assert = require('@smallwins/validate/assert')
 var parallel = require('run-parallel')
 
+function create(name, callback) {
+  var gateway = new aws.APIGateway
+  gateway.createRestApi({
+    name,  
+    //minimumCompressionSize: 0
+  }, callback)
+}
+
+function list(callback) {
+  var gateway = new aws.APIGateway
+  gateway.getRestApis({
+    limit: 500,
+  }, callback)
+}
+
 module.exports = function createRouters(params, callback) {
 
   assert(params, {
     app: String,
   })
 
-  var gateway = new aws.APIGateway
-  var minimumCompressionSize = 0 // gzip everything by default
-  var create = (name, callback)=> gateway.createRestApi({name, minimumCompressionSize}, callback)
   var skip = (name, callback)=> callback()
-  var list = callback=> gateway.getRestApis({}, callback)
   var staging = `${params.app}-staging`
   var production = `${params.app}-production`
 
@@ -36,7 +47,9 @@ module.exports = function createRouters(params, callback) {
           console.log(err)
           callback(err)
         }
-        callback()
+        else {
+          callback()
+        }
       })
     }
   })
