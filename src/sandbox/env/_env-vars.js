@@ -6,9 +6,25 @@ let chalk = require('chalk')
 
 module.exports = function _setupEnv(callback) {
 
-  // force local db for sessions if NODE_ENV is testing
+  let arcPath = join(process.cwd(), '.arc')
+  let raw = read(arcPath).toString()
+  let arc = parse(raw)
+  let name = arc.app[0]
+
+  // populate ARC_APP_NAME (used by @architect/functions event.publish)
+  process.env.ARC_APP_NAME = name
+
+  // populate SESSION_TABLE_NAME (used by @architect/functions http functions)
   if (process.env.NODE_ENV === 'testing') {
     process.env.SESSION_TABLE_NAME = 'arc-sessions'
+  }
+
+  if (process.env.NODE_ENV === 'staging') {
+    process.env.SESSION_TABLE_NAME = `${name}-staging-arc-sessions`
+  }
+
+  if (process.env.NODE_ENV === 'production') {
+    process.env.SESSION_TABLE_NAME = `${name}-production-arc-sessions`
   }
 
   // interpolate arc-env

@@ -9,6 +9,7 @@
     "arc-deploy": "./src/deploy/cli.js",
     "arc-dns": "./src/dns/cli.js",
     "arc-env": "./src/env/cli.js",
+    "arc-hydrate": "./src/hydrate/cli.js",
     "arc-inventory": "./src/inventory/cli.js",
     "arc-sandbox": "./src/sandbox/cli.js",
     "config": "./src/config/cli.js",
@@ -16,6 +17,7 @@
     "deploy": "./src/deploy/cli.js",
     "dns": "./src/dns/cli.js",
     "env": "./src/env/cli.js",
+    "hydrate": "./src/hydrate/cli.js",
     "inventory": "./src/inventory/cli.js",
     "sandbox": "./src/sandbox/cli.js"
   },
