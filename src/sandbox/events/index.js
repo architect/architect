@@ -7,6 +7,9 @@ let chalk = require('chalk')
 
 module.exports = {start}
 
+/**
+ * creates a little web server that listens for events on 3334
+ */
 function start(callback) {
 
   let arcPath = path.join(process.cwd(), '.arc')
@@ -19,7 +22,7 @@ function start(callback) {
     let server = http.createServer(function listener(req, res) {
       let body = ''
       req.on('data', chunk => {
-        body += chunk.toString() // convert Buffer to string
+        body += chunk.toString()
       })
       req.on('end', () => {
         console.log(chalk.grey.dim('@event'), chalk.green.dim(JSON.stringify(JSON.parse(body), null, 2)))
@@ -37,6 +40,9 @@ function start(callback) {
     close = server.close
     // start listening on 3334
     server.listen(3334, callback ? callback: x=>!x)
+  }
+  else {
+    callback()
   }
   return {close}
 }

@@ -36,6 +36,42 @@ function init(callback) {
        })
     })
 
+    plans.push(function _createBackUpSessions(callback) {
+      var attr = {_idx: '*String'}
+      var keys = Object.keys(clean(attr))
+      dynamo.createTable({
+         TableName: `${app}-staging-arc-sessions`,
+         AttributeDefinitions: getAttributeDefinitions(attr),
+         KeySchema: getKeySchema(attr, keys),
+         ProvisionedThroughput: {
+           ReadCapacityUnits: 5,
+           WriteCapacityUnits: 5
+         }
+       },
+       function _create() {
+         // deliberately swallow the error: if it exists already thats ok (this is all in memory)
+         callback()
+       })
+    })
+
+    plans.push(function _createBackUpSessions(callback) {
+      var attr = {_idx: '*String'}
+      var keys = Object.keys(clean(attr))
+      dynamo.createTable({
+         TableName: `${app}-production-arc-sessions`,
+         AttributeDefinitions: getAttributeDefinitions(attr),
+         KeySchema: getKeySchema(attr, keys),
+         ProvisionedThroughput: {
+           ReadCapacityUnits: 5,
+           WriteCapacityUnits: 5
+         }
+       },
+       function _create() {
+         // deliberately swallow the error: if it exists already thats ok (this is all in memory)
+         callback()
+       })
+    })
+
     if (arc.tables) {
       // kludge; pass ALL indexes into createTable to sort out
       var indexes = arc.indexes || []

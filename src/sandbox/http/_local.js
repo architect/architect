@@ -1,3 +1,6 @@
+/**
+ * mocks a lambda.. not much to it eh!
+ */
 module.exports = function local(fn, event, callback) {
   var context = {
     succeed(x) {
@@ -9,4 +12,3 @@ module.exports = function local(fn, event, callback) {
   }
   fn(event, context, callback)
 }
-

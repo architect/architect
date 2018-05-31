@@ -1,9 +1,13 @@
-var http = require('./http')
-var db = require('./db')
-var start = require('./start')
+let db = require('./db')
+let env = require('./env')
+let events = require('./events')
+let http = require('./http')
+let start = require('./start')
 
 module.exports = {
-  http,
   db,
+  env,
+  events,
+  http,
   start,
 }
