@@ -5,7 +5,7 @@ var parallel = require('run-parallel')
 function create(name, callback) {
   var gateway = new aws.APIGateway
   gateway.createRestApi({
-    name,  
+    name,
     //minimumCompressionSize: 0
   }, callback)
 }
