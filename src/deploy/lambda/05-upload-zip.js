@@ -17,7 +17,8 @@ module.exports = function uploadZip(params, callback) {
     },
     // upload the function
     function _upload(buffer, callback) {
-      (new aws.Lambda).updateFunctionCode({
+      let l = new aws.Lambda({region: process.env.AWS_REGION})
+      l.updateFunctionCode({
         FunctionName: lambda,
         ZipFile: buffer
       },
