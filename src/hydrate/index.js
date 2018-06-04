@@ -72,7 +72,7 @@ function _install(pathToCode, callback) {
   let cwd = path.join(process.cwd(), pathToCode)
   let win = process.platform.startsWith('win')
   let cmd = win? 'npm.cmd' : 'npm'
-  let args = ['ci', '--ignore-scripts']
+  let args = ['i', '--ignore-scripts']
   let options = {cwd, shell:true}
   let subprocess = spawn(cmd, args, options)
   // one tick for opening the process
