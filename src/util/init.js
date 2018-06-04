@@ -69,8 +69,10 @@ module.exports = function credentials(callback) {
   if (!process.env.AWS_PROFILE)
     err('missing AWS_PROFILE in environment')
 
-  let nodeMajorOk = Number(process.version.replace('v', '').split('.')[0]) >= 8
-  let nodeMinorOk =  Number(process.version.replace('v', '').split('.')[1]) >= 10
+  let nodeVersionArr = process.version.replace('v', '').split('.').map(Number);
+  let nodeMajorOk = nodeVersionArr[0] >= 8
+  let nodeMinorOk = nodeVersionArr[0] > 8 || nodeVersionArr[1] >= 10
+
   if (!(nodeMajorOk && nodeMinorOk))
     err(`Node@${process.version} is not valid; must be 8.10 or higher`)
 
