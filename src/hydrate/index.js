@@ -35,29 +35,32 @@ function _initDeps(installing, callback) {
     }
   },
   function _glob(err, both) {
-    if (err) throw err
-    // clean up shared removing 'package.json' and paths that include node_modules
-    let shared = both.shared.map(p=> p.replace('package.json', '')).filter(e=> !e.includes('node_modules'))
-    let results = [].concat(both.lambdas).concat(shared)
-    // two ticks per install/update
-    let total = results.length*2
-    let width = 30
-    let complete = '\u001b[46m \u001b[0m'
-    let incomplete = '\u001b[40m \u001b[0m'
-    let clear = true
-    bar = new progress(`${banner} :bar`, {total, width, complete, incomplete, clear})
-    // exec the fn in parallel across all folders
-    parallel(results.map(pathToCode=> {
-      return function _install(callback) {
-        exec(pathToCode, callback)
-      }
-    }),
-    function(err) {
-      if (err) throw err
-      let ts = Date.now() - start
-      console.log(chalk.grey(chalk.cyan('✓'), `Success ${ts}ms`))
-      callback()
-    })
+    if (err)  {
+      callback(err)
+    }// clean up shared removing 'package.json' and paths that include node_modules
+    else {
+      let shared = both.shared.map(p=> p.replace('package.json', '')).filter(e=> !e.includes('node_modules'))
+      let results = [].concat(both.lambdas).concat(shared)
+      // two ticks per install/update
+      let total = results.length*2
+      let width = 30
+      let complete = '\u001b[46m \u001b[0m'
+      let incomplete = '\u001b[40m \u001b[0m'
+      let clear = true
+      bar = new progress(`${banner} :bar`, {total, width, complete, incomplete, clear})
+      // exec the fn in parallel across all folders
+      parallel(results.map(pathToCode=> {
+        return function _install(callback) {
+          exec(pathToCode, callback)
+        }
+      }),
+      function(err) {
+        if (err) throw err
+        let ts = Date.now() - start
+        console.log(chalk.grey(chalk.cyan('✓'), `Success ${ts}ms`))
+        callback()
+      })
+    }
   })
 }
 
