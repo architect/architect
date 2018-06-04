@@ -28,30 +28,13 @@ test('setup', t=> {
   console.log(process.cwd())
 })
 
-test('plan', t=> {
-  t.plan(1)
-  create({
-    arcFile: path.join(process.cwd(), '.arc'),
-    execute: false
-  },
-  function _ran(err, plans) {
-    if (err) {
-      t.fail(err)
-    }
-    else {
-      t.ok(plans, 'got plans')
-      console.log(JSON.stringify(plans, null, 2))
-    }
-  })
-})
 
 test('exec', t=> {
+  let arcPath = path.join(process.cwd(), '.arc')
+  let raw = fs.readFileSync(arcPath).toString()
+  let arc = parse(raw)
   t.plan(1)
-  create({
-    arcFile: path.join(process.cwd(), '.arc'),
-    execute: true
-  },
-  function _ran(err) {
+  create(arc, raw, function _ran(err) {
     if (err) {
       t.fail(err)
     }

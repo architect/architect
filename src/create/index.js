@@ -30,11 +30,12 @@ module.exports = function create(arc, raw, callback) {
       callback(null, {arc, plans})
     }
   ],
-  function _done(err, {arc, plans}) {
+  function _done(err, result) {
     if (err) {
       callback(err)
     }
     else {
+      let {arc, plans} = result
       exec(plans, function _exec(err, data) {
         if (err) {
           callback(err)
