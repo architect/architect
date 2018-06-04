@@ -2,6 +2,7 @@ var aws = require('aws-sdk')
 var chalk = require('chalk')
 var assert = require('@smallwins/validate/assert')
 var parallel = require('run-parallel')
+let stop = require('../../_print').stop
 
 module.exports = function createRouters(params, callback) {
 
@@ -53,17 +54,17 @@ module.exports = function createRouters(params, callback) {
       ],
       function _create(err, urls) {
         if (err) {
+          stop()
           callback(err)
         }
         else {
+          stop()
           if (urls.length === 2) {
-            console.log('\n')
-            console.log(chalk.cyan.dim('successfully deployed'))
+            console.log(chalk.green.dim('✓'), chalk.cyan.dim('Successfully deployed'))
             urls.forEach(url=> {
               var pretty = chalk.cyan.underline(url)
               console.log(pretty)
             })
-            console.log('\n')
           }
           callback()
         }

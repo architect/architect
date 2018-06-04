@@ -1,50 +1,42 @@
 #!/usr/bin/env node
-var parse = require('@architect/parser')
 var chalk = require('chalk')
-var exists = require('path-exists').sync
-var path = require('path')
-var fs = require('fs')
+let init = require('../util/init')
 
 var deployOne = require('./_deploy-one')
 var deployAll = require('./_deploy-all')
 var _progress = require('./_progress')
 
-// common understandings
-var start = Date.now()
-let pathToArc = path.join(process.cwd(), '.arc')
+init(function _init(err, arc) {
 
-// bail if .arc isn't there
-let arcExists = exists(pathToArc)
-if (!arcExists) {
-  console.log(chalk.red('missing .arc file'))
-  process.exit(1)
-}
+  // deploy to staging by default
+  let env = (process.env.ARC_DEPLOY === 'production')? 'production' : 'staging'
+  let start = Date.now()
+  let isAll = process.argv.length === 2
 
-// deploy to staging by default
-let env = (process.env.ARC_DEPLOY === 'production')? 'production' : 'staging'
-let arc = parse(fs.readFileSync(pathToArc).toString())
-let isAll = process.argv.length === 2
-
-if (isAll) {
-  // deploy everything in ./src to lambda and ./.static to s3
-  deployAll({
-    env,
-    arc,
-    start,
-  })
-}
-else {
-  // otherwise deploy whatever the last arg was (a src/path/to/lambda or static)
-  var pathToCode = process.argv[2]
-  var name = chalk.green.dim(`Deploying ${pathToCode}`)
-  var total = 7 // magic number of steps in src
-  var progress = _progress({name, total})
-  var tick = ()=> progress.tick()
-  deployOne({
-    env,
-    arc,
-    pathToCode,
-    tick,
-    start,
-  })
-}
+  if (err) {
+    console.log(err)
+  }
+  else if (isAll) {
+    // deploy everything in ./src to lambda and ./.static to s3
+    deployAll({
+      env,
+      arc,
+      start,
+    })
+  }
+  else {
+    // otherwise deploy whatever the last arg was (a src/path/to/lambda or static)
+    var pathToCode = process.argv[2]
+    var name = chalk.green.dim(`Deploying ${pathToCode}`)
+    var total = 7 // magic number of steps in src
+    var progress = _progress({name, total})
+    var tick = ()=> progress.tick()
+    deployOne({
+      env,
+      arc,
+      pathToCode,
+      tick,
+      start,
+    })
+  }
+})

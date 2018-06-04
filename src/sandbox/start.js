@@ -4,9 +4,7 @@ let env = require('./env')
 let events = require('./events')
 let http = require('./http')
 let series = require('run-series')
-let fs = require('fs')
-let path = require('path')
-let parse = require('@architect/parser')
+let init = require('../util/init')
 
 module.exports = function start(callback) {
   let client
@@ -15,13 +13,10 @@ module.exports = function start(callback) {
   series([
     // hulk smash
     function _banner(callback) {
-      let raw = fs.readFileSync(path.join(process.cwd(), '.arc')).toString()
-      let arc = parse(raw)
-      let name = arc.app[0]
-      // display the @app name as the sandbox banner
-      console.log('')
-      console.log(chalk.bgCyan.black(` ${name} `), '\n')
-      callback()
+      init(function _init(err) {
+        if (err) callback(err)
+        else callback()
+      })
     },
     function _db(callback) {
       // start dynalite with tables enumerated in .arc

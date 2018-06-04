@@ -1,21 +1,30 @@
-var assert = require('@smallwins/validate/assert')
-var waterfall = require('run-waterfall')
-var listCerts = require('./00-list-certs')
-var verifyCerts = require('./01-verify-certs')
-var ensureCerts = require('./02-ensure-certs')
-var createHostedZone = require('./03-create-hosted-zone')
-var createDomain = require('./04-create-domain')
-var createMapping = require('./05-create-mapping')
-var createAlias = require('./06-create-alias')
-var success = require('./_success')
+let assert = require('@smallwins/validate/assert')
+let waterfall = require('run-waterfall')
+let listCerts = require('./00-list-certs')
+let verifyCerts = require('./01-verify-certs')
+let ensureCerts = require('./02-ensure-certs')
+let createHostedZone = require('./03-create-hosted-zone')
+let createDomain = require('./04-create-domain')
+let createMapping = require('./05-create-mapping')
+let createAlias = require('./06-create-alias')
+let success = require('./_success')
+let _init = require('../util/init')
+
+function init(callback) {
+  _init(function __init(err) {
+    if (err) callback(err)
+    else callback()
+  })
+}
 
 function dns(params, callback) {
   assert(params, {
     domain: String,
     app: String,
   })
-  var {domain, app} = params
+  let {domain, app} = params
   waterfall([
+    init,
     listCerts.bind({}, domain),
     verifyCerts.bind({}, domain),
     ensureCerts.bind({}, domain),
@@ -30,7 +39,7 @@ function dns(params, callback) {
 module.exports = dns
 
 if (require.main === module) {
-  var app = 'testapp'
-  var domain = 'wut.click'
+  let app = 'testapp'
+  let domain = 'wut.click'
   dns({app, domain}, console.log)
 }

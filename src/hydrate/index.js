@@ -26,15 +26,16 @@ function _initDeps(installing, callback) {
     lambdas(callback) {
       // all the lambda folders
       let pattern = 'src/@(html|css|js|text|xml|json|events|scheduled|tables|slack)/*'
-      glob(pattern, callback) 
+      glob(pattern, callback)
     },
     shared(callback) {
       // any folders under shared with package.json
       let pattern = 'src/shared/**/*/package.json'
-      glob(pattern, callback) 
+      glob(pattern, callback)
     }
-  }, 
+  },
   function _glob(err, both) {
+    if (err) throw err
     // clean up shared removing 'package.json' and paths that include node_modules
     let shared = both.shared.map(p=> p.replace('package.json', '')).filter(e=> !e.includes('node_modules'))
     let results = [].concat(both.lambdas).concat(shared)

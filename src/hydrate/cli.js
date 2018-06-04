@@ -20,15 +20,19 @@
  *   npx hydrate update
  *
  */
+let init = require('../util/init')
 let hydrate = require('.')
 let noop = x=> !x
 let isUpdating = process.argv.slice(0).reverse()[0] === 'update'
-if (isUpdating) {
-  // update everything to latest
-  // npm update --no-scripts (for all lambdas in src)
-  hydrate.update(noop)
-}
-else {
-  // installing: npm ci --no-scripts (for all lambdas in src)
-  hydrate.install(noop)
-}
+init(function _init(err) {
+  if (err) throw err
+  if (isUpdating) {
+    // update everything to latest
+    // npm update --no-scripts (for all lambdas in src)
+    hydrate.update(noop)
+  }
+  else {
+    // installing: npm ci --no-scripts (for all lambdas in src)
+    hydrate.install(noop)
+  }
+})

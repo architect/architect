@@ -1,14 +1,18 @@
 #!/usr/bin/env node
-let path = require('path')
+let init = require('../util/init')
 let inventory = require('.')
-let arcFile = path.join(process.cwd(), '.arc')
 let chalk = require('chalk')
 let _local = require('./_local')
 let _verify = require('./_verify')
 let _nuke = require('./_nuke')
 let _nukeTables = require('./_nuke-tables')
+let waterfall = require('run-waterfall')
 
-inventory(arcFile, function _inventory(err, result) {
+waterfall([
+  init,
+  inventory,
+],
+function _inventory(err, result) {
   if (err) {
     console.log(chalk.bold.red('Error'), chalk.bold.white(err.message))
     process.exit(1)

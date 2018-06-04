@@ -1,4 +1,51 @@
-var chalk = require('chalk')
+let chalk = require('chalk')
+let _log = require('log-update')
+let running = false
+let text = ''
+
+function log(txt) {
+  text = txt
+  let frames = [
+    "⢹",
+    "⢺",
+    "⢼",
+    "⣸",
+    "⣇",
+    "⡧",
+    "⡗",
+    "⡏",
+    "⠈",
+    "⠉",
+    "⠋",
+    "⠓",
+    "⠒",
+    "⠐",
+    "⠐",
+    "⠒",
+    "⠖",
+    "⠦",
+    "⠤",
+    "⠠",
+    "⠠",
+    "⠤",
+    "⠦",
+    "⠖",
+    "⠒",
+    "⠐",
+    "⠐",
+    "⠒",
+    "⠓",
+    "⠋",
+    "⠉",
+    "⠈"
+  ]
+  let i = 0
+  if (!running) {
+    running = setInterval(function() {
+      _log(`${chalk.green(frames[i = ++i % frames.length])} ${text}`)
+    }, 80)
+  }
+}
 
 /**
  * pretty print stuff to stdout
@@ -6,17 +53,22 @@ var chalk = require('chalk')
 module.exports = {
 
   skip(section, resource) {
-    var skip = chalk.dim('skip')
-    var sect = chalk.dim(section)
+    var skip = chalk.grey('skip')
+    var sect = chalk.grey(section)
     var item = chalk.dim.cyan(resource)
-    var exis = chalk.dim('exists')
-    console.log(`${skip} ${sect} ${item} ${exis}`)
+    var exis = chalk.grey('exists')
+    log(`${skip} ${sect} ${item} ${exis}`)
   },
 
   create(section, resource) {
     var skip = chalk.green('create')
     var sect = chalk.grey(section)
     var item = chalk.bold.blue(resource)
-    console.log(`${skip} ${sect} ${item}`)
+    log(`${skip} ${sect} ${item}`)
+  },
+
+  stop() {
+    _log('')
+    clearInterval(running)
   }
 }

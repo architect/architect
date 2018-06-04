@@ -1,6 +1,3 @@
-let parse = require('@architect/parser')
-let fs = require('fs')
-
 /**
  * {
  *   app,
@@ -16,9 +13,8 @@ let fs = require('fs')
  *   TODO cloudwatch rules
  * }
  */
-module.exports = function inventory(arcFilePath, callback) {
+module.exports = function inventory(arc, raw, callback) {
 
-  let arc = parse(fs.readFileSync(arcFilePath).toString())
   let app = arc.app[0]
 
   let report = {

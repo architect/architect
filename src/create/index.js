@@ -1,34 +1,25 @@
-var fs = require('fs')
+/* eslint global-require:"off" */
 var waterfall = require('run-waterfall')
-var assert = require('@smallwins/validate/assert')
-var parse = require('@architect/parser')
-var validate = require('./aws/validate')
-var planner = require('./aws/planner')
-var beforeCreate = require('./before-create')
-var afterCreate = require('./after-create')
+var validate = require('./validate')
+var planner = require('./_planner')
 var exec = require('./_exec')
+var runPluginFunction = require('../util/runPluginFunction')
 
-// {arcFile:'path/to/.arc', execute:false} returns .arc execution plan
-// {arcFile:'path/to/.arc', execute:true} runs .arc execution plan
-module.exports = function generate(params, callback) {
+function afterCreate(params, callback) {
+  runPluginFunction(params, 'afterCreate')
+    .then(() => callback())
+    .catch(callback)
+}
 
-  // validates programmer input
-  assert(params, {
-    arcFile: String,
-    execute: Boolean
-  })
+function beforeCreate(params, callback) {
+  runPluginFunction(params, 'beforeCreate')
+    .then(() => callback())
+    .catch(callback)
+}
 
-  // read, parse, validate, plan and possibly execute
+module.exports = function create(arc, raw, callback) {
   waterfall([
-    function _arcFileRead(callback) {
-      fs.readFile(params.arcFile, callback)
-    },
-    function _arcFileParse(buffer, callback) {
-      var raw = buffer.toString()
-      var arc = parse(raw)
-      callback(null, arc, raw)
-    },
-    function _arcFileValid(arc, raw, callback) {
+    function _arcFileValid(callback) {
       validate(arc, raw, callback)
     },
     function _beforeCreate(arc, callback) {
@@ -39,12 +30,11 @@ module.exports = function generate(params, callback) {
       callback(null, {arc, plans})
     }
   ],
-  function _done(err, result) {
+  function _done(err, {arc, plans}) {
     if (err) {
       callback(err)
     }
-    else if (params.execute) {
-      var {arc, plans} = result
+    else {
       exec(plans, function _exec(err, data) {
         if (err) {
           callback(err)
@@ -53,10 +43,6 @@ module.exports = function generate(params, callback) {
           afterCreate({arc}, err=> callback(err, data))
         }
       })
-    }
-    else {
-      var {arc, plans} = result
-      afterCreate({arc}, err=> callback(err, plans))
     }
   })
 }

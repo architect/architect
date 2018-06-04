@@ -8,13 +8,13 @@ var _getUrl = require('./lambda/_get-url')
 module.exports = function _report(params, callback) {
   var {results, env, arc, start, stats} = params
   var end = Date.now()
-  var h1 = `Success!`
+  var h1 = `✓ Success!`
   var h1a = ` Deployed ${results.length} Lambdas in `
   var h1b = `${(end - start)/1000}s`
   var title = chalk.green(h1) + chalk.green.dim(h1a) + chalk.green(h1b)
   console.log(title)
   var hr = ''
-  for (var i = 0; i < (h1.length + h1a.length + h1b.length); i++) hr += '-'
+  //for (var i = 0; i < (h1.length + h1a.length + h1b.length); i++) hr += '-'
   console.log(chalk.cyan.dim(hr))
   var longest = 0
   var longestName = 0

@@ -1,8 +1,8 @@
-var create = require('./src/create')
-var deploy = require('./src/deploy')
-var dns = require('./src/dns')
-var env = require('./src/env')
-var sandbox = require('./src/sandbox')
+let create = require('./src/create')
+let deploy = require('./src/deploy')
+let dns = require('./src/dns')
+let env = require('./src/env')
+let sandbox = require('./src/sandbox')
 
 module.exports = {
   create, deploy, dns, env, sandbox
