@@ -1,10 +1,9 @@
-var assert = require('@smallwins/validate/assert')
-var chalk = require('chalk')
-var mkdir = require('mkdirp').sync
-var path = require('path')
-var fs = require('fs')
-//var waterfall = require('run-waterfall')
-var copyToS3 = require('./_copy-to-s3')
+let assert = require('@smallwins/validate/assert')
+let chalk = require('chalk')
+let mkdir = require('mkdirp').sync
+let path = require('path')
+let fs = require('fs')
+let copyToS3 = require('./_copy-to-s3')
 
 module.exports = function deploy(params, callback) {
 
@@ -13,12 +12,12 @@ module.exports = function deploy(params, callback) {
     arc: Object,
   })
 
-  var ignore = !params.arc.static
+  let ignore = !params.arc.static
   if (ignore) {
     callback()
   }
   else {
-    var pathToStatic = path.join(process.cwd(), '.static')
+    let pathToStatic = path.join(process.cwd(), '.static')
     // create .static if it does exist
     mkdir(pathToStatic)
     // see if there are files in .static
@@ -29,9 +28,9 @@ module.exports = function deploy(params, callback) {
         callback()
       }
       else {
-        var index = params.env === 'staging'? 0 : 1
-        var bucket = params.arc.static[index][1]
-        var upload = copyToS3(bucket, callback)
+        let index = params.env === 'staging'? 0 : 1
+        let bucket = params.arc.static[index][1]
+        let upload = copyToS3(bucket, callback)
         upload()
       }
     })
