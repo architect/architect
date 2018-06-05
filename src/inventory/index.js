@@ -59,6 +59,7 @@ module.exports = function inventory(arc, raw, callback) {
     return Object.keys(tbl)[0]
   }
 
+
   if (arc.html && arc.html.length > 0) {
     report.lambdas = arc.html.map(getName).reduce((a,b)=>a.concat(b))
   }
@@ -121,6 +122,12 @@ module.exports = function inventory(arc, raw, callback) {
         report.lambdas.push(`${app}-staging-${tablename}-${q}`)
       })
     })
+  }
+
+  let hasApi = arc.html || arc.js || arc.css || arc.text || arc.json || arc.xml
+  if (hasApi) {
+    report.tables.push(`${app}-staging-arc-sessions`)
+    report.tables.push(`${app}-production-arc-sessions`)
   }
 
   if (arc.static) {
