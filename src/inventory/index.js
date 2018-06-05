@@ -11,6 +11,7 @@
  *   TODO @domain certs
  *   TODO @domain recordsets
  *   TODO cloudwatch rules
+ *   TODO add SSM Params used by env
  * }
  */
 module.exports = function inventory(arc, raw, callback) {
