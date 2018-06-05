@@ -6,7 +6,7 @@ function create(name, callback) {
   var gateway = new aws.APIGateway
   gateway.createRestApi({
     name,
-    //minimumCompressionSize: 0
+    minimumCompressionSize: 0
   }, callback)
 }
 
