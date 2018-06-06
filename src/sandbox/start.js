@@ -8,7 +8,6 @@ let init = require('../util/init')
 
 module.exports = function start(callback) {
   let client
-  let server
   let bus
   series([
     // hulk smash
