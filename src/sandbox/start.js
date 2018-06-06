@@ -40,7 +40,7 @@ module.exports = function start(callback) {
     },
     function _http(callback) {
       // vanilla af http server that mounts routes defined by .arc
-      server = http.start(function() {
+      http.start(function() {
         let start = chalk.grey('\n', chalk.green.dim('✓'), 'Started HTTP "server" @ ')
         let end = chalk.cyan.underline('http://localhost:3333')
         console.log(`${start} ${end}`)
@@ -52,7 +52,7 @@ module.exports = function start(callback) {
     if (err) throw err
     function end() {
       client.close()
-      server.close()
+      http.close()
       bus.close()
     }
     // return a function to shut everything down if this is beinng used as a module for testing

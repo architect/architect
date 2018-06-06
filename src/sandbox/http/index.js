@@ -54,6 +54,7 @@ app.start = function start(callback) {
 
   // TODO make port configurable
   server.listen(3333, callback)
+  return app
 }
 
 app.close = function close() {
