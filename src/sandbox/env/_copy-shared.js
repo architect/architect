@@ -12,7 +12,7 @@ module.exports = function _shared(callback) {
 
   let src = path.join(process.cwd(), 'src', 'shared')
   let files = glob.sync(src + '/**/*', {dot:true})
-  let paths = glob.sync('src/@(html|json|events|scheduled|tables|slack)/*')
+  let paths = glob.sync('src/@(html|json|js|css|events|scheduled|tables|slack)/*')
 
   files.forEach(f=> {
     paths.forEach(pathToCode=> {
