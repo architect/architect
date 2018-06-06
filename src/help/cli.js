@@ -29,7 +29,7 @@ let clear = require('clear')
 
 function log(raw) {
   clear()
-  
+
   let head = v=> /^\#/.test(v)
   raw.trim().split('\n').forEach(line=> {
     if (head(line)) {
