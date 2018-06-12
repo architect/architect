@@ -1,6 +1,6 @@
 {
   "name": "@architect/workflows",
-  "version": "3.1.10",
+  "version": "3.1.11",
   "description": "cloud function workflows implemented as npm scripts for creating, deploying, working offline and more",
   "main": "index",
   "bin": {
@@ -79,11 +79,11 @@
     "zipit": "^1.0.2"
   },
   "devDependencies": {
-    "cross-env": "^5.1.5",
+    "cross-env": "^5.1.6",
     "eslint": "^3.19.0",
     "rimraf": "^2.6.2",
-    "tap-spec": "^4.1.2",
-    "tape": "^4.6.3",
+    "tap-spec": "^5.0.0",
+    "tape": "^4.9.1",
     "tiny-json-http": "^7.0.0"
   }
 }
