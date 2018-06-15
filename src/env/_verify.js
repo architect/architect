@@ -1,3 +1,4 @@
+let parse = require('@architect/parser')
 let aws = require('aws-sdk')
 let chalk = require('chalk')
 let parallel = require('run-parallel')
@@ -28,7 +29,9 @@ module.exports = function _verify(appname, callback) {
     // get the lambdas
     lambdas(callback) {
       let arcPath = path.join(process.cwd(), '.arc')
-      inventory(arcPath, callback)
+      let raw = fs.readFileSync(arcPath).toString()
+      let arc = parse(raw)
+      inventory(arc, raw, callback)
     }
   },
   function done(err, result) {
