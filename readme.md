@@ -4,7 +4,9 @@
 
 ## Install
 
-  npm i @architect/workflows
+```bash
+npm i @architect/workflows
+```
 
 This makes the following `npx` commands available:
 
@@ -20,7 +22,9 @@ This makes the following `npx` commands available:
 
 To see more examples try running:
 
-  npx help
+```bash
+npx help
+```
 
 ### Learn more
 
