@@ -29,13 +29,7 @@ module.exports = function _setupEnv(callback) {
 
   // interpolate arc-env
   let envPath = join(process.cwd(), '.arc-env')
-  if (!exists(envPath)) {
-    let help0 = chalk.dim.yellow('? .arc-env not found')
-    let help1 = chalk.grey('generate .arc-env by running')
-    let help2 = chalk.dim.green('npx env > .arc-env')
-    console.log(help0, help1, help2)
-  }
-  else {
+  if (exists(envPath)) {
     populateEnv(envPath)
     let local = 'init process.env from .arc-env @testing (ARC_LOCAL override)'
     let not = 'init process.env from .arc-env @' + process.env.NODE_ENV
