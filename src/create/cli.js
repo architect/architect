@@ -3,6 +3,7 @@ let waterfall = require('run-waterfall')
 let chalk = require('chalk')
 let init = require('../util/init')
 let create = require('.')
+let stop = require('./_print').stop
 
 waterfall([
   function(callback){init(callback)}, create
@@ -33,7 +34,8 @@ function done(err) {
     process.exit(1)
   }
   else {
-    console.log('\n')
+    stop()
+    process.exit(0)
   }
 })
 
