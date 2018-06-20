@@ -77,7 +77,7 @@ module.exports = function credentials(callback) {
     err(`Node@${process.version} is not valid; must be 8.10 or higher`)
 
   let npmOk = Number(version.split('.')[0]) >= 6
-  if (!npmOk)
+  if (process.env.NODE_ENV != 'testing' && !npmOk)
     err('invalid npm version; must be 6 or higher')
 
   //
