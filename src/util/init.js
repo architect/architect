@@ -63,10 +63,10 @@ module.exports = function credentials(callback) {
     process.env.AWS_PROFILE = profile[1]
   }
 
-  if (!process.env.AWS_REGION)
+  if (process.env.NODE_ENV != 'testing' && !process.env.AWS_REGION)
     err('missing AWS_REGION in environment')
 
-  if (!process.env.AWS_PROFILE)
+  if (process.env.NODE_ENV != 'testing' && !process.env.AWS_PROFILE)
     err('missing AWS_PROFILE in environment')
 
   let nodeVersionArr = process.version.replace('v', '').split('.').map(Number);
