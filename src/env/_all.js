@@ -1,7 +1,8 @@
 let aws = require('aws-sdk')
-let ssm = new aws.SSM
 
 module.exports = function _all(appname, callback) {
+
+  let ssm = new aws.SSM({region: process.env.AWS_REGION})
 
   // reset this every call..
   let result = []

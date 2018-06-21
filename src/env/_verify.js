@@ -39,7 +39,7 @@ module.exports = function _verify(appname, callback) {
       error(err.message)
     }
     else {
-      let lambda = new aws.Lambda
+      let lambda = new aws.Lambda({region: process.env.AWS_REGION})
       let testing = result.env.filter(e=> e.env === 'testing')
       let staging = result.env.filter(e=> e.env === 'staging')
       let production = result.env.filter(e=> e.env === 'production')

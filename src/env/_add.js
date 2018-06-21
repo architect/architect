@@ -33,7 +33,7 @@ module.exports = function _put(appname, params, callback) {
     callback(Error('invalid argument, value must be alphanumeric'))
   }
   else {
-    let ssm = new aws.SSM
+    let ssm = new aws.SSM({region: process.env.AWS_REGION})
     ssm.putParameter({
       Name: `/${appname}/${ns}/${key}`,
       Value: val,

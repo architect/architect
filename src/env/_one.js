@@ -1,7 +1,7 @@
 let aws = require('aws-sdk')
 
 module.exports = function _all(appname, env, callback) {
-  let ssm = new aws.SSM
+  let ssm = new aws.SSM({region: process.env.AWS_REGION})
   let query = {
     Path: `/${appname}/${env}`,
     Recursive: true,
