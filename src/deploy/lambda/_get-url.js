@@ -1,6 +1,5 @@
 var assert = require('@smallwins/validate/assert')
 var aws = require('aws-sdk')
-var gateway = new aws.APIGateway
 
 /**
  * returns the current deploy url
@@ -17,6 +16,7 @@ module.exports = function _getUrl(params, callback) {
     callback(null, url)
   }
   else {
+    var gateway = new aws.APIGateway({region: process.env.AWS_REGION})
     gateway.getRestApis({
       limit: 500,
     },
