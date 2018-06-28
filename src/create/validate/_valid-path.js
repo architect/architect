@@ -3,8 +3,8 @@ module.exports = function validPath(p) {
   if (p[0] != '/')
     return Error('Paths must start with /.')
 
-  // less than 25 chars
-  if (p.length > 25)
+  // less than 35 chars
+  if (p.length > 35)
     return Error('Path must be less than 25 characters.')
 
   // does not end with a slash

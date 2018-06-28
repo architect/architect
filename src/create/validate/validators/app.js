@@ -15,14 +15,14 @@ module.exports = function app(arc, raw) {
   // validate app name
   var appname = Array.isArray(arc.app) && arc.app[0]
   if (appname) {
-    // ensure appname is 20 chars or less
-    if (appname.length > 20) {
+    // ensure appname is 10 chars or less
+    if (appname.length > 10) {
       errors.push(Err({
-        message: `@app name > 20 characters`,
+        message: `@app name > 10 characters`,
         linenumber: findLineNumber(appname, raw),
         raw,
         arc,
-        detail: '@app name must be 20 characters or less.',
+        detail: '@app name must be 10 characters or less.',
       }))
     }
     // ensure appname is alphanumeric, locase and dashes
