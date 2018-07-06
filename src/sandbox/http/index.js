@@ -34,6 +34,7 @@ app.start = function start(callback) {
   // build the routes
   reg(app, '@html', 'html', web.html)
   reg(app, '@json', 'json', web.json)
+  reg(app, '@xml', 'xml', web.xml)
 
   if (web.js)
     reg(app, '@js', 'js', web.js.map(tuple))
@@ -43,9 +44,6 @@ app.start = function start(callback) {
 
   if (web.text)
     reg(app, '@text', 'text', web.text.map(tuple))
-
-  if (web.xml)
-    reg(app, '@xml', 'xml', web.xml.map(tuple))
 
   // create an actual server; how quaint!
   server = http.createServer(function _request(req, res) {
