@@ -32,9 +32,14 @@ app.start = function start(callback) {
   var tuple = v=> (['get', v])
 
   // build the routes
-  reg(app, '@html', 'html', web.html)
-  reg(app, '@json', 'json', web.json)
-  reg(app, '@xml', 'xml', web.xml)
+  if (web.html) 
+    reg(app, '@html', 'html', web.html)
+
+  if (web.json)
+    reg(app, '@json', 'json', web.json)
+
+  if (web.xml)
+    reg(app, '@xml', 'xml', web.xml)
 
   if (web.js)
     reg(app, '@js', 'js', web.js.map(tuple))
