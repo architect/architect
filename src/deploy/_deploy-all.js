@@ -1,14 +1,16 @@
-var waterfall = require('run-waterfall')
-var chalk = require('chalk')
-var assert = require('@smallwins/validate/assert')
-var deploy = require('./lambda')
-var _report = require('./_report')
-var _progress = require('./_progress')
-var parallel = require('run-parallel')
-var glob = require('glob')
-var s3 = require('./static')
-var steps = 7 // magic number of steps in src
-//var start = Date.now()
+let waterfall = require('run-waterfall')
+let series = require('run-series')
+let chalk = require('chalk')
+let assert = require('@smallwins/validate/assert')
+let deploy = require('./lambda')
+let _report = require('./_report')
+let _progress = require('./_progress')
+let parallel = require('run-parallel')
+let glob = require('glob')
+let s3 = require('./static')
+let steps = 7 // magic number of steps in src
+let _chunk = require('./_chunk')
+let _flatten = require('./_flatten')
 
 module.exports = function deployAll(params) {
   assert(params, {
@@ -16,30 +18,48 @@ module.exports = function deployAll(params) {
     arc: Object,
     start: Number,
   })
-  var {env, arc, start} = params
-  var results // use this below
+  let {env, arc, start} = params
+  let results // use this below
   waterfall([
     // read all .arc known lambdas in src
     function _globs(callback) {
-      var pattern = 'src/@(html|css|js|text|xml|json|events|scheduled|tables|slack)/*'
+      let pattern = 'src/@(html|css|js|text|xml|json|events|scheduled|tables|slack)/*'
       glob(pattern, callback)
     },
     // create a parallel deployment
     function _deploys(result, callback) {
+
+      // reuse this later
       results = result
-      var total = results.length * steps
-      var progress = _progress({name: chalk.green.dim(`Deploying ${results.length} lambdas`), total})
-      var tick = ()=> progress.tick() // closure needed
-      parallel(results.map(pathToCode=> {
-        return function _deploy(callback) {
-          deploy({
-            env,
-            arc,
-            pathToCode,
-            tick,
-          }, callback)
+
+      // boilerplate for the progress bar
+      let total = results.length * steps
+      let progress = _progress({name: chalk.green.dim(`Deploying ${results.length} lambdas`), total})
+      let tick = ()=> progress.tick() // closure needed
+
+      // break things up and deploy in sets of ten
+      series(_chunk(results).map(chunk=> {
+        return function _deploysTen(callback) {
+          parallel(chunk.map(pathToCode=> {
+            return function _deploysOne(callback) {
+              deploy({
+                env,
+                arc,
+                pathToCode,
+                tick,
+              }, callback)
+            }
+          }), callback)
         }
-      }), callback)
+      }),
+      function done(err, chunked) {
+        if (err) {
+          callback(err)
+        }
+        else {
+          callback(null, _flatten(chunked))
+        }
+      })
     },
     // report the lambda deployment results
     function _reports(stats, callback) {

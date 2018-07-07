@@ -32,7 +32,7 @@ app.start = function start(callback) {
   var tuple = v=> (['get', v])
 
   // build the routes
-  if (web.html) 
+  if (web.html)
     reg(app, '@html', 'html', web.html)
 
   if (web.json)
