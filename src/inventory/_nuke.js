@@ -57,7 +57,7 @@ module.exports = function _cloud(inventory) {
     },
     function lambdas(callback) {
       header(`Lambda Functions (${inventory.lambdas.length})`)
-      let lambda = new aws.Lambda
+      let lambda = new aws.Lambda({region:process.env.AWS_REGION})
       series(inventory.lambdas.map(FunctionName=> {
         return function _getLambda(callback) {
           lambda.deleteFunction({FunctionName}, function _prettyPrint(err) {
