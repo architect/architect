@@ -1,5 +1,4 @@
 let waterfall = require('run-waterfall')
-let series = require('run-series')
 let chalk = require('chalk')
 let assert = require('@smallwins/validate/assert')
 let deploy = require('./lambda')
@@ -11,6 +10,7 @@ let s3 = require('./static')
 let steps = 7 // magic number of steps in src
 let _chunk = require('./_chunk')
 let _flatten = require('./_flatten')
+let _queue = require('./_queue')
 
 module.exports = function deployAll(params) {
   assert(params, {
@@ -37,9 +37,15 @@ module.exports = function deployAll(params) {
       let progress = _progress({name: chalk.green.dim(`Deploying ${results.length} lambdas`), total})
       let tick = ()=> progress.tick() // closure needed
 
-      // break things up and deploy in sets of ten
-      series(_chunk(results).map(chunk=> {
-        return function _deploysTen(callback) {
+      let queue = _queue()
+      let firstRun = true
+      let timeout = 0
+
+      // fill up a queue
+      _chunk(results).forEach(chunk=> {
+        // by enqueueing batches to deploy
+        queue.add(function _deployChunk(callback) {
+          // deploy a batch in parallel
           parallel(chunk.map(pathToCode=> {
             return function _deploysOne(callback) {
               deploy({
@@ -50,16 +56,25 @@ module.exports = function deployAll(params) {
               }, callback)
             }
           }), callback)
+        }, timeout)
+        // execute the first batch immediately
+        // and subsequent batches after 1s delay
+        if (firstRun) {
+          firstRun = false
+          timeout = 1000
         }
-      }),
-      function done(err, chunked) {
+      })
+
+      // drain the queue
+      queue.start(function _end(err, results) {
         if (err) {
           callback(err)
         }
         else {
-          callback(null, _flatten(chunked))
+          callback(null, _flatten(results))
         }
       })
+
     },
     // report the lambda deployment results
     function _reports(stats, callback) {

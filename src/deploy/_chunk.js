@@ -1,4 +1,4 @@
-module.exports = function _chunk(arr, len=10) {
+module.exports = function _chunk(arr, len=12) {
 
   let chunks = []
   let index = 0
