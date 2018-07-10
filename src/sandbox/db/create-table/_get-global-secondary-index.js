@@ -18,7 +18,7 @@ module.exports = function _getGSI(name, indexes) {
       // maybe add the RANGE key (sort)
       if (hasTwo) {
         KeySchema.push({
-          AttributeName: keys[0],
+          AttributeName: keys[1],
           KeyType: 'RANGE'
         })
       }

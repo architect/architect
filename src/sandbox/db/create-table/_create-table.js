@@ -33,7 +33,7 @@ module.exports = function _createTable(name, attr, indexes, callback) {
         }
         var gsi = getGSI(name, indexes)
         if (gsi) {
-          params.AttributeDefinitions = getAttributeDefinitionsWithGsi(keys, name, indexes)
+          params.AttributeDefinitions = getAttributeDefinitionsWithGsi(attr, name, indexes)
           params.GlobalSecondaryIndexes = gsi
         }
         dynamo.createTable(params, function _create(err) {

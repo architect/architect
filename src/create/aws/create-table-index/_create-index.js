@@ -13,40 +13,45 @@ module.exports = function _createTable(name, attr, callback) {
   waterfall([
     function _maybeWaitForCreateComplete(callback) {
       // poll for ready table
-      dynamo.describeTable({TableName:name}, function _tbl(err, result) {
-        if (err) {
-          callback(err)
-        }
-        else if (result.Table.TableStatus === 'ACTIVE') {
-          // cool the table is active but does it have the index?
-          if (result.Table.GlobalSecondaryIndexes) {
-            var found = result.Table.GlobalSecondaryIndexes.find(idx=> idx.IndexName === gsiName)
-            // if they just deleted wait a few secs to create
-            if (found && found.IndexStatus === 'DELETING') {
-              _maybeWaitForCreateComplete(result, callback)
-            }
-            else if (found) {
-              // creating/updating/active then skip
-              print.skip('@table', gsiName)
-              callback('skipping')
+      check()
+
+      function check() {
+        let timeout = 2010
+        dynamo.describeTable({
+          TableName: name
+        },
+        function _tbl(err, result) {
+          if (err) {
+            callback(err)
+          }
+          else if (result.Table.TableStatus === 'ACTIVE') {
+            // cool the table is active but does it have the index?
+            if (result.Table.GlobalSecondaryIndexes) {
+              var found = result.Table.GlobalSecondaryIndexes.find(idx=> idx.IndexName === gsiName)
+              // if they just deleted wait a few secs to create
+              if (found && found.IndexStatus === 'DELETING') {
+                setTimeout(check, timeout)
+              }
+              else if (found) {
+                // creating/updating/active then skip
+                print.skip('@table', gsiName)
+                callback('skipping')
+              }
+              else {
+                // index not found continue
+                callback()
+              }
             }
             else {
-              // index not found continue
+              // no indexes exist so continue
               callback()
             }
           }
           else {
-            // no indexes exist so continue
-            callback()
+            setTimeout(check, timeout)
           }
-        }
-        else {
-          // recurse if not ready
-          setTimeout(function wait() {
-            _maybeWaitForCreateComplete(result, callback)
-          }, 2007) // but wait a couple of secs
-        }
-      })
+        })
+      }
     },
     function _updateTableIndex(callback) {
       dynamo.updateTable({
