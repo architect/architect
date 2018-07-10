@@ -42,7 +42,7 @@ module.exports = function factory(bucket, callback) {
               else {
                 var before = file.replace(process.cwd(), '').substr(1)
                 var after = before.replace('.static', '')
-                var domain = `https://s3.amazonaws.com/`
+                var domain = `https://s3.${process.env.AWS_REGION}.amazonaws.com/`
                 console.log(chalk.underline.cyan(`${domain}${bucket}${after}`))
                 callback()
               }
