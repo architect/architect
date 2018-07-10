@@ -20,13 +20,13 @@ module.exports = function _rest(type, arc, raw) {
         var path = route[1]
         var err = validPath(path)
         if (err) {
-            errors.push(Err({
-              message: `@${type} invalid route`,
-              linenumber: findLineNumber(route, raw),
-              raw,
-              arc,
-              detail: err.message + ' HTTP reference: https://arc.codes/guides/http',
-            }))
+          errors.push(Err({
+            message: `@${type} invalid route`,
+            linenumber: findLineNumber(route, raw),
+            raw,
+            arc,
+            detail: err.message + ' HTTP reference: https://arc.codes/guides/http',
+          }))
         }
       })
       // for each route in routes
@@ -44,7 +44,10 @@ module.exports = function _rest(type, arc, raw) {
 }
 
 function findLineNumber(tuple, raw) {
-  var search = tuple.join(' ')
+  var search = typeof tuple.join === 'function'
+    ? tuple.join(' ')
+    : tuple;
+
   var lines = raw.split('\n')
   for (var i = 0; i <= lines.length; i++) {
     if (lines[i] && lines[i].startsWith(search)) {

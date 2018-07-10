@@ -27,7 +27,7 @@ module.exports = function validate(arc, raw, callback) {
   // - accept a parsed arc object and a raw arc file as a string
   // - return an array of error objects
   //
-  let validators = [
+  let validators = {
     app,
     css,
     domain,
@@ -42,16 +42,22 @@ module.exports = function validate(arc, raw, callback) {
     text,
     tables,
     xml,
-  ]
+  }
 
   // map function: accepts a validater; applies it to arc
-  let validate = validator=> validator(arc, raw)
+  let validate = ([key, validator]) => {
+    try {
+      return validator(arc, raw);
+    } catch (err) {
+      return err;
+    }
+  }
 
   // reduce function: just concats the error arrays into one array
-  let flatten = (a, b)=> a.concat(b)
+  let flatten = (a, b) => a.concat(b)
 
   // the final collection of errors
-  let errors = validators.map(validate).reduce(flatten)
+  let errors = Object.entries(validators).map(validate).reduce(flatten)
 
   // continue if everything is ok
   let ok = errors.length === 0
