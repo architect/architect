@@ -13,7 +13,6 @@ module.exports = function _shared(params, callback) {
   let arcFileSrc = path.join(process.cwd(), '.arc')
   let arcFileDest = path.join(dest, '.arc')
 
-
   series([
     function copyShared(callback) {
       cp(src, dest, {overwrite:true}, callback)
