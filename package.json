@@ -80,7 +80,7 @@
   },
   "devDependencies": {
     "cross-env": "^5.1.6",
-    "eslint": "^3.19.0",
+    "eslint": "^5.1.0",
     "rimraf": "^2.6.2",
     "tap-spec": "^5.0.0",
     "tape": "^4.9.1",
