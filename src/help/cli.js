@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint "no-useless-escape": "off" */
 let exists = require('path-exists').sync
 let join = require('path').join
 let fs = require('fs')
