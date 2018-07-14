@@ -66,7 +66,7 @@ module.exports = function createRouters(params, callback) {
               console.log(pretty)
             })
           }
-          callback()
+          callback(null, urls)
         }
       })
     }
