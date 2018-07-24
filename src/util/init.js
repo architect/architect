@@ -64,10 +64,10 @@ module.exports = function credentials(callback) {
   }
 
   if (process.env.NODE_ENV != 'testing' && !process.env.AWS_REGION)
-    err('missing AWS_REGION in environment')
+    process.env.AWS_REGION = 'xxx'
 
   if (process.env.NODE_ENV != 'testing' && !process.env.AWS_PROFILE)
-    err('missing AWS_PROFILE in environment')
+    process.env.AWS_PROFILE = 'xxx'
 
   let nodeVersionArr = process.version.replace('v', '').split('.').map(Number);
   let nodeMajorOk = nodeVersionArr[0] >= 8
