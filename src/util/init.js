@@ -25,9 +25,9 @@ function err(msg) {
 // - [x] deploy
 // - [x] dns
 // - [x] env
+// - [x] hydrate
 // - [x] inventory (all commands require region)
 // - [x] sandbox (when NODE_ENV=staging or NODE_ENV=production)
-//
 //
 // - ensures AWS_REGION and AWS_PROFILE exist
 // - also ensures Node >=8.10.x and npm >= 6.x
@@ -63,11 +63,17 @@ module.exports = function credentials(callback) {
     process.env.AWS_PROFILE = profile[1]
   }
 
-  if (process.env.NODE_ENV != 'testing' && !process.env.AWS_REGION)
-    process.env.AWS_REGION = 'xxx'
+  if (!process.env.AWS_REGION)
+    process.env.AWS_REGION = 'us-west-2'
 
-  if (process.env.NODE_ENV != 'testing' && !process.env.AWS_PROFILE)
+  let missingProfile = !process.env.AWS_PROFILE
+  let missingSecretAccessKey = !process.env.AWS_SECRET_ACCESS_KEY
+  let missingAccessKeyId = !process.env.AWS_ACCESS_KEY_ID
+  if (missingProfile && missingSecretAccessKey && missingAccessKeyId) {
     process.env.AWS_PROFILE = 'xxx'
+    process.env.AWS_SECRET_ACCESS_KEY = 'xxx'
+    process.env.AWS_ACCESS_KEY_ID = 'xxx'
+  }
 
   let nodeVersionArr = process.version.replace('v', '').split('.').map(Number);
   let nodeMajorOk = nodeVersionArr[0] >= 8
