@@ -7,8 +7,20 @@ let fs = require('fs')
 
 module.exports = function static(req, res, next) {
 
+  /**
+   * technically, any file extension could work here, but in order to prevent route collisions, we're capturing based on extension
+      sandbox also ignores js and css if you happen to be using js or arc routes (also in service of collision prevension)
+      note: what can be previewed in sandbox is a separate concern from what can be deployed to s3 with arc, where there are (as of this writing) no filetype limitations
+   */
   // get the file exension
-  let allowed = ['svg', 'gif', 'jpg', 'html', 'css', 'js']
+  let allowed = [
+    // images
+    'bmp', 'gif', 'jif', 'ico', 'jpg', 'jpeg', 'png', 'svg', 'tif', 'tiff', 'webp',
+    // compiled web stuff
+    'css', 'htm', 'html', 'js', 'json', 'mjs', 'ts',
+    // binaries + archives
+    'bz', 'bz2', 'dmg', 'gz', 'jar', 'tar', 'zip'
+  ]
   let pathToFile = url.parse(req.url).pathname
   let bits = pathToFile.split('.')
   let last = bits[bits.length - 1] // the file extension
