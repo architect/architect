@@ -10,7 +10,7 @@ module.exports = function _setupEnv(callback) {
   let raw = read(arcPath).toString()
   let arc = parse(raw)
   let name = arc.app[0]
- 
+
 
   // populate ARC_APP_NAME (used by @architect/functions event.publish)
   process.env.ARC_APP_NAME = name

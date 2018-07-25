@@ -7,6 +7,7 @@ var sandbox = require('../../src/sandbox').http
 var db = require('../../src/sandbox').db
 var client
 var server
+var port = process.env.PORT
 
 test('setup', t=> {
   t.plan(1)
@@ -38,15 +39,15 @@ test('setup db server', t=> {
 test('setup web server', t=> {
   t.plan(1)
   server = sandbox.start(function() {
-    t.ok(true, 'started server @ localhost:3333')
+    t.ok(true, `started server @ localhost:${port}`)
   })
 })
 
 test('can read /', t=> {
   t.plan(2)
   tiny.get({
-    url: 'http://localhost:3333/'
-  }, 
+    url: `http://localhost:${port}/`
+  },
   function _got(err, data) {
     if (err) {
       t.fail(err)
@@ -55,7 +56,7 @@ test('can read /', t=> {
     else {
       t.ok(true, 'got /')
       t.equals('hello world', data.body, 'is hello world')
-      console.log({data})    
+      console.log({data})
     }
   })
 })
@@ -64,8 +65,8 @@ test('can read /hello.css', t=> {
   t.plan(1)
     console.log(process.cwd())
   tiny.get({
-    url: 'http://localhost:3333/hello.css'
-  }, 
+    url: `http://localhost:${port}/hello.css`
+  },
   function _got(err, data) {
     if (err) {
       t.fail(err)
@@ -73,7 +74,7 @@ test('can read /hello.css', t=> {
     }
     else {
       t.ok(true, 'got /hello.css')
-      console.log({data})    
+      console.log({data})
     }
   })
 })
