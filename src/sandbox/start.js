@@ -41,7 +41,7 @@ module.exports = function start(callback) {
       // vanilla af http server that mounts routes defined by .arc
       http.start(function() {
         let start = chalk.grey('\n', chalk.green.dim('✓'), 'Started HTTP "server" @ ')
-        let end = chalk.cyan.underline('http://localhost:3333')
+        let end = chalk.cyan.underline(`http://localhost:${process.env.PORT}`)
         console.log(`${start} ${end}`)
         callback()
       })

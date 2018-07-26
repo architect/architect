@@ -4,14 +4,14 @@ var chalk = require('chalk')
 var start = require('./start')
 var noop = x=>!x
 
-inUse(3333, function _available(err, ok) {
+inUse(process.env.PORT, function _available(err, ok) {
   if (err) {
     console.log(chalk.bold.red(`Error`), chalk.white.bold(err.message))
     process.exit(1)
   }
   else if (ok) {
     console.log(chalk.bold.red(`Error`), chalk.white.bold(`.arc sandbox cannot start\n`))
-    console.log(`The address http://localhost:3333 is already in use.`)
+    console.log(`The address http://localhost:${process.env.PORT} is already in use.`)
     console.log('\n')
     process.exit(1)
   }

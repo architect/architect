@@ -55,8 +55,7 @@ app.start = function start(callback) {
     app(req, res, finalhandler(req, res))
   })
 
-  // TODO make port configurable
-  server.listen(3333, callback)
+  server.listen(process.env.PORT, callback)
   return app
 }
 
