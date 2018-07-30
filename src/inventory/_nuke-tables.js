@@ -2,10 +2,10 @@ let chalk = require('chalk')
 let series = require('run-series')
 let aws = require('aws-sdk')
 let _longest = require('./_get-longest-subject')
-let db = new aws.DynamoDB
 
 module.exports = function _nukeTables(inventory) {
 
+  let db = new aws.DynamoDB({region: process.env.AWS_REGION})
   let longest = _longest(inventory)
 
   function title() {

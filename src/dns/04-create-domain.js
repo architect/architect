@@ -1,8 +1,8 @@
 var aws = require('aws-sdk')
 var parallel = require('run-parallel')
-var gw = new aws.APIGateway
 
 function _create(name, arn, callback) {
+  var gw = new aws.APIGateway({region: process.env.AWS_REGION})
   gw.createDomainName({
     domainName: name,
     certificateArn: arn,
@@ -15,6 +15,7 @@ function _create(name, arn, callback) {
 
 module.exports = function createDomain(domain, callback) {
   // list domains
+  var gw = new aws.APIGateway({region: process.env.AWS_REGION})
   gw.getDomainNames({
     limit: 500,
   },
@@ -30,7 +31,8 @@ module.exports = function createDomain(domain, callback) {
     else {
       // need to create staging and/or production
       // first, read certs
-      (new aws.ACM({region:'us-east-1'})).listCertificates({
+      let acm = new aws.ACM({region: 'us-east-1'})
+      acm.listCertificates({
         CertificateStatuses: ['ISSUED'],
       },
       function(err, result) {

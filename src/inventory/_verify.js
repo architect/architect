@@ -77,7 +77,7 @@ module.exports = function _cloud(inventory) {
     },
     function restapis(callback) {
       header('API Gateway RestAPIs')
-      let api = new aws.APIGateway
+      let api = new aws.APIGateway({region: process.env.AWS_REGION})
       api.getRestApis({
         limit: 500 // FIXME this needs pagination; tho most api gateways are limited to 60 by default so no rush..
       },
@@ -130,7 +130,7 @@ module.exports = function _cloud(inventory) {
     },
     function tables(callback) {
       header(`DynamoDB Tables`)
-      let db = new aws.DynamoDB
+      let db = new aws.DynamoDB({region: process.env.AWS_REGION})
       series(inventory.tables.map(TableName=> {
         return function _getLambda(callback) {
           db.describeTable({TableName}, function _prettyPrint(err, result) {
@@ -153,7 +153,7 @@ module.exports = function _cloud(inventory) {
       header(`SNS Topics`)
       let copy = inventory.snstopics.slice(0)
       let founds = []
-      let sns = new aws.SNS
+      let sns = new aws.SNS({region: process.env.AWS_REGION})
       function listTopics(next, done) {
         let params = next? {NextToken:next} : {}
         sns.listTopics(params, function _listTopics(err, result) {

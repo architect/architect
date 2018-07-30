@@ -2,9 +2,9 @@ var aws = require('aws-sdk')
 var parallel = require('run-parallel')
 var _requestCertificate = require('./_request-certificate')
 var msg = require('./_messages').listCerts
-var acm = new aws.ACM({region:'us-east-1'})
 
 module.exports = function _acm(domain, callback) {
+  var acm = new aws.ACM({region:'us-east-1'})
   acm.listCertificates({}, function(err, result) {
     if (err) throw err
     var hasStaging = result.CertificateSummaryList.find(c=> c.DomainName === `*.${domain}`)

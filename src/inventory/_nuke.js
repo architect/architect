@@ -78,7 +78,7 @@ module.exports = function _cloud(inventory) {
     },
     function restapis(callback) {
       header('API Gateway REST APIs')
-      let api = new aws.APIGateway
+      let api = new aws.APIGateway({region: process.env.AWS_REGION})
       api.getRestApis({limit:500}, function _getRestApis(err, result) {
         if (err) {
           error(err.message)
@@ -132,7 +132,7 @@ module.exports = function _cloud(inventory) {
       header(`SNS Topics`)
       let copy = inventory.snstopics.slice(0)
       let founds = []
-      let sns = new aws.SNS
+      let sns = new aws.SNS({region: process.env.AWS_REGION})
       function listTopics(next, done) {
         let params = next? {NextToken:next} : {}
         sns.listTopics(params, function _listTopics(err, result) {

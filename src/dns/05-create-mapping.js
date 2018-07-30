@@ -1,7 +1,6 @@
 var aws = require('aws-sdk')
 var assert = require('@smallwins/validate/assert')
 var waterfall = require('run-waterfall')
-var gw = new aws.APIGateway
 
 function _create(params, callback) {
   assert(params, {
@@ -12,6 +11,7 @@ function _create(params, callback) {
   })
   var {name, restApiId, stage} = params
   // rather than skip always remove then add it
+  var gw = new aws.APIGateway({region: process.env.AWS_REGION})
   gw.getBasePathMappings({
     domainName: name,
   },
@@ -52,6 +52,7 @@ function _create(params, callback) {
 }
 
 module.exports = function createMapping(app, domain, callback) {
+  var gw = new aws.APIGateway({region: process.env.AWS_REGION})
   gw.getRestApis({
     limit: 500,
   },

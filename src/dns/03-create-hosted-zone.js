@@ -1,9 +1,9 @@
 var aws = require('aws-sdk')
 var chalk = require('chalk')
-var route53 = new aws.Route53
 var msgs = require('./_messages')
 
 module.exports = function createHostedZone(domain, callback) {
+  var route53 = new aws.Route53
   route53.listHostedZonesByName({
     DNSName: domain,
     MaxItems: '1'

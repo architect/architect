@@ -1,8 +1,6 @@
 var aws = require('aws-sdk')
 var assert = require('@smallwins/validate/assert')
 var parallel = require('run-parallel')
-var route53 = new aws.Route53
-var gw = new aws.APIGateway
 
 function _createAlias(params, callback) {
   assert(params, {
@@ -10,6 +8,7 @@ function _createAlias(params, callback) {
     cloudfrontDomain: String,
     zoneID: String,
   })
+  var route53 = new aws.Route53
   route53.changeResourceRecordSets({
     ChangeBatch: {
        Changes: [{
@@ -39,6 +38,7 @@ module.exports = function createDomain(app, domain, callback) {
   // list the record sets for the hosted zone O
   // if the staging alias doesn't exist create it
   // if the pro alias doesn't exist create it
+  var route53 = new aws.Route53
   route53.listHostedZones({}, function(err, data) {
     if (err) throw err
     var zone = data.HostedZones.find(i=>i.Name === `${domain}.`)
@@ -59,6 +59,7 @@ module.exports = function createDomain(app, domain, callback) {
       }
       else {
         // lookup cloudfront dist name
+        let gw = new aws.APIGateway({region: process.env.AWS_REGION})
         gw.getDomainNames({
           limit: 500,
         },
