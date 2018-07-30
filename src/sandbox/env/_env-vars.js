@@ -11,6 +11,7 @@ module.exports = function _setupEnv(callback) {
   let arc = parse(raw)
   let name = arc.app[0]
 
+
   // populate ARC_APP_NAME (used by @architect/functions event.publish)
   process.env.ARC_APP_NAME = name
 
@@ -25,6 +26,11 @@ module.exports = function _setupEnv(callback) {
 
   if (process.env.NODE_ENV === 'production') {
     process.env.SESSION_TABLE_NAME = `${name}-production-arc-sessions`
+  }
+
+  // populate PORT (used by http server)
+  if (!process.env.PORT) {
+    process.env.PORT = `3333`
   }
 
   // interpolate arc-env
