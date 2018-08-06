@@ -27,11 +27,11 @@ get /
 
 ## usage
 
-`npm run dns` and follow the guided output; you will have to re-run the command as you progress through the following stages of dns configuration:
+`npx dns` and follow the guided output; you will have to re-run the command as you progress through the following stages of dns configuration:
 
 - create and verify certificates with aws certificate manager
 - setup hosted zone in route53
 - create the domain and api mapping in api gateway
 - create an alias record set in route53
 
-as each phase progresses re-run `npm run dns` to move forward. 
+as each phase progresses re-run `npx dns` to move forward. 

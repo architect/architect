@@ -39,20 +39,20 @@ init(function _init(err, arc) {
       }
 
       if (is.all) {
-        // npm run env ............................ all
+        // npx env ............................ all
         _all(appname, _printer)
       }
       else if (is.one) {
-        // npm run env testing .................... one
+        // npx env testing .................... one
         let env = copy[0]
         _one(appname, env, _printer)
       }
       else if (is.verify) {
-        // npm run env verify ..................... verify
+        // npx env verify ..................... verify
         _verify(appname, x=> !x)
       }
       else if (is.add) {
-        // npm run env testing FOOBAZ somevalue ... put
+        // npx env testing FOOBAZ somevalue ... put
         series([
           function removes(callback) {
             _add(appname, copy, callback)
@@ -72,7 +72,7 @@ init(function _init(err, arc) {
         })
       }
       else if (is.remove) {
-        // npm run env remove testing FOOBAZ ...... remove
+        // npx env remove testing FOOBAZ ...... remove
         // remove/print all/verify all
         series([
           function removes(callback) {

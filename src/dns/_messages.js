@@ -5,7 +5,7 @@ module.exports = {
     var banner = chalk.dim('Requested certificates for')
     var body = chalk.cyan.underline(domain)
     var footer = chalk.yellow('Check domain admin email to verify certs and then rerun')
-    var footer1 = chalk.green('npm run dns')
+    var footer1 = chalk.green('npx dns')
     var footer2 = chalk.yellow('to continue.')
     var foot = `${footer} ${footer1} ${footer2}`
     console.log(`\n${banner} ${body}\n${foot}\n`)
@@ -13,7 +13,7 @@ module.exports = {
   verifyCerts() {
     var banner = chalk.dim('Certificates pending verification')
     var body = chalk.yellow('Check your email and follow the instructions to verify the certificates and then rerun')
-    var cmd = chalk.green('npm run dns')
+    var cmd = chalk.green('npx dns')
     var footer = chalk.yellow('to continue.')
     console.log(`\n${banner}\n${body} ${cmd} ${footer}\n`)
   },
@@ -23,7 +23,7 @@ module.exports = {
 ${typeof params.staging === 'undefined'? '𝗑' : '✔'} staging
 ${typeof params.production === 'undefined'? '𝗑' : '✔'} production`
     var body = chalk.yellow('AWS Certificate Manager sends two emails. Please ensure you clicked approve for both and then ')
-    var cmd = chalk.green('npm run dns')
+    var cmd = chalk.green('npx dns')
     var footer = chalk.yellow('to continue.')
     console.log(`${banner}\n${sub}\n\n${body} ${cmd} ${footer}\n`)
   },

@@ -4,11 +4,11 @@
 
 Managing sensitive configuration data like API keys needs to happen _outside_ of the codebase in revision control. 
 
-- `npm run env` displays environment variables for the current `.arc`
-- `npm run env testing` displays environment variables for testing (protip: `npx arc-env testing > .arc-env`)
-- `npm run env testing FOOBAZ somevalue` writes env variable `FOOBAZ=somevalue` for testing env
-- `npm run env remove testing FOOBAZ` 
-- `npm run env verify` display a report of lambdas and their env variables
+- `npx env` displays environment variables for the current `.arc`
+- `npx env testing` displays environment variables for testing (protip: `npx arc-env testing > .arc-env`)
+- `npx env testing FOOBAZ somevalue` writes env variable `FOOBAZ=somevalue` for testing env
+- `npx env remove testing FOOBAZ` 
+- `npx env verify` display a report of lambdas and their env variables
 
 Things to note:
 - Adding and removing variables automatically syncs all lambdas and, if present in the current working directory, `.arc-env`.
