@@ -5,7 +5,7 @@ module.exports = function validPath(p) {
 
   // less than 35 chars
   if (p.length > 35)
-    return Error('Path must be less than 25 characters.')
+    return Error('Path must be less than 35 characters.')
 
   // does not end with a slash
   if (p.length > 1 && p.split('').reverse()[0] === '/')
