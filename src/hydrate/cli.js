@@ -2,14 +2,14 @@
 /**
  * two dependency use cases this tool helps with:
  *
- * - initializing an app (that has many lambdas and thus many package.json deps to fufill)
+ * - initializing an app (that has many lambdas and thus many package.json deps to fulfill)
  * - updating an app (same problem as above but upgrading deps)
  *
  * examples
  *
  * initializing an app
  * ---
- * run `npm ci --no-scripts` on all lambdas:
+ * run `npm i --no-scripts` on all lambdas:
  *
  *   npx hydrate
  *
@@ -32,7 +32,7 @@ init(function _init(err) {
     hydrate.update(noop)
   }
   else {
-    // installing: npm ci --no-scripts (for all lambdas in src)
+    // installing: npm i --no-scripts (for all lambdas in src)
     hydrate.install(noop)
   }
 })
