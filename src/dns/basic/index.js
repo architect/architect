@@ -1,8 +1,9 @@
-let init = require('../../util/init')
+let aws = require('aws-sdk')
 let series = require('run-series')
+let init = require('../../util/init')
+let isAPI = require('../_is-api')
 let _cert = require('./00-certificate')
 let _domains = require('./01-domains')
-let isAPI = require('../_is-api')
 
 function dns(callback) {
   init(function exec(err, arc) {
@@ -16,6 +17,10 @@ function dns(callback) {
       callback('missing @domain')
     }
     else {
+      // FORCE the use of AWS_REGION and AWS_PROFILE which we set in init
+      var credentials = new aws.SharedIniFileCredentials({profile: process.env.AWS_PROFILE})
+      aws.config.credentials = credentials
+
       let app = arc.app[0]
       let domain = arc.domain[0]
       let cert = _cert.bind({}, domain)

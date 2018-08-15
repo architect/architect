@@ -2,10 +2,10 @@ let chalk = require('chalk')
 
 module.exports = function msg1(params) {
   let verified = !params.some(p=> p.status != 'SUCCESS')
-  let title = verified? chalk.dim.green('✔ Verified Certificate') : chalk.dim.yellow('Certficate not yet verified!')
-  
+  let title = verified? chalk.dim.green('✔ Certificate Verification CNAME') : chalk.dim.yellow('Certficate not yet verified!\n')
+
   let nameColour = verified? chalk.green: chalk.yellow.bold
-  let valueColour = verified? chalk.green.dim: chalk.yellow
+  let valueColour = verified? chalk.green: chalk.yellow
 
   let body = chalk.grey(`
 ${title}

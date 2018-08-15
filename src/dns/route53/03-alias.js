@@ -1,7 +1,8 @@
 let aws = require('aws-sdk')
+let chalk = require('chalk')
 let parallel = require('run-parallel')
 let waterfall = require('run-waterfall')
-let chalk = require('chalk')
+
 /**
  * display A records if they exist
  * create and display if they do not
@@ -45,10 +46,10 @@ module.exports = function _alias(domain, callback) {
         let records = result.records.ResourceRecordSets.filter(r=> r.Type === 'A')
         let staging = records.find(r=> r.Name === `staging.${domain}.`)
         let production = records.find(r=> r.Name === `${domain}.`)
-        console.log(chalk.green.dim('✔ A Records'))    
+        console.log(chalk.green.dim('✔ A Records'))
         console.log(chalk.grey(`          Production ${chalk.green.bold.underline(production.Name)}`))
         console.log(chalk.grey(`             Staging ${chalk.green.bold.underline(staging.Name)}`))
-        callback() 
+        callback()
       }
       else {
 
@@ -87,7 +88,10 @@ module.exports = function _alias(domain, callback) {
         },
         function done(err) {
           if (err) callback(err)
-          else callback()
+          else {
+            console.log(chalk.green.dim('✔ Created A Records'))
+            callback()
+          }
         })
       }
     }

@@ -1,7 +1,11 @@
 let aws = require('aws-sdk')
+let chalk = require('chalk')
 let waterfall = require('run-waterfall')
 let _reduceResourceRecords = require('./_cert-reduce-resource-records')
 
+/**
+ * creates a CNAME record for verifying domain ownership for creating a new Certifcate
+ */
 module.exports = function _createCNAME({domain, Certificate}, callback) {
 
   let route53 = new aws.Route53
@@ -37,7 +41,8 @@ module.exports = function _createCNAME({domain, Certificate}, callback) {
     },
 
     function maybeCreateCNAME(existing, callback) {
-      let changeNeeded = existing.some(exists=> !reduced.find(r=> r.name === exists.name))
+      let missingCNAME = r=> !existing.find(e=>e.name === r.name)
+      let changeNeeded = reduced.some(missingCNAME)
       if (changeNeeded) {
         let Changes = reduced.map(option=> {
           return {
@@ -62,13 +67,16 @@ module.exports = function _createCNAME({domain, Certificate}, callback) {
         function done(err) {
           if (err) callback(err)
           else {
-            console.log('updated cname')
+            console.log(chalk.green.dim('✔ Created certificate validation CNAME record'))
+            console.log(chalk.dim('Certificate validation will take time as DNS records propagate.'))
             callback(Error('cancel'))
           }
         })
       }
       else {
-        callback()
+        console.log(chalk.green.dim('✔ Found certificate validation CNAME record\n'))
+        console.log(chalk.cyan('Certificate validation takes time as DNS records propagate! Check back in a few minutes and re-run', chalk.green.bold('npx dns route53'), 'to continue.'))
+        callback(Error('cancel'))
       }
     }
   ], callback)

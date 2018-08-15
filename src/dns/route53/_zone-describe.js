@@ -1,57 +1,63 @@
 let aws = require('aws-sdk')
 let chalk = require('chalk')
 //let waterfall = require('run-waterfall')
-let parallel = require('run-parallel')
+//let parallel = require('run-parallel')
 
 module.exports = function _print({domain, registrar, HostedZoneId}, callback) {
   console.log(chalk.dim.green('✔ Route53 Hosted Zone'))
   console.log(`                     ${chalk.green.bold.underline(domain)}`)
   console.log('')
-  let registered = registrar && registrar.Domains && registrar.Domains.map(d=> d.DomainName).some(d=> d === domain)
-  let exec = registered?  _awsRegistrar : _thirdPartyRegistrar
+  let ns = registrar? registrar.Nameservers : []
+  let exec = registrar?  _awsRegistrar : _thirdPartyRegistrar
   exec({
+    ns,
     domain,
     HostedZoneId,
   }, callback)
 }
 
-function _awsRegistrar({domain, HostedZoneId}, callback) {
-  // get the nameservers
-  parallel({
-    zone(callback) {
-      var route53 = new aws.Route53
-      route53.listResourceRecordSets({
-        HostedZoneId,
-        StartRecordType: 'NS',
-        StartRecordName: domain,
-      }, callback)
-    },
-    registrar(callback) {
-      let route53domains = new aws.Route53Domains
-      route53domains.getDomainDetail({
-        DomainName: domain
-      }, callback)
-    }
+function _awsRegistrar({ns, domain, HostedZoneId}, callback) {
+  let route53 = new aws.Route53
+  route53.listResourceRecordSets({
+    HostedZoneId,
+    StartRecordType: 'NS',
+    StartRecordName: domain,
   },
   function done(err, result) {
     if (err) callback(err)
     else {
-      var zoneNameservers = result.zone.ResourceRecordSets.find(t=> t.Type === 'NS').ResourceRecords.map(x=> x.Value).sort().join('\n')
-      let registrarNameservers = result.registrar.Nameservers.map(fmt).sort().join('\n')
+      var zoneNameservers = result.ResourceRecordSets.find(t=> t.Type === 'NS').ResourceRecords.map(x=> x.Value).sort().join('\n')
+      let registrarNameservers = ns.map(fmt).sort().join('\n')
       let verifiedNameservers = zoneNameservers === registrarNameservers
       if (verifiedNameservers) {
-        console.log(chalk.dim.green('✔ Verified nameservers'))
+        console.log(chalk.dim.green('✔ Verified Nameservers'))
         let nameservers = zoneNameservers.split('\n')
         nameservers.forEach(ns=> {
           console.log(`                     ${chalk.green(ns)}`)
         })
+        callback()
       }
       else {
-        console.log(chalk.dim.yellow('⚠ Nameservers invalid'))
-        console.log('expected', chalk.yellow.bold(zoneNameservers))
-        console.log('actual', chalk.red.bold(registrarNameservers))
+        let Nameservers = result.ResourceRecordSets.find(t=> t.Type === 'NS').ResourceRecords.map(r=> ({Name: r.Value}))
+        let route53domains = new aws.Route53Domains
+        route53domains.updateDomainNameservers({
+          DomainName: domain,
+          Nameservers,
+        },
+        function done(err) {
+          if (err && err.code != 'DuplicateRequest') {
+            callback(err) // bubble errors; swallow re-run throttle exceptions
+          }
+          else {
+            console.log(chalk.dim.green('✔ Updated Nameservers'))
+            let nameservers = zoneNameservers.split('\n')
+            nameservers.forEach(ns=> {
+              console.log(`                     ${chalk.green(ns)}`)
+            })
+            callback()
+          }
+        })
       }
-      callback()
     }
   })
 }

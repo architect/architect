@@ -2,7 +2,7 @@
 let aws = require('aws-sdk')
 let msgFirst = require('./_cert-msg-0')
 let msg = require('./_cert-msg-1')
-let _createCNAME = require('./_cname-create')
+let _createCNAME = require('./_cert-cname-create')
 
 // prints out the cert request cname values
 // if not verified attempts to create the cname values

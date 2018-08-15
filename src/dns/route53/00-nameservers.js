@@ -4,7 +4,7 @@ let parallel = require('run-parallel')
 let _print = require('./_zone-describe')
 let _create = require('./_zone-create')
 
-/** 
+/**
  * display a hosted zone if it exists
  * otherwise create one and display it
  */
@@ -21,9 +21,13 @@ module.exports = function createHostedZone(domain, callback) {
         },
         registrar(callback) {
           let route53domains = new aws.Route53Domains
-          route53domains.listDomains({
-            MaxItems: 20 // FIXME need to paginate this
-          }, callback)
+          route53domains.getDomainDetail({
+            DomainName: domain,
+          },
+          function done(err, result) {
+            if (err) callback(null, false)
+            else callback(null, result)
+          })
         }
       }, callback)
     },
@@ -42,7 +46,7 @@ module.exports = function createHostedZone(domain, callback) {
       else {
         _create({
           domain,
-          registrar,
+          //registrar,
         }, callback)
       }
     }

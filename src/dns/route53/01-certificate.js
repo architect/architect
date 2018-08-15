@@ -42,14 +42,14 @@ module.exports = function _cert(domain, callback) {
                 domain,
                 CertificateArn: result.CertificateArn,
               }, callback)
-            }, 3*1000)
+            }, 8*1000)
           }
         ],
         function done(err, result) {
           if (err) callback(err)
           else {
             console.log(result)
-            console.log(chalk.grey('\nCreated CNAME records but it may take a few minutes to verify the cert. Re-run', chalk.green('npx dns'), 'to continue.'))
+            console.log(chalk.grey('\nCreated CNAME records but it may take a few minutes to verify the cert. Re-run', chalk.green('npx dns route53'), 'to continue.'))
             callback(Error('cancel'))
           }
         })
