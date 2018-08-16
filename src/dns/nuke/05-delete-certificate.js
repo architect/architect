@@ -1,6 +1,7 @@
 let waterfall = require('run-waterfall')
 let aws = require('aws-sdk')
 let print = require('./_print')
+let chalk = require('chalk')
 
 module.exports = function ({domain}, callback) {
   let acm = new aws.ACM({region: 'us-east-1'})
@@ -15,7 +16,12 @@ module.exports = function ({domain}, callback) {
           CertificateArn: cert.CertificateArn
         },
         function done(err) {
-          print(err)
+          if (err && err.code === 'ResourceInUseException') {
+            console.log(chalk.yellow('Warning: unable to delete certificate because AWS thinks it still is in use.\nPlease wait a few minutes and try re-running', chalk.green.bold('ARC_NUKE=route53 npx dns nuke'), 'to ensure it is destroyed.'))
+          }
+          if (err && err.code != 'ResourceInUseException') {
+            print(err)
+          }
           callback()
         })
       }

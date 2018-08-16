@@ -13,13 +13,14 @@ module.exports = function ({domain, route53}, callback) {
         }, callback)
       },
       function getRecordSets(result, callback) {
-        let exists = result.HostedZones && result.HostedZones.length > 0
+        let exists = result.HostedZones && result.HostedZones.length > 0 && result.HostedZones[0].Name === domain
         if (exists) {
           let HostedZoneId = result.HostedZones[0].Id
           route53.deleteHostedZone({
             Id: HostedZoneId,
           },
           function done(err) {
+            //'HostedZoneNotEmpty'
             print(err)
             callback()
           })
