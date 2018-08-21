@@ -17,6 +17,15 @@ var xml = require('./validators/xml')
  * validates a parsed .arc file
  */
 module.exports = function validate(arc, raw, callback) {
+  if (process.env.ARC_DANGERZONE) {
+    callback(null, arc)
+  }
+  else {
+    _validate(arc, raw, callback)
+  }
+}
+
+function _validate(arc, raw, callback) {
 
   // an array of the validators
   //
