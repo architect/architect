@@ -20,20 +20,36 @@ module.exports = function planner(arc) {
 
   //
   // sns events
-  //
   if (arc.events) {
     arc.events.forEach(event=> {
+      plans.push({action:'create-event-lambda-code', event, app})
       if (!process.env.ARC_LOCAL) {
         plans.push({action:'create-events', event, app})
-        plans.push({action:'create-event-lambda-code', event, app})
+        plans.push({action:'create-event-lambda-deployments', event, app})
       }
-      plans.push({action:'create-event-lambda-deployments', event, app})
     })
   }
 
-  //
+  // queue
+  if (arc.queues) {
+    arc.queues.forEach(queue=> {
+      plans.push({action:'create-queue-lambda-code', queue, app})
+      if (!process.env.ARC_LOCAL) {
+        plans.push({action:'create-queue', queue, app})
+        plans.push({action:'create-queue-lambda-deployments', queue, app})
+      }
+    })
+  }
+
+  // scheduled
+  if (arc.scheduled && !process.env.ARC_LOCAL) {
+    arc.scheduled.forEach(scheduled=> {
+      plans.push({action:'create-scheduled-lambda-code', scheduled, app})
+      plans.push({action:'create-scheduled-lambda-deployments', scheduled, app})
+    })
+  }
+
   // s3 buckets
-  //
   if (arc.static && !process.env.ARC_LOCAL) {
     plans.push({action:'create-static-deployments', static:arc.static})
   }
@@ -139,14 +155,6 @@ module.exports = function planner(arc) {
   if (arc.indexes && !process.env.ARC_LOCAL) {
     arc.indexes.forEach(index=> {
       plans.push({action:'create-table-index', index, app})
-    })
-  }
-
-  // build up a plan for scheduled
-  if (arc.scheduled && !process.env.ARC_LOCAL) {
-    arc.scheduled.forEach(scheduled=> {
-      plans.push({action:'create-scheduled-lambda-code', scheduled, app})
-      plans.push({action:'create-scheduled-lambda-deployments', scheduled, app})
     })
   }
 

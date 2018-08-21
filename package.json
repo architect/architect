@@ -26,7 +26,7 @@
   "scripts": {
     "lint": "eslint . --fix",
     "t": "cross-env NODE_ENV=testing tape 'test/validation/*-test.js' | tap-spec",
-    "test": "cross-env NODE_ENV=testing cross-env AWS_PROFILE=smallwins cross-env AWS_REGION=us-west-1 tape test/deploy/test.js | tap-spec"
+    "test": "NODE_ENV=testing tape test/create/07-queues-test.js | tap-spec"
   },
   "keywords": [
     "aws",
@@ -52,7 +52,7 @@
   "dependencies": {
     "@architect/parser": "^1.1.1",
     "@smallwins/validate": "^4.3.0",
-    "aws-sdk": "^2.251.1",
+    "aws-sdk": "^2.296.0",
     "body-parser": "^1.18.3",
     "chalk": "^1.1.3",
     "clear": "^0.1.0",
