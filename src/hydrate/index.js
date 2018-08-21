@@ -25,7 +25,7 @@ function _initDeps(installing, callback) {
   parallel({
     lambdas(callback) {
       // all the lambda folders
-      let pattern = 'src/@(html|css|js|text|xml|json|events|scheduled|tables|slack)/*'
+      let pattern = 'src/@(html|css|js|text|xml|json|events|scheduled|tables|slack|queues)/*'
       glob(pattern, callback)
     },
     shared(callback) {

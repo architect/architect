@@ -8,8 +8,6 @@
  *   s3buckets,
  *   tables,
  *
- *   TODO @domain certs
- *   TODO @domain recordsets
  *   TODO cloudwatch rules
  *   TODO add SSM Params used by env
  * }
