@@ -1,5 +1,5 @@
 /* eslint global-require:"off" */
-var runPluginFunction = require('../../util/runPluginFunction')
+var runPluginFunction = require('../../util/run-plugin-promise')
 /**
  * calls any plugins registered in .arc with beforeDeploy
  */
