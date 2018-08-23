@@ -5,9 +5,9 @@ var glob = require('glob')
 var chalk = require('chalk')
 var path = require('path')
 var fs = require('fs')
-var s3 = new aws.S3
 
 module.exports = function factory(bucket, callback) {
+  var s3 = new aws.S3({region: process.env.AWS_REGION})
   return function upload() {
     console.log(`${chalk.green('Success!')} ${chalk.green.dim('Deployed .static')}`)
     console.log(chalk.cyan.dim('-------------------------'))

@@ -1,7 +1,7 @@
 let aws = require('aws-sdk')
 
 module.exports = function _createFunc({app, queue, name}, zip, role, callback) {
-  let lambda = new aws.Lambda
+  let lambda = new aws.Lambda({region: process.env.AWS_REGION})
   lambda.createFunction({
     Code: {
       ZipFile: zip

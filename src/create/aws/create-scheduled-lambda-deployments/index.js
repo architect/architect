@@ -2,8 +2,6 @@ var assert = require('@smallwins/validate/assert')
 var parallel = require('run-parallel')
 var waterfall = require('run-waterfall')
 var aws = require('aws-sdk')
-var lambda = new aws.Lambda
-var cloudwatch = new aws.CloudWatchEvents
 var getLambda = require('../_get-lambda')
 var print = require('../../_print')
 
@@ -33,6 +31,8 @@ module.exports = function _createDeployments(params, callback) {
 }
 
 function _create(deployname, codename, rule, callback) {
+  var lambda = new aws.Lambda({region: process.env.AWS_REGION})
+  //var cloudwatch = new aws.CloudWatchEvents({region: process.env.AWS_REGION})
   lambda.getFunction({FunctionName:deployname}, function _gotFn(err) {
     if (err && err.name === 'ResourceNotFoundException') {
       print.create('@scheduled', deployname)
@@ -51,6 +51,8 @@ function _create(deployname, codename, rule, callback) {
 }
 
 function _createLambda(deployname, codename, rule, callback) {
+  var lambda = new aws.Lambda({region: process.env.AWS_REGION})
+  var cloudwatch = new aws.CloudWatchEvents({region: process.env.AWS_REGION})
   var lambdaArn
   waterfall([
     function _getLambda(callback) {

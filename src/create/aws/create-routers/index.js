@@ -3,7 +3,7 @@ var assert = require('@smallwins/validate/assert')
 var parallel = require('run-parallel')
 
 function create(name, callback) {
-  var gateway = new aws.APIGateway
+  var gateway = new aws.APIGateway({region: process.env.AWS_REGION})
   gateway.createRestApi({
     name,
     minimumCompressionSize: 0
@@ -11,7 +11,7 @@ function create(name, callback) {
 }
 
 function list(callback) {
-  var gateway = new aws.APIGateway
+  var gateway = new aws.APIGateway({region: process.env.AWS_REGION})
   gateway.getRestApis({
     limit: 500,
   }, callback)

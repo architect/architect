@@ -3,7 +3,6 @@ var waterfall = require('run-waterfall')
 var assert = require('@smallwins/validate/assert')
 var aws = require('aws-sdk')
 var print = require('../../_print')
-var s3 = new aws.S3
 
 module.exports = function _createDeployments(params, callback) {
 
@@ -27,6 +26,7 @@ module.exports = function _createDeployments(params, callback) {
 }
 
 function _create(app, bucket, callback) {
+  let s3 = new aws.S3({region: process.env.AWS_REGION})
   print.create('@static', bucket)
   var ok = true
   waterfall([

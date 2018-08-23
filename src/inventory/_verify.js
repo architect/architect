@@ -57,7 +57,7 @@ module.exports = function _cloud(inventory) {
     },
     function s3(callback) {
       header('S3 Buckets')
-      let s3 = new aws.S3
+      let s3 = new aws.S3({region: process.env.AWS_REGION})
       series(inventory.s3buckets.map(Bucket=> {
         return function _getBucket(callback) {
           s3.headBucket({Bucket}, function _prettyPrint(err) {

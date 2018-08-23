@@ -16,7 +16,7 @@ let map = require('./03-create-event-source')
  */
 
 module.exports = function _create({app, queue, name}, callback) {
-  let lambda = new aws.Lambda
+  let lambda = new aws.Lambda({region: process.env.AWS_REGION})
   lambda.getFunction({
     FunctionName: name
   },

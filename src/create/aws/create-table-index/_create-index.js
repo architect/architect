@@ -1,6 +1,5 @@
 var waterfall = require('run-waterfall')
 var aws = require('aws-sdk')
-var dynamo = new aws.DynamoDB
 var getAttributeDefinitions = require('./_get-attribute-definitions')
 var print = require('../../_print')
 var getGsiName = require('./_get-gsi-name')
@@ -8,6 +7,7 @@ var getGlobalSecondaryIndexes = require('./_get-global-secondary-indexes')
 
 module.exports = function _createTable(name, attr, callback) {
 
+  var dynamo = new aws.DynamoDB({region: process.env.AWS_REGION})
   var gsiName = `${name}-${getGsiName(attr)}`
 
   waterfall([

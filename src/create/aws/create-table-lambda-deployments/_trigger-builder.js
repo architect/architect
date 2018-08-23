@@ -1,10 +1,11 @@
 var parallel = require('run-parallel')
 var aws = require('aws-sdk')
-var lambda = new aws.Lambda
 var print = require('../../_print')
 var create = require('./_create-lambda')
 
 module.exports = function _triggerBuilder(app, name, method, callback) {
+
+  let lambda = new aws.Lambda({region: process.env.AWS_REGION})
 
   function _create(app, stage, callback) {
     lambda.getFunction({FunctionName:stage}, function _gotFn(err) {

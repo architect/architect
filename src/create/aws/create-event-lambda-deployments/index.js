@@ -3,8 +3,6 @@ let waterfall = require('run-waterfall')
 let assert = require('@smallwins/validate/assert')
 let zip = require('zipit')
 let aws = require('aws-sdk')
-let lambda = new aws.Lambda
-let sns = new aws.SNS
 let getIAM = require('../_get-iam-role')
 let print = require('../../_print')
 let getTopicArn = require('./_get-sns-topic-arn')
@@ -24,6 +22,7 @@ module.exports = function _createDeployments(params, callback) {
   })
 
   function _create(app, stage, callback) {
+    let lambda = new aws.Lambda({region: process.env.AWS_REGION})
     lambda.getFunction({FunctionName:stage}, function _gotFn(err) {
       if (err && err.name === 'ResourceNotFoundException') {
         print.create('@events', stage)
@@ -58,6 +57,7 @@ module.exports = function _createDeployments(params, callback) {
 }
 
 function _createLambda(app, event, env, callback) {
+  let lambda = new aws.Lambda({region: process.env.AWS_REGION})
   waterfall([
     // gets the IAM role for lambda execution
     function _getRole(callback) {
@@ -129,6 +129,7 @@ function _createLambda(app, event, env, callback) {
           callback(err)
         }
         else {
+          let sns = new aws.SNS({region: process.env.AWS_REGION})
           sns.subscribe({
             Protocol: 'lambda',
             TopicArn: topicArn,

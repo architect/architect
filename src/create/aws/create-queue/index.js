@@ -16,7 +16,7 @@ module.exports = function _createSQS(params, callback) {
   })
 
   function createQueue(env, callback) {
-    let sqs = new aws.SQS
+    let sqs = new aws.SQS({region: process.env.AWS_REGION})
     sqs.createQueue({
       QueueName: `${params.app}-${env}-${params.queue}`,
     },

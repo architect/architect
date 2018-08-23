@@ -4,7 +4,7 @@ var createResources = require('./_create-resources')
 
 module.exports = function _maybeCreateResources(stage, route, type, callback) {
 
-  var gateway = new aws.APIGateway
+  var gateway = new aws.APIGateway({region: process.env.AWS_REGION})
   var restApiId
 
   waterfall([

@@ -2,12 +2,13 @@ var parallel = require('run-parallel')
 var waterfall = require('run-waterfall')
 var assert = require('@smallwins/validate/assert')
 var aws = require('aws-sdk')
-var lambda = new aws.Lambda
 var print = require('../../_print')
 var getLambda = require('../_get-lambda')
 var getName = require('../_get-lambda-name')
 
 module.exports = function _createDeployments(params, callback) {
+
+  let lambda = new aws.Lambda({region: process.env.AWS_REGION})
 
   assert(params, {
     app: String,
@@ -53,6 +54,7 @@ module.exports = function _createDeployments(params, callback) {
 }
 
 function _createLambda(app, name, env, route, callback) {
+  let lambda = new aws.Lambda({region: process.env.AWS_REGION})
   waterfall([
     function _getLambda(callback) {
       getLambda({

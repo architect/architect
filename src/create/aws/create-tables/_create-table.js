@@ -1,7 +1,5 @@
 var waterfall = require('run-waterfall')
 var aws = require('aws-sdk')
-var dynamo = new aws.DynamoDB
-var list = errback=> dynamo.listTables({}, errback)
 var getAttributeDefinitions = require('./_get-attribute-definitions')
 var getKeySchema = require('./_get-key-schema')
 var getTTL = require('./_get-ttl')
@@ -10,10 +8,11 @@ var clean = require('./_remove-ttl-and-lambda')
 
 module.exports = function _createTable(name, attr, callback) {
 
+  var dynamo = new aws.DynamoDB({region: process.env.AWS_REGION})
   var keys = Object.keys(clean(attr))
   var _ttl = getTTL(attr)
 
-  list(function _tables(err, result) {
+  dynamo.listTables({}, function _tables(err, result) {
     if (err) {
       console.log(err)
       // blow up if a programmer config err

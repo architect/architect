@@ -1,7 +1,6 @@
-var assert = require('@smallwins/validate/assert')
-var parallel = require('run-parallel')
-var aws = require('aws-sdk')
-var sns = new aws.SNS
+let assert = require('@smallwins/validate/assert')
+let parallel = require('run-parallel')
+let aws = require('aws-sdk')
 
 /**
  * creates two sns topics
@@ -10,6 +9,8 @@ var sns = new aws.SNS
  * - appname-production-eventname
  */
 module.exports = function _createSnsTopics(params, callback) {
+
+  let sns = new aws.SNS({region: process.env.AWS_REGION})
 
   // ensure no programmers flails
   assert(params, {
@@ -31,8 +32,8 @@ module.exports = function _createSnsTopics(params, callback) {
   }
 
   // create two topics, one for staging one for prod
-  var staging = createTopic.bind({}, 'staging')
-  var production = createTopic.bind({}, 'production')
+  let staging = createTopic.bind({}, 'staging')
+  let production = createTopic.bind({}, 'production')
 
   // lets be quick about it
   parallel([

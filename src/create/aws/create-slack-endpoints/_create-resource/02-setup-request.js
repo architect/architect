@@ -1,12 +1,13 @@
 var assert = require('@smallwins/validate/assert')
 var waterfall = require('run-waterfall')
 var aws = require('aws-sdk')
-var sts = new aws.STS
-var lambda = new aws.Lambda
-var gateway = new aws.APIGateway
 var getReqTmpl = require('./_get-request-tmpl')
 
 module.exports = function _02setupRequest(params, callback) {
+
+  var sts = new aws.STS
+  var lambda = new aws.Lambda({region: process.env.AWS_REGION})
+  var gateway = new aws.APIGateway({region: process.env.AWS_REGION})
 
   assert(params, {
     route: String,

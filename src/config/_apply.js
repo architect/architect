@@ -12,7 +12,7 @@ let title = msg=> console.log(chalk.dim.cyan(msg))
 
 module.exports = function report(arc) {
 
-  let lambda = new aws.Lambda
+  let lambda = new aws.Lambda({region:process.env.AWS_REGION})
   let appname = arc.app[0]
   let pattern = 'src/@(html|css|js|text|json|xml|events|slack|scheduled|tables|queues)/**/.arc-config'
 

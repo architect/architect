@@ -15,7 +15,7 @@ module.exports = function _getLambda(params, callback) {
     deployname: String, // appname-staging-foo
   })
 
-  var lambda = new aws.Lambda
+  var lambda = new aws.Lambda({region:process.env.AWS_REGION})
   var {section, codename, deployname} = params
   var appname = deployname.split(/-(production|staging)-/)[0]
 

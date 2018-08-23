@@ -6,9 +6,10 @@ var getPattern = require('./_get-pattern')
 var getResponseParams = require('./_get-response-params')
 var getResponseTmpl = require('./_get-response-tmpl')
 
-var gateway = new aws.APIGateway
 
 module.exports = function _03setupResponse(params, callback) {
+
+  var gateway = new aws.APIGateway({region: process.env.AWS_REGION})
 
   assert(params, {
     httpMethod: String,

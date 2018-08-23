@@ -2,12 +2,13 @@ var parallel = require('run-parallel')
 var waterfall = require('run-waterfall')
 var assert = require('@smallwins/validate/assert')
 var aws = require('aws-sdk')
-var lambda = new aws.Lambda
 var print = require('../../_print')
 var getLambda = require('../_get-lambda')
 var getName = require('../_get-lambda-name')
 
 module.exports = function _createDeployments(params, callback) {
+
+  let lambda = new aws.Lambda({region: process.env.AWS_REGION})
 
   assert(params, {
     app: String,
@@ -17,7 +18,10 @@ module.exports = function _createDeployments(params, callback) {
   var name = getName(params.route).replace('-', 'get-')
 
   function _create(app, stage, callback) {
-    lambda.getFunction({FunctionName:stage}, function _gotFn(err) {
+    lambda.getFunction({
+      FunctionName: stage
+    },
+    function _gotFn(err) {
       if (err && err.name === 'ResourceNotFoundException') {
         print.create('@css', stage)
         _createLambda(app, name, stage, params.route, callback)
@@ -73,6 +77,7 @@ function _createLambda(app, name, env, route, callback) {
       if (!process.env.ARC_DISABLE_SESSION) {
         config.Environment.Variables['SESSION_TABLE_NAME'] = sessionTableName
       }
+      let lambda = new aws.Lambda({region: process.env.AWS_REGION})
       lambda.updateFunctionConfiguration(config, function _update(err) {
         if (err) {
           console.log(err)

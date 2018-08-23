@@ -1,8 +1,6 @@
 var waterfall = require('run-waterfall')
 var zip = require('zipit')
 var aws = require('aws-sdk')
-var lambda = new aws.Lambda
-var dynamo = new aws.DynamoDB
 var getIAM = require('../_get-iam-role')
 
 //
@@ -10,8 +8,13 @@ var getIAM = require('../_get-iam-role')
 // env: appname-staging-arc-sessions-insert
 //
 module.exports = function _createLambda(app, name, env, callback) {
+
+  var lambda = new aws.Lambda({region: process.env.AWS_REGION})
+  var dynamo = new aws.DynamoDB({region: process.env.AWS_REGION})
+
   var TableName = env.replace(/-insert|-update|-destroy|-delete/g, '')
   var Description = `@table ${env}`
+
   waterfall([
     // gets the IAM role for lambda execution
     function _getRole(callback) {

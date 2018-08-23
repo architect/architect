@@ -3,11 +3,12 @@ var fs = require('fs')
 var path = require('path')
 var waterfall = require('run-waterfall')
 var aws = require('aws-sdk')
-var sts = new aws.STS
-var lambda = new aws.Lambda
-var gateway = new aws.APIGateway
 
 module.exports = function _02setupRequest(params, callback) {
+
+  var sts = new aws.STS
+  var lambda = new aws.Lambda({region: process.env.AWS_REGION})
+  var gateway = new aws.APIGateway({region: process.env.AWS_REGION})
 
   assert(params, {
     route: String,
@@ -45,7 +46,7 @@ module.exports = function _02setupRequest(params, callback) {
           callback(err)
         }
         else if (err && err.name === 'NotFoundException') {
-          var region = (new aws.Config).region || 'us-east-1' // – ̗̀ 𝓗𝔞𝔱𝔢𝔯𝔰 𝔤𝔬𝔫𝔫𝔞 𝔥𝔞𝔱𝔢 ̖́- ᕕ( ᐛ )ᕗ✧ platform voodoo
+          var region = process.env.AWS_REGION //(new aws.Config).region || 'us-east-1' // – ̗̀ 𝓗𝔞𝔱𝔢𝔯𝔰 𝔤𝔬𝔫𝔫𝔞 𝔥𝔞𝔱𝔢 ̖́- ᕕ( ᐛ )ᕗ✧ platform voodoo
           var uri = `arn:aws:apigateway:${region}:lambda:path/2015-03-31/functions/${arn}/invocations`
           gateway.putIntegration({
             httpMethod: httpMethod.toUpperCase(),
@@ -93,7 +94,7 @@ module.exports = function _02setupRequest(params, callback) {
     },
     function _addApiGatewayInvokePermission(accountID, callback) {
       // – ̗̀ 𝓗𝔞𝔱𝔢𝔯𝔰 𝔤𝔬𝔫𝔫𝔞 𝔥𝔞𝔱𝔢 ̖́- ᕕ( ᐛ )ᕗ✧ platform voodoo
-      var region = (new aws.Config).region || 'us-east-1'
+      var region = process.env.AWS_REGION //(new aws.Config).region || 'us-east-1'
       var mthd = httpMethod.toUpperCase()
       var path = params.route.split(/:[a-z]+/i).join('*').replace('/', '')
       var SourceArn = `arn:aws:execute-api:${region}:${accountID}:${restApiId}/*/${mthd}/${path}`

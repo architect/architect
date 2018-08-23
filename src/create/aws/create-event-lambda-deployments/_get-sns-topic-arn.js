@@ -1,8 +1,8 @@
 let aws = require('aws-sdk')
-let sns = new aws.SNS
 
 module.exports = function snstopics(name, callback) {
 
+  let sns = new aws.SNS({region: process.env.AWS_REGION})
   let found = false
 
   // aws-sdk isn't the friendliest api

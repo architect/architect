@@ -11,7 +11,7 @@ module.exports = function map(FunctionName, callback) {
       let REGION = process.env.AWS_REGION
       let ACCOUNT = result.Account
       let EventSourceArn = `arn:aws:sqs:${REGION}:${ACCOUNT}:${FunctionName}`
-      let lambda = new aws.Lambda
+      let lambda = new aws.Lambda({region: process.env.AWS_REGION})
       lambda.createEventSourceMapping({
         EventSourceArn,
         FunctionName,

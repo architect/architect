@@ -10,7 +10,7 @@ module.exports = function createRouters(params, callback) {
     app: String,
   })
 
-  var gateway = new aws.APIGateway
+  var gateway = new aws.APIGateway({region: process.env.AWS_REGION})
 
   function deploy(params, callback) {
     setTimeout(function _chill() {
