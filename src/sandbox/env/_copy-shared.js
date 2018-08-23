@@ -3,6 +3,7 @@ let chalk = require('chalk')
 let glob = require('glob')
 let path = require('path')
 let mkdir = require('mkdirp').sync
+let pattern = require('../../util/glob-lambdas')
 
 /**
  * copies ./src/shared into ./node_modules/@architect/shared/
@@ -12,7 +13,7 @@ module.exports = function _shared(callback) {
 
   let src = path.join(process.cwd(), 'src', 'shared')
   let files = glob.sync(src + '/**/*', {dot:true})
-  let paths = glob.sync('src/@(text|xml|html|json|js|css|events|scheduled|tables|slack)/*')
+  let paths = glob.sync(pattern)
 
   files.forEach(f=> {
     paths.forEach(pathToCode=> {

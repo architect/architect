@@ -23,8 +23,10 @@ module.exports = function report(arc) {
     else {
       files.forEach(file=> {
         try {
+          // read the .arc-config
           let raw = fs.readFileSync(file).toString().trim()
           let config = parse(raw)
+          // if we have it do something about it
           if (config && config.aws) {
             let timeout = config.aws.find(e=> e[0] === 'timeout') || 5
             let memory = config.aws.find(e=> e[0] === 'memory') || 1152

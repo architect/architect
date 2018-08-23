@@ -1,7 +1,6 @@
-let parse = require('@architect/parser')
+let readArc = require('../../util/read-arc')
 let fork = require('child_process').fork
 let path = require('path')
-let fs = require('fs')
 let http = require('http')
 let chalk = require('chalk')
 
@@ -12,8 +11,7 @@ module.exports = {start}
  */
 function start(callback) {
 
-  let arcPath = path.join(process.cwd(), '.arc')
-  let arc = parse(fs.readFileSync(arcPath).toString())
+  let {arc} = readArc()
   let close = x=> !x
 
   // if .arc has events and we're not clobbering with ARC_LOCAL flag

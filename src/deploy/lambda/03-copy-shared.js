@@ -1,4 +1,7 @@
+let parse = require('@architect/parser')
+let exists = require('path-exists').sync
 let path = require('path')
+let fs = require('fs')
 let series = require('run-series')
 let cp = require('cpr')
 
@@ -18,7 +21,23 @@ module.exports = function _shared(params, callback) {
       cp(src, dest, {overwrite:true}, callback)
     },
     function copyArc(callback) {
-      cp(arcFileSrc, arcFileDest, {overwrite:true}, callback)
+      let arcYamlPath = path.join(process.cwd(), 'arc.yaml')
+      let arcJsonPath = path.join(process.cwd(), 'arc.json')
+      if (exists(arcFileSrc)) {
+        cp(arcFileSrc, arcFileDest, {overwrite:true}, callback)
+      }
+      else if (exists(arcYamlPath)) {
+        let raw = fs.readFileSync(arcYamlPath).toString()
+        let arc = parse.yaml.stringify(raw)
+        fs.writeFileSync(arcFileDest, arc)
+        callback()
+      }
+      else if (exists(arcJsonPath)) {
+        let raw = fs.readFileSync(arcJsonPath).toString()
+        let arc = parse.json.stringify(raw)
+        fs.writeFileSync(arcFileDest, arc)
+        callback()
+      }
     }
   ],
   function done(err) {

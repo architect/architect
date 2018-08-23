@@ -1,15 +1,15 @@
 // 3rd party
-var parse = require('@architect/parser')
 var Router = require('router')
 var body = require('body-parser')
 var finalhandler = require('finalhandler')
 
 // built ins
 var http = require('http')
-var read = require('fs').readFileSync
-var join = require('path').join
+//var read = require('fs').readFileSync
+//var join = require('path').join
 
 // local modules
+let readArc = require('../../util/read-arc')
 var reg = require('./_register-route')
 var static = require('./_static')
 
@@ -26,9 +26,7 @@ let server
 app.start = function start(callback) {
 
   // read the arc file
-  var arcPath = join(process.cwd(), '.arc')
-  var raw = read(arcPath).toString()
-  var web = parse(raw)
+  var web = readArc().arc
   var tuple = v=> (['get', v])
 
   // build the routes

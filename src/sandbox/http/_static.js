@@ -1,9 +1,8 @@
-let parse = require('@architect/parser')
+let readArc = require('../../util/read-arc')
 let url = require('url')
 let send = require('send')
 let exists = require('path-exists').sync
 let path = require('path')
-let fs = require('fs')
 
 module.exports = function static(req, res, next) {
 
@@ -26,9 +25,7 @@ module.exports = function static(req, res, next) {
   let last = bits[bits.length - 1] // the file extension
 
   // parse .arc
-  let pathToArc = path.join(process.cwd(), '.arc')
-  let raw = fs.readFileSync(pathToArc).toString()
-  let arc = parse(raw)
+  let {arc} = readArc()
 
   let noFile = !allowed.includes(last)
   let noStatic = !exists(path.join(process.cwd(), '.static'))

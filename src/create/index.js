@@ -1,4 +1,3 @@
-/* eslint global-require:"off" */
 let series = require('run-series')
 let validate = require('./validate')
 let planner = require('./_planner')

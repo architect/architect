@@ -1,4 +1,3 @@
-let parse = require('@architect/parser')
 let aws = require('aws-sdk')
 let chalk = require('chalk')
 let parallel = require('run-parallel')
@@ -6,6 +5,7 @@ let series = require('run-series')
 let eq = require('shallow-equal/objects')
 let path = require('path')
 let fs = require('fs')
+let readArc = require('../util/read-arc')
 
 // arc reserved env vars
 let reserved = [
@@ -28,9 +28,7 @@ module.exports = function _verify(appname, callback) {
     },
     // get the lambdas
     lambdas(callback) {
-      let arcPath = path.join(process.cwd(), '.arc')
-      let raw = fs.readFileSync(arcPath).toString()
-      let arc = parse(raw)
+      let {arc, raw} = readArc()
       inventory(arc, raw, callback)
     }
   },
