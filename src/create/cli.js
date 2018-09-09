@@ -9,10 +9,11 @@ let errArcInvalid = require('./errors/arc-invalid')
 let errTooManyRequests = require('./errors/too-many-requests')
 let errUnknown = require('./errors/unknown')
 
-function flags() {
+function flags(arc, raw, callback) {
   if (process.env.ARC_DANGERZONE) {
     console.log(chalk.grey(chalk.green.dim('✓'), `dangerzone: engaged\n`))
   }
+  callback(null, arc, raw, callback)
 }
 
 waterfall([
