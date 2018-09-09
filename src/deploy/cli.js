@@ -13,6 +13,10 @@ init(function _init(err, arc) {
   let start = Date.now()
   let isAll = process.argv.length === 2
 
+  if (process.env.PARALLEL_DEPLOYS_PER_SECOND) {
+    console.log(chalk.grey(chalk.green.dim('✓'), `Parallel deploys per second: ${process.env.PARALLEL_DEPLOYS_PER_SECOND}\n`))
+  }
+
   if (err) {
     console.log(err)
   }
