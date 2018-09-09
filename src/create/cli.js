@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 let waterfall = require('run-waterfall')
+let chalk = require('chalk')
 let init = require('../util/init')
 let create = require('.')
 let stop = require('./_print').stop
@@ -8,8 +9,15 @@ let errArcInvalid = require('./errors/arc-invalid')
 let errTooManyRequests = require('./errors/too-many-requests')
 let errUnknown = require('./errors/unknown')
 
+function flags() {
+  if (process.env.ARC_DANGERZONE) {
+    console.log(chalk.grey(chalk.green.dim('✓'), `dangerzone: engaged\n`))
+  }
+}
+
 waterfall([
   init,
+  flags,
   create,
 ],
 function done(err) {
