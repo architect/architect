@@ -1,7 +1,8 @@
 let waterfall = require('run-waterfall')
 let chalk = require('chalk')
 let assert = require('@smallwins/validate/assert')
-let deploy = require('./lambda')
+let prep = require('./lambda')
+let deploy = require('./lambda/deploy')
 let _report = require('./_report')
 let _progress = require('./_progress')
 let parallel = require('run-parallel')
@@ -26,20 +27,50 @@ module.exports = function deployAll(params) {
       let pattern = 'src/@(html|css|js|text|xml|json|events|scheduled|tables|slack|queues)/*'
       glob(pattern, callback)
     },
-    // create a parallel deployment
-    function _deploys(result, callback) {
+    // prep for deployment
+    function _prep(result, callback) {
 
       // reuse this later
       results = result
 
       // boilerplate for the progress bar
       let total = results.length * steps
-      let progress = _progress({name: chalk.green.dim(`Deploying ${results.length} lambdas`), total})
+      let progress = _progress({name: chalk.green.dim(`Prepping ${results.length} lambdas`), total})
       let tick = ()=> progress.tick() // closure needed
+
+      waterfall([
+        function _goPrep(callback) {
+          parallel(results.map(pathToCode=> {
+            return function _prep(callback) {
+              prep({
+                env,
+                arc,
+                pathToCode,
+                tick,
+              }, callback)
+            }
+          }), callback)
+        }
+      ],
+      function done(err) {
+        if (err) {
+          callback(err, results)
+        }
+        callback(null, results)
+      })
+    },
+    // create a parallel deployment
+    function _deploy(result, callback) {
+      results = result
 
       let queue = _queue()
       let firstRun = true
       let timeout = 0
+
+      // boilerplate for the progress bar
+      let total = results.length * steps
+      let progress = _progress({name: chalk.green.dim(`Deploying ${results.length} lambdas`), total})
+      let tick = ()=> progress.tick() // closure needed
 
       // fill up a queue
       _chunk(results).forEach(chunk=> {
