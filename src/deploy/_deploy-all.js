@@ -21,6 +21,8 @@ module.exports = function deployAll(params) {
   })
   let {env, arc, start} = params
   let results // use this below
+  let total
+  let tick
   waterfall([
     // read all .arc known lambdas in src
     function _globs(callback) {
@@ -29,7 +31,6 @@ module.exports = function deployAll(params) {
     },
     // prep for deployment
     function _prep(result, callback) {
-
       // reuse this later
       results = result
 
@@ -38,39 +39,26 @@ module.exports = function deployAll(params) {
       let progress = _progress({name: chalk.green.dim(`Prepping ${results.length} lambdas`), total})
       let tick = ()=> progress.tick() // closure needed
 
-      waterfall([
-        function _goPrep(callback) {
-          parallel(results.map(pathToCode=> {
-            return function _prep(callback) {
-              prep({
-                env,
-                arc,
-                pathToCode,
-                tick,
-              }, callback)
-            }
-          }), callback)
+      parallel(results.map(pathToCode=> {
+        return function _prep(callback) {
+          prep({
+            env,
+            arc,
+            pathToCode,
+            tick,
+          }, callback)
         }
-      ],
-      function done(err) {
-        if (err) {
-          callback(err, results)
-        }
-        callback(null, results)
-      })
+      }), callback)
     },
     // create a parallel deployment
     function _deploy(result, callback) {
-      results = result
 
       let queue = _queue()
       let firstRun = true
       let timeout = 0
 
       // boilerplate for the progress bar
-      let total = results.length * steps
       let progress = _progress({name: chalk.green.dim(`Deploying ${results.length} lambdas`), total})
-      let tick = ()=> progress.tick() // closure needed
 
       // fill up a queue
       _chunk(results).forEach(chunk=> {
