@@ -10,6 +10,7 @@ let cp = require('cpr')
  */
 module.exports = function _shared(params, callback) {
 
+  if (params.tick) params.tick(`Copying shared...`)
   let {pathToCode} = params
   let src = path.join(process.cwd(), 'src', 'shared')
   let dest = path.join(process.cwd(), pathToCode, 'node_modules', '@architect', 'shared')
@@ -41,9 +42,6 @@ module.exports = function _shared(params, callback) {
     }
   ],
   function done(err) {
-    if (params.tick) {
-      params.tick()
-    }
     // move along
     if (err) {
       callback(err)

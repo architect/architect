@@ -1,13 +1,13 @@
 let waterfall = require('run-waterfall')
 let chalk = require('chalk')
 let assert = require('@smallwins/validate/assert')
-let deploy = require('./lambda')
+let prep = require('./lambda')
+let deploy = require('./lambda/deploy')
 let _report = require('./_report')
 let _progress = require('./_progress')
 let parallel = require('run-parallel')
 let glob = require('glob')
 let s3 = require('./static')
-let steps = 7 // magic number of steps in src
 let _chunk = require('./_chunk')
 let _flatten = require('./_flatten')
 let _queue = require('./_queue')
@@ -26,20 +26,62 @@ module.exports = function deployAll(params) {
       let pattern = 'src/@(html|css|js|text|xml|json|events|scheduled|tables|slack|queues)/*'
       glob(pattern, callback)
     },
-    // create a parallel deployment
-    function _deploys(result, callback) {
-
-      // reuse this later
+    // prep for deployment
+    function _prep(result, callback) {
       results = result
 
       // boilerplate for the progress bar
-      let total = results.length * steps
-      let progress = _progress({name: chalk.green.dim(`Deploying ${results.length} lambdas`), total})
-      let tick = ()=> progress.tick() // closure needed
+      let total = results.length * 5 // 4 prep steps + 1 tick for bar instantiation
+      let progress = _progress({name: chalk.green.dim(`Prepping ${results.length} lambdas`), total})
+      let tick = function _tick(msg) {
+        if (msg) {
+          progress.tick({'token': msg})
+        } else {
+          progress.tick({'token': 'Working...'})
+        }
+      }
+
+      // high-larious waterfall-nested parallel because executions can escape early and call their callback before everything is done
+      waterfall([
+        function _goPrep(callback) {
+          parallel(results.map(pathToCode=> {
+            return function _prep(callback) {
+              prep({
+                env,
+                arc,
+                pathToCode,
+                tick,
+              }, callback)
+            }
+          }), callback)
+        }
+      ],
+      function done(err) {
+        if (err) {
+          callback(err, results)
+        } else {
+          callback(null, results)
+        }
+      })
+    },
+    // create a parallel deployment
+    function _deploy(result, callback) {
+      results = result
 
       let queue = _queue()
       let firstRun = true
       let timeout = 0
+
+      // boilerplate for the progress bar
+      let total = results.length * 2 // 2 deploy + post-deploy steps
+      let progress = _progress({name: chalk.green.dim(`Deploying ${results.length} lambdas`), total})
+      let tick = function _tick(msg) {
+        if (msg) {
+          progress.tick({'token': msg})
+        } else {
+          progress.tick({'token': 'Working...'})
+        }
+      }
 
       // fill up a queue
       _chunk(results).forEach(chunk=> {
