@@ -73,7 +73,7 @@ module.exports = function deployAll(params) {
       let timeout = 0
 
       // boilerplate for the progress bar
-      let total = results.length * 2 // 2 deploy + post-deploy steps
+      let total = results.length * 3 // 2 deploy + post-deploy steps + 1 tick for bar instantiation
       let progress = _progress({name: chalk.green.dim(`Deploying ${results.length} lambdas`), total})
       let tick = function _tick(msg) {
         if (msg) {

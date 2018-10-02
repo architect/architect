@@ -10,7 +10,7 @@ module.exports = function uploadZip(params, callback) {
     pathToCode,
     lambda,
   } = params
-  if (params.tick) params.tick(`Updating ${params.lambda}`)
+  if (params.tick) params.tick('Updating Lambdas...')
   series([
     // get a handle on the files to zip
     function _zip(callback) {
