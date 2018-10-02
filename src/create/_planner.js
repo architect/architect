@@ -42,10 +42,12 @@ module.exports = function planner(arc) {
   }
 
   // scheduled
-  if (arc.scheduled && !process.env.ARC_LOCAL) {
+  if (arc.scheduled) {
     arc.scheduled.forEach(scheduled=> {
       plans.push({action:'create-scheduled-lambda-code', scheduled, app})
-      plans.push({action:'create-scheduled-lambda-deployments', scheduled, app})
+      if (!process.env.ARC_LOCAL) {
+        plans.push({action:'create-scheduled-lambda-deployments', scheduled, app})
+      }
     })
   }
 
@@ -136,9 +138,11 @@ module.exports = function planner(arc) {
     plans.push({action:'create-tables', table, app})
   }
 
-  if (arc.tables && !process.env.ARC_LOCAL) {
+  if (arc.tables) {
     arc.tables.forEach(table=> {
-      plans.push({action:'create-tables', table, app})
+      if (!process.env.ARC_LOCAL) {
+        plans.push({action:'create-tables', table, app})
+      }
       var name = Object.keys(table)[0]
       var hasInsert = table[name].hasOwnProperty('insert')
       var hasUpdate = table[name].hasOwnProperty('update')
@@ -146,7 +150,9 @@ module.exports = function planner(arc) {
       var hasTrigger = hasInsert || hasUpdate || hasDestroy
       if (hasTrigger) {
         plans.push({action:'create-table-lambda-code', table, app})
-        plans.push({action:'create-table-lambda-deployments', table, app})
+        if (!process.env.ARC_LOCAL) {
+          plans.push({action:'create-table-lambda-deployments', table, app})
+        }
       }
     })
   }
