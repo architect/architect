@@ -8,7 +8,6 @@ let _progress = require('./_progress')
 let parallel = require('run-parallel')
 let glob = require('glob')
 let s3 = require('./static')
-let steps = 7 // magic number of steps in src
 let _chunk = require('./_chunk')
 let _flatten = require('./_flatten')
 let _queue = require('./_queue')
@@ -21,8 +20,6 @@ module.exports = function deployAll(params) {
   })
   let {env, arc, start} = params
   let results // use this below
-  let total
-  let tick
   waterfall([
     // read all .arc known lambdas in src
     function _globs(callback) {
@@ -31,34 +28,48 @@ module.exports = function deployAll(params) {
     },
     // prep for deployment
     function _prep(result, callback) {
-      // reuse this later
       results = result
 
       // boilerplate for the progress bar
-      let total = results.length * steps
+      let total = results.length * 4 // 4 prep steps
       let progress = _progress({name: chalk.green.dim(`Prepping ${results.length} lambdas`), total})
       let tick = ()=> progress.tick() // closure needed
 
-      parallel(results.map(pathToCode=> {
-        return function _prep(callback) {
-          prep({
-            env,
-            arc,
-            pathToCode,
-            tick,
-          }, callback)
+      // high-larious waterfall-nested parallel because executions can escape early and call their callback before everything is done
+      waterfall([
+        function _goPrep(callback) {
+          parallel(results.map(pathToCode=> {
+            return function _prep(callback) {
+              prep({
+                env,
+                arc,
+                pathToCode,
+                tick,
+              }, callback)
+            }
+          }), callback)
         }
-      }), callback)
+      ],
+      function done(err) {
+        if (err) {
+          callback(err, results)
+        } else {
+          callback(null, results)
+        }
+      })
     },
     // create a parallel deployment
     function _deploy(result, callback) {
+      results = result
 
       let queue = _queue()
       let firstRun = true
       let timeout = 0
 
       // boilerplate for the progress bar
-      let progress = _progress({name: chalk.green.dim(`Deploying ${results.length} lambdas`), total})
+      let total = results.length * 3 // 3 deploy + post-deploy steps
+      let progress = _progress({name: chalk.green.dim(`Prepping ${results.length} lambdas`), total})
+      let tick = ()=> progress.tick() // closure needed
 
       // fill up a queue
       _chunk(results).forEach(chunk=> {
