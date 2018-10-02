@@ -41,9 +41,7 @@ module.exports = function _shared(params, callback) {
     }
   ],
   function done(err) {
-    if (params.tick) {
-      params.tick()
-    }
+    if (params.tick) params.tick()
     // move along
     if (err) {
       callback(err)

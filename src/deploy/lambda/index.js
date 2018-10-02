@@ -23,7 +23,6 @@ module.exports = function deploy(params, callback) {
   // - arc; the parsed .arc file contents
   // - pathToCode; absolute path to the lambda function being deployed
   // - tick; function to notify progress
-  // - lambda; the name of the lambda being deployed
   let {env, arc, pathToCode, tick} = params
 
   // binds local state above to the functions below
