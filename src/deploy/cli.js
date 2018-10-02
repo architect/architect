@@ -34,7 +34,13 @@ init(function _init(err, arc) {
     var name = chalk.green.dim(`Deploying ${pathToCode}`)
     var total = 7 // magic number of steps in src
     var progress = _progress({name, total})
-    var tick = ()=> progress.tick()
+    let tick = function _tick(msg) {
+      if (msg) {
+        progress.tick({'token': msg})
+      } else {
+        progress.tick({'token': 'Working...'})
+      }
+    }
     deployOne({
       env,
       arc,

@@ -31,9 +31,15 @@ module.exports = function deployAll(params) {
       results = result
 
       // boilerplate for the progress bar
-      let total = results.length * 4 // 4 prep steps
+      let total = results.length * 5 // 4 prep steps + 1 tick for bar instantiation
       let progress = _progress({name: chalk.green.dim(`Prepping ${results.length} lambdas`), total})
-      let tick = ()=> progress.tick() // closure needed
+      let tick = function _tick(msg) {
+        if (msg) {
+          progress.tick({'token': msg})
+        } else {
+          progress.tick({'token': 'Working...'})
+        }
+      }
 
       // high-larious waterfall-nested parallel because executions can escape early and call their callback before everything is done
       waterfall([
@@ -67,9 +73,15 @@ module.exports = function deployAll(params) {
       let timeout = 0
 
       // boilerplate for the progress bar
-      let total = results.length * 3 // 3 deploy + post-deploy steps
-      let progress = _progress({name: chalk.green.dim(`Prepping ${results.length} lambdas`), total})
-      let tick = ()=> progress.tick() // closure needed
+      let total = results.length * 2 // 2 deploy + post-deploy steps
+      let progress = _progress({name: chalk.green.dim(`Deploying ${results.length} lambdas`), total})
+      let tick = function _tick(msg) {
+        if (msg) {
+          progress.tick({'token': msg})
+        } else {
+          progress.tick({'token': 'Working...'})
+        }
+      }
 
       // fill up a queue
       _chunk(results).forEach(chunk=> {

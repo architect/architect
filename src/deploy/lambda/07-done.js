@@ -5,7 +5,6 @@ var path = require('path')
  * reports any errors otherwise silently continue
  */
 module.exports = function _done(params, err, stats) {
-  if (params.tick) params.tick()
   let {pathToCode, callback, lambda} = params
   let pathToPkg = path.join(pathToCode, 'package.json')
   let pathToLock = path.join(pathToCode, 'package-lock.json')

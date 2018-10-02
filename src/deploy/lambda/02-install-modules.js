@@ -8,6 +8,7 @@ let rm = require('rimraf').sync
  * qdd installs modules using package-lock.json
  */
 module.exports = function _modules(params, callback) {
+  if (params.tick) params.tick('Installing modules...')
   let {pathToCode} = params
   let lock = path.join(process.cwd(), pathToCode)
   // uses qdd dep to install modules after too many troubles with npm ci
@@ -25,7 +26,6 @@ module.exports = function _modules(params, callback) {
   }*/
 
   p.on('close', function win() {
-    if (params.tick) params.tick()
     callback()
   })
 

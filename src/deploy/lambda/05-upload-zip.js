@@ -10,6 +10,7 @@ module.exports = function uploadZip(params, callback) {
     pathToCode,
     lambda,
   } = params
+  if (params.tick) params.tick(`Updating ${params.lambda}`)
   series([
     // get a handle on the files to zip
     function _zip(callback) {
@@ -27,7 +28,6 @@ module.exports = function uploadZip(params, callback) {
           callback(err)
         }
         else {
-          if (params.tick) params.tick()
           let lambdaBytes = Buffer.byteLength(buffer, 'utf8')
           let oneMegInBytes = 1000000
           let lambdaMegs = (lambdaBytes/oneMegInBytes).toFixed(2)
