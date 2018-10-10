@@ -23,7 +23,7 @@ module.exports = function deployAll(params) {
   waterfall([
     // read all .arc known lambdas in src
     function _globs(callback) {
-      let pattern = 'src/@(html|css|js|text|xml|json|events|scheduled|tables|slack|queues)/*'
+      let pattern = 'src/@(html|http|css|js|text|xml|json|events|scheduled|tables|slack|queues)/*'
       glob(pattern, callback)
     },
     // prep for deployment

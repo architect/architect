@@ -1,0 +1,33 @@
+#if($input.path('$.body') != "")##
+$input.path('$.body')##
+#end##
+## show any error
+#if($input.path('$.errorMessage') != "")##
+$input.path('$.errorMessage')##
+#end##
+## override status
+#if($input.path("$.status") != "")##
+#set($context.responseOverride.status = $input.path("$.status"))##
+#end##
+#if($input.path("$.code") != "")##
+#set($context.responseOverride.status = $input.path("$.code"))##
+#end##
+## override Location
+#if($input.path("$.location") != "")##
+#set($context.responseOverride.header.Location = $input.path("$.location"))##
+#end##
+## override Content-Type
+#if($input.path("$.type") != "")##
+#set($context.responseOverride.header.Content-Type = $input.path("$.type"))##
+#end##
+## override Set-Cookie
+#if($input.path("$.cookie") != "")##
+#set($context.responseOverride.header.Set-Cookie = $input.path("$.cookie"))##
+#end##
+## cors support
+#if($input.path("$.cors") != "")##
+#set($context.responseOverride.header.X-Requested-With = "'*'")##
+#set($context.responseOverride.header.Access-Control-Allow-Headers = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,x-requested-with'")##
+#set($context.responseOverride.header.Access-Control-Allow-Origin = "'*'")##
+#set($context.responseOverride.header.Access-Control-Allow-Methods = "'POST,GET,OPTIONS'")##
+#end##

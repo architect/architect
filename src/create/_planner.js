@@ -9,6 +9,7 @@ module.exports = function planner(arc) {
                arc.hasOwnProperty('text')    ||
                arc.hasOwnProperty('xml')     ||
                arc.hasOwnProperty('jsonapi') ||
+               arc.hasOwnProperty('http')    ||
                arc.hasOwnProperty('slack')
 
 
@@ -59,6 +60,15 @@ module.exports = function planner(arc) {
   //
   // http lambdas
   //
+  if (arc.http) {
+    arc.http.forEach(route=> {
+      plans.push({action:'create-http-lambda-code', route, app})
+      if (!process.env.ARC_LOCAL) {
+        plans.push({action:'create-http-lambda-deployments', route, app})
+      }
+    })
+  }
+
   if (arc.json) {
     arc.json.forEach(route=> {
       plans.push({action:'create-json-lambda-code', route, app})
@@ -171,6 +181,11 @@ module.exports = function planner(arc) {
 
     plans.push({action:'create-routers', app})
 
+    if (arc.http) {
+      arc.http.forEach(route=> {
+        plans.push({action:'create-http-route', route, app})
+      })
+    }
     if (arc.html) {
       arc.html.forEach(route=> {
         plans.push({action:'create-html-route', route, app})

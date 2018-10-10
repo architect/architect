@@ -11,6 +11,7 @@ var http = require('http')
 // local modules
 let readArc = require('../../util/read-arc')
 var reg = require('./_register-route')
+var regHTTP = require('./_register-http-route')
 var static = require('./_static')
 
 // config arcana
@@ -30,6 +31,9 @@ app.start = function start(callback) {
   var tuple = v=> (['get', v])
 
   // build the routes
+  if (web.http)
+    regHTTP(app, '@http', 'http', web.http)
+
   if (web.html)
     reg(app, '@html', 'html', web.html)
 
