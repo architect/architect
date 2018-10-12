@@ -56,53 +56,55 @@ module.exports = function _verify(appname, callback) {
       // walk each lambda
       series(result.lambdas.lambdas.map(FunctionName=> {
         return function _verifyLambda(callback) {
-          lambda.getFunctionConfiguration({FunctionName}, function _prettyPrint(err, result) {
-            if (err && err.code === 'ResourceNotFoundException') {
-              notfound(FunctionName)
-              callback()
-            }
-            else if (err) {
-              error(err.message)
-              callback()
-            }
-            else {
-              // clean env vars of anything reserved
-              let copy = {}
-              let saves = {}
-              for (let key in result.Environment.Variables) {
-                if (!reserved.includes(key)) {
-                  copy[key] = result.Environment.Variables[key]
-                }
-                else {
-                  saves[key] = result.Environment.Variables[key]
-                }
+          setTimeout(function _delay() {
+            lambda.getFunctionConfiguration({FunctionName}, function _prettyPrint(err, result) {
+              if (err && err.code === 'ResourceNotFoundException') {
+                notfound(FunctionName)
+                callback()
               }
-
-              let isProduction = result.Environment.Variables.NODE_ENV === 'production'
-              let expected = toEnv(isProduction? production : staging)
-
-              if (eq(expected, copy)) {
-                ok(FunctionName)
+              else if (err) {
+                error(err.message)
                 callback()
               }
               else {
-                lambda.updateFunctionConfiguration({
-                  FunctionName,
-                  Environment: {
-                    Variables: {
-                      ...expected,
-                      ...saves,
-                    }
+                // clean env vars of anything reserved
+                let copy = {}
+                let saves = {}
+                for (let key in result.Environment.Variables) {
+                  if (!reserved.includes(key)) {
+                    copy[key] = result.Environment.Variables[key]
                   }
-                },
-                function _syncd(err) {
-                  if (err) error(err.message)
-                  else ok(FunctionName)
+                  else {
+                    saves[key] = result.Environment.Variables[key]
+                  }
+                }
+
+                let isProduction = result.Environment.Variables.NODE_ENV === 'production'
+                let expected = toEnv(isProduction? production : staging)
+
+                if (eq(expected, copy)) {
+                  ok(FunctionName)
                   callback()
-                })
+                }
+                else {
+                  lambda.updateFunctionConfiguration({
+                    FunctionName,
+                    Environment: {
+                      Variables: {
+                        ...expected,
+                        ...saves,
+                      }
+                    }
+                  },
+                  function _syncd(err) {
+                    if (err) error(err.message)
+                    else ok(FunctionName)
+                    callback()
+                  })
+                }
               }
-            }
-          })
+            })
+          }, 100) // 100ms == 10 Lambda TPS, same as deploy default
         }
       }), callback)
     }
