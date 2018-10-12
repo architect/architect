@@ -4,6 +4,7 @@
   "description": "cloud function workflows implemented as npm scripts for creating, deploying, working offline and more",
   "main": "index",
   "bin": {
+    "arc-audit": "./src/audit/cli.js",
     "arc-config": "./src/config/cli.js",
     "arc-create": "./src/create/cli.js",
     "arc-deploy": "./src/deploy/cli.js",
@@ -13,6 +14,7 @@
     "arc-hydrate": "./src/hydrate/cli.js",
     "arc-inventory": "./src/inventory/cli.js",
     "arc-sandbox": "./src/sandbox/cli.js",
+    "audit": "./src/audit/cli.js",
     "config": "./src/config/cli.js",
     "create": "./src/create/cli.js",
     "deploy": "./src/deploy/cli.js",
