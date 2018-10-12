@@ -53,6 +53,7 @@ module.exports = function _syncRole(thing, callback) {
             waterfall([
               // list managed policies
               function reads(callback) {
+                // FIXME need to paginate roles here
                 iam.listAttachedRolePolicies({
                   MaxItems: 100,
                   RoleName,
@@ -76,6 +77,7 @@ module.exports = function _syncRole(thing, callback) {
                 })
                 series(fns, callback)
               },
+              // attaches policies from role.json
               function adds(result, callback) {
                 let fns = policies.map(PolicyArn=> {
                   return function maybeAdd(callback) {
