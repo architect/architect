@@ -37,7 +37,10 @@ module.exports = function _report(params, callback) {
     var size = stat? stat.size : '?'
     console.log(left + ' ' + right + chalk.cyan.dim(padd) + chalk.green(size))
   })
-  var isHTTP = results.find(r=> r.includes('src/html') || r.includes('src/json'))
+
+  let api = r=>r.includes('src/html') || r.includes('src/json') || r.includes('src/http') || r.includes('src/js') || r.includes('src/css') || r.includes('src/text') || r.includes('src/xml')
+
+  var isHTTP = results.find(api)
   if (isHTTP) {
     _getUrl({
       env,
