@@ -1,1 +1,1 @@
-module.exports = 'src/@(text|xml|html|json|js|css|events|scheduled|tables|slack|queues)/*'
+module.exports = 'src/@(text|xml|html|http|json|js|css|events|scheduled|tables|slack|queues)/*'

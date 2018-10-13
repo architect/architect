@@ -4,6 +4,10 @@ module.exports = function _local(type, res) {
 
     var isError = err
     var isRedirect = err && (err.startsWith('/') || err.startsWith('http'))
+    if (result.location) {
+      isRedirect = true
+      err = result.location
+    }
 
     var isNot200JSON = err && type === 'json'
     var isNot200HTML = err && type === 'html'
@@ -40,6 +44,11 @@ module.exports = function _local(type, res) {
       res.statusCode = 302
       res.setHeader('Location', err)
       res.end(`\n`)
+    }
+    else if (result.status || result.code || result.type || result.body) {
+      res.setHeader('Content-Type', result.type || 'application/json; charset=utf-8')
+      res.statusCode = result.status || result.code || 200
+      res.end(result.body)
     }
     else if (isNot200JSON) {
       var v = JSON.parse(err)

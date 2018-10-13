@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 let _report = require('./_report')
 let _apply = require('./_apply')
-let error = msg=> console.log(chalk.bold.red('Error: ') + chalk.bold.white(msg))
-let chalk = require('chalk')
 let init = require('../util/init')
+let chalk = require('chalk')
+let error = msg=> console.log(chalk.bold.red('Error: ') + chalk.bold.white(msg))
 
 // figure out if we're reporting or applying
 let command = process.argv.slice(0).reverse().shift()
