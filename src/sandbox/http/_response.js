@@ -4,7 +4,7 @@ module.exports = function _local(type, res) {
 
     var isError = err
     var isRedirect = err && (err.startsWith('/') || err.startsWith('http'))
-    if (result.location) {
+    if (result && result.location) {
       isRedirect = true
       err = result.location
     }
