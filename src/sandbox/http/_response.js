@@ -45,7 +45,7 @@ module.exports = function _local(type, res) {
       res.setHeader('Location', err)
       res.end(`\n`)
     }
-    else if (result.status || result.code || result.type || result.body) {
+    else if (result && (result.status || result.code || result.type || result.body)) {
       res.setHeader('Content-Type', result.type || 'application/json; charset=utf-8')
       res.statusCode = result.status || result.code || 200
       res.end(result.body)
