@@ -35,7 +35,14 @@ function start(callback) {
       })
     })
     // ends our little web server
-    close = server.close
+    close = function _closer() {
+      try {
+        server.close()
+      }
+      catch(e) {
+        console.log('swallowing server.close error in sandbox events', e)
+      }
+    }
     // start listening on 3334
     server.listen(3334, callback ? callback: x=>!x)
   }

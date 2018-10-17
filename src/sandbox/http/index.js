@@ -15,7 +15,7 @@ var regHTTP = require('./_register-http-route')
 var static = require('./_static')
 
 // config arcana
-var app = Router()
+var app = Router({mergeparams:true})
 app.use(body.json())
 app.use(body.urlencoded({extended: false}))
 app.use(static)
