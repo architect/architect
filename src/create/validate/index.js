@@ -1,17 +1,13 @@
+// TODO queues
 var app = require('./validators/app')
-var css = require('./validators/css')
 var domain = require('./validators/domain')
 var events = require('./validators/events')
-var html = require('./validators/html')
+var events = require('./validators/http')
 var indexes = require('./validators/indexes')
-var js = require('./validators/js')
-var json = require('./validators/json')
-var slack = require('./validators/slack')
 var static = require('./validators/static')
+var slack = require('./validators/slack')
 var scheduled = require('./validators/scheduled')
-var text = require('./validators/text')
 var tables = require('./validators/tables')
-var xml = require('./validators/xml')
 
 /**
  * validates a parsed .arc file
@@ -38,19 +34,13 @@ function _validate(arc, raw, callback) {
   //
   let validators = [
     app,
-    css,
     domain,
     events,
-    html,
     indexes,
-    js,
-    json,
     scheduled,
     slack,
     static,
-    text,
     tables,
-    xml,
   ]
 
   // map function: accepts a validater; applies it to arc

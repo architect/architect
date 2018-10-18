@@ -2,15 +2,7 @@ module.exports = function planner(arc) {
 
   // grab the app name
   let app = arc.app[0]
-  let hasAPI = arc.hasOwnProperty('json')    ||
-               arc.hasOwnProperty('html')    ||
-               arc.hasOwnProperty('js')      ||
-               arc.hasOwnProperty('css')     ||
-               arc.hasOwnProperty('text')    ||
-               arc.hasOwnProperty('xml')     ||
-               arc.hasOwnProperty('jsonapi') ||
-               arc.hasOwnProperty('http')    ||
-               arc.hasOwnProperty('slack')
+  let hasAPI = arc.hasOwnProperty('http') || arc.hasOwnProperty('slack')
 
 
   // some default plans
@@ -20,7 +12,6 @@ module.exports = function planner(arc) {
     {action:'create-public', app},
   ]
 
-  //
   // sns events
   if (arc.events) {
     arc.events.forEach(event=> {
@@ -66,69 +57,6 @@ module.exports = function planner(arc) {
       plans.push({action:'create-http-lambda-code', route, app})
       if (!process.env.ARC_LOCAL) {
         plans.push({action:'create-http-lambda-deployments', route, app})
-      }
-    })
-  }
-
-  if (arc.json) {
-    arc.json.forEach(route=> {
-      plans.push({action:'create-json-lambda-code', route, app})
-      if (!process.env.ARC_LOCAL) {
-        plans.push({action:'create-json-lambda-deployments', route, app})
-      }
-    })
-  }
-
-  if (arc.html) {
-    arc.html.forEach(route=> {
-      plans.push({action:'create-html-lambda-code', route, app})
-      if (!process.env.ARC_LOCAL) {
-        plans.push({action:'create-html-lambda-deployments', route, app})
-      }
-    })
-  }
-
-  if (arc.js) {
-    arc.js.forEach(route=> {
-      plans.push({action:'create-js-lambda-code', route, app})
-      if (!process.env.ARC_LOCAL) {
-        plans.push({action:'create-js-lambda-deployments', route, app})
-      }
-    })
-  }
-
-  if (arc.css) {
-    arc.css.forEach(route=> {
-      plans.push({action:'create-css-lambda-code', route, app})
-      if (!process.env.ARC_LOCAL) {
-        plans.push({action:'create-css-lambda-deployments', route, app})
-      }
-    })
-  }
-
-  if (arc.text) {
-    arc.text.forEach(route=> {
-      plans.push({action:'create-text-lambda-code', route, app})
-      if (!process.env.ARC_LOCAL) {
-        plans.push({action:'create-text-lambda-deployments', route, app})
-      }
-    })
-  }
-
-  if (arc.xml) {
-    arc.xml.forEach(route=> {
-      plans.push({action:'create-xml-lambda-code', route, app})
-      if (!process.env.ARC_LOCAL) {
-        plans.push({action:'create-xml-lambda-deployments', route, app})
-      }
-    })
-  }
-
-  if (arc.jsonapi) {
-    arc.jsonapi.forEach(route=> {
-      plans.push({action:'create-jsonapi-lambda-code', route, app})
-      if (!process.env.ARC_LOCAL) {
-        plans.push({action:'create-jsonapi-lambda-deployments', route, app})
       }
     })
   }
@@ -185,46 +113,6 @@ module.exports = function planner(arc) {
     if (arc.http) {
       arc.http.forEach(route=> {
         plans.push({action:'create-http-route', route, app})
-      })
-    }
-    if (arc.html) {
-      arc.html.forEach(route=> {
-        plans.push({action:'create-html-route', route, app})
-      })
-    }
-    if (arc.json) {
-      arc.json.forEach(route=> {
-        plans.push({action:'create-json-route', route, app})
-      })
-    }
-    if (arc.slack) {
-      arc.slack.forEach(bot=> {
-        plans.push({action:'create-slack-endpoints', bot, app})
-      })
-    }
-    if (arc.js) {
-      arc.js.forEach(route=> {
-        plans.push({action:'create-js-route', route, app})
-      })
-    }
-    if (arc.css) {
-      arc.css.forEach(route=> {
-        plans.push({action:'create-css-route', route, app})
-      })
-    }
-    if (arc.text) {
-      arc.text.forEach(route=> {
-        plans.push({action:'create-text-route', route, app})
-      })
-    }
-    if (arc.xml) {
-      arc.xml.forEach(route=> {
-        plans.push({action:'create-xml-route', route, app})
-      })
-    }
-    if (arc.jsonapi) {
-      arc.jsonapi.forEach(route=> {
-        plans.push({action:'create-jsonapi-route', route, app})
       })
     }
 
