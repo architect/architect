@@ -9,12 +9,11 @@ var fs = require('fs')
 module.exports = function factory(bucket, callback) {
   var s3 = new aws.S3({region: process.env.AWS_REGION})
   return function upload() {
-    console.log(`${chalk.green('Success!')} ${chalk.green.dim('Deployed .static')}`)
+    console.log(`${chalk.green('Success!')} ${chalk.green.dim('Deployed public')}`)
     console.log(chalk.cyan.dim('-------------------------'))
-    var s3Path = path.join(process.cwd(), '.static', '/**/*')
+    var s3Path = path.join(process.cwd(), 'public', '/**/*')
     glob(s3Path, function _glob(err, files) {
       if (err) console.log(err)
-      //console.log(files)
       var fns = files.map(file=> {
         return function _maybeUpload(callback) {
           let stats = fs.lstatSync(file)
@@ -30,7 +29,7 @@ module.exports = function factory(bucket, callback) {
             s3.putObject({
               ACL: 'public-read',
               Bucket: bucket,
-              Key: file.replace(path.join(process.cwd(), '.static'), '').substr(1),
+              Key: file.replace(path.join(process.cwd(), 'public'), '').substr(1),
               Body: fs.readFileSync(file),
               ContentType: getContentType(file),
             },
@@ -41,7 +40,7 @@ module.exports = function factory(bucket, callback) {
               }
               else {
                 var before = file.replace(process.cwd(), '').substr(1)
-                var after = before.replace('.static', '')
+                var after = before.replace('public', '')
                 var domain = `https://s3.${process.env.AWS_REGION}.amazonaws.com/`
                 console.log(chalk.underline.cyan(`${domain}${bucket}${after}`))
                 callback()

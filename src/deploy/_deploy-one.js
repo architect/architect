@@ -1,7 +1,7 @@
 var assert = require('@smallwins/validate/assert')
 var prep = require('./lambda')
 var deploy = require('./lambda/deploy')
-var s3 = require('./static')
+var s3 = require('./public')
 var _report = require('./_report')
 var waterfall = require('run-waterfall')
 
@@ -19,10 +19,10 @@ module.exports = function deployOne(params) {
   const _prep = prep.bind({}, params)
   const _deploy = deploy.bind({}, params)
 
-  // is one of: static, .static, static/ or .static/
-  var isStatic = /\.?static\/?/.test(params.pathToCode)
-  if (isStatic) {
-    // copy .static to s3
+  // is one of: public, .public, public/ or .public/
+  var isPublic = /\.?public\/?/.test(params.pathToCode)
+  if (isPublic) {
+    // copy public to s3
     s3(params, x=> !x)
   }
   else {

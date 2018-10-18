@@ -17,6 +17,7 @@ module.exports = function planner(arc) {
   var plans = [
     {action:'create-iam-role', app},
     {action:'create-shared', app},
+    {action:'create-public', app},
   ]
 
   //
