@@ -1,4 +1,5 @@
-test/
-contributing.md
-.eslintrc.js
+.DS_Store
 .eslinntignore
+.eslintrc.js
+contributing.md
+test/
