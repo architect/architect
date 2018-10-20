@@ -9,7 +9,9 @@ var _progress = require('./_progress')
 init(function _init(err, arc) {
 
   // deploy to staging by default
-  let env = (process.env.ARC_DEPLOY === 'production')? 'production' : 'staging'
+  let env = (process.env.ARC_DEPLOY === 'production')
+    ? 'production'
+    : 'staging'
   let start = Date.now()
   let isAll = process.argv.length === 2
 
@@ -21,7 +23,7 @@ init(function _init(err, arc) {
     console.log(err)
   }
   else if (isAll) {
-    // deploy everything in ./src to lambda and ./.static to s3
+    // deploy everything in ./src to lambda and ./public to s3
     deployAll({
       env,
       arc,
@@ -29,7 +31,7 @@ init(function _init(err, arc) {
     })
   }
   else {
-    // otherwise deploy whatever the last arg was (a src/path/to/lambda or static)
+    // otherwise deploy whatever the last arg was (a src/path/to/lambda or public)
     var pathToCode = process.argv[2]
     var name = chalk.green.dim(`Deploying ${pathToCode}`)
     var total = 7 // magic number of steps in src

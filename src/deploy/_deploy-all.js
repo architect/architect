@@ -7,7 +7,7 @@ let _report = require('./_report')
 let _progress = require('./_progress')
 let parallel = require('run-parallel')
 let glob = require('glob')
-let s3 = require('./static')
+let s3 = require('./public')
 let _chunk = require('./_chunk')
 let _flatten = require('./_flatten')
 let _queue = require('./_queue')
@@ -128,7 +128,7 @@ module.exports = function deployAll(params) {
         stats
       }, callback)
     },
-    // upload .static to s3 based on @static config
+    // upload public to s3 based on @static config
     function _statics(callback) {
       s3(params, callback)
     }

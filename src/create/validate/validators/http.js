@@ -1,5 +1,5 @@
-let Err = require('./_error-factory')
-let validPath = require('./_valid-path')
+let Err = require('../_error-factory')
+let validPath = require('../_valid-path')
 
 /**
  * http
@@ -17,11 +17,14 @@ module.exports = function _http(type, arc, raw) {
     }
     else {
       // if the shape of the data is ok we can check the contents
-      // routes must be either get or post
+      // routes must be one of: get, post, put, patch or delete
       function notGetOrPost(tuple) {
         var v = tuple[0].toLowerCase()
         if (v === 'get') return false
         if (v === 'post') return false
+        if (v === 'put') return false
+        if (v === 'patch') return false
+        if (v === 'delete') return false
         return true
       }
       var invalidVerbs = arc[type].filter(notGetOrPost)

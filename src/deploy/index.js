@@ -1,4 +1,4 @@
 var lambda = require('./lambda')
-var s3 = require('./static')
+var s3 = require('./public')
 
-module.exports = {lambda, static:s3}
+module.exports = {lambda, static: s3}

@@ -10,6 +10,7 @@
  *
  *   TODO cloudwatch rules
  *   TODO add SSM Params used by env
+ *   TODO additional iam roles
  * }
  */
 module.exports = function inventory(arc, raw, callback) {

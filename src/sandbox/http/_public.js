@@ -1,11 +1,9 @@
-let readArc = require('../../util/read-arc')
 let url = require('url')
 let send = require('send')
 let exists = require('path-exists').sync
 let path = require('path')
 
-module.exports = function static(req, res, next) {
-
+module.exports = function _public (req, res, next) {
   /**
    * technically, any file extension could work here, but in order to prevent route collisions, we're capturing based on extension
       sandbox also ignores js and css if you happen to be using js or arc routes (also in service of collision prevension)
@@ -23,49 +21,34 @@ module.exports = function static(req, res, next) {
   let pathToFile = url.parse(req.url).pathname
   let bits = pathToFile.split('.')
   let last = bits[bits.length - 1] // the file extension
-
-  // parse .arc
-  let {arc} = readArc()
-
   let noFile = !allowed.includes(last)
-  let noStatic = !exists(path.join(process.cwd(), '.static'))
-  let notInterested = (last === 'js' && arc.hasOwnProperty('js')) || (last === 'css' && arc.hasOwnProperty('css'))
+  let noPublic = !exists(path.join(process.cwd(), 'public'))
+  let notInterested = !exists(path.join(process.cwd(), 'public', pathToFile))
 
   if (noFile) {
     // only allowed file types
     next()
-  }
-  else if (noStatic) {
-    // if there's no static skip
+  } else if (noPublic) {
+    // if there's no public skip
     next()
-  }
-  else if (notInterested) {
+  } else if (notInterested) {
     // js or css are defined in .arc so skip
     next()
+  } else {
+    send(req, pathToFile, {root: 'public'})
+     .on('error', error)
+     .on('directory', redirect)
+     .pipe(res)
   }
-  else {
-    function error (err) {
-      res.statusCode = err.status || 500
-      res.end(err.message)
-    }
 
-    // custom headers
-    function headers (/*res, path, stat*/) {
-      // serve all files for download
-      //res.setHeader('Content-Disposition', 'attachment')
-    }
+  function error (err) {
+    res.statusCode = err.status || 500
+    res.end(err.message)
+  }
 
-    // custom directory handling logic
-    function redirect () {
-      res.statusCode = 301
-      res.setHeader('Location', req.url + '/')
-      res.end('\n')
-    }
-
-   send(req, pathToFile, {root: '.static'})
-   .on('error', error)
-   .on('directory', redirect)
-   .on('headers', headers)
-   .pipe(res)
+  function redirect () {
+    res.statusCode = 301
+    res.setHeader('Location', req.url + '/')
+    res.end('\n')
   }
 }
