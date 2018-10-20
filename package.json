@@ -1,7 +1,7 @@
 {
   "name": "@architect/architect",
   "version": "3.5.11",
-  "description": "cloud function workflows implemented as npm scripts for creating, deploying, working offline and more",
+  "description": "Create, deploy, and maintain next-generation AWS cloud function-based serverless infrastructure with full local, offline workflows, and more.",
   "main": "index",
   "bin": {
     "arc-audit": "./src/audit/cli.js",
@@ -36,8 +36,8 @@
     "amazon",
     "serverless",
     "cloud",
-    "cloudfunctions",
-    "apigateway",
+    "cloud functions",
+    "api gateway",
     "dynamodb",
     "s3",
     "sns",
@@ -46,7 +46,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/arc-repos/arc-workflows.git"
+    "url": "https://github.com/arc-repos/architect.git"
   },
   "author": "Brian LeRoux <b@brian.io>",
   "license": "Apache-2.0",
