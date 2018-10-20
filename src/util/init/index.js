@@ -3,6 +3,7 @@ let ensureAwsCreds = require('./01-ensure-aws-credentials')
 let printBanner = require('./02-print-banner')
 // runs before:
 //
+// - [x] audit
 // - [x] config
 // - [x] create
 // - [x] deploy

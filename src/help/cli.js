@@ -1,12 +1,11 @@
 #!/usr/bin/env node
-/* eslint "no-useless-escape": "off" */
+let chalk = require('chalk')
 let exists = require('path-exists').sync
 let join = require('path').join
 let fs = require('fs')
-let chalk = require('chalk')
 let read = p=> fs.readFileSync(p).toString()
 let inquirer = require('inquirer')
-let clear = require('clear')
+let log = require('./_log')
 
 !async function main() {
   let cmd = process.argv.slice(0).reverse().shift()
@@ -28,18 +27,3 @@ let clear = require('clear')
   log(raw)
 }()
 
-function log(raw) {
-  clear()
-
-  let head = v=> /^\#/.test(v)
-  raw.trim().split('\n').forEach(line=> {
-    if (head(line)) {
-      console.log(chalk.bold.green(line))
-    }
-    else {
-      console.log(chalk.green(line))
-    }
-  })
-  console.log('')
-  process.exit()
-}
