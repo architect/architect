@@ -1,4 +1,7 @@
-test/
-contributing.md
+.DS_Store
+.eslintignore
 .eslintrc.js
-.eslinntignore
+.gitattributes
+.github
+contributing.md
+test/
