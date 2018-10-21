@@ -1,6 +1,6 @@
 # Automagical `src/shared` directory
 
-The contents of `src/shared` get copied into every function at `node_modules/@architect/shared` whenever you run:
+The contents of `src/shared` get copied into each of your project's functions (at `node_modules/@architect/shared`) whenever you run:
 
 - `npx sandbox`
 - `npx hydrate`
@@ -8,7 +8,7 @@ The contents of `src/shared` get copied into every function at `node_modules/@ar
 
 This means the modules in this folder can be required from any function in your Architect project.
 
-For example, `src/shared/layout.js` can be required like so:
+For example, here's how you'd require `src/shared/layout.js`:
 
 ```javascript
 var layout = require('@architect/shared/layout')
@@ -17,9 +17,7 @@ var layout = require('@architect/shared/layout')
 
 ## Organizing `src/shared`
 
-Organize shared code however it makes sense for your project.
-
-Here are some ideas:
+Organize shared code however it makes sense for your project. Here are a few ideas:
 
 - `src/shared/middleware`
 - `src/shared/helpers`
