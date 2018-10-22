@@ -11,7 +11,7 @@ module.exports = function create (params, callback) {
     app: String
   })
 
-  var _public = path.join(process.cwd(), 'public')
+  var _public = path.join(process.cwd(), 'src', 'views')
   var readme = path.join(_public, 'readme.md')
 
   mkdir(_public, function _done (err) {
