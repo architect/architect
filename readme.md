@@ -33,7 +33,7 @@ get /
 4. Generate your project locally:
 
 ```bash
-ARC_LOCAL=1 npx create
+npx create local
 ```
 
 5. Fire up the Architect sandbox to preview your work:
