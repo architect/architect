@@ -4,7 +4,7 @@ var fs = require('fs')
 var path = require('path')
 var exists = require('path-exists').sync
 
-var docs = fs.readFileSync(path.join(__dirname + '/readme.md')).toString()
+var docs = fs.readFileSync(path.join(__dirname, '/readme.md')).toString()
 
 module.exports = function create(params, callback) {
   assert(params, {

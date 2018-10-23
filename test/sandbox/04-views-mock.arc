@@ -1,8 +1,7 @@
 @app
 testapp
 
-@html
+@http
 get /
-
-@js
+post /
 get /js/:module

@@ -10,6 +10,7 @@ var http = require('http')
 let readArc = require('../../util/read-arc')
 var regHTTP = require('./_register-http-route')
 var _public = require('./_public')
+var _env = require('../env')
 
 // config arcana
 var app = Router({mergeparams: true})
@@ -22,13 +23,18 @@ let server
 
 // starts the http server
 app.start = function start (callback) {
-
+  _env(function (err) {
+    if (err) {
+      throw err
+    }
+  })
   // read the arc file
   var web = readArc().arc
 
   // build the routes
-  if (web.http)
+  if (web.http) {
     regHTTP(app, '@http', 'http', web.http)
+  }
 
   // create an actual server; how quaint!
   server = http.createServer(function _request (req, res) {
@@ -39,7 +45,7 @@ app.start = function start (callback) {
   return app
 }
 
-app.close = function close() {
+app.close = function close () {
   server.close()
 }
 

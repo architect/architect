@@ -1,9 +1,11 @@
-let fs = require('fs')
-let chalk = require('chalk')
-let glob = require('glob')
-let path = require('path')
-let mkdir = require('mkdirp').sync
-let pattern = require('../../util/glob-lambdas')
+const fs = require('fs')
+const chalk = require('chalk')
+const glob = require('glob')
+const path = require('path')
+const mkdir = require('mkdirp').sync
+const pattern = require('../../util/glob-lambdas')
+const readArc = require('../../util/read-arc')
+
 // Read .arc file
 // Filter paths by @views from .arc file
 
@@ -13,11 +15,13 @@ let pattern = require('../../util/glob-lambdas')
 module.exports = function _views (callback) {
   let src = path.join(process.cwd(), 'src', 'views')
   let files = glob.sync(src + '/**/*', { dot: true })
-  let paths = glob.sync('src/@(text|html|http|js|css|xml)/*')
+  let paths = glob.sync('src/@(http)/get-*')
+  let parsed = readArc()
 
+  console.log('ARC: ', parsed.arc)
   console.log('Paths: ', paths)
+  console.log('src: ', src)
 
-  /*
   files.forEach(f => {
     paths.forEach(pathToCode => {
       let dest = path.join(process.cwd(), pathToCode, 'node_modules', '@architect', 'views')
@@ -31,7 +35,5 @@ module.exports = function _views (callback) {
     })
   })
   console.log(chalk.dim(chalk.green.dim('✓'), 'src/views copied to lambda node_modules/@architect/views'))
-  callback()
-  */
   callback()
 }
