@@ -33,7 +33,7 @@ get /
 4. Generate your project locally:
 
 ```bash
-ARC_LOCAL=1 npx create
+npx create local
 ```
 
 5. Fire up the Architect sandbox to preview your work:
@@ -47,6 +47,8 @@ To see all commands run:
 ```bash
 npx help
 ```
+
+> **Heads up:** be sure `npm uninstall @architect/workflows` if you're installing `@architect/architect` to an existing project
 
 
 ### Learn more

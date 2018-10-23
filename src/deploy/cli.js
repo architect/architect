@@ -6,14 +6,31 @@ var deployOne = require('./_deploy-one')
 var deployAll = require('./_deploy-all')
 var _progress = require('./_progress')
 
+let flags = [
+  'production',
+  '--production',
+  '-p',
+  'staging',
+  '--staging',
+  '-s'
+]
+
 init(function _init(err, arc) {
+
+  // npx deploy production (or --production, prod or -p)
+  let override = flags.includes(process.argv[2])
+  if (override) {
+    let prod = process.argv[2].replace(/-/g, '').startsWith('p')
+    process.env.ARC_DEPLOY = prod? 'production' : 'staging'
+  }
 
   // deploy to staging by default
   let env = (process.env.ARC_DEPLOY === 'production')
     ? 'production'
     : 'staging'
   let start = Date.now()
-  let isAll = process.argv.length === 2
+  let isAll = process.argv.length === 2 || (process.argv.length === 3 && override)
+
 
   if (process.env.PARALLEL_DEPLOYS_PER_SECOND) {
     console.log(chalk.grey(chalk.green.dim('✓'), `Parallel deploys per second: ${process.env.PARALLEL_DEPLOYS_PER_SECOND}\n`))
@@ -32,7 +49,7 @@ init(function _init(err, arc) {
   }
   else {
     // otherwise deploy whatever the last arg was (a src/path/to/lambda or public)
-    var pathToCode = process.argv[2]
+    var pathToCode = override? process.argv[3] : process.argv[2]
     var name = chalk.green.dim(`Deploying ${pathToCode}`)
     var total = 7 // magic number of steps in src
     var progress = _progress({name, total})
