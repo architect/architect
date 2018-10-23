@@ -48,6 +48,8 @@ To see all commands run:
 npx help
 ```
 
+> **Heads up:** be sure `npm uninstall @architect/workflows` if you're installing `@architect/architect` to an existing project
+
 
 ### Learn more
 
