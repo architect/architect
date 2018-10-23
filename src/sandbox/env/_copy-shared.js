@@ -31,4 +31,3 @@ module.exports = function _shared(callback) {
   console.log(chalk.dim(chalk.green.dim('✓'), 'src/shared copied to lambda node_modules/@architect/shared'))
   callback()
 }
-
