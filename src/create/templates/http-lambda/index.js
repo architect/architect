@@ -5,7 +5,7 @@ exports.handler = async function http(request) {
   try {
     if (process.env.NODE_ENV !== 'production') console.log(JSON.stringify(request, null, 2))
     return {
-      type: 'text/html',
+      type: 'text/html; charset=utf8',
       body: 'Hello world!'
     }
   }
