@@ -1,3 +1,6 @@
+let getLambdaName = require('../util/get-lambda-name')
+let getLegacyLambdaName = require('../util/get-legacy-lambda-name')
+
 /**
  * {
  *   app,
@@ -48,11 +51,11 @@ module.exports = function inventory(arc, raw, callback) {
   function getName(tuple) {
     if (Array.isArray(tuple)) {
       var verb = tuple[0]
-      var path = tuple[1] === '/'? '-index': tuple[1].replace(/\//g, '-').replace('.', '-').replace(/:/g, '000')
+      var path = getLambdaName(tuple[1])
       return [`${app}-production-${verb}${path}`, `${app}-staging-${verb}${path}`]
     }
     else {
-      var path = tuple.replace(/\//g, '-').replace('.', '-').replace(/:/g, '000')
+      var path = getLambdaName(tuple)
       return [`${app}-production-get${path}`, `${app}-staging-get${path}`]
     }
   }
@@ -61,11 +64,37 @@ module.exports = function inventory(arc, raw, callback) {
   function getSystemName(tuple) {
     if (Array.isArray(tuple)) {
       var verb = tuple[0]
-      var path = tuple[1] === '/'? '-index': tuple[1].replace(/\//g, '-').replace('.', '-').replace(/:/g, '000')
+      var path = getLambdaName(tuple[1])
       return `${verb}${path}`
     }
     else {
-      var path = tuple.replace(/\//g, '-').replace('.', '-').replace(/:/g, '000')
+      var path = getLambdaName(tuple)
+      return `get${path}`
+    }
+  }
+
+  // gets an legacy lambda name
+  function getLegacyName(tuple) {
+    if (Array.isArray(tuple)) {
+      var verb = tuple[0]
+      var path = getLegacyLambdaName(tuple[1])
+      return [`${app}-production-${verb}${path}`, `${app}-staging-${verb}${path}`]
+    }
+    else {
+      var path = getLegacyLambdaName(tuple)
+      return [`${app}-production-get${path}`, `${app}-staging-get${path}`]
+    }
+  }
+
+  // gets an legacy filesystem name
+  function getLegacySystemName(tuple) {
+    if (Array.isArray(tuple)) {
+      var verb = tuple[0]
+      var path = getLegacyLambdaName(tuple[1])
+      return `${verb}${path}`
+    }
+    else {
+      var path = getLegacyLambdaName(tuple)
       return `get${path}`
     }
   }
@@ -93,33 +122,33 @@ module.exports = function inventory(arc, raw, callback) {
   }
 
   if (arc.html && arc.html.length > 0) {
-    report.lambdas = report.lambdas.concat(arc.html.map(getName).reduce((a,b)=>a.concat(b)))
-    report.types.html = arc.html.map(getSystemName)
+    report.lambdas = report.lambdas.concat(arc.html.map(getLegacyName).reduce((a,b)=>a.concat(b)))
+    report.types.html = arc.html.map(getLegacySystemName)
   }
 
   if (arc.json && arc.json.length > 0) {
-    report.lambdas = report.lambdas.concat(arc.json.map(getName).reduce((a,b)=>a.concat(b)))
-    report.types.json = arc.json.map(getSystemName)
+    report.lambdas = report.lambdas.concat(arc.json.map(getLegacyName).reduce((a,b)=>a.concat(b)))
+    report.types.json = arc.json.map(getLegacySystemName)
   }
 
   if (arc.js && arc.js.length > 0) {
-    report.lambdas = report.lambdas.concat(arc.js.map(getName).reduce((a,b)=>a.concat(b)))
-    report.types.js = arc.js.map(getSystemName)
+    report.lambdas = report.lambdas.concat(arc.js.map(getLegacyName).reduce((a,b)=>a.concat(b)))
+    report.types.js = arc.js.map(getLegacySystemName)
   }
 
   if (arc.css && arc.css.length > 0) {
-    report.lambdas = report.lambdas.concat(arc.css.map(getName).reduce((a,b)=>a.concat(b)))
-    report.types.css = arc.css.map(getSystemName)
+    report.lambdas = report.lambdas.concat(arc.css.map(getLegacyName).reduce((a,b)=>a.concat(b)))
+    report.types.css = arc.css.map(getLegacySystemName)
   }
 
   if (arc.text && arc.text.length > 0) {
-    report.lambdas = report.lambdas.concat(arc.text.map(getName).reduce((a,b)=>a.concat(b)))
-    report.types.text = arc.text.map(getSystemName)
+    report.lambdas = report.lambdas.concat(arc.text.map(getLegacyName).reduce((a,b)=>a.concat(b)))
+    report.types.text = arc.text.map(getLegacySystemName)
   }
 
   if (arc.xml && arc.xml.length > 0) {
-    report.lambdas = report.lambdas.concat(arc.xml.map(getName).reduce((a,b)=>a.concat(b)))
-    report.types.xml = arc.xml.map(getSystemName)
+    report.lambdas = report.lambdas.concat(arc.xml.map(getLegacyName).reduce((a,b)=>a.concat(b)))
+    report.types.xml = arc.xml.map(getLegacySystemName)
   }
 
   if (arc.events && arc.events.length > 0) {
