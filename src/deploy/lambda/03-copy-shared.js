@@ -51,4 +51,3 @@ module.exports = function _shared(params, callback) {
     }
   })
 }
-

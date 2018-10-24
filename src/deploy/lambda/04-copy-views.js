@@ -1,54 +1,29 @@
-let parse = require('@architect/parser')
-let exists = require('path-exists').sync
 let path = require('path')
-let fs = require('fs')
-let series = require('run-series')
 let cp = require('cpr')
+const lambdaPath = require('../../create/aws/_get-lambda-name')
 
 /**
- * copies ./src/shared into ./node_modules/@architect/shared/
+ * copies ./src/shared into lambda /src/views
  */
-module.exports = function _shared(params, callback) {
-
-  if (params.tick) params.tick(`Copying shared...`)
-  let {pathToCode} = params
+module.exports = function _views (params, callback) {
+  if (params.tick) params.tick(`Copying views...`)
+  let {arc, pathToCode} = params
+  let views = arc.views
   let src = path.join(process.cwd(), 'src', 'shared')
-  let dest = path.join(process.cwd(), pathToCode, 'node_modules', '@architect', 'shared')
-  let arcFileSrc = path.join(process.cwd(), '.arc')
-  let arcFileDest = path.join(dest, '.arc')
+  let dest = path.join(process.cwd(), pathToCode, 'src', 'views')
 
-  series([
-    function copyShared(callback) {
-      cp(src, dest, {overwrite:true}, callback)
-    },
-    function copyArc(callback) {
-      let arcYamlPath = path.join(process.cwd(), 'arc.yaml')
-      let arcJsonPath = path.join(process.cwd(), 'arc.json')
-      if (exists(arcFileSrc)) {
-        cp(arcFileSrc, arcFileDest, {overwrite:true}, callback)
-      }
-      else if (exists(arcYamlPath)) {
-        let raw = fs.readFileSync(arcYamlPath).toString()
-        let arc = parse.yaml.stringify(raw)
-        fs.writeFileSync(arcFileDest, arc)
-        callback()
-      }
-      else if (exists(arcJsonPath)) {
-        let raw = fs.readFileSync(arcJsonPath).toString()
-        let arc = parse.json.stringify(raw)
-        fs.writeFileSync(arcFileDest, arc)
-        callback()
-      }
-    }
-  ],
-  function done(err) {
-    // move along
-    if (err) {
-      callback(err)
-    }
-    else {
+  if (views.length) {
+    let paths = views.map(v => `src/http/${v[0]}${lambdaPath(v[1])}`)
+    if (paths.includes(pathToCode)) {
+      copy(src, dest, callback)
+    } else {
       callback()
     }
-  })
-}
+  } else {
+    copy(src, dest, callback)
+  }
 
+  function copy (src, dest, callback) {
+    cp(src, dest, {overwrite: true}, callback)
+  }
+}

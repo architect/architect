@@ -2,7 +2,7 @@ const fs = require('fs')
 const rm = require('rimraf').sync
 const cp = fs.copyFileSync
 const path = require('path')
-const mkdir = require('mkdirp')
+const mkdir = require('mkdirp').sync
 const test = require('tape')
 const db = require('../../src/sandbox').db
 const sandbox = require('../../src/sandbox').http
@@ -48,12 +48,12 @@ test('setup web server', t => {
 
 test('should copy views', t => {
   t.plan(1)
-  t.ok(fs.existsSync(path.join(__dirname, '_mock', 'src', 'http', 'get-index', 'node_modules', '@architect', 'views')))
+  t.ok(fs.existsSync(path.join(__dirname, '_mock', 'src', 'http', 'get-js-000module', 'src', 'views')))
 })
 
 test('teardown', t => {
   t.plan(1)
-  // rm(path.join(__dirname, '_mock'))
+  rm(path.join(__dirname, '_mock', 'src'))
   server.close()
   client.close()
   t.ok(true, 'server closed')

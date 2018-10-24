@@ -28,7 +28,7 @@
   "scripts": {
     "lint": "eslint . --fix",
     "t": "cross-env NODE_ENV=testing tape 'test/validation/*-test.js' | tap-spec",
-    "test": "NODE_ENV=testing tape test/sandbox/04-views-test.js | tap-spec"
+    "test": "NODE_ENV=testing tape test/create/07-queues-test.js | tap-spec"
   },
   "keywords": [
     "aws",
