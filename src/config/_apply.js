@@ -16,6 +16,13 @@ module.exports = function report(arc) {
   let appname = arc.app[0]
   let pattern = 'src/@(html|http|css|js|text|json|xml|events|slack|scheduled|tables|queues)/**/.arc-config'
 
+  /*
+    TODO At some point in the future we'll refactor this to read .arc instead of glob
+    - when we do, take note that Lambda path encoding changed in 4.x when we went from statically bound content type functions to http
+    - we added (back) period and dash, and did not reuse chars
+    - to maintain backwards compatibility, we'll need to aim legacy functions at a diff path builder
+    - see: src/utils/get[-legacy]-lambda-name.js
+  */
   glob(pattern, function _glob(err, files) {
     if (err) {
       error(err.message)
