@@ -44,6 +44,8 @@ module.exports = function _copyArc(callback) {
     }
 
   })
-  console.log(chalk.dim(chalk.green.dim('✓'), '.arc copied to lambda node_modules/@architect/shared/.arc'))
+    let g = chalk.green.dim
+    let d = chalk.grey
+    console.log(g('✓'), d('.arc copied to lambda node_modules/@architect/shared/.arc'))
   callback()
 }
