@@ -1,7 +1,6 @@
 let path = require('path')
 let cp = require('cpr')
-const lambdaPath = require('../../create/aws/_get-lambda-name')
-
+const lambdaPath = require('../../util/get-lambda-name')
 /**
  * copies ./src/shared into lambda node_modules/@architect/views
  * If no @views exists in your .arc file it will copy to all @http GET routes, otherwise it will copy only to the specified routes.
