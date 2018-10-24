@@ -1,6 +1,6 @@
 var test = require('tape')
 var parse = require('@architect/parser')
-var validate = require('../../src/create/aws/validate')
+var validate = require('../../src/create/validate')
 
 test('env', t=> {
   t.plan(1)
@@ -46,7 +46,7 @@ get /
   })
 })
 
-test('appname must only contain letters, numbers and dashes', t=> {
+test('appname must only contain letters, numbers, and dashes', t=> {
   t.plan(1)
   var raw = `
 @app
@@ -67,11 +67,11 @@ get /
   })
 })
 
-test('appname must only contain letters, numbers and dashes', t=> {
+test('appname must only contain letters, numbers, and dashes', t=> {
   t.plan(2)
   var raw = `
 @app
-this-name-is-way
+rad-app-1
 
 @html
 get /

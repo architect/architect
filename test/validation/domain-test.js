@@ -1,6 +1,6 @@
 var test = require('tape')
 var parse = require('@architect/parser')
-var validate = require('../../src/create/aws/validate')
+var validate = require('../../src/create/validate')
 
 test('domain legit', t=> {
   t.plan(1)
