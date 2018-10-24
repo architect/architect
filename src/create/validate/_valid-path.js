@@ -25,7 +25,7 @@ module.exports = function validPath(p) {
   // params always include /:
   var params = p.match(/\/:.*/g)
 
-  // params must have one or more chars  
+  // params must have one or more chars
   if (params) {
     var tooShort = params.filter(p=> p.length === 1)
     if (tooShort.length > 0) return Error('Unnamed parameter! Params need a name like <code>:foo</code> or <code>:someID</code>')

@@ -31,7 +31,7 @@ module.exports = function deploy(params, callback) {
   const _before = beforeDeploy.bind({}, {env, pathToCode, arc, tick})
   const _modules = installModules.bind({}, {pathToCode, tick})
   const _shared = copyShared.bind({}, {pathToCode, tick})
-  const _views = copyViews.bind({}, {pathToCode, tick})
+  const _views = copyViews.bind({}, {arc, pathToCode, tick})
 
   // executes the functions above
   // in series sharing no state between them
