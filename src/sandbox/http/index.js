@@ -22,13 +22,13 @@ let server
 
 // starts the http server
 app.start = function start (callback) {
-
   // read the arc file
   var web = readArc().arc
 
   // build the routes
-  if (web.http)
+  if (web.http) {
     regHTTP(app, '@http', 'http', web.http)
+  }
 
   // create an actual server; how quaint!
   server = http.createServer(function _request (req, res) {
@@ -36,10 +36,11 @@ app.start = function start (callback) {
   })
 
   server.listen(process.env.PORT, callback)
+
   return app
 }
 
-app.close = function close() {
+app.close = function close () {
   server.close()
 }
 

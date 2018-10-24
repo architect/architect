@@ -6,15 +6,15 @@ var exists = require('path-exists').sync
 
 var docs = fs.readFileSync(path.join(__dirname, '/readme.md')).toString()
 
-module.exports = function create(params, callback) {
+module.exports = function create (params, callback) {
   assert(params, {
-    app: String,
+    app: String
   })
 
-  var _shared = path.join(process.cwd(), 'src', 'shared')
-  var readme = path.join(_shared, 'readme.md')
+  var _public = path.join(process.cwd(), 'src', 'views')
+  var readme = path.join(_public, 'readme.md')
 
-  mkdir(_shared, function _done(err) {
+  mkdir(_public, function _done (err) {
     if (err) {
       console.log(err)
     }

@@ -22,7 +22,7 @@ module.exports = function deploy (params, callback) {
     fs.readdir(pathToPublic, function _readdir (err, items) {
       if (err) console.log(err)
       if (items.length === 0) {
-        console.log(chalk.dim('skip @static deploy (public is empty)'))
+        console.log(chalk.dim('skipping @static deploy because public is empty.'))
         callback()
       } else {
         let index = params.env === 'staging' ? 0 : 1

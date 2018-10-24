@@ -7,6 +7,7 @@ var validate = require('./00-validate')
 var beforeDeploy = require('./01-before-deploy')
 var installModules = require('./02-install-modules')
 var copyShared = require('./03-copy-shared')
+var copyViews = require('./04-copy-views')
 
 module.exports = function deploy(params, callback) {
 
@@ -30,6 +31,7 @@ module.exports = function deploy(params, callback) {
   const _before = beforeDeploy.bind({}, {env, pathToCode, arc, tick})
   const _modules = installModules.bind({}, {pathToCode, tick})
   const _shared = copyShared.bind({}, {pathToCode, tick})
+  const _views = copyViews.bind({}, {arc, pathToCode, tick})
 
   // executes the functions above
   // in series sharing no state between them
@@ -38,6 +40,7 @@ module.exports = function deploy(params, callback) {
     _before,
     _modules,
     _shared,
+    _views
   ],
   function done(err) {
     if (err) {

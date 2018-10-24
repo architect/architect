@@ -10,6 +10,7 @@ module.exports = function planner(arc) {
     {action:'create-iam-role', app},
     {action:'create-shared', app},
     {action:'create-public', app},
+    {action:'create-views', app}
   ]
 
   // sns events
