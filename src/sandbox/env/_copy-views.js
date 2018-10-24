@@ -2,7 +2,7 @@ const chalk = require('chalk')
 const glob = require('glob')
 const path = require('path')
 const readArc = require('../../util/read-arc')
-const lambdaPath = require('../../create/aws/_get-lambda-name')
+const lambdaPath = require('../../util/get-lambda-name')
 const cp = require('cpr')
 /**
  * copies ./src/views into lambda ./node_modules/@architect/views
