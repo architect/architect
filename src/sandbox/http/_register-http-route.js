@@ -1,5 +1,5 @@
 var local = require('./_local')
-var getPath = require('./_get-path')
+var getPath = require('../../util/get-lambda-name')
 var getFunction = require('./_get-fn')
 var url = require('url')
 var response = require('./_response')

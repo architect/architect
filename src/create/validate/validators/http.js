@@ -6,7 +6,8 @@ let validPath = require('../_valid-path')
  * ---
  * validator for @html
  */
-module.exports = function _http(type, arc, raw) {
+module.exports = function _http(arc, raw) {
+  var type = 'http'
   var errors = []
   if (arc[type]) {
     // http sections are arrays of tuples

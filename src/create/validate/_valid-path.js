@@ -13,7 +13,7 @@ module.exports = function validPath(p) {
 
   // can have letters, numbers, dashes, slashes and/or :params
   function bads(c) {
-    var allowed = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/:.'.split('')
+    var allowed = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-:.'.split('')
     return !allowed.includes(c)
   }
   var bad = p.slice().split('').filter(bads)
@@ -22,10 +22,25 @@ module.exports = function validPath(p) {
   bad = Object.keys(uniq).join(', ')
   if (bad.length > 0) return Error(`Invalid character${bad.length === 1? '' : 's'}: ${bad}`)
 
-  // params must have one or more chars
-  var params = p.match(/:\w*/g)
+  // params always include /:
+  var params = p.match(/\/:.*/g)
+
+  // params must have one or more chars  
   if (params) {
     var tooShort = params.filter(p=> p.length === 1)
     if (tooShort.length > 0) return Error('Unnamed parameter! Params need a name like <code>:foo</code> or <code>:someID</code>')
+  }
+
+  // params cannot have non-alphanumeric characters
+  if (params) {
+    let match = p.match(/\/:[a-zA-Z0-9]*(\/|$)/g)
+    if (!match) return Error('Invalid parameter! Params can only accept alphanumeric characters.')
+  }
+
+  // TODO - check to make sure : is ONLY used at the beginning of a part
+  var invalidParamSyntax = p.match(/\/\w+:\w*/g)
+
+  if (invalidParamSyntax) {
+    return Error('Invalid path! Colons can only be used at the beginning of a URL part.')
   }
 }

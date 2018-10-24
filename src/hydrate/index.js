@@ -24,6 +24,13 @@ function _initDeps(installing, callback) {
   // do two glob calls; one for src/lambdas and one for src/shared
   parallel({
     lambdas(callback) {
+      /*
+         TODO At some point in the future we'll refactor this to read .arc instead of glob
+         - when we do, take note that Lambda path encoding changed in 4.x when we went from statically bound content type functions to http
+         - we added (back) period and dash, and did not reuse chars
+         - to maintain backwards compatibility, we'll need to aim legacy functions at a diff path builder
+         - see: src/utils/get[-legacy]-lambda-name.js
+       */
       // all the lambda folders
       let pattern = 'src/@(html|http|css|js|text|xml|json|events|scheduled|tables|slack|queues)/*'
       glob(pattern, callback)

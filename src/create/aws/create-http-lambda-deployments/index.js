@@ -4,7 +4,7 @@ var assert = require('@smallwins/validate/assert')
 var aws = require('aws-sdk')
 var print = require('../../_print')
 var getLambda = require('../_get-lambda')
-var getName = require('../_get-lambda-name')
+var getName = require('../../../util/get-lambda-name')
 
 module.exports = function _createDeployments(params, callback) {
 
