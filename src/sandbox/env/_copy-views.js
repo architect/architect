@@ -16,7 +16,7 @@ module.exports = function _views (callback) {
   let paths
 
   // If @views is defined in .arc then use those route paths
-  if (views.length) {
+  if (views && views.length) {
     paths = views.map(v => `src/http/${v[0]}${lambdaPath(v[1])}`)
   } else {
     // Else copy into all the @http gets
