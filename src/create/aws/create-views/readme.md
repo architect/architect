@@ -1,9 +1,8 @@
 # The `src/views` directory
 
-By default the contents of `src/views` get copied into each of your project's `@http` `GET` functions (at `node_modules/@architect/views`) whenever you run:
+By default the contents of `src/views` gets copied into each of your project's `@http` `GET` functions (at `node_modules/@architect/views`) whenever you run:
 
 - `npx sandbox`
-- `npx hydrate`
 - `npx deploy`
 
 This means the modules in this folder can be required from any `@http` `GET` function in your Architect project.
@@ -14,7 +13,7 @@ For example, here's how you'd require `src/views/layout.js`:
 var layout = require('@architect/views/layout')
 ```
 
-Furthermore you can define the only lambdas to add `@architects/views` to by defining them in your apps `.arc` file by using the `@views` key.
+Furthermore you can define specific lambdas to add `@architects/views` to by defining them in your app's `.arc` file by using the `@views` key.
 
 ```
 @views
