@@ -5,9 +5,9 @@ const path = require('path')
 const mkdir = require('mkdirp').sync
 const test = require('tape')
 const db = require('../../src/sandbox').db
-const sandbox = require('../../src/sandbox').http
+const sandbox = require('../../src/sandbox')
 var client
-var server
+var close
 var port = process.env.PORT || '3335'
 
 test('setup', t => {
@@ -41,7 +41,8 @@ test('setup db server', t => {
 })
 
 test('setup web server', t => {
-  server = sandbox.start(function startSandbox () {
+  sandbox.start(function startSandbox (end) {
+    close = end
     t.ok(true, `started server @ localhost:${port}`)
     t.end()
   })
@@ -54,7 +55,7 @@ test('should copy views', t => {
 })
 
 test('teardown', t => {
-  server.close()
+  close()
   client.close()
   rm(path.join(__dirname, '_mock'))
   t.ok(true, 'server closed')
