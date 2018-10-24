@@ -5,7 +5,7 @@ const readArc = require('../../util/read-arc')
 const lambdaPath = require('../../create/aws/_get-lambda-name')
 const cp = require('cpr')
 /**
- * copies ./src/views into lambda /src/views/
+ * copies ./src/views into lambda ./node_modules/@architect/views
  * if @views exists in .arc file it will only copy into the routes specifed there
  */
 module.exports = function _views (callback) {
@@ -24,8 +24,8 @@ module.exports = function _views (callback) {
   }
 
   paths.forEach(p => {
-    let dest = path.join(process.cwd(), p, 'src', 'views')
+    let dest = path.join(process.cwd(), p, 'node_modules', '@architect', 'views')
     cp(src, dest, {overwrite: true}, callback)
-    console.log(chalk.dim(chalk.green.dim('✓'), 'src/views copied to lambda /src/views'))
+    console.log(chalk.dim(chalk.green.dim('✓'), 'src/views copied to lambda node_modules/@architect/views'))
   })
 }

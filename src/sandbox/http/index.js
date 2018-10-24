@@ -23,11 +23,6 @@ let server
 
 // starts the http server
 app.start = function start (callback) {
-  _env(function (err) {
-    if (err) {
-      throw err
-    }
-  })
   // read the arc file
   var web = readArc().arc
 
@@ -36,12 +31,20 @@ app.start = function start (callback) {
     regHTTP(app, '@http', 'http', web.http)
   }
 
-  // create an actual server; how quaint!
-  server = http.createServer(function _request (req, res) {
-    app(req, res, finalhandler(req, res))
+  // Set up environment
+  _env(function (err) {
+    if (err) {
+      throw err
+    }
+
+    // create an actual server; how quaint!
+    server = http.createServer(function _request (req, res) {
+      app(req, res, finalhandler(req, res))
+    })
+
+    server.listen(process.env.PORT, callback)
   })
 
-  server.listen(process.env.PORT, callback)
   return app
 }
 
