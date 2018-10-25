@@ -1,25 +1,12 @@
-// Require Architect Functions to enable secure anonymous signed sessions, URL helpers, CSRF tokens, and more
+// @architect/functions enables secure sessions, express-style middleware and more
 // let arc = require('@architect/functions')
+// let url = arc.http.helpers.url
 
-exports.handler = async function http(request) {
-  try {
-    if (process.env.NODE_ENV !== 'production') console.log(JSON.stringify(request, null, 2))
-    return {
-      type: 'text/html; charset=utf8',
-      body: 'Hello world!'
-    }
-  }
-  catch(e) {
-    console.error(e)
-    return {
-      status: 500,
-      type: 'application/json; charset=utf8',
-      body: JSON.stringify({
-        name: e.name,
-        message: e.message,
-        stack:e.stack
-      }, null, 2)
-    }
+exports.handler = async function http(req) {
+  console.log(req)
+  return {
+    type: 'text/html; charset=utf8',
+    body: '<h1>Hello world!</h1>'
   }
 }
 
@@ -28,8 +15,8 @@ exports.handler = async function http(request) {
 /* Forward requester to a new path
 exports.handler = async function http(request) {
   return {
-   status: 302,
-   location: '/staging/about',
+    status: 302,
+    location: '/staging/about',
   }
 }
 */
@@ -53,3 +40,5 @@ exports.handler = async function http(request) {
   }
 }
 */
+
+// Learn more: https://arc.codes/guides/http
