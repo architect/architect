@@ -5,4 +5,4 @@ Install/update all modules in src.
 # Examples
 
 - `npx hydrate`
-- `npx hydrate {update | --update | -u}`
+- `npx hydrate [update | --update | -u]`
