@@ -7,6 +7,7 @@ var deployAll = require('./_deploy-all')
 var _progress = require('./_progress')
 
 let flags = [
+  'static',
   'production',
   '--production',
   '-p',
@@ -31,10 +32,15 @@ init(function _init(err, arc) {
   let start = Date.now()
   let isAll = process.argv.length === 2 || (process.argv.length === 3 && override)
 
-
+  // surface sekret ENV var for experimenting w fast deploys
   if (process.env.PARALLEL_DEPLOYS_PER_SECOND) {
-    console.log(chalk.grey(chalk.green.dim('✓'), `Parallel deploys per second: ${process.env.PARALLEL_DEPLOYS_PER_SECOND}\n`))
+    let check = chalk.green.dim('✓')
+    let per = `Parallel deploys per second: ${process.env.PARALLEL_DEPLOYS_PER_SECOND}\n`
+    console.log(chalk.grey(check, per))
   }
+
+  // check to see if we're deploying lambdas or static assets
+
 
   if (err) {
     console.log(err)
