@@ -50,11 +50,11 @@ module.exports = function nukeDNS(parms, callback) {
         deleteHostedZone,
         deleteCertificate,
       ],
-      function done(err, results, callback) {
-        if (err) callback
+      function done(err) {
+        if (err) callback(err) // surface any errors
         else {
           console.log(chalk.grey('Successfully destroyed DNS configuration'))
-          callback
+          callback() // silently continue
         }
       })
     }

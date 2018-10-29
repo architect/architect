@@ -1,5 +1,6 @@
 module.exports = function _isApi(arc) {
-  return arc.hasOwnProperty('html') ||
+  return arc.hasOwnProperty('http') ||
+         arc.hasOwnProperty('html') ||
          arc.hasOwnProperty('json') ||
          arc.hasOwnProperty('css') ||
          arc.hasOwnProperty('js') ||
