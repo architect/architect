@@ -23,7 +23,10 @@
 let init = require('../util/init')
 let hydrate = require('.')
 let noop = x=> !x
-let isUpdating = process.argv.slice(0).reverse()[0] === 'update'
+let command = process.argv.slice(0).reverse()[0]
+let isUpdating =  command === 'update' ||
+                  command === '--update' ||
+                  command === '-u'
 init(function _init(err) {
   if (err) throw err
   if (isUpdating) {

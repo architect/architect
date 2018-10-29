@@ -7,7 +7,11 @@ let init = require('../util/init')
 
 // figure out if we're reporting or applying
 let command = process.argv.slice(0).reverse().shift()
-let exec = command === 'apply'? _apply : _report
+let exec =  command === 'apply' ||
+            command === '--apply' ||
+            command === '-a'
+              ? _apply
+              : _report
 
 // giddy up
 init(function _init(err, arc) {
