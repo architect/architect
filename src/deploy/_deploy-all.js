@@ -48,7 +48,7 @@ module.exports = function deployAll(params) {
         }
       }
 
-      // high-larious waterfall-nested parallel 
+      // high-larious waterfall-nested parallel
       // because executions can escape early and call their callback before everything is done
       waterfall([
         function _goPrep(callback) {

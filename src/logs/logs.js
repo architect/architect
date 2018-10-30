@@ -1,6 +1,4 @@
-var chalk = require('chalk')
 var aws = require('aws-sdk')
-var exists = require('path-exists').sync
 let parallel = require('run-parallel')
 let waterfall = require('run-waterfall')
 
@@ -30,8 +28,13 @@ module.exports = function logs(name, callback) {
     },
 
     function cleanup(results, callback) {
-      let events = results.map(r=>r.events).reduce((a, b)=> a.concat(b))
-      callback(null, events)
+      if (results.length === 0) {
+        callback(null, results)
+      }
+      else {
+        let events = results.map(r=>r.events).reduce((a, b)=> a.concat(b))
+        callback(null, events)
+      }
     }
   ], callback)
 }
