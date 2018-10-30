@@ -36,10 +36,13 @@ module.exports = function report(arc) {
           if (config && config.aws) {
             let timeout = config.aws.find(e=> e[0] === 'timeout') || 5
             let memory = config.aws.find(e=> e[0] === 'memory') || 1152
+            let runtime = config.aws.find(e=> e[0] === 'runtime') || 'nodejs8.10'
             if (Array.isArray(timeout))
               timeout = timeout[1]
             if (Array.isArray(memory))
               memory = memory[1]
+            if (Array.isArray(runtime))
+              runtime = runtime[1]
             title(file)
             let staging = getFunctionName(appname, 'staging', file)
             let production = getFunctionName(appname, 'production', file)
@@ -73,6 +76,14 @@ module.exports = function report(arc) {
                   }
                   else {
                     console.log(' ', chalk.dim('memory '), chalk.green(fn.MemorySize + ' MB'))
+                  }
+                  if (fn.Runtime != runtime) {
+                    let left = chalk.dim('runtime')
+                    let right = chalk.red(fn.Runtime) + chalk.yellow(` expected ${runtime}`)
+                    console.log(' ', left, right)
+                  }
+                  else {
+                    console.log(' ', chalk.dim('Runtime'), chalk.green(fn.Runtime))
                   }
                 })
                 console.log(chalk.dim('---\n'))
