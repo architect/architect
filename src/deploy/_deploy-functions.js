@@ -7,19 +7,21 @@ let _report = require('./_report')
 let _progress = require('./_progress')
 let parallel = require('run-parallel')
 let glob = require('glob')
-let s3 = require('./public')
 let _chunk = require('./_chunk')
 let _flatten = require('./_flatten')
 let _queue = require('./_queue')
 
-module.exports = function deployAll(params) {
+module.exports = function deployFunctions(params, callback) {
+  
   assert(params, {
     env: String,
     arc: Object,
     start: Number,
   })
+
   let {env, arc, start} = params
   let results // use this below
+
   waterfall([
     /*
        TODO At some point in the future we'll refactor this to read .arc instead of glob
@@ -135,9 +137,5 @@ module.exports = function deployAll(params) {
         stats
       }, callback)
     },
-    // upload public to s3 based on @static config
-    function _statics(callback) {
-      s3(params, callback)
-    }
-  ])
+  ], callback)
 }
