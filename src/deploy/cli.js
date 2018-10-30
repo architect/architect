@@ -42,7 +42,7 @@ init(function _init(err, arc) {
 
   // we have args! time to figure out env
   let isProd =    args.includes('production') ||
-                  args.includes('--production') ||
+                  args.includes('--production')
   let env = isProd? 'production' : 'staging'
   process.env.ARC_DEPLOY = env // final override
 
