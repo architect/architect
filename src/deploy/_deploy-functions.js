@@ -12,7 +12,7 @@ let _flatten = require('./_flatten')
 let _queue = require('./_queue')
 
 module.exports = function deployFunctions(params, callback) {
-  
+
   assert(params, {
     env: String,
     arc: Object,

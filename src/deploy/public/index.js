@@ -14,7 +14,7 @@ module.exports = function deploy(params, callback) {
   let ignore = !params.arc.static
   if (ignore) {
     callback()
-  } 
+  }
   else {
     let pathToPublic = path.join(process.cwd(), 'public')
     // create public if it does not exist
@@ -25,7 +25,7 @@ module.exports = function deploy(params, callback) {
       if (items.length === 0) {
         console.log(chalk.dim('skipping @static deploy because public is empty.'))
         callback()
-      } 
+      }
       else {
         let index = params.env === 'staging' ? 0 : 1
         let bucket = params.arc.static[index][1]

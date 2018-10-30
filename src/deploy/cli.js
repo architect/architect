@@ -10,11 +10,11 @@ let _progress = require('./_progress')
 /**
  * scenarios
  * ---
- *  
+ *
  * deploy everything
  *
  *   npx deploy [staging|production]
- *   
+ *
  *
  * deploy something specific
  *
@@ -25,6 +25,7 @@ let _progress = require('./_progress')
  *
  */
 init(function _init(err, arc) {
+  if (err) throw err//idk..
 
   // use this later for measuring time
   let start = Date.now()
@@ -36,14 +37,14 @@ init(function _init(err, arc) {
     console.log(check, msg)
   }
 
-  // grab userland args 
+  // grab userland args
   let args = process.argv.slice(2)
-  
+
   // we have args! time to figure out env
   let isProduction = args.includes('production') || args.includes('--production') || args.includes('-p')
   let env = isProduction? 'production' : 'staging'
   process.env.ARC_DEPLOY = env // final override
-  
+
   // now figure out what we intend to deploy
   let isStatic = args.includes('static') || args.includes('public') || args.includes('/public')
   let isPath = args.some(arg=> arg.startsWith('/') || arg.startsWith('src'))
@@ -54,7 +55,7 @@ init(function _init(err, arc) {
 
   if (isStatic) {
     // deploy /public to s3
-    tasks.push(function(callback) {    
+    tasks.push(function(callback) {
       deployPublic({
         env,
         arc,
@@ -63,7 +64,7 @@ init(function _init(err, arc) {
     })
   }
   else if (isPath) {
-    // deploying one lambda 
+    // deploying one lambda
     let pathToCode = args.find(arg=> arg.startsWith('/src') || arg.startsWith('src'))
     let name = chalk.green.dim(`Deploying ${pathToCode}`)
     let total = 7 // magic number of steps in src
@@ -71,7 +72,7 @@ init(function _init(err, arc) {
     function tick(msg) {
       if (msg) {
         progress.tick({'token': msg})
-      } 
+      }
       else {
         progress.tick({'token': 'Working...'})
       }
@@ -99,7 +100,7 @@ init(function _init(err, arc) {
   else {
     // assume wholesale deployment
     // if already got static don't redeploy it..
-    tasks.push(function(callback) {    
+    tasks.push(function(callback) {
       deployPublic({
         env,
         arc,
