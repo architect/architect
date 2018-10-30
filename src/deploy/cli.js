@@ -41,7 +41,8 @@ init(function _init(err, arc) {
   let args = process.argv.slice(2)
 
   // we have args! time to figure out env
-  let isProd =    args.includes('production') ||
+  let isProd =    process.env.ARC_DEPLOY === 'production' ||
+                  args.includes('production') ||
                   args.includes('--production')
   let env = isProd? 'production' : 'staging'
   process.env.ARC_DEPLOY = env // final override
