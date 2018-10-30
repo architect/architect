@@ -41,14 +41,28 @@ init(function _init(err, arc) {
   let args = process.argv.slice(2)
 
   // we have args! time to figure out env
-  let isProduction = args.includes('production') || args.includes('--production') || args.includes('-p')
-  let env = isProduction? 'production' : 'staging'
+  let isProd =    args.includes('production') ||
+                  args.includes('--production') ||
+                  args.includes('-p')
+  let env = isProd? 'production' : 'staging'
   process.env.ARC_DEPLOY = env // final override
 
   // now figure out what we intend to deploy
-  let isStatic = args.includes('static') || args.includes('public') || args.includes('/public')
-  let isPath = args.some(arg=> arg.startsWith('/') || arg.startsWith('src'))
-  let isLambda = args.includes('lambda') || args.includes('lambdas') || args.includes('functions')
+  let isStatic =  args.includes('static') ||
+                  args.includes('--static') ||
+                  args.includes('-s') ||
+                  args.includes('public') ||
+                  args.includes('--public') ||
+                  args.includes('-p') ||
+                  args.includes('/public')
+  let isPath =    args.some(arg=> arg.startsWith('/') ||
+                  arg.startsWith('src'))
+  let isLambda =  args.includes('lambda') ||
+                  args.includes('--lambda') ||
+                  args.includes('lambdas') ||
+                  args.includes('--lambdas') ||
+                  args.includes('functions') ||
+                  args.includes('--functions')
 
   // create a tasks queue to walk
   let tasks = []
