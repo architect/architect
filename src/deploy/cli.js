@@ -43,17 +43,14 @@ init(function _init(err, arc) {
   // we have args! time to figure out env
   let isProd =    args.includes('production') ||
                   args.includes('--production') ||
-                  args.includes('-p')
   let env = isProd? 'production' : 'staging'
   process.env.ARC_DEPLOY = env // final override
 
   // now figure out what we intend to deploy
   let isStatic =  args.includes('static') ||
                   args.includes('--static') ||
-                  args.includes('-s') ||
                   args.includes('public') ||
                   args.includes('--public') ||
-                  args.includes('-p') ||
                   args.includes('/public')
   let isPath =    args.some(arg=> arg.startsWith('/') ||
                   arg.startsWith('src'))
