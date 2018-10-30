@@ -24,14 +24,27 @@ module.exports = function _setupEnv(callback) {
     }
   })
   command.map(c => {
+    if (c === 'testing' ||
+        c === '--testing' ||
+        c === '-t') {
+      env = 'testing'
+    }
+    if (c === 'staging' ||
+        c === '--staging' ||
+        c === '-s') {
+      env = 'staging'
+    }
+    if (c === 'production' ||
+        c === '--production' ||
+        c === '-p') {
+      env = 'production'
+    }
     if (Array.isArray(c)) {
-      if (c[0] === '--env' || '-e') {
-        env = c[1]
-      }
       if (c[0] === '--port' && Number(c[1]) >= 2 && Number(c[1]) <= 65535) {
         port = Number(c[1])
       }
-    } else {
+    }
+    else {
       return c
     }
   })
@@ -54,6 +67,7 @@ module.exports = function _setupEnv(callback) {
   // production
   let isProduction =  process.env.NODE_ENV === 'production' ||
                       env === 'production'
+
   if (isProduction) {
     process.env.SESSION_TABLE_NAME = `${name}-production-arc-sessions`
   }
@@ -65,7 +79,6 @@ module.exports = function _setupEnv(callback) {
   if (typeof port === 'number') {
     process.env.PORT = port
   }
-
 
   // interpolate arc-env
   let envPath = join(process.cwd(), '.arc-env')
