@@ -5,6 +5,7 @@ let aws = require('aws-sdk')
 let series = require('run-series')
 let chalk = require('chalk')
 let getFunctionName = require('./_get-function-name')
+let allowed = require('./_allowed-runtimes')
 
 // helpers
 let error = msg=> console.log(chalk.bold.red('Error: ') + chalk.bold.white(msg))
@@ -37,10 +38,13 @@ module.exports = function report(arc) {
           if (config && config.aws) {
             let timeout = config.aws.find(e=> e[0] === 'timeout') || 5
             let memory = config.aws.find(e=> e[0] === 'memory') || 1152
+            let runtime = config.aws.find(e=> e[0] === 'runtime') || 'nodejs8.10'
             if (Array.isArray(timeout))
               timeout = timeout[1]
             if (Array.isArray(memory))
               memory = memory[1]
+            if (Array.isArray(runtime))
+              runtime = allowed(runtime[1])
             title(file)
             let staging = getFunctionName(appname, 'staging', file)
             let production = getFunctionName(appname, 'production', file)
@@ -50,6 +54,7 @@ module.exports = function report(arc) {
                   FunctionName,
                   MemorySize: memory,
                   Timeout: timeout,
+                  Runtime: runtime,
                 }, callback)
               }
             }),

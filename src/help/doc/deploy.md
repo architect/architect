@@ -1,11 +1,11 @@
 # npx deploy
 
-Deploy lambda functions to AWS
+Deploy Lambda functions to AWS
 
 
 # Examples
 
-- `npx deploy` deploy all lambdas in src to `staging`
-- `npx deploy src/html/get-index` deploy one lambda to `staging`
-- `npx deploy static` sync `public` to the `staging` bucket
-- `ARC_DEPLOY=production npx deploy` deploy all lambdas in src to `production`
+- `npx deploy [staging | --staging | -s]` deploy all Lambda functions to `staging` 
+- `npx deploy [staging | --staging | -s] src/html/get-index` deploy one Lambda function to `staging`
+- `npx deploy [production | --production | -p]` deploy all Lambda functions to `production` 
+- `npx deploy [production | --production | -p] src/html/get-index` deploy one Lambda function to `production` 

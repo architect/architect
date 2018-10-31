@@ -9,6 +9,7 @@ var aws = require('aws-sdk')
 let init = require('../../util/init')
 let series = require('run-series')
 let isAPI = require('../_is-api')
+let chalk = require('chalk')
 
 module.exports = function nukeDNS(parms, callback) {
   init(function exec(err, arc) {
@@ -48,7 +49,14 @@ module.exports = function nukeDNS(parms, callback) {
         deleteCNAMERecords,
         deleteHostedZone,
         deleteCertificate,
-      ], callback)
+      ],
+      function done(err) {
+        if (err) callback(err) // surface any errors
+        else {
+          console.log(chalk.grey('Successfully destroyed DNS configuration'))
+          callback() // silently continue
+        }
+      })
     }
   })
 }

@@ -31,11 +31,16 @@ init(function _init(err, arc) {
       // all our predicates
       let envs = ['testing', 'staging', 'production']
       let is = {
-        all: copy.length === 0,
-        one: copy.length === 1 && envs.includes(copy[0]),
-        verify: copy.length === 1 && copy[0] === 'verify',
-        add: copy.length === 3 && envs.includes(copy[0]),
-        remove: copy.length === 3 && copy[0] === 'remove',
+        all:    copy.length === 0,
+        one:    copy.length === 1 && envs.includes(copy[0]),
+        verify: copy.length === 1 && copy[0] === 'verify' ||
+                copy.length === 1 && copy[0] === '--verify' ||
+                copy.length === 1 && copy[0] === '-v',
+        // TODO impl optional add, --add, -a flags ↓
+        add:    copy.length === 3 && envs.includes(copy[0]),
+        remove: copy.length === 3 && copy[0] === 'remove' ||
+                copy.length === 3 && copy[0] === '--remove' ||
+                copy.length === 3 && copy[0] === '-r',
       }
 
       if (is.all) {

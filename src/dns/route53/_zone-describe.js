@@ -78,7 +78,7 @@ function _thirdPartyRegistrar({domain, HostedZoneId}, callback) {
     if (err) callback(err)
     else {
       var ns = data.ResourceRecordSets.find(t=> t.Type === 'NS').ResourceRecords.map(x=> x.Value).join('\n')
-      console.log(chalk.dim('Please ensure your domain registration is using these nameeservers:'))
+      console.log(chalk.dim('Please ensure your domain registration is using these nameservers:'))
       console.log(chalk.dim.cyan.underline(ns))
       console.log('\n')
       callback()

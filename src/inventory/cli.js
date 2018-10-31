@@ -20,11 +20,21 @@ function _inventory(err, result) {
   else {
     var reporter = _local // default to local only
     var command = process.argv.slice(0).reverse().shift()
-    if (command === 'verify') {
+    var isVerify =      command === 'verify' ||
+                        command === '--verify' ||
+                        command === '-v'
+    var isNuke =        command === 'nuke' ||
+                        command === '--nuke' ||
+                        command === '-n'
+    var isNukeTables =  command === '--nuke=tables' ||
+                        process.env.ARC_NUKE === 'tables'
+    if (isVerify) {
       reporter = _verify
     }
-    if (command === 'nuke') {
-      reporter = process.env.ARC_NUKE === 'tables'? _nukeTables : _nuke
+    if (isNuke || isNukeTables) {
+      reporter =  isNukeTables
+                    ? _nukeTables
+                    : _nuke
     }
     reporter(result)
   }
