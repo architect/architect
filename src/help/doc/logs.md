@@ -1,4 +1,4 @@
-# npx env
+# npx logs
 
 Read or clear logs for a function.
 
