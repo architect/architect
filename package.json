@@ -25,6 +25,7 @@
     "hydrate": "./src/hydrate/cli.js",
     "inventory": "./src/inventory/cli.js",
     "logs": "./src/logs/cli.js",
+    "tags": "./src/tags/cli.js",
     "sandbox": "./src/sandbox/cli.js"
   },
   "scripts": {

@@ -7,7 +7,9 @@ let env = require('./src/env')
 let help = require('./src/help')
 let hydrate = require('./src/hydrate')
 let inventory = require('./src/inventory')
+let logs = require('./src/logs')
 let sandbox = require('./src/sandbox')
+let tags = require('./src/tags')
 
 module.exports = {
   audit,
@@ -19,5 +21,7 @@ module.exports = {
   help,
   hydrate,
   inventory,
+  logs,
   sandbox,
+  tags
 }

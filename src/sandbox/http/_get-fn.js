@@ -1,8 +1,8 @@
 /* eslint "global-require": "off" */
-var join = require('path').join
+let path = require('path')
 
-module.exports = function _getFunction(api, type, verb, path) {
-  var p = join(process.cwd(), 'src', type, `${verb}${path}`)
+module.exports = function _getFunction(api, type, verb, arcpath) {
+  var p = path.join(process.cwd(), 'src', type, `${verb}${arcpath}`)
   return require(p).handler
 }
 

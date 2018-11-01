@@ -55,5 +55,3 @@ npx help
 
 Full docs found at https://arc.codes
 
-[Architect changelog here](./changelog.md)
-
