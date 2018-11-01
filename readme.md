@@ -1,5 +1,5 @@
 ## [`@architect/architect`](https://www.npmjs.com/package/@architect/architect)
-[ ![Codeship Status for arc-repos/architect](https://app.codeship.com/projects/6648b220-b6e0-0136-c44e-665f90db7339/status?branch=master)](https://app.codeship.com/projects/311665)
+[![Build Status](https://travis-ci.com/arc-repos/architect.svg?branch=master)](https://travis-ci.com/arc-repos/architect)
 
 > Create, deploy, and maintain next-generation AWS cloud function-based serverless infrastructure with full local, offline workflows, and more.
 
