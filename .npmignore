@@ -5,3 +5,4 @@
 .github
 contributing.md
 test/
+travis.yml
