@@ -31,7 +31,7 @@
   "scripts": {
     "lint": "eslint . --fix",
     "t": "cross-env NODE_ENV=testing tape 'test/validation/*-test.js' | tap-spec",
-    "test": "NODE_ENV=testing tape test/validation/appname-test.js | tap-spec"
+    "test": "NODE_ENV=testing tape test/validation/appname-test.js test/help/test.js | tap-spec"
   },
   "keywords": [
     "aws",
@@ -86,6 +86,7 @@
     "cross-env": "^5.2.0",
     "eslint": "^5.7.0",
     "rimraf": "^2.6.2",
+    "sinon": "^7.1.1",
     "tap-spec": "^5.0.0",
     "tape": "^4.9.1",
     "tiny-json-http": "^7.0.0"
