@@ -33,7 +33,7 @@ test('create planner returns sns event plans', t=> {
   t.equal(plans.length, 10, 'create 3 plans for each event in this scenario') // 6 for the events and 4 from the default plans
   t.end()
 })
-test('create planner returns subset of sns event plans when arc local env var is set', t=> {
+test('create planner returns subset of sns event plans if local', t=> {
   var arc = Object.assign({
     events: ['bing', 'bong']
   }, base)
@@ -65,7 +65,7 @@ test('create planner returns scheduled plans', t=> {
   t.equal(plans.length, 8, 'only create-scheduled-lambda-code events exist in this scenario') // 2 for the events and 4 from the default plans
   t.end()
 })
-test('create planner does not return scheduled lambda deployment plans when arc local env var is set', t=> {
+test('create planner does not return scheduled lambda deployment plans if local', t=> {
   var arc = Object.assign({
     scheduled: ['bing', 'bong']
   }, base)
@@ -98,7 +98,7 @@ test('create planner returns http lambda code plans', t=> {
   t.equal(plans.length, 13, 'create-lambda code and deployment events exist') // 2 lambda code and 2 lambda deploy exist (one for each route), 4 default plans, 1 session table, 1 for routers, 2 http routes (one for each route) plus 1 router deployments
   t.end()
 })
-test('create planner does not return http lambda deployment plans if arc local env var is set', t=> {
+test('create planner does not return http lambda deployment plans if local', t=> {
   var arc = Object.assign({
     http: [['get', '/'], ['post', '/post']]
   }, base)
@@ -113,14 +113,14 @@ test('create planner does not return http lambda deployment plans if arc local e
   delete process.env.ARC_LOCAL
   t.end()
 })
-test('create planner returns http route creation plans if arc local env var is not set', t=> {
+test('create planner returns http route creation plans if not local', t=> {
   var arc = Object.assign({
     http: [['get', '/'], ['post', '/post']]
   }, base)
   t.plan(4)
   var plans = planner(arc)
   var createroutersplan = plans.filter(x => x.action === 'create-routers')
-  t.deepEqual(createroutersplan[0], {action:'create-routers', app: base.app[0]},  'contains create routers plan')
+  t.deepEqual(createroutersplan[0], {action:'create-routers', app: base.app[0]}, 'contains create routers plan')
   var createhttprouteplans = plans.filter(x => x.action === 'create-http-route')
   t.deepEqual(createhttprouteplans[0], {action:'create-http-route', app: base.app[0], route:arc.http[0]},  'contains create http route with first of two routes')
   t.deepEqual(createhttprouteplans[1], {action:'create-http-route', app: base.app[0], route:arc.http[1]},  'contains create http route with second of two routes')
@@ -137,13 +137,64 @@ test('create planner ignores session table creation plans if disable session env
 test('create planner ignores session table creation plans if arc local env var is set', t=> {
   t.end()
 })
-test('create planner returns table plans', t=> {
+test('create planner creates table plans if not local', t=> {
+  var arc = Object.assign({
+    tables: [{posts:{postID:"*String",posted:"**String",ttl:"TTL"}}, {ppl:{personID:"*String",insert:"Lambda",update:"Lambda",delete:"Lambda"}}]
+  }, base)
+  t.plan(2)
+  var plans = planner(arc)
+  var createtablesplans = plans.filter(x => x.action === 'create-tables')
+  t.deepEqual(createtablesplans[0], {action:'create-tables', table:{posts:{postID:"*String",posted:"**String",ttl:"TTL"}}, app: base.app[0]}, 'contains create tables plan for first table')
+  t.deepEqual(createtablesplans[1], {action:'create-tables', table:{ppl:{personID:"*String",insert:"Lambda",update:"Lambda",delete:"Lambda"}}, app: base.app[0]}, 'contains create tables plan for second table')
+  t.end()
+})
+test('create planner includes create table lambda code plans', t=> {
+  var arc = Object.assign({
+    tables: [{posts:{postID:"*String",posted:"**String",ttl:"TTL"}}, {ppl:{personID:"*String",insert:"Lambda",update:"Lambda",delete:"Lambda"}}]
+  }, base)
+  t.plan(4)
+  var plans = planner(arc)
+  var createtablelambdaplans = plans.filter(x => x.action === 'create-table-lambda-code')
+  t.equal(createtablelambdaplans.length, 1, 'only one create table lambda code plan exists for one of the two tables')
+  t.deepEqual(createtablelambdaplans[0], {action:'create-table-lambda-code', table:{ppl:{personID:"*String",insert:"Lambda",update:"Lambda",delete:"Lambda"}}, app: base.app[0]}, 'contains create table lambda for second table only')
+  var createtablelambdadeploys = plans.filter(x => x.action === 'create-table-lambda-deployments')
+  t.equal(createtablelambdadeploys.length, 1, 'only one create table lambda deployment exists for one of the two tables')
+  t.deepEqual(createtablelambdadeploys[0], {action:'create-table-lambda-deployments', table:{ppl:{personID:"*String",insert:"Lambda",update:"Lambda",delete:"Lambda"}}, app: base.app[0]}, 'contains create table lambda for second table only')
+  t.end()
+})
+test('create planner excludes create table lambda deployment plans if local', t=> {
+  var arc = Object.assign({
+    tables: [{posts:{postID:"*String",posted:"**String",ttl:"TTL"}}, {ppl:{personID:"*String",insert:"Lambda",update:"Lambda",delete:"Lambda"}}]
+  }, base)
+  t.plan(1)
+  process.env.ARC_LOCAL = 'true'
+  var plans = planner(arc)
+  var createtablelambdaplans = plans.filter(x => x.action === 'create-table-lambda-deployments')
+  t.equal(createtablelambdaplans.length, 0, 'no create table lambda deployment exists')
+  delete process.env.ARC_LOCAL
   t.end()
 })
 test('create planner returns index plans', t=> {
+  var arc = Object.assign({
+    indexes: [{ppl:{personID:"*String"}}]
+  }, base)
+  t.plan(2)
+  var plans = planner(arc)
+  var createtableindexplans = plans.filter(x => x.action === 'create-table-index')
+  t.equal(createtableindexplans.length, 1, 'a create table index exists')
+  t.deepEqual(createtableindexplans[0], {action:'create-table-index', index:{ppl:{personID:"*String"}}, app: base.app[0]}, 'contains create table index')
   t.end()
 })
-test('create planner ignores index plans if arc local env var is set', t=> {
+test('create planner returns no index plans if local', t=> {
+  var arc = Object.assign({
+    indexes: [{ppl:{personID:"*String"}}]
+  }, base)
+  t.plan(1)
+  process.env.ARC_LOCAL = 'true'
+  var plans = planner(arc)
+  var createtableindexplans = plans.filter(x => x.action === 'create-table-index')
+  t.equal(createtableindexplans.length, 0, 'no create table index plans exist')
+  delete process.env.ARC_LOCAL
   t.end()
 })
 test('create planner returns router deployment plans if arc file contains slack pragma', t=> {
