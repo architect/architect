@@ -25,11 +25,11 @@ test('create planner returns sns event plans', t=> {
   t.deepEqual(lambdacodeplans[0], {action:'create-event-lambda-code', app: base.app[0], event:'bing'},  'contains create lambda code with first of two events')
   t.deepEqual(lambdacodeplans[1], {action:'create-event-lambda-code', app: base.app[0], event:'bong'},  'contains create lambda code with second of two events')
   var createeventplans = plans.filter(x => x.action === 'create-events')
-  t.deepEqual(createeventplans[0], {action:'create-events', app: base.app[0], event:'bing'},  'contains create events with first of two events')
-  t.deepEqual(createeventplans[1], {action:'create-events', app: base.app[0], event:'bong'},  'contains create events with second of two events')
+  t.deepEqual(createeventplans[0], {action:'create-events', app: base.app[0], event:'bing'}, 'contains create events with first of two events')
+  t.deepEqual(createeventplans[1], {action:'create-events', app: base.app[0], event:'bong'}, 'contains create events with second of two events')
   var createdeployplans = plans.filter(x => x.action === 'create-event-lambda-deployments')
-  t.deepEqual(createdeployplans[0], {action:'create-event-lambda-deployments', app: base.app[0], event:'bing'},  'contains event lambda deployments with first of two events')
-  t.deepEqual(createdeployplans[1], {action:'create-event-lambda-deployments', app: base.app[0], event:'bong'},  'contains event lambda deployments with second of two events')
+  t.deepEqual(createdeployplans[0], {action:'create-event-lambda-deployments', app: base.app[0], event:'bing'}, 'contains event lambda deployments with first of two events')
+  t.deepEqual(createdeployplans[1], {action:'create-event-lambda-deployments', app: base.app[0], event:'bong'}, 'contains event lambda deployments with second of two events')
   t.equal(plans.length, 10, 'create 3 plans for each event in this scenario') // 6 for the events and 4 from the default plans
   t.end()
 })
@@ -48,6 +48,38 @@ test('create planner returns subset of sns event plans if local', t=> {
   t.end()
 })
 test('create planner returns queue plans', t=> {
+  var arc = Object.assign({
+    queues: ['bing', 'bong']
+  }, base)
+  t.plan(7)
+  var plans = planner(arc)
+  var lambdacodeplans = plans.filter(x => x.action === 'create-queue-lambda-code')
+  t.deepEqual(lambdacodeplans[0], {action:'create-queue-lambda-code', app: base.app[0], queue:'bing'},  'contains create lambda code with first of two queues')
+  t.deepEqual(lambdacodeplans[1], {action:'create-queue-lambda-code', app: base.app[0], queue:'bong'},  'contains create lambda code with second of two queues')
+  var createqueueplans = plans.filter(x => x.action === 'create-queue')
+  t.deepEqual(createqueueplans[0], {action:'create-queue', app: base.app[0], queue:'bing'},  'contains create queues with first of two queues')
+  t.deepEqual(createqueueplans[1], {action:'create-queue', app: base.app[0], queue:'bong'},  'contains create queues with second of two queues')
+  var createdeployplans = plans.filter(x => x.action === 'create-queue-lambda-deployments')
+  t.deepEqual(createdeployplans[0], {action:'create-queue-lambda-deployments', app: base.app[0], queue:'bing'}, 'contains queue lambda deployments with first of two queues')
+  t.deepEqual(createdeployplans[1], {action:'create-queue-lambda-deployments', app: base.app[0], queue:'bong'}, 'contains queue lambda deployments with second of two queues')
+  t.equal(plans.length, 10, 'create 3 plans for each queue in this scenario') // 6 for the queues and 4 from the default plans
+  t.end()
+})
+test('create planner returns subset of queue plans if local', t=> {
+  var arc = Object.assign({
+    queues: ['bing', 'bong']
+  }, base)
+  t.plan(4)
+  process.env.ARC_LOCAL = 'true'
+  var plans = planner(arc)
+  var lambdacodeplans = plans.filter(x => x.action === 'create-queue-lambda-code')
+  t.deepEqual(lambdacodeplans[0], {action:'create-queue-lambda-code', app: base.app[0], queue:'bing'},  'contains create lambda code with first of two queues')
+  t.deepEqual(lambdacodeplans[1], {action:'create-queue-lambda-code', app: base.app[0], queue:'bong'},  'contains create lambda code with second of two queues')
+  var createqueueplans = plans.filter(x => x.action === 'create-queue')
+  t.equal(createqueueplans.length, 0, 'no create queue plans')
+  var createdeployplans = plans.filter(x => x.action === 'create-queue-lambda-deployments')
+  t.equal(createdeployplans.length, 0, 'no create queue deploy plans')
+  delete process.env.ARC_LOCAL
   t.end()
 })
 test('create planner returns scheduled plans', t=> {
