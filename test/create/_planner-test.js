@@ -81,6 +81,26 @@ test('create planner does not return scheduled lambda deployment plans if local'
   t.end()
 })
 test('create planner returns static (s3 bucket) plans', t=> {
+  var arc = Object.assign({
+    static: [['staging', 'qa'], ['production', 'prod']]
+  }, base)
+  t.plan(2)
+  var plans = planner(arc)
+  var createstaticplans = plans.filter(x => x.action === 'create-static-deployments')
+  t.equal(createstaticplans.length, 1, 'a create static deployment exists')
+  t.deepEqual(createstaticplans[0], {action:'create-static-deployments', static:arc.static}, 'contains create static deployment with proper stage and prod names')
+  t.end()
+})
+test('create planner returns no static (s3 bucket) plans when local', t=> {
+  var arc = Object.assign({
+    static: [['staging', 'qa'], ['production', 'prod']]
+  }, base)
+  process.env.ARC_LOCAL = 'true'
+  t.plan(1)
+  var plans = planner(arc)
+  var createstaticplans = plans.filter(x => x.action === 'create-static-deployments')
+  t.equal(createstaticplans.length, 0, 'no create static deployment exist')
+  delete process.env.ARC_LOCAL
   t.end()
 })
 test('create planner returns http lambda code plans', t=> {
