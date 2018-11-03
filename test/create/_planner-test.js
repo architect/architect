@@ -4,6 +4,7 @@ var planner = require('../../src/create/_planner')
 var base = {
   app: ['mah-app']
 }
+
 test('create planner returns default plans', t=> {
   var arc = Object.assign({}, base)
   t.plan(4)
