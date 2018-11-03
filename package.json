@@ -30,8 +30,8 @@
   },
   "scripts": {
     "lint": "eslint . --fix",
-    "t": "cross-env NODE_ENV=testing tape 'test/validation/*-test.js' | tap-spec",
-    "test": "NODE_ENV=testing tape test/validation/appname-test.js test/help/test.js | tap-spec"
+    "t": "cross-env NODE_ENV=testing tape 'test/**/*test.js' | tap-spec",
+    "test": "NODE_ENV=testing tape 'test/**/*test.js' | tap-spec"
   },
   "keywords": [
     "aws",
