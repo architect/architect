@@ -1,11 +1,6 @@
 var test = require('tape')
 var parse = require('@architect/parser')
-var validate = require('../../src/create/validate')
-
-test('env', t=> {
-  t.plan(1)
-  t.ok(validate, 'validate')
-})
+var validate = require('../../../src/create/validate')
 
 test('appname must exist', t=> {
   t.plan(1)
