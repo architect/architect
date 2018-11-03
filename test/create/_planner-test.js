@@ -51,6 +51,33 @@ test('create planner returns queue plans', t=> {
   t.end()
 })
 test('create planner returns scheduled plans', t=> {
+  var arc = Object.assign({
+    scheduled: ['bing', 'bong']
+  }, base)
+  t.plan(5)
+  var plans = planner(arc)
+  var lambdacodeplans = plans.filter(x => x.action === 'create-scheduled-lambda-code')
+  t.deepEqual(lambdacodeplans[0], {action:'create-scheduled-lambda-code', app: base.app[0], scheduled:'bing'},  'contains create lambda code with first of two schedules')
+  t.deepEqual(lambdacodeplans[1], {action:'create-scheduled-lambda-code', app: base.app[0], scheduled:'bong'},  'contains create lambda code with second of two schedules')
+  var lambdadeployplans = plans.filter(x => x.action === 'create-scheduled-lambda-deployments')
+  t.deepEqual(lambdadeployplans[0], {action:'create-scheduled-lambda-deployments', app: base.app[0], scheduled:'bing'},  'contains create lambda deployment with first of two schedules')
+  t.deepEqual(lambdadeployplans[1], {action:'create-scheduled-lambda-deployments', app: base.app[0], scheduled:'bong'},  'contains create lambda deployment with second of two schedules')
+  t.equal(plans.length, 8, 'only create-scheduled-lambda-code events exist in this scenario') // 2 for the events and 4 from the default plans
+  t.end()
+})
+test('create planner does not return scheduled lambda deployment plans when arc local env var is set', t=> {
+  var arc = Object.assign({
+    scheduled: ['bing', 'bong']
+  }, base)
+  process.env.ARC_LOCAL = 'true'
+  t.plan(4)
+  var plans = planner(arc)
+  var lambdacodeplans = plans.filter(x => x.action === 'create-scheduled-lambda-code')
+  t.equal(plans.filter(x => x.action === 'create-scheduled-lambda-deployments').length, 0, 'no create-scheduled-lambda-deployment events exist')
+  t.deepEqual(lambdacodeplans[0], {action:'create-scheduled-lambda-code', app: base.app[0], scheduled:'bing'},  'contains create lambda code with first of two events')
+  t.deepEqual(lambdacodeplans[1], {action:'create-scheduled-lambda-code', app: base.app[0], scheduled:'bong'},  'contains create lambda code with second of two events')
+  t.equal(plans.length, 6, 'only create-event-lambda-code events exist in this scenario') // 2 for the events and 4 from the default plans
+  delete process.env.ARC_LOCAL
   t.end()
 })
 test('create planner returns static (s3 bucket) plans', t=> {
