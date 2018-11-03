@@ -38,7 +38,6 @@ test('create planner returns subset of sns event plans when arc local env var is
     events: ['bing', 'bong']
   }, base)
   process.env.ARC_LOCAL = 'true'
-  t.comment(process.env.ARC_LOCAL)
   t.plan(3)
   var plans = planner(arc)
   var lambdacodeplans = plans.filter(x => x.action === 'create-event-lambda-code')
@@ -57,7 +56,49 @@ test('create planner returns scheduled plans', t=> {
 test('create planner returns static (s3 bucket) plans', t=> {
   t.end()
 })
-test('create planner returns http lambda plans', t=> {
+test('create planner returns http lambda code plans', t=> {
+  var arc = Object.assign({
+    http: [['get', '/'], ['post', '/post']]
+  }, base)
+  t.plan(5)
+  var plans = planner(arc)
+  var createcodeplans = plans.filter(x => x.action === 'create-http-lambda-code')
+  t.deepEqual(createcodeplans[0], {action:'create-http-lambda-code', app: base.app[0], route:arc.http[0]},  'contains create lambda code with first of two routes')
+  t.deepEqual(createcodeplans[1], {action:'create-http-lambda-code', app: base.app[0], route:arc.http[1]},  'contains create lambda code with second of two routes')
+  var createdeployplans = plans.filter(x => x.action === 'create-http-lambda-deployments')
+  t.deepEqual(createdeployplans[0], {action:'create-http-lambda-deployments', app: base.app[0], route:arc.http[0]},  'contains create lambda deployment with first of two routes')
+  t.deepEqual(createdeployplans[1], {action:'create-http-lambda-deployments', app: base.app[0], route:arc.http[1]},  'contains create lambda deployment with second of two routes')
+  t.equal(plans.length, 13, 'create-lambda code and deployment events exist') // 2 lambda code and 2 lambda deploy exist (one for each route), 4 default plans, 1 session table, 1 for routers, 2 http routes (one for each route) plus 1 router deployments
+  t.end()
+})
+test('create planner does not return http lambda deployment plans if arc local env var is set', t=> {
+  var arc = Object.assign({
+    http: [['get', '/'], ['post', '/post']]
+  }, base)
+  process.env.ARC_LOCAL = 'true'
+  t.plan(3)
+  var plans = planner(arc)
+  var createdeployplans = plans.filter(x => x.action === 'create-http-lambda-deployments')
+  var createcodeplans = plans.filter(x => x.action === 'create-http-lambda-code')
+  t.equal(createdeployplans.length, 0, 'no http lambda code deployment events exist')
+  t.equal(createcodeplans.length, 2, 'two http lambda code creation events exist')
+  t.equal(plans.length, 6, 'create-lambda code and deployment events exist') // 2 lambda code (one for each route) and 4 default plans
+  delete process.env.ARC_LOCAL
+  t.end()
+})
+test('create planner returns http route creation plans if arc local env var is not set', t=> {
+  var arc = Object.assign({
+    http: [['get', '/'], ['post', '/post']]
+  }, base)
+  t.plan(4)
+  var plans = planner(arc)
+  var createroutersplan = plans.filter(x => x.action === 'create-routers')
+  t.deepEqual(createroutersplan[0], {action:'create-routers', app: base.app[0]},  'contains create routers plan')
+  var createhttprouteplans = plans.filter(x => x.action === 'create-http-route')
+  t.deepEqual(createhttprouteplans[0], {action:'create-http-route', app: base.app[0], route:arc.http[0]},  'contains create http route with first of two routes')
+  t.deepEqual(createhttprouteplans[1], {action:'create-http-route', app: base.app[0], route:arc.http[1]},  'contains create http route with second of two routes')
+  var createrouterdeployplan = plans.filter(x => x.action === 'create-router-deployments')
+  t.deepEqual(createrouterdeployplan[0], {action:'create-router-deployments', app: base.app[0]},  'contains create router deployments plan')
   t.end()
 })
 test('create planner returns session table creation plans if arc file contains http or slack', t=> {
@@ -78,6 +119,6 @@ test('create planner returns index plans', t=> {
 test('create planner ignores index plans if arc local env var is set', t=> {
   t.end()
 })
-test('create planner returns api gateway creation plans if arc file contains http or slack', t=> {
+test('create planner returns router deployment plans if arc file contains slack pragma', t=> {
   t.end()
 })
