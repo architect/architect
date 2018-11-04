@@ -33,5 +33,5 @@ module.exports = function (start) { return function(arc, raw, callback) {
                   args.includes('--lambdas') ||
                   args.includes('functions') ||
                   args.includes('--functions')
-  callback(null, arc, raw, {isProd, env, isStatic, isPath, isLambda, start}, callback);
+  callback(null, arc, raw, {isProd, env, isStatic, isPath, isLambda, start, all: args}, callback);
 } }

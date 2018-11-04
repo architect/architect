@@ -28,7 +28,7 @@ module.exports = {
     }
     else if (args.isPath) {
       // deploying one lambda
-      let pathToCode = args.find(arg=> arg.startsWith('/src') || arg.startsWith('src'))
+      let pathToCode = args.all.find(arg=> arg.startsWith('/src') || arg.startsWith('src'))
       let name = chalk.green.dim(`Deploying ${pathToCode}`)
       let total = 7 // magic number of steps in src
       let progress = _progress({name, total})
