@@ -8,6 +8,10 @@ let errArcInvalid = require('./errors/arc-invalid')
 let errTooManyRequests = require('./errors/too-many-requests')
 let errUnknown = require('./errors/unknown')
 
+// TODO: thinking these cli.js modules for each command should be where we
+// handle cli/`process` specifics, like extracting args and env vars, then pass
+// those as arguments to the `flags` method. isolates process specifics to a
+// single module, making this easier to test.
 waterfall([
   init,
   flags,

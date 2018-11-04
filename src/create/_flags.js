@@ -1,5 +1,7 @@
 let chalk = require('chalk')
 
+// TODO: as commented on in cli.js, perhaps we move touching `process` to
+// cli.js?
 module.exports = function flags(arc, raw, callback) {
   if (process.env.ARC_DANGERZONE) {
     console.log(chalk.grey(chalk.green.dim('✓'), `dangerzone: engaged\n`))
