@@ -87,6 +87,7 @@
     "cross-env": "^5.2.0",
     "eslint": "^5.7.0",
     "istanbul": "^1.1.0-alpha.1",
+    "proxyquire": "^2.1.0",
     "rimraf": "^2.6.2",
     "sinon": "^7.1.1",
     "tap-spec": "^5.0.0",
