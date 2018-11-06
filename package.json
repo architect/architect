@@ -15,6 +15,7 @@
     "arc-inventory": "./src/inventory/cli.js",
     "arc-sandbox": "./src/sandbox/cli.js",
     "arc-logs": "./src/logs/cli.js",
+    "arc-version": "./src/version/cli.js",
     "audit": "./src/audit/cli.js",
     "config": "./src/config/cli.js",
     "create": "./src/create/cli.js",
@@ -26,6 +27,7 @@
     "inventory": "./src/inventory/cli.js",
     "logs": "./src/logs/cli.js",
     "tags": "./src/tags/cli.js",
+    "version": "./src/version/cli.js",
     "sandbox": "./src/sandbox/cli.js"
   },
   "scripts": {
