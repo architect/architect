@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 let waterfall = require('run-waterfall')
 let init = require('../util/init')
-let deploy = require('.')
+let {main} = require('.')
 let flags = require('./_flags')
 
 // use this later for measuring time
@@ -28,7 +28,7 @@ let start = Date.now()
 waterfall([
   init,
   flags(start), // parse CLI flags into parameters for what to deploy
-  deploy.main // feed params into task generator + runner
+  main // feed params into task generator + runner
 ],
 function done(err) {
   if (err) throw err//idk..

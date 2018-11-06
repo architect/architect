@@ -10,8 +10,7 @@ let chalk = require('chalk')
 module.exports = {
   lambda,
   static: s3,
-  main: function main(err, arc, raw, args, callback) {
-    if (err) callback(err)
+  main: function main(arc, raw, args, callback) {
     // create a tasks queue to walk
     let tasks = []
     let env = args.env
