@@ -5,7 +5,9 @@ module.exports = function planner(arc) {
   let hasAPI = arc.hasOwnProperty('http') || arc.hasOwnProperty('slack')
 
 
-  // some default plans
+  //
+  // default plans
+  //
   var plans = [
     {action:'create-iam-role', app},
     {action:'create-shared', app},
@@ -13,7 +15,9 @@ module.exports = function planner(arc) {
     {action:'create-views', app}
   ]
 
-  // sns events
+  //
+  // event lambdas
+  //
   if (arc.events) {
     arc.events.forEach(event=> {
       plans.push({action:'create-event-lambda-code', event, app})
@@ -24,7 +28,9 @@ module.exports = function planner(arc) {
     })
   }
 
-  // queue
+  //
+  // queue lambdas
+  //
   if (arc.queues) {
     arc.queues.forEach(queue=> {
       plans.push({action:'create-queue-lambda-code', queue, app})
@@ -35,7 +41,9 @@ module.exports = function planner(arc) {
     })
   }
 
-  // scheduled
+  //
+  // scheduled lambdas
+  //
   if (arc.scheduled) {
     arc.scheduled.forEach(scheduled=> {
       plans.push({action:'create-scheduled-lambda-code', scheduled, app})
@@ -45,7 +53,9 @@ module.exports = function planner(arc) {
     })
   }
 
+  //
   // s3 buckets
+  //
   if (arc.static && !process.env.ARC_LOCAL) {
     plans.push({action:'create-static-deployments', static:arc.static})
   }
@@ -63,7 +73,16 @@ module.exports = function planner(arc) {
   }
 
   //
-  // dynamodb tables
+  // slack api endpoints
+  //
+  if (arc.slack) {
+    arc.slack.forEach(bot=> {
+      plans.push({action:'create-slack-endpoints', bot, app})
+    })
+  }
+
+  //
+  // dynamo tables
   //
 
   // Sessions tables are created by default
