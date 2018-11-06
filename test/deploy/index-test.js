@@ -28,16 +28,17 @@ var base = {
 test('if static should invoke deployPublic', t=> {
   resetSpies()
   t.plan(1)
-  deploy.main(null, base, {}, {isStatic: true}, () => {
+  deploy.main(base, {}, {isStatic: true}, () => {
     t.ok(publicMock.called, 'deployPublic invoked')
     t.end()
   })
 })
 
+
 test('if path should invoke deployOne with the path', t=> {
   resetSpies()
   t.plan(2)
-  deploy.main(null, base, {}, {isPath: true, all: ['src/blah']}, () => {
+  deploy.main(base, {}, {isPath: true, all: ['src/blah']}, () => {
     t.ok(oneMock.called, 'deployOne invoked')
     t.equal(oneMock.args[0][0].pathToCode, 'src/blah', 'deployInvoked invoked with correct path')
     t.end()
