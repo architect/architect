@@ -25,9 +25,6 @@ $input.path('$.errorMessage')##
 #set($context.responseOverride.header.Set-Cookie = $input.path("$.cookie"))##
 #end##
 ## cors support
-#if($input.path("$.cors") != "")##
-#set($context.responseOverride.header.X-Requested-With = "'*'")##
-#set($context.responseOverride.header.Access-Control-Allow-Headers = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,x-requested-with'")##
-#set($context.responseOverride.header.Access-Control-Allow-Origin = "'*'")##
-#set($context.responseOverride.header.Access-Control-Allow-Methods = "'POST,GET,OPTIONS'")##
+#if($input.path("$.cors"))##
+#set($context.responseOverride.header.Access-Control-Allow-Origin = "*")##
 #end##
