@@ -53,6 +53,7 @@ module.exports = function _createDeployments(params, callback) {
   })
 }
 
+// TODO: factor into own module? and add outline of test file
 function _createLambda(app, name, env, route, callback) {
   let lambda = new aws.Lambda({region: process.env.AWS_REGION})
   waterfall([

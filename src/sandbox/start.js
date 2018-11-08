@@ -19,6 +19,8 @@ module.exports = function start(callback) {
     },
     function _db(callback) {
       // start dynalite with tables enumerated in .arc
+      // TODO: consider the case where an arc app does not have the db, i.e.
+      // pure @static app
       client = db.start(function() {
         let start = chalk.grey(chalk.green.dim('✓'), '@tables created in local database')
         console.log(`${start}`)
@@ -31,6 +33,8 @@ module.exports = function start(callback) {
     },
     function _events(callback) {
       // listens for arc.event.publish events on 3334 and runs them in a child process
+      // TODO: consider the case where an arc app does not use events, i.e.
+      // pure @static app
       bus = events.start(function() {
         let start = chalk.grey(chalk.green.dim('✓'), '@events pub/sub ready on local event bus')
         console.log(`${start}`)
@@ -39,6 +43,8 @@ module.exports = function start(callback) {
     },
     function _http(callback) {
       // vanilla af http server that mounts routes defined by .arc
+      // TODO: consider the case where an arc app does not have http handlers
+      // defined, i.e. pure @static app
       http.start(function() {
         let start = chalk.grey('\n', 'Started HTTP "server" @ ')
         let end = chalk.cyan.underline(`http://localhost:${process.env.PORT}`)
@@ -54,8 +60,8 @@ module.exports = function start(callback) {
       http.close()
       bus.close()
     }
-    // return a function to shut everything down if this is beinng used as a module for testing
-    callback(end)
+    // pass a function to shut everything down if this is beinng used as a module
+    if (callback) callback(null, end)
   })
 }
 
