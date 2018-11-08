@@ -60,8 +60,8 @@ module.exports = function start(callback) {
       http.close()
       bus.close()
     }
-    // return a function to shut everything down if this is beinng used as a module
-    if (callback) callback(end)
+    // pass a function to shut everything down if this is beinng used as a module
+    if (callback) callback(null, end)
   })
 }
 
