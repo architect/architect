@@ -17,6 +17,10 @@ module.exports = function start(callback) {
         else callback()
       })
     },
+    function _env(callback) {
+      // populates process.env from .arc-env
+      env(callback)
+    },
     function _db(callback) {
       // start dynalite with tables enumerated in .arc
       // TODO: consider the case where an arc app does not have the db, i.e.
@@ -26,10 +30,6 @@ module.exports = function start(callback) {
         console.log(`${start}`)
         callback()
       })
-    },
-    function _env(callback) {
-      // populates process.env from .arc-env
-      env(callback)
     },
     function _events(callback) {
       // listens for arc.event.publish events on 3334 and runs them in a child process

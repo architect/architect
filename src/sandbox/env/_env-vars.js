@@ -51,8 +51,7 @@ module.exports = function _setupEnv(callback) {
 
   // populate SESSION_TABLE_NAME (used by @architect/functions http functions)
   // testing
-  let isTesting = process.env.NODE_ENV === 'testing' ||
-                  env === 'testing'
+  let isTesting = process.env.NODE_ENV === 'testing' || env === 'testing'
   if (isTesting) {
     process.env.SESSION_TABLE_NAME = 'arc-sessions'
   }

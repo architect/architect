@@ -11,10 +11,10 @@ let minify = script => '"' + script.replace(/\n/g, '').trim() + '"'
 module.exports = function local(cwd, event, callback) {
 
   // defaults
-  let env = {
+  let env = Object.assign({}, process.env, {
     __ARC_REQ__ : JSON.stringify(event),
     PYTHONUNBUFFERED: true
-  }
+  })
 
   let runtime = path.join(__dirname, '/runtimes/node.js')
   let command = 'node'
