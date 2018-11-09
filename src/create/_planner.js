@@ -75,7 +75,7 @@ module.exports = function planner(arc) {
   //
   // slack api endpoints
   //
-  if (arc.slack) {
+  if (arc.slack && !process.env.ARC_LOCAL) {
     arc.slack.forEach(bot=> {
       plans.push({action:'create-slack-endpoints', bot, app})
     })
