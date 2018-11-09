@@ -1,2 +1,3 @@
 /test/_mock/**
 /**/test/*
+/coverage/**

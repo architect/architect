@@ -25,6 +25,7 @@ module.exports = function _createDeployments(params, callback) {
   })
 }
 
+// TODO: possibly factor into own module for easier testing
 function _create(app, bucket, callback) {
   let s3 = new aws.S3({region: process.env.AWS_REGION})
   print.create('@static', bucket)

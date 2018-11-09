@@ -3,5 +3,6 @@
 .eslintrc.js
 .gitattributes
 .github
+.travis.yml
 contributing.md
 test/

@@ -50,6 +50,7 @@ function _create(deployname, codename, rule, callback) {
   })
 }
 
+// TODO: possibly factor into own module and test separately
 function _createLambda(deployname, codename, rule, callback) {
   var lambda = new aws.Lambda({region: process.env.AWS_REGION})
   var cloudwatch = new aws.CloudWatchEvents({region: process.env.AWS_REGION})

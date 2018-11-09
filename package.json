@@ -1,6 +1,6 @@
 {
   "name": "@architect/architect",
-  "version": "4.1.2",
+  "version": "4.2.0",
   "description": "Create, deploy, and maintain next-generation AWS cloud function-based serverless infrastructure with full local, offline workflows, and more.",
   "main": "index",
   "bin": {
@@ -32,8 +32,9 @@
   },
   "scripts": {
     "lint": "eslint . --fix",
-    "t": "cross-env NODE_ENV=testing tape 'test/validation/*-test.js' | tap-spec",
-    "test": "NODE_ENV=testing tape test/validation/appname-test.js | tap-spec"
+    "test:unit": "cross-env NODE_ENV=testing istanbul cover tape 'test/**/*test.js' | tap-spec",
+    "test:coverage": "cross-env NODE_ENV=testing istanbul cover --print detail tape 'test/**/*test.js' | tap-spec",
+    "test": "npm run lint && npm run test:unit"
   },
   "keywords": [
     "aws",
@@ -87,7 +88,10 @@
   "devDependencies": {
     "cross-env": "^5.2.0",
     "eslint": "^5.7.0",
+    "istanbul": "^1.1.0-alpha.1",
+    "proxyquire": "^2.1.0",
     "rimraf": "^2.6.2",
+    "sinon": "^7.1.1",
     "tap-spec": "^5.0.0",
     "tape": "^4.9.1",
     "tiny-json-http": "^7.0.0"

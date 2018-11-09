@@ -49,6 +49,9 @@ module.exports = function reg(app, api, type, routes) {
 
             if (result.location)
               res.setHeader('Location', result.location)
+      
+            if (result.cors)
+              res.setHeader('Access-Control-Allow-Origin', '*')
 
             res.end(result.body || '\n')
           }
