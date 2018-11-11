@@ -2,7 +2,7 @@
 
 Setup a custom domain name
 
-# Examples
+## Example Usage
 
 - `npx dns` - sets up a certificate for a domain and cloudfront distributions 
 - `npx dns [route53 | --route53 | -r]` use route53 nameservers

@@ -10,7 +10,8 @@ module.exports = {
   log,
   main: async function main(args) {
     let cmd = args.reverse().shift()
-    let path = join(__dirname, 'doc', `${cmd}.md`)
+    let doc_dir = join(__dirname, '..', '..', 'doc')
+    let path = join(doc_dir, `${cmd}.md`)
     let found = exists(path)
     if (!found) {
       let result = await inquirer.prompt([{
@@ -19,9 +20,9 @@ module.exports = {
         prefix: chalk.cyan.dim('@architect/workflows'),
         suffix: '',
         message: ' ',
-        choices: fs.readdirSync(join(__dirname, 'doc')).map(i=> i.replace('.md', '')),
+        choices: fs.readdirSync(doc_dir).map(i=> i.replace('.md', '')),
       }])
-      path = join(__dirname, 'doc', `${result.help}.md`)
+      path = join(doc_dir, `${result.help}.md`)
     }
 
     let raw = module.exports.read(path)

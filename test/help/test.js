@@ -28,7 +28,7 @@ test('known command reads appropriate doc file', async t=> {
   t.plan(1)
   var readspy = sinon.spy(help, 'read')
   await help.main(['help', 'deploy'])
-  t.ok(readspy.firstCall.args[0].endsWith('help/doc/deploy.md'), 'read called with appropriate file path')
+  t.ok(readspy.firstCall.args[0].endsWith('doc/deploy.md'), 'read called with appropriate file path')
   readspy.restore()
   t.end()
 })
