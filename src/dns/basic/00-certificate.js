@@ -16,7 +16,9 @@ module.exports = function _cert(domain, callback) {
       // display the cert and continue
       let cert = result.CertificateSummaryList? result.CertificateSummaryList.find(c=> c.DomainName === domain) : false
       if (cert) {
-        _describe(cert.CertificateArn, false, callback)
+        setTimeout(function delay() {
+          _describe(cert.CertificateArn, false, callback)
+        }, 3*1000)
       }
       else {
         // request a cert and stop execution
