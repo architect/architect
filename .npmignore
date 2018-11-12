@@ -4,5 +4,7 @@
 .gitattributes
 .github
 .travis.yml
+changelog.md
 contributing.md
+coverage/
 test/
