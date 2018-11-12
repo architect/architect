@@ -54,14 +54,16 @@ module.exports = function start(callback) {
     }
   ],
   function _done(err) {
-    if (err) throw err
-    function end() {
-      client.close()
-      http.close()
-      bus.close()
+    if (err) callback(err)
+    else {
+      function end() {
+        client.close()
+        http.close()
+        bus.close()
+      }
+      // pass a function to shut everything down if this is being used as a module
+      callback(null, end)
     }
-    // pass a function to shut everything down if this is being used as a module
-    if (callback) callback(null, end)
   })
 }
 

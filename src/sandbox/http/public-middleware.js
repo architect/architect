@@ -1,3 +1,4 @@
+let fs = require('fs')
 let url = require('url')
 let send = require('send')
 let path = require('path')
@@ -16,8 +17,10 @@ module.exports = function _public(req, res, next) {
   }
 
   let pathToFile = url.parse(req.url).pathname
-  let notFound = !exists(path.join(process.cwd(), 'public', pathToFile))
-  if (notFound) {
+  let fullPath = path.join(process.cwd(), 'public', pathToFile)
+  let found = exists(fullPath) && fs.statSync(fullPath).isFile()
+
+  if (!found) {
     next()
   }
   else {

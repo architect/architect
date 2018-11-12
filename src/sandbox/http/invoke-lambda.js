@@ -40,8 +40,9 @@ module.exports = function local(cwd, event, callback) {
     // always capture data piped to stdout
     // python buffers so you might get everything despite our best efforts
     stdout += data
-    let tidy = data.toString().split('\n').filter(line=> !line.startsWith('__ARC__')).join('\n')
-    console.log(tidy)
+    let tidy = data.toString().split('\n').filter(line=> !line.startsWith('__ARC__')).join('\n').trim()
+    if (tidy.length > 0)
+      console.log(tidy)
   })
 
   child.stderr.on('data', data=> {
