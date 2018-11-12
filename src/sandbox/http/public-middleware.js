@@ -11,7 +11,7 @@ let exists = require('path-exists').sync
 module.exports = function _public(req, res, next) {
 
   // assume if public/index.html exists we want to treat that as the app apex
-  let legacy = exists(path.join(process.cwd(), 'public', 'index.html'))
+  let legacy = req.url === '/' && exists(path.join(process.cwd(), 'public', 'index.html'))
   if (legacy) {
     req.url = '/index.html'
   }
