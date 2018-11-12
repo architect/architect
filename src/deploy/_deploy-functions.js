@@ -22,6 +22,9 @@ module.exports = function deployFunctions(params, callback) {
   let {env, arc, start} = params
   let results // use this below
 
+  // CI workaround
+  (process.env.CI) ? console.log(chalk.gray(`Deploying all functions...\n`)) : ''
+
   waterfall([
     /*
        TODO At some point in the future we'll refactor this to read .arc instead of glob
@@ -41,14 +44,19 @@ module.exports = function deployFunctions(params, callback) {
 
       // boilerplate for the progress bar
       let total = results.length * 5 // 4 prep steps + 1 tick for bar instantiation
-      let progress = _progress({name: chalk.green.dim(`Prepping ${results.length} lambdas`), total})
-      let tick = function _tick(msg) {
-        if (msg) {
-          progress.tick({'token': msg})
-        } else {
-          progress.tick({'token': 'Working...'})
+      let progress = _progress({name: chalk.green.dim(`Prepping ${results.length} Lambdas`), total})
+      let tick = (process.env.CI)
+        ? m => {
+            m = ''
+            return m
+          }
+        : function _tick(msg) {
+          if (msg) {
+            progress.tick({'token': msg})
+          } else {
+            progress.tick({'token': 'Working...'})
+          }
         }
-      }
 
       // high-larious waterfall-nested parallel
       // because executions can escape early and call their callback before everything is done
@@ -85,13 +93,18 @@ module.exports = function deployFunctions(params, callback) {
       // boilerplate for the progress bar
       let total = results.length * 3 // 2 deploy + post-deploy steps + 1 tick for bar instantiation
       let progress = _progress({name: chalk.green.dim(`Deploying ${results.length} lambdas`), total})
-      let tick = function _tick(msg) {
-        if (msg) {
-          progress.tick({'token': msg})
-        } else {
-          progress.tick({'token': 'Working...'})
+      let tick = (process.env.CI)
+        ? m => {
+            m = ''
+            return m
+          }
+        : function _tick(msg) {
+          if (msg) {
+            progress.tick({'token': msg})
+          } else {
+            progress.tick({'token': 'Working...'})
+          }
         }
-      }
 
       // fill up a queue
       _chunk(results).forEach(chunk=> {

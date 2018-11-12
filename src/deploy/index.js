@@ -32,13 +32,15 @@ module.exports = {
       let total = 7 // magic number of steps in src
       let progress = _progress({name, total})
       function tick(msg) {
-        if (msg) {
+        if (process.env.CI) { /* noop */ }
+        else if (msg) {
           progress.tick({'token': msg})
         }
         else {
           progress.tick({'token': 'Working...'})
         }
       }
+      (process.env.CI) ? console.log(chalk.gray(`Deploying ${pathToCode}\n`)) : ''
       tasks.push(function(callback) {
         deployOne({
           env,
