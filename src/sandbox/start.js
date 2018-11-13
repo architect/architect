@@ -7,6 +7,17 @@ let series = require('run-series')
 let init = require('../util/init')
 
 module.exports = function start(callback) {
+ 
+  // setup promise if there is no callback
+  var promise
+  if (!callback) {
+    promise = new Promise(function(res, rej) {
+      callback = function(err, result) {
+        err ? rej(err) : res(result)
+      }
+    })
+  } 
+  
   let client
   let bus
   series([
@@ -65,5 +76,7 @@ module.exports = function start(callback) {
       callback(null, end)
     }
   })
+
+  return promise
 }
 

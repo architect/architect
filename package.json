@@ -16,6 +16,7 @@
     "arc-sandbox": "./src/sandbox/cli.js",
     "arc-logs": "./src/logs/cli.js",
     "arc-version": "./src/version/cli.js",
+    "arc-repl": "./src/repl/cli.js",
     "audit": "./src/audit/cli.js",
     "config": "./src/config/cli.js",
     "create": "./src/create/cli.js",
@@ -28,7 +29,8 @@
     "logs": "./src/logs/cli.js",
     "tags": "./src/tags/cli.js",
     "version": "./src/version/cli.js",
-    "sandbox": "./src/sandbox/cli.js"
+    "sandbox": "./src/sandbox/cli.js",
+    "repl": "./src/repl/cli.js"
   },
   "scripts": {
     "lint": "eslint . --fix",
@@ -58,6 +60,7 @@
   "license": "Apache-2.0",
   "homepage": "https://arc.codes",
   "dependencies": {
+    "@architect/data": "^2.0.8",
     "@architect/parser": "^1.1.4",
     "@smallwins/validate": "^4.3.0",
     "aws-sdk": "^2.334.0",
