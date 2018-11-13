@@ -39,6 +39,7 @@ module.exports = function local(cwd, event, callback) {
     }
 
     let ttl = arc.aws.find(tuple=> tuple.includes('timeout'))
+    // valid ttl is between 3 and 900 seconds (15 minutes)
     if (ttl && ttl[1] > 3 && ttl[1] < 900) {
       timeout = ttl[1]*1000 // ttl seconds in milliseconds
     }
@@ -50,7 +51,7 @@ module.exports = function local(cwd, event, callback) {
   let stderr = ''
 
   // bake a timeout
-  setTimeout(function() {
+  let to = setTimeout(function() {
     timedout = true
     child.kill()
   }, timeout)
@@ -69,6 +70,7 @@ module.exports = function local(cwd, event, callback) {
   })
 
   child.on('close', function done(code) {
+    clearTimeout(to) // ensure the timeout doesn't block
     if (timedout) {
       callback(null, {
         type: 'text/html',
