@@ -80,7 +80,7 @@ module.exports = function local(cwd, event, callback) {
       // extract the __ARC__ line
       let command = line=> line.startsWith('__ARC__')
       let result = stdout.split('\n').find(command)
-      if (result) {
+      if (result && result != '__ARC__ undefined') {
         let raw = result.replace('__ARC__', '')
         let parsed = JSON.parse(raw)
         // if its an error pretty print it
