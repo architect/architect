@@ -79,20 +79,52 @@ module.exports = function local(cwd, event, callback) {
     else if (code === 0) {
       // extract the __ARC__ line
       let command = line=> line.startsWith('__ARC__')
-      let result = stdout.split('\n').find(command).replace('__ARC__', '')
-      let parsed = JSON.parse(result)
-      // if its an error pretty print it
-      if (parsed.name && parsed.message && parsed.stack) {
-        parsed.body = `
+      let result = stdout.split('\n').find(command)
+      if (result) {
+        let raw = result.replace('__ARC__', '')
+        let parsed = JSON.parse(raw)
+        // if its an error pretty print it
+        if (parsed.name && parsed.message && parsed.stack) {
+          parsed.body = `
           <h1>${parsed.name}</h1>
           <p>${parsed.message}</p>
           <pre>${parsed.stack}</pre>
-        `
-        parsed.code = 500
-        parsed.type = 'text/html'
+          `
+          parsed.code = 500
+          parsed.type = 'text/html'
+        }
+        // otherwise just return the command line
+        callback(null, parsed)
       }
-      // otherwise just return the command line
-      callback(null, parsed)
+      else {
+        callback(null, {
+          type: 'text/html',
+          body: `<h1>Async Error</h1>
+          <p>Lambda <code>${cwd}</code> ran without executing the completion callback or returning a value.</p>
+          
+          HTTP Lambda functions that utilize <code>@architect/functions</code> must ensure <code>res</code> gets called.
+
+          <pre>
+let arc = require('@architect/functions')
+
+function route(req, res) {
+  res({html:'ensure res gets called'})
+}
+
+exports.handler = arc.http(route)
+          </pre>
+          
+          Dependency free functions must return an Object with the any of following keys to send an HTTP response:
+          <li><code>type</code></li>
+          <li><code>body</code></li>
+          <li><code>status</code> or <code>code</code></li>
+          <li><code>location</code></li>
+          <li><code>cookie</code></li>
+          <li><code>cors</code></li>
+          
+          `
+        })
+      }
     }
     else {
       callback(null, {type:'text/html', body:`<pre>${code}...${stdout}</pre><pre>${stderr}</pre>`})
