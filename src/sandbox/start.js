@@ -7,7 +7,7 @@ let series = require('run-series')
 let init = require('../util/init')
 
 module.exports = function start(callback) {
- 
+
   // setup promise if there is no callback
   var promise
   if (!callback) {
@@ -16,8 +16,8 @@ module.exports = function start(callback) {
         err ? rej(err) : res(result)
       }
     })
-  } 
-  
+  }
+
   let client
   let bus
   series([
