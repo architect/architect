@@ -2,12 +2,12 @@
 
 Read or clear logs for a function.
 
-# Syntax
+## Syntax
 
 - `npx logs [production] path/to/lambda`
 - `npx logs nuke [production] path/to/lambda`
 
-# Examples
+## Example Usage
 
 - `npx logs src/http/get-index` print staging logs
 - `npx logs production src/http/get-index` print the production logs

@@ -4,3 +4,4 @@ npm-debug.log
 test/**/_mock/
 text/**/mock/
 .nyc_output/
+coverage/
