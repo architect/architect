@@ -34,8 +34,8 @@
   },
   "scripts": {
     "lint": "eslint . --fix",
-    "test:unit": "cross-env NODE_ENV=testing istanbul cover tape 'test/**/*test.js' | tap-spec",
-    "test:coverage": "cross-env NODE_ENV=testing istanbul cover --print detail tape 'test/**/*test.js' | tap-spec",
+    "test:unit": "cross-env NODE_ENV=testing tape 'test/**/*test.js' | tap-spec",
+    "coverage": "cross-env NODE_ENV=testing nyc tape 'test/**/*test.js' | tap-nyc",
     "test": "npm run lint && npm run test:unit"
   },
   "keywords": [
@@ -91,10 +91,11 @@
   "devDependencies": {
     "cross-env": "^5.2.0",
     "eslint": "^5.7.0",
-    "istanbul": "^1.1.0-alpha.1",
+    "nyc": "^13.1.0",
     "proxyquire": "^2.1.0",
     "rimraf": "^2.6.2",
     "sinon": "^7.1.1",
+    "tap-nyc": "^1.0.3",
     "tap-spec": "^5.0.0",
     "tape": "^4.9.1",
     "tiny-json-http": "^7.0.0"
