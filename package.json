@@ -61,7 +61,7 @@
   "homepage": "https://arc.codes",
   "dependencies": {
     "@architect/data": "^2.0.8",
-    "@architect/parser": "^1.1.4",
+    "@architect/parser": "^1.1.6",
     "@smallwins/validate": "^4.3.0",
     "aws-sdk": "^2.334.0",
     "body-parser": "^1.18.3",
