@@ -17,7 +17,7 @@ function nixzip(pathToCode, callback) {
   series([
     // get a handle on the files to zip
     function _read(callback) {
-      glob(path.join(process.cwd(), pathToCode, '/*'), callback)
+      glob(path.join(process.cwd(), pathToCode, '/*'), {dot:true}, callback)
     },
     function _zip(files, callback) {
       zipit({
