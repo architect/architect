@@ -6,7 +6,6 @@ Managing sensitive configuration data like API keys needs to happen _outside_ of
 
 Adding and removing variables automatically syncs all lambdas and, if present in the current working directory, `.arc-env` (more on this file below).
 
-You CANNOT overwrite `NODE_ENV`, `ARC_APP_NAME` or `SESSION_TABLE_NAME`.
 
 ## `.arc-env`
 
@@ -22,6 +21,17 @@ GLOBAL asdfasdf
 @staging
 GLOBAL_KEY val
 ```
+
+## Significant Env Vars
+
+Env variables used to opt into functionality by `@architect/functions` (or your code) at runtime:
+
+- `NODE_ENV` used to determine if the Lambda environment is `testing`, `staging` or `production`
+- `ARC_APP_NAME` defined by `.arc` when the Lambda was created; used for publishing to SNS and SQS
+- `SESSION_TABLE_NAME` used to store session (if the value is `jwe` stateless sessions are used)
+- `ARC_APP_SECRET` used to sign/encrypt sessions
+
+You CANNOT overwrite `NODE_ENV` or `ARC_APP_NAME`. You CAN overwrite `SESSION_TABLE_NAME` and `ARC_APP_SECRET`.
 
 ## Example Usage
 

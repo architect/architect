@@ -6,13 +6,7 @@ let eq = require('shallow-equal/objects')
 let path = require('path')
 let fs = require('fs')
 let readArc = require('../util/read-arc')
-
-// arc reserved env vars
-let reserved = [
-  'ARC_APP_NAME',
-  'NODE_ENV',
-  'SESSION_TABLE_NAME',
-]
+let isReserved = require('./_is-reserved')
 
 // local helpers
 let inventory = require('../inventory')
@@ -71,7 +65,7 @@ module.exports = function _verify(appname, callback) {
                 let copy = {}
                 let saves = {}
                 for (let key in result.Environment.Variables) {
-                  if (!reserved.includes(key)) {
+                  if (!isReserved(key)) {
                     copy[key] = result.Environment.Variables[key]
                   }
                   else {

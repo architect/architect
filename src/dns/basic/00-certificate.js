@@ -18,7 +18,7 @@ module.exports = function _cert(domain, callback) {
       if (cert) {
         setTimeout(function delay() {
           _describe(cert.CertificateArn, false, callback)
-        }, 3*1000)
+        }, 10*1000)
       }
       else {
         // request a cert and stop execution
