@@ -52,7 +52,8 @@ module.exports = function _setupEnv(callback) {
 
   // populate SESSION_TABLE_NAME (used by @architect/functions http functions)
   // override w .arc-env
-  process.env.SESSION_TABLE_NAME = 'jwe'
+  //FIXME tmp patch for process.env.SESSION_TABLE_NAME = 'jwe'
+  process.env.SESSION_TABLE_NAME = 'arc-sessions'
 
   // populate PORT (used by http server)
   if (!process.env.PORT) {
