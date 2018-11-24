@@ -1,4 +1,4 @@
-let join = require('path').join
+//let join = require('path').join
 let chalk = require('chalk')
 let child = require('child_process')
 // lookup env stuff
@@ -8,7 +8,7 @@ let args = ['-v']
 let options = {shell:true}
 let subprocess = child.spawnSync(cmd, args, options)
 let version = subprocess.stdout.toString().trim()
-let arcVersion = require(join(__dirname, '..', '..', '..', 'package.json')).version
+//let arcVersion = require(join(__dirname, '..', '..', '..', 'package.json')).version
 let err = require('./_err')
 
 module.exports = function printBanner(arc) {
