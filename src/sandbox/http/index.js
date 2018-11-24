@@ -12,9 +12,13 @@ var register = require('./register-route')
 var public = require('./public-middleware')
 
 // config arcana
+var limit = '6mb';
 var app = Router({mergeparams: true})
-app.use(body.json())
-app.use(body.urlencoded({extended: false}))
+app.use(body.json({limit}))
+app.use(body.urlencoded({
+  extended: false,
+  limit,
+}))
 app.use(public)
 
 // keep a reference up here for fns below
