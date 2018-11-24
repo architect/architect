@@ -28,8 +28,13 @@ module.exports = function printBanner(arc) {
   // drawing!
   //
   let name = arc.app[0]
-  let rightColWidth = 40
-  // lil helper fn for logging
+  let region = process.env.AWS_REGION
+  let profile = process.env.AWS_PROFILE
+  console.log(chalk.grey(`        app ⌁ ${chalk.cyan.bold(name)}`))
+  console.log(chalk.grey(`     region ⌁ ${chalk.cyan(region)}`))
+  console.log(chalk.grey(`    profile ⌁ ${chalk.cyan(profile)}\n`))
+  //let rightColWidth = 40
+  /* lil helper fn for logging
   function log(txt, val) {
     let all = chalk.bgBlack.grey.dim
     let right = chalk.cyan.bold(val.padEnd(rightColWidth, ' '))
@@ -43,5 +48,5 @@ module.exports = function printBanner(arc) {
   log('                Node', process.version.replace('v', ''))
   log('                 npm', version + '')
   log('                .arc', arcVersion)
-  log('                    ', '')
+  log('                    ', '')*/
 }
