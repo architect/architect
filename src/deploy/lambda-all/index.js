@@ -1,8 +1,12 @@
-let glob = require('glob')
+let fs = require('fs')
+let path = require('path')
 let chalk = require('chalk')
+let parse = require('@architect/parser')
 let assert = require('@smallwins/validate/assert')
 let parallel = require('run-parallel')
 let waterfall = require('run-waterfall')
+
+let inventory = require('../../inventory')
 
 let prep = require('../lambda-one/prep')
 let deploy = require('../lambda-one/deploy')
@@ -13,6 +17,15 @@ let _chunk = require('../helpers/chunk')
 let _flatten = require('../helpers/flatten')
 let _queue = require('../helpers/queue')
 
+    /*
+       TODO At some point in the future we'll refactor this to read .arc instead of glob
+       - when we do, take note that Lambda path encoding changed 
+         in 4.x when we went from statically bound content type functions to http
+       - we added (back) period and dash, and did not reuse chars
+       - to maintain backwards compatibility, 
+         we'll need to aim legacy functions at a diff path builder
+       - see: src/utils/get[-legacy]-lambda-name.js
+     */
 module.exports = function deployFunctions(params, callback) {
 
   assert(params, {
@@ -24,21 +37,22 @@ module.exports = function deployFunctions(params, callback) {
   let {env, arc, start} = params
   let results // use this below
 
-  // CI workaround
-  (process.env.CI) ? console.log(chalk.gray(`Deploying all functions...\n`)) : ''
-
+  // read all .arc known lambdas in src
   waterfall([
-    /*
-       TODO At some point in the future we'll refactor this to read .arc instead of glob
-       - when we do, take note that Lambda path encoding changed in 4.x when we went from statically bound content type functions to http
-       - we added (back) period and dash, and did not reuse chars
-       - to maintain backwards compatibility, we'll need to aim legacy functions at a diff path builder
-       - see: src/utils/get[-legacy]-lambda-name.js
-     */
-    // read all .arc known lambdas in src
     function _globs(callback) {
-      let pattern = 'src/@(html|http|css|js|text|xml|json|events|scheduled|tables|slack|queues)/*'
-      glob(pattern, callback)
+      let arcPath = path.join(process.cwd(), '.arc')
+      let raw = fs.readFileSync(arcPath).toString()
+      inventory(arc, raw, function _inventory(err, result) {
+        if (err) callback(err)
+        else {
+          function fmt(lambda) {
+            return `${process.cwd()}`
+          }
+          let lambdas = result.lambdas.map(fmt)
+          console.log(result)
+          process.exit()
+        }
+      })
     },
     // prep for deployment
     function _prep(result, callback) {
@@ -46,7 +60,7 @@ module.exports = function deployFunctions(params, callback) {
 
       // boilerplate for the progress bar
       let total = results.length * 5 // 4 prep steps + 1 tick for bar instantiation
-      let progress = _progress({name: chalk.green.dim(`Prepping ${results.length} Lambdas`), total})
+      let progress = _progress({name: `Preparing ${results.length} Lambda${results.length > 1? 's':''}`, total})
       let tick = (process.env.CI)
         ? m => {
             m = ''

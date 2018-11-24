@@ -1,5 +1,6 @@
 let getLambdaName = require('../util/get-lambda-name')
 let getLegacyLambdaName = require('../util/get-legacy-lambda-name')
+let path = require('path')
 
 /**
  * {
@@ -45,6 +46,7 @@ module.exports = function inventory(arc, raw, callback) {
     snstopics: [],
     s3buckets: [],
     tables: [],
+    localPaths: [],
   }
 
   // gets an http lambda name
@@ -57,6 +59,17 @@ module.exports = function inventory(arc, raw, callback) {
     else {
       var path = getLambdaName(tuple)
       return [`${app}-production-get${path}`, `${app}-staging-get${path}`]
+    }
+  }
+
+  function getPath(type, tuple) {
+    if (Array.isArray(tuple)) {
+      var verb = tuple[0]
+      var path = getLambdaName(tuple[1])
+      return ['src', type, `${verb}${path}`]
+    }
+    else {
+      return ['src', type, `${tuple}`]
     }
   }
 
@@ -119,6 +132,11 @@ module.exports = function inventory(arc, raw, callback) {
   if (arc.http && arc.http.length > 0) {
     report.lambdas = arc.http.map(getName).reduce((a,b)=>a.concat(b))
     report.types.http = arc.http.map(getSystemName)
+    report.localPaths = arc.http.map(function fmt(tuple) {
+      let base = path.join.apply({}, getPath('http', tuple))
+      let full = path.join(process.cwd(), base)
+      return full
+    })
   }
 
   if (arc.html && arc.html.length > 0) {
@@ -158,6 +176,11 @@ module.exports = function inventory(arc, raw, callback) {
       report.snstopics.push(`${app}-staging-${e}`)
       report.snstopics.push(`${app}-production-${e}`)
     })
+    report.localPaths = report.localPaths.concat(arc.http.map(function fmt(tuple) {
+      let base = path.join.apply({}, getPath('events', tuple))
+      let full = path.join(process.cwd(), base)
+      return full
+    }))
   }
 
   if (arc.slack) {
@@ -195,12 +218,6 @@ module.exports = function inventory(arc, raw, callback) {
         report.types.tables.push(`${tablename}-${q}`)
       })
     })
-  }
-
-  let hasApi = arc.html || arc.js || arc.css || arc.text || arc.json || arc.xml
-  if (hasApi) {
-    report.tables.push(`${app}-staging-arc-sessions`)
-    report.tables.push(`${app}-production-arc-sessions`)
   }
 
   if (arc.static) {
