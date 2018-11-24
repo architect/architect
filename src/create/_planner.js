@@ -86,6 +86,7 @@ module.exports = function planner(arc) {
   //
 
   // Sessions tables are created by default
+  /*
   let createSessionTables = hasAPI && !process.env.ARC_DISABLE_SESSION && !process.env.ARC_LOCAL
   if (createSessionTables) {
     var table = {
@@ -95,7 +96,7 @@ module.exports = function planner(arc) {
       }
     }
     plans.push({action:'create-tables', table, app})
-  }
+  }*/
 
   if (arc.tables) {
     arc.tables.forEach(table=> {

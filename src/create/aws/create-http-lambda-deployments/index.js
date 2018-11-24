@@ -65,7 +65,7 @@ function _createLambda(app, name, env, route, callback) {
       }, callback)
     },
     function _addEnvVars(arn, callback) {
-      var sessionTableName = `${env.replace(name, '')}arc-sessions`
+      var sessionTableName = `jwe`
       var config = {
         FunctionName: env,
         Environment: {

@@ -50,28 +50,9 @@ module.exports = function _setupEnv(callback) {
   })
 
   // populate SESSION_TABLE_NAME (used by @architect/functions http functions)
-  // FIXME migrate this to process.env.SESSION_TABLE_NAME = 'jwe' and then let ppl override w .arc-env
-  // testing
-  let isTesting = process.env.NODE_ENV === 'testing' || env === 'testing'
-  if (isTesting) {
-    process.env.SESSION_TABLE_NAME = 'arc-sessions'
-  }
-
-  // staging
-  let isStaging = process.env.NODE_ENV === 'staging' ||
-                  env === 'staging'
-  if (isStaging) {
-    process.env.SESSION_TABLE_NAME = `${name}-staging-arc-sessions`
-  }
-
-  // production
-  let isProduction =  process.env.NODE_ENV === 'production' ||
-                      env === 'production'
-
-  if (isProduction) {
-    process.env.SESSION_TABLE_NAME = `${name}-production-arc-sessions`
-  }
-
+  // override w .arc-env
+  process.env.SESSION_TABLE_NAME = 'jwe'
+  
   // populate PORT (used by http server)
   if (!process.env.PORT) {
     process.env.PORT = `3333`
