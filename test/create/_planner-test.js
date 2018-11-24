@@ -147,7 +147,7 @@ test('create planner returns http lambda code plans', t=> {
   var createdeployplans = plans.filter(x => x.action === 'create-http-lambda-deployments')
   t.deepEqual(createdeployplans[0], {action:'create-http-lambda-deployments', app: base.app[0], route:arc.http[0]},  'contains create lambda deployment with first of two routes')
   t.deepEqual(createdeployplans[1], {action:'create-http-lambda-deployments', app: base.app[0], route:arc.http[1]},  'contains create lambda deployment with second of two routes')
-  t.equal(plans.length, 12, 'create-lambda code and deployment events exist') // 2 lambda code and 2 lambda deploy exist (one for each route), 4 default plans, 1 session table, 1 for routers, 2 http routes (one for each route) plus 1 router deployments
+  t.equal(plans.length, 12, 'create-lambda code and deployment events exist') // 2 lambda code and 2 lambda deploy exist (one for each route), 4 default plans, 1 for routers, 2 http routes (one for each route) plus 1 router deployments
   t.end()
 })
 test('create planner does not return http lambda deployment plans if local', t=> {
@@ -178,15 +178,6 @@ test('create planner returns http route creation plans if not local', t=> {
   t.deepEqual(createhttprouteplans[1], {action:'create-http-route', app: base.app[0], route:arc.http[1]},  'contains create http route with second of two routes')
   var createrouterdeployplan = plans.filter(x => x.action === 'create-router-deployments')
   t.deepEqual(createrouterdeployplan[0], {action:'create-router-deployments', app: base.app[0]},  'contains create router deployments plan')
-  t.end()
-})
-test('create planner returns session table creation plans if arc file contains http or slack', t=> {
-  t.end()
-})
-test('create planner ignores session table creation plans if disable session env var is set', t=> {
-  t.end()
-})
-test('create planner ignores session table creation plans if arc local env var is set', t=> {
   t.end()
 })
 test('create planner creates table plans if not local', t=> {

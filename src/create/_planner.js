@@ -85,7 +85,8 @@ module.exports = function planner(arc) {
   // dynamo tables
   //
 
-  // Sessions tables are created by default
+  // v4.3.11 and earlier: Sessions tables were created by default
+  // v4.3.12 and later: sessions table were not created by default
   /*
   let createSessionTables = hasAPI && !process.env.ARC_DISABLE_SESSION && !process.env.ARC_LOCAL
   if (createSessionTables) {
