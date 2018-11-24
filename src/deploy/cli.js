@@ -2,7 +2,7 @@
 let waterfall = require('run-waterfall')
 let init = require('../util/init')
 let deploy = require('.')
-let flags = require('./_flags')
+let flags = require('./helpers/flags')
 
 // use this later for measuring time
 let start = Date.now()

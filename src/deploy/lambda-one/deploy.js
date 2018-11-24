@@ -3,7 +3,7 @@ var assert = require('@smallwins/validate/assert')
 var waterfall = require('run-waterfall')
 
 // local deps
-var _getName = require('./_get-function-name')
+var _getName = require('../helpers/get-function-name')
 var uploadZip = require('./06-upload-zip')
 var afterDeploy = require('./07-after-deploy')
 var done = require('./08-done')

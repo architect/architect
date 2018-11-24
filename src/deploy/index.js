@@ -1,16 +1,19 @@
-var lambda = require('./lambda')
-var s3 = require('./public')
+//var lambda = require('./lambda')
 let series = require('run-series')
+
 let deployPublic = require('./public')
-let deployFunctions = require('./_deploy-functions')
-let deployOne = require('./_deploy-one')
-let _progress = require('./_progress')
+let deployFunctions = require('./lambda-all')
+let deployOne = require('./lambda-one')
+let _progress = require('./helpers/progress')
 let chalk = require('chalk')
 
 module.exports = {
-  lambda,
-  static: s3,
-  main: function main(arc, raw, args, callback) {
+  lambda: deployOne,
+  static: deployPublic,
+  main
+}
+
+function main(arc, raw, args, callback) {
     // create a tasks queue to walk
     let tasks = []
     let env = args.env
@@ -83,4 +86,3 @@ module.exports = {
 
     series(tasks, callback)
   }
-}

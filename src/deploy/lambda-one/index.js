@@ -1,8 +1,8 @@
 var waterfall = require('run-waterfall')
 var assert = require('@smallwins/validate/assert')
-var prep = require('./lambda')
-var deploy = require('./lambda/deploy')
-var _report = require('./_report')
+var prep = require('./prep')
+var deploy = require('./deploy')
+var _report = require('../helpers/report')
 
 module.exports = function deployOne(params, callback) {
 

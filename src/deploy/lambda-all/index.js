@@ -1,15 +1,17 @@
-let waterfall = require('run-waterfall')
+let glob = require('glob')
 let chalk = require('chalk')
 let assert = require('@smallwins/validate/assert')
-let prep = require('./lambda')
-let deploy = require('./lambda/deploy')
-let _report = require('./_report')
-let _progress = require('./_progress')
 let parallel = require('run-parallel')
-let glob = require('glob')
-let _chunk = require('./_chunk')
-let _flatten = require('./_flatten')
-let _queue = require('./_queue')
+let waterfall = require('run-waterfall')
+
+let prep = require('../lambda-one/prep')
+let deploy = require('../lambda-one/deploy')
+
+let _report = require('../helpers/report')
+let _progress = require('../helpers/progress')
+let _chunk = require('../helpers/chunk')
+let _flatten = require('../helpers/flatten')
+let _queue = require('../helpers/queue')
 
 module.exports = function deployFunctions(params, callback) {
 

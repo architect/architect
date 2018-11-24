@@ -1,6 +1,6 @@
 var chalk = require('chalk')
-var _getName = require('./lambda/_get-function-name')
-var _getUrl = require('./lambda/_get-url')
+var _getName = require('./get-function-name')
+var _getUrl = require('./get-url')
 
 /**
  * generates the completion report
