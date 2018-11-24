@@ -19,10 +19,10 @@ let _queue = require('../helpers/queue')
 
     /*
        TODO At some point in the future we'll refactor this to read .arc instead of glob
-       - when we do, take note that Lambda path encoding changed 
+       - when we do, take note that Lambda path encoding changed
          in 4.x when we went from statically bound content type functions to http
        - we added (back) period and dash, and did not reuse chars
-       - to maintain backwards compatibility, 
+       - to maintain backwards compatibility,
          we'll need to aim legacy functions at a diff path builder
        - see: src/utils/get[-legacy]-lambda-name.js
      */
@@ -40,24 +40,19 @@ module.exports = function deployFunctions(params, callback) {
   // read all .arc known lambdas in src
   waterfall([
     function _globs(callback) {
+      // FIXME support arc.yaml and arc.json here
       let arcPath = path.join(process.cwd(), '.arc')
       let raw = fs.readFileSync(arcPath).toString()
-      inventory(arc, raw, function _inventory(err, result) {
+      inventory(arc, raw, function _inventory(err, report) {
         if (err) callback(err)
         else {
-          function fmt(lambda) {
-            return `${process.cwd()}`
-          }
-          let lambdas = result.lambdas.map(fmt)
-          console.log(result)
-          process.exit()
+          callback(null, report.localPaths)
         }
       })
     },
     // prep for deployment
     function _prep(result, callback) {
       results = result
-
       // boilerplate for the progress bar
       let total = results.length * 5 // 4 prep steps + 1 tick for bar instantiation
       let progress = _progress({name: `Preparing ${results.length} Lambda${results.length > 1? 's':''}`, total})
