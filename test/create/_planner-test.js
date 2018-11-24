@@ -147,7 +147,7 @@ test('create planner returns http lambda code plans', t=> {
   var createdeployplans = plans.filter(x => x.action === 'create-http-lambda-deployments')
   t.deepEqual(createdeployplans[0], {action:'create-http-lambda-deployments', app: base.app[0], route:arc.http[0]},  'contains create lambda deployment with first of two routes')
   t.deepEqual(createdeployplans[1], {action:'create-http-lambda-deployments', app: base.app[0], route:arc.http[1]},  'contains create lambda deployment with second of two routes')
-  t.equal(plans.length, 13, 'create-lambda code and deployment events exist') // 2 lambda code and 2 lambda deploy exist (one for each route), 4 default plans, 1 session table, 1 for routers, 2 http routes (one for each route) plus 1 router deployments
+  t.equal(plans.length, 12, 'create-lambda code and deployment events exist') // 2 lambda code and 2 lambda deploy exist (one for each route), 4 default plans, 1 session table, 1 for routers, 2 http routes (one for each route) plus 1 router deployments
   t.end()
 })
 test('create planner does not return http lambda deployment plans if local', t=> {

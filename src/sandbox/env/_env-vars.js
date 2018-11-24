@@ -14,7 +14,7 @@ module.exports = function _setupEnv(callback) {
   process.env.ARC_APP_NAME = name
 
   // set up command flags
-  let env
+  //let env
   let port
   let command = process.argv.slice(2).map(c => {
     if (c.slice().includes('=')) {
@@ -24,6 +24,7 @@ module.exports = function _setupEnv(callback) {
     }
   })
   command.map(c => {
+    /*
     if (c === 'testing' ||
         c === '--testing' ||
         c === '-t') {
@@ -38,7 +39,7 @@ module.exports = function _setupEnv(callback) {
         c === '--production' ||
         c === '-p') {
       env = 'production'
-    }
+    }*/
     if (Array.isArray(c)) {
       if (c[0] === '--port' && Number(c[1]) >= 2 && Number(c[1]) <= 65535) {
         port = Number(c[1])
@@ -52,7 +53,7 @@ module.exports = function _setupEnv(callback) {
   // populate SESSION_TABLE_NAME (used by @architect/functions http functions)
   // override w .arc-env
   process.env.SESSION_TABLE_NAME = 'jwe'
-  
+
   // populate PORT (used by http server)
   if (!process.env.PORT) {
     process.env.PORT = `3333`
