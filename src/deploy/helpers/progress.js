@@ -13,13 +13,7 @@ module.exports = function _progress(params) {
 
   function log(txt) {
     text = txt
-    let frames = [
-     	"∙∙∙",
-			"●∙∙",
-			"∙●∙",
-			"∙∙●",
-      "∙∙∙",
-    ]
+    let frames = ['∙∙∙ ●∙∙ ∙●∙ ∙∙● ∙∙∙'].split(' ')
     let i = 0
     if (!running && !process.env.CI) {
       running = setInterval(function() {

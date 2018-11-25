@@ -21,7 +21,7 @@ module.exports = function _modules(params, callback) {
   })
 
   subprocess.on('error', function error(err) {
-    if (err) 
+    if (err)
       console.log('npm ci failed', err)
     callback()
   })
