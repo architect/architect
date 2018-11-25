@@ -1,8 +1,10 @@
-// let fs = require('fs')
-// let path = require('path')
 let create = require('../../create')
 let getName = require('../../util/get-lambda-name')
 
+/**
+ * expects retries to be an array of pathToCode like
+ * ['src/http/get-index', 'src/events/myevent']
+ */
 module.exports = function delta(arc, retries, callback) {
   let diff = {
     app: [arc.app[0]],

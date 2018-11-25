@@ -1,12 +1,12 @@
 var waterfall = require('run-waterfall')
 var assert = require('@smallwins/validate/assert')
+
 var prep = require('./prep')
 var deploy = require('./deploy')
-var _report = require('../helpers/report')
+
+var report = require('../helpers/report')
 let retry = require('../helpers/retry')
-let create = require('../../create')
-let path = require('path')
-let fs = require('fs')
+let delta = require('../helpers/delta')
 
 module.exports = function deployOne(params, callback) {
 
@@ -20,8 +20,6 @@ module.exports = function deployOne(params, callback) {
   })
 
   //FIXME add support for arc.yaml and arc.json
-  let arcPath = path.join(process.cwd(), '.arc')
-  let raw = fs.readFileSync(arcPath).toString()
   let arc = params.arc
 
   const _prep = prep.bind({}, params)
@@ -32,18 +30,15 @@ module.exports = function deployOne(params, callback) {
     _deploy,
   ],
   function _done(err, stats) {
-    let retries = retry()
-    if (err && err.message === 'cancel_not_found') {
-      create(arc, raw, callback)
-    }
-    else if (err) {
+    let retries = retry().map(r=> r.pathToCode)
+    if (err && err.message != 'cancel_not_found') {
       callback(err)
     }
     else if (retries.length > 0) {
-      create(arc, raw, callback)
+      delta(arc, retries, callback)
     }
     else {
-      _report({
+      report({
         results:[params.pathToCode],
         env:params.env,
         arc:params.arc,

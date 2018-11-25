@@ -1,16 +1,11 @@
 #!/usr/bin/env node
 let waterfall = require('run-waterfall')
 let init = require('../util/init')
-let deploy = require('.')
 let flags = require('./helpers/flags')
-
-// use this later for measuring time
-let start = Date.now()
+let {main} = require('.')
+let start = Date.now() // use this later for measuring time
 
 /**
- * scenarios
- * ---
- *
  * deploy everything
  *
  *   npx deploy [staging|production]
@@ -24,14 +19,15 @@ let start = Date.now()
  * --production, -p
  *
  */
-// TODO: extract process.argv here and feed into flags (along with start)?
 waterfall([
-  init,
+  init,         // prints the banner and sets up the env
   flags(start), // parse CLI flags into parameters for what to deploy
-  deploy.main// feed params into task generator + runner
+  main,         // feed params into task generator + runner
 ],
 function done(err) {
-  if (err) throw err//idk..
-  // todo: calculate runtime w/ above start?
+  if (err) {
+    console.log(err)
+    process.exit(1)
+  }
   // TODO catch toomanyrequest exceptions and retry once
 })
