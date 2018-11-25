@@ -19,6 +19,11 @@ module.exports = function deployOne(params, callback) {
     start: Number,
   })
 
+  //FIXME add support for arc.yaml and arc.json
+  let arcPath = path.join(process.cwd(), '.arc')
+  let raw = fs.readFileSync(arcPath).toString()
+  let arc = params.arc
+
   const _prep = prep.bind({}, params)
   const _deploy = deploy.bind({}, params)
 
@@ -27,27 +32,24 @@ module.exports = function deployOne(params, callback) {
     _deploy,
   ],
   function _done(err, stats) {
-    if (err) {
-      console.log(err)
+    let retries = retry()
+    if (err && err.message === 'cancel_not_found') {
+      create(arc, raw, callback)
+    }
+    else if (err) {
+      callback(err)
+    }
+    else if (retries.length > 0) {
+      create(arc, raw, callback)
     }
     else {
-      let retries = retry()
-      if (retries.length > 0) {
-        //FIXME add support for arc.yaml and arc.json
-        let arcPath = path.join(process.cwd(), '.arc')
-        let raw = fs.readFileSync(arcPath).toString()
-        let arc = params.arc
-        create(arc, raw, callback)
-      }
-      else {
-        _report({
-          results:[params.pathToCode],
-          env:params.env,
-          arc:params.arc,
-          start:params.start,
-          stats:[stats]
-        }, callback)
-      }
+      _report({
+        results:[params.pathToCode],
+        env:params.env,
+        arc:params.arc,
+        start:params.start,
+        stats:[stats]
+      }, callback)
     }
   })
 }

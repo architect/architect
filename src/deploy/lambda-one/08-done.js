@@ -14,6 +14,9 @@ module.exports = function _done(params, err, stats) {
   else if (err && err.message === 'cancel_missing_lock') {
     console.log(chalk.yellow.dim('\nskip ' + pathToLock + ' not found'))
   }
+  else if (err && err.message === 'cancel_not_found') {
+    // noop here; create will be run by retry
+  }
   else if (err) {
     console.log(`\n${chalk.dim('deploy')} ${chalk.red.bold(lambda)} ${chalk.dim('failed')}`)
     console.log(err)

@@ -36,7 +36,8 @@ module.exports = function _cloud(inventory) {
   // walk thru the inventory
   series([
     function s3(callback) {
-      header('S3 Buckets')
+      if (inventory.s3buckets.length > 0)
+        header('S3 Buckets')
       let s3 = new aws.S3({region: process.env.AWS_REGION})
       series(inventory.s3buckets.map(Bucket=> {
         return function _getBucket(callback) {
@@ -129,7 +130,8 @@ module.exports = function _cloud(inventory) {
       })
     },
     function snstopics(callback) {
-      header(`SNS Topics`)
+      if (inventory.snstopics.length > 0)
+        header(`SNS Topics`)
       let copy = inventory.snstopics.slice(0)
       let founds = []
       let sns = new aws.SNS({region: process.env.AWS_REGION})

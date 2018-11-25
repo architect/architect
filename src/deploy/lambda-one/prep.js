@@ -46,7 +46,7 @@ module.exports = function deploy(params, callback) {
     if (err) {
       callback(err)
     } else {
-      callback(null)
+      callback()
     }
   })
 }

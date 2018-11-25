@@ -56,22 +56,13 @@ module.exports = function deployFunctions(params, callback) {
       results = result
       // boilerplate for the progress bar
       let total = results.length * 5 // 4 prep steps + 1 tick for bar instantiation
-      let progress = _progress({name: `Preparing ${results.length} Lambda${results.length > 1? 's':''}`, total})
-      let tick = (process.env.CI)
-        ? m => {
-            m = ''
-            return m
-          }
-        : function _tick(msg) {
-          if (msg) {
-            progress.tick({'token': msg})
-          } else {
-            progress.tick({'token': 'Working...'})
-          }
-        }
+      let progress = _progress({
+        name: `Prepare ${results.length} Lambda${results.length > 1? 's':''}`,
+        total
+      })
+      let tick = progress.tick
 
-      // high-larious waterfall-nested parallel
-      // because executions can escape early and call their callback before everything is done
+      let failedprep = []
       waterfall([
         function _goPrep(callback) {
           parallel(results.map(pathToCode=> {
@@ -81,16 +72,30 @@ module.exports = function deployFunctions(params, callback) {
                 arc,
                 pathToCode,
                 tick,
-              }, callback)
+              },
+              function _prepped(err) {
+                if (err && err.message === 'cancel_not_found') {
+                  failedprep.push(pathToCode)
+                  callback()
+                }
+                else if (err) {
+                  callback(err)
+                }
+                else {
+                  callback()
+                }
+              })
             }
           }), callback)
         }
       ],
       function done(err) {
         if (err) {
-          callback(err, results)
-        } else {
-          callback(null, results)
+          callback(err)
+        }
+        else {
+          let filtered = results.filter(pathToCode=> !failedprep.includes(pathToCode))
+          callback(null, filtered)
         }
       })
     },
@@ -105,18 +110,7 @@ module.exports = function deployFunctions(params, callback) {
       // boilerplate for the progress bar
       let total = results.length * 3 // 2 deploy + post-deploy steps + 1 tick for bar instantiation
       let progress = _progress({name: chalk.green.dim(`Deploying ${results.length} lambdas`), total})
-      let tick = (process.env.CI)
-        ? m => {
-            m = ''
-            return m
-          }
-        : function _tick(msg) {
-          if (msg) {
-            progress.tick({'token': msg})
-          } else {
-            progress.tick({'token': 'Working...'})
-          }
-        }
+      let tick = progress.tick
 
       // fill up a queue
       _chunk(results).forEach(chunk=> {

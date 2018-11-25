@@ -6,6 +6,8 @@ let _log = require('log-update')
 
 module.exports = function _progress(params) {
 
+  let {name, total} = params
+  let count = 0
   let running = false
   let text = ''
 
@@ -46,7 +48,7 @@ module.exports = function _progress(params) {
     "⠈"
     ]
     let i = 0
-    if (!running) {
+    if (!running && !process.env.CI) {
       running = setInterval(function() {
         _log(`${chalk.cyan(frames[i = ++i % frames.length])} ${text}`)
       }, 80)
@@ -61,14 +63,16 @@ module.exports = function _progress(params) {
     clearInterval(running)
   }
 
-  let {name, total} = params
-  let count = 0
+  function tick(msg) {
+    count += 1
+    var msg = chalk.cyan(msg)
+    log(`${chalk.grey(name)} ${msg}`)
+    if (count === total) stop()
+  }
+
+  tick.cancel = stop
+
   return {
-    tick(msg) {
-      count += 1
-      var msg = chalk.cyan(msg.token)
-      log(`${chalk.grey(name)} ${msg}`)
-      if (count===total) stop()
-    }
+    tick
   }
 }
