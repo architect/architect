@@ -60,9 +60,6 @@ module.exports = function local(cwd, event, callback) {
     // always capture data piped to stdout
     // python buffers so you might get everything despite our best efforts
     stdout += data
-    let tidy = data.toString().split('\n').filter(line=> !line.startsWith('__ARC__')).join('\n').trim()
-    if (tidy.length > 0)
-      console.log(tidy)
   })
 
   child.stderr.on('data', data=> {
@@ -70,6 +67,11 @@ module.exports = function local(cwd, event, callback) {
   })
 
   child.on('close', function done(code) {
+    // Output any console logging from the child process
+    let tidy = stdout.toString().split('\n').filter(line=> !line.startsWith('__ARC__')).join('\n').trim()
+    if (tidy.length > 0)
+      console.log(tidy)
+
     clearTimeout(to) // ensure the timeout doesn't block
     if (timedout) {
       callback(null, {
