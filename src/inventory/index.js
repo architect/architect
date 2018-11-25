@@ -58,7 +58,7 @@ module.exports = function inventory(arc, raw, callback) {
 
   function getPath(type, tuple) {
     if (type === 'scheduled') {
-      return ['src', type, tuple[0]]
+      return ['src', type, getLambdaName(tuple[0])]
     }
     else if (Array.isArray(tuple)) {
       var verb = tuple[0]
@@ -66,7 +66,7 @@ module.exports = function inventory(arc, raw, callback) {
       return ['src', type, `${verb}${path}`]
     }
     else {
-      return ['src', type, `${tuple}`]
+      return ['src', type, getLambdaName(tuple)]
     }
   }
 
@@ -129,10 +129,7 @@ module.exports = function inventory(arc, raw, callback) {
     report.lambdas = arc.http.map(getName).reduce((a,b)=>a.concat(b))
     report.types.http = arc.http.map(getSystemName)
     report.localPaths = arc.http.map(function fmt(tuple) {
-      let base = path.join.apply({}, getPath('http', tuple))
-      return base
-      //let full = path.join(process.cwd(), base)
-      //return full
+      return path.join.apply({}, getPath('http', tuple))
     })
   }
 

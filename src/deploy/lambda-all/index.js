@@ -1,23 +1,10 @@
-let fs = require('fs')
-let path = require('path')
-let chalk = require('chalk')
 let assert = require('@smallwins/validate/assert')
-let parallel = require('run-parallel')
 let waterfall = require('run-waterfall')
 
-let create = require('../../create')
-let inventory = require('../../inventory')
-
-let prep = require('../lambda-one/prep')
-let deploy = require('../lambda-one/deploy')
-let retry = require('../helpers/retry')
-
-let _report = require('../helpers/report')
-let _progress = require('../helpers/progress')
-let _chunk = require('../helpers/chunk')
-let _flatten = require('../helpers/flatten')
-let _queue = require('../helpers/queue')
-
+let read = require('./00-read')
+let _prep = require('./01-prep')
+let _deploy = require('./02-deploy')
+let _report = require('./03-report')
     /*
        TODO At some point in the future we'll refactor this to read .arc instead of glob
        - when we do, take note that Lambda path encoding changed
@@ -27,7 +14,7 @@ let _queue = require('../helpers/queue')
          we'll need to aim legacy functions at a diff path builder
        - see: src/utils/get[-legacy]-lambda-name.js
      */
-module.exports = function deployFunctions(params, callback) {
+module.exports = function deployAll(params, callback) {
 
   assert(params, {
     env: String,
@@ -35,137 +22,14 @@ module.exports = function deployFunctions(params, callback) {
     start: Number,
   })
 
-  let {env, arc, start} = params
-  let results // use this below
+  let prep = _prep(params)
+  let deploy = _deploy(params)
+  let report = _report(params)
 
-  // read all .arc known lambdas in src
   waterfall([
-    function _globs(callback) {
-      // FIXME support arc.yaml and arc.json here
-      let arcPath = path.join(process.cwd(), '.arc')
-      let raw = fs.readFileSync(arcPath).toString()
-      inventory(arc, raw, function _inventory(err, report) {
-        if (err) callback(err)
-        else {
-          callback(null, report.localPaths)
-        }
-      })
-    },
-    // prep for deployment
-    function _prep(result, callback) {
-      results = result
-      // boilerplate for the progress bar
-      let total = results.length * 5 // 4 prep steps + 1 tick for bar instantiation
-      let progress = _progress({
-        name: `Prepare ${results.length} Lambda${results.length > 1? 's':''}`,
-        total
-      })
-      let tick = progress.tick
-
-      let failedprep = []
-      waterfall([
-        function _goPrep(callback) {
-          parallel(results.map(pathToCode=> {
-            return function _prep(callback) {
-              prep({
-                env,
-                arc,
-                pathToCode,
-                tick,
-              },
-              function _prepped(err) {
-                if (err && err.message === 'cancel_not_found') {
-                  failedprep.push(pathToCode)
-                  callback()
-                }
-                else if (err) {
-                  callback(err)
-                }
-                else {
-                  callback()
-                }
-              })
-            }
-          }), callback)
-        }
-      ],
-      function done(err) {
-        if (err) {
-          callback(err)
-        }
-        else {
-          let filtered = results.filter(pathToCode=> !failedprep.includes(pathToCode))
-          callback(null, filtered)
-        }
-      })
-    },
-    // create a parallel deployment
-    function _deploy(result, callback) {
-      results = result
-
-      let queue = _queue()
-      let firstRun = true
-      let timeout = 0
-
-      // boilerplate for the progress bar
-      let total = results.length * 3 // 2 deploy + post-deploy steps + 1 tick for bar instantiation
-      let progress = _progress({name: chalk.green.dim(`Deploying ${results.length} lambdas`), total})
-      let tick = progress.tick
-
-      // fill up a queue
-      _chunk(results).forEach(chunk=> {
-        // by enqueueing batches to deploy
-        queue.add(function _deployChunk(callback) {
-          // deploy a batch in parallel
-          parallel(chunk.map(pathToCode=> {
-            return function _deploysOne(callback) {
-              deploy({
-                env,
-                arc,
-                pathToCode,
-                tick,
-              }, callback)
-            }
-          }), callback)
-        }, timeout)
-        // execute the first batch immediately
-        // and subsequent batches after 1s delay
-        if (firstRun) {
-          firstRun = false
-          timeout = 1000
-        }
-      })
-
-      // drain the queue
-      queue.start(function _end(err, results) {
-        if (err) {
-          callback(err)
-        }
-        else {
-          callback(null, _flatten(results))
-        }
-      })
-
-    },
-    // report the lambda deployment results
-    function _reports(stats, callback) {
-      let retries = retry()
-      if (retries.length > 0) {
-        //FIXME add support for arc.yaml and arc.json
-        let arcPath = path.join(process.cwd(), '.arc')
-        let raw = fs.readFileSync(arcPath).toString()
-        let arc = params.arc
-        create(arc, raw, callback)
-      }
-      else {
-        _report({
-          results,
-          env,
-          arc,
-          start,
-          stats
-        }, callback)
-      }
-    },
+    read,
+    prep,
+    deploy,
+    report,
   ], callback)
 }
