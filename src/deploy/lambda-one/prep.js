@@ -43,10 +43,7 @@ module.exports = function deploy(params, callback) {
     _views
   ],
   function done(err) {
-    if (err) {
-      callback(err)
-    } else {
-      callback()
-    }
+    if (err) callback(err)
+    else callback()
   })
 }
