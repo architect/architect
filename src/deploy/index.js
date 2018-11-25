@@ -52,6 +52,7 @@ function main(arc, raw, args, callback) {
       deployFunctions({
         env,
         arc,
+        raw,
         start,
         filters,
       }, callback)
@@ -72,6 +73,7 @@ function main(arc, raw, args, callback) {
       deployFunctions({
         env,
         arc,
+        raw,
         start,
         filters,
       }, callback)

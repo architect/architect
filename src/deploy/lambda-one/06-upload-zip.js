@@ -26,7 +26,7 @@ module.exports = function uploadZip(params, callback) {
       },
       function _updatedFun(err) {
         if (err && err.code === 'ResourceNotFoundException') {
-          retry(params)
+          retry(params.pathToCode)
           let stats = {name: params.pathToCode, size: `Creating`}
           callback(null, stats)
         }

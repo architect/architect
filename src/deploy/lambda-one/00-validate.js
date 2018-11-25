@@ -15,7 +15,7 @@ module.exports = function _validate(params, callback) {
 
   let found = exists(pathToCode)
   if (!found) {
-    retry(params)
+    retry(pathToCode)
     callback(Error('cancel_not_found'))
   }
   else if (!pkgExists) {

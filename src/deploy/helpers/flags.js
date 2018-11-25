@@ -43,6 +43,7 @@ module.exports = function flags(start) {
                    args.includes('functions') ||
                    args.includes('--functions')
 
+    // filter function deployment by type
     let filters = []
     if (args.includes('http'))
       filters.push('http')

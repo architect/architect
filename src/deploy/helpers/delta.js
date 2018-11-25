@@ -1,11 +1,13 @@
 let create = require('../../create')
 let getName = require('../../util/get-lambda-name')
+let retry = require('./retry')
 
 /**
  * expects retries to be an array of pathToCode like
  * ['src/http/get-index', 'src/events/myevent']
  */
-module.exports = function delta(arc, retries, callback) {
+module.exports = function delta(arc, callback) {
+  let retries = retry()
   let diff = {
     app: [arc.app[0]],
     http: [],
@@ -90,6 +92,9 @@ function isTablesRetry(thing, retries) {
   return found
 }
 
+/**
+ * create a .arc string from arc object
+ */
 function stringify(arc) {
   let fmtTbl = obj=> {
     let name = Object.keys(obj)[0]

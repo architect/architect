@@ -19,7 +19,6 @@ module.exports = function deployOne(params, callback) {
     start: Number,
   })
 
-  //FIXME add support for arc.yaml and arc.json
   let arc = params.arc
 
   const _prep = prep.bind({}, params)
@@ -30,12 +29,12 @@ module.exports = function deployOne(params, callback) {
     _deploy,
   ],
   function _done(err, stats) {
-    let retries = retry().map(r=> r.pathToCode)
+    let retries = retry()
     if (err && err.message != 'cancel_not_found') {
       callback(err)
     }
     else if (retries.length > 0) {
-      delta(arc, retries, callback)
+      delta(arc, callback)
     }
     else {
       report({
