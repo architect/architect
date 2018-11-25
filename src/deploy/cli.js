@@ -33,6 +33,5 @@ waterfall([
 function done(err) {
   if (err) throw err//idk..
   // todo: calculate runtime w/ above start?
-  // TODO catch errors due to missing infra and try to create
   // TODO catch toomanyrequest exceptions and retry once
 })

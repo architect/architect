@@ -4,7 +4,7 @@
 let chalk = require('chalk')
 let _log = require('log-update')
 
-module.exports = function _progress(params, callback) {
+module.exports = function _progress(params) {
 
   let running = false
   let text = ''

@@ -1,15 +1,16 @@
 let fs = require('fs')
 let path = require('path')
 let chalk = require('chalk')
-let parse = require('@architect/parser')
 let assert = require('@smallwins/validate/assert')
 let parallel = require('run-parallel')
 let waterfall = require('run-waterfall')
 
+let create = require('../../create')
 let inventory = require('../../inventory')
 
 let prep = require('../lambda-one/prep')
 let deploy = require('../lambda-one/deploy')
+let retry = require('../helpers/retry')
 
 let _report = require('../helpers/report')
 let _progress = require('../helpers/progress')
@@ -154,13 +155,23 @@ module.exports = function deployFunctions(params, callback) {
     },
     // report the lambda deployment results
     function _reports(stats, callback) {
-      _report({
-        results,
-        env,
-        arc,
-        start,
-        stats
-      }, callback)
+      let retries = retry()
+      if (retries.length > 0) {
+        //FIXME add support for arc.yaml and arc.json
+        let arcPath = path.join(process.cwd(), '.arc')
+        let raw = fs.readFileSync(arcPath).toString()
+        let arc = params.arc
+        create(arc, raw, callback)
+      }
+      else {
+        _report({
+          results,
+          env,
+          arc,
+          start,
+          stats
+        }, callback)
+      }
     },
   ], callback)
 }
