@@ -10,7 +10,7 @@ module.exports = function _triggerBuilder(app, name, method, callback) {
   function _create(app, stage, callback) {
     lambda.getFunction({FunctionName:stage}, function _gotFn(err) {
       if (err && err.name === 'ResourceNotFoundException') {
-        console.log('create: ' + stage)
+        print.create('@tables', `${name}-${method}`)
         create(app, `${name}-${method}`, stage, callback)
       }
       else if (err) {
@@ -18,7 +18,7 @@ module.exports = function _triggerBuilder(app, name, method, callback) {
         callback(err)
       }
       else {
-        print.skip('@json', stage)
+        print.skip('@tables', stage)
         callback()
       }
     })

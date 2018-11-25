@@ -20,6 +20,7 @@ module.exports = function getReporter(params) {
       function(callback) {
         // read any failures into an array ['src/http/get-foo', 'src/events/foo-baz']
         let retries = retry().map(f=> f.pathToCode)
+        //console.log(retries)
         if (retries.length > 0) {
           delta(arc, retries, callback)
         }

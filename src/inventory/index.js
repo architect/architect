@@ -58,7 +58,7 @@ module.exports = function inventory(arc, raw, callback) {
 
   function getPath(type, tuple) {
     if (type === 'scheduled') {
-      return ['src', type, getLambdaName(tuple[0])]
+      return ['src', type, tuple[0]]
     }
     else if (Array.isArray(tuple)) {
       var verb = tuple[0]
@@ -66,7 +66,7 @@ module.exports = function inventory(arc, raw, callback) {
       return ['src', type, `${verb}${path}`]
     }
     else {
-      return ['src', type, getLambdaName(tuple)]
+      return ['src', type, tuple]
     }
   }
 
@@ -171,10 +171,7 @@ module.exports = function inventory(arc, raw, callback) {
       report.snstopics.push(`${app}-production-${e}`)
     })
     report.localPaths = report.localPaths.concat(arc.events.map(function fmt(tuple) {
-      let base = path.join.apply({}, getPath('events', tuple))
-      return base
-      //let full = path.join(process.cwd(), base)
-      //return full
+      return path.join.apply({}, getPath('events', tuple))
     }))
   }
 

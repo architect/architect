@@ -60,7 +60,7 @@ module.exports = function createRouters(params, callback) {
         else {
           stop()
           if (urls.length === 2) {
-            console.log(chalk.green.dim('✓'), chalk.cyan.dim('Successfully deployed'))
+            console.log(chalk.green.dim('✓'), chalk.cyan.dim('Deployed'))
             urls.forEach(url=> {
               var pretty = chalk.cyan.underline(url)
               console.log(pretty)
