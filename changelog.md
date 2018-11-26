@@ -1,5 +1,115 @@
 # Architect changelog
 
+---
+
+## [4.3.14] - 2018-11-26
+
+### Changed
+
+- logs command results now sorted chronologically
+
+
+### Fixed
+
+- Fixes console leaking of large responses in sandbox
+
+
+---
+
+## [4.3.13] - 2018-11-24
+
+### Fixed
+
+- sandbox was broken in the JWE changeover
+- Fixes some broken tests
+
+
+### Removed
+
+- Unnecessary session table test stubs
+
+
+---
+
+## [4.3.12] - 2018-11-23
+
+### Changed
+
+- New default for Architect sessions is based on JWE
+- DynamoDB sessions are still available, but [now opt-in](https://arc.codes/guides/sessions)
+- sandbox now matches the 6MB request payload limit of Lambda
+
+
+---
+
+## [4.3.10] - 2018-11-19
+
+### Added
+
+- dotfiles are now included in Lambda deployments
+
+
+---
+
+## [4.3.9] - 2018-11-15
+
+### Changed
+
+- Architect parser now accepts multiple spaces between http verb and path in `@http` functions
+
+
+### Fixed
+
+- sandbox now properly pretty prints paths
+
+
+---
+
+## [4.3.8] - 2018-11-14
+
+### Added
+
+- Additional S3 deploy tests
+
+
+---
+
+## [4.3.7] - 2018-11-13
+
+### Changed
+
+- sandbox clears async function timeout if execution is faster than specified timeout
+
+
+---
+
+## [4.3.6] - 2018-11-12
+
+### Added
+
+- Better async error handling (and more helpful error text) in sandbox
+- Trap and present friendly error when async functions don't return a value in sandbox
+- sandbox returns a promise if no callback is specified
+- Adds repl
+
+
+---
+
+## [4.3.1] - 2018-11-12
+
+### Fixed
+
+- Error with `/public` folder in sandbox
+
+
+---
+
+## [4.3.0] - 2018-11-12
+
+### Added
+
+- `arc.sandbox.start` now accepts a regular node errback as the last arg
+
 
 ---
 
