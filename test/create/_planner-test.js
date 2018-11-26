@@ -7,9 +7,9 @@ var base = {
 
 test('create planner returns default plans', t=> {
   var arc = Object.assign({}, base)
-  t.plan(4)
+  t.plan(3)
   var plans = planner(arc)
-  t.deepEqual(plans.filter(x => x.action === 'create-iam-role')[0], {action:'create-iam-role', app: base.app[0]},  'contains create iam role')
+ // t.deepEqual(plans.filter(x => x.action === 'create-iam-role')[0], {action:'create-iam-role', app: base.app[0]},  'contains create iam role')
   t.deepEqual(plans.filter(x => x.action === 'create-shared')[0], {action:'create-shared', app: base.app[0]},  'contains create shared')
   t.deepEqual(plans.filter(x => x.action === 'create-public')[0], {action:'create-public', app: base.app[0]},  'contains create public')
   t.deepEqual(plans.filter(x => x.action === 'create-views')[0], {action:'create-views', app: base.app[0]},  'contains create views')
@@ -43,7 +43,7 @@ test('create planner returns subset of sns event plans if local', t=> {
   var lambdacodeplans = plans.filter(x => x.action === 'create-event-lambda-code')
   t.deepEqual(lambdacodeplans[0], {action:'create-event-lambda-code', app: base.app[0], event:'bing'},  'contains create lambda code with first of two events')
   t.deepEqual(lambdacodeplans[1], {action:'create-event-lambda-code', app: base.app[0], event:'bong'},  'contains create lambda code with second of two events')
-  t.equal(plans.length, 6, 'only create-event-lambda-code events exist in this scenario') // 2 for the events and 4 from the default plans
+  t.equal(plans.length, 5, 'only create-event-lambda-code events exist in this scenario') // 2 for the events and 4 from the default plans
   delete process.env.ARC_LOCAL
   t.end()
 })
@@ -108,7 +108,7 @@ test('create planner does not return scheduled lambda deployment plans if local'
   t.equal(plans.filter(x => x.action === 'create-scheduled-lambda-deployments').length, 0, 'no create-scheduled-lambda-deployment events exist')
   t.deepEqual(lambdacodeplans[0], {action:'create-scheduled-lambda-code', app: base.app[0], scheduled:'bing'},  'contains create lambda code with first of two events')
   t.deepEqual(lambdacodeplans[1], {action:'create-scheduled-lambda-code', app: base.app[0], scheduled:'bong'},  'contains create lambda code with second of two events')
-  t.equal(plans.length, 6, 'only create-event-lambda-code events exist in this scenario') // 2 for the events and 4 from the default plans
+  t.equal(plans.length, 5, 'only create-event-lambda-code events exist in this scenario') // 2 for the events and 4 from the default plans
   delete process.env.ARC_LOCAL
   t.end()
 })
@@ -161,7 +161,7 @@ test('create planner does not return http lambda deployment plans if local', t=>
   var createcodeplans = plans.filter(x => x.action === 'create-http-lambda-code')
   t.equal(createdeployplans.length, 0, 'no http lambda code deployment events exist')
   t.equal(createcodeplans.length, 2, 'two http lambda code creation events exist')
-  t.equal(plans.length, 6, 'create-lambda code and deployment events exist') // 2 lambda code (one for each route) and 4 default plans
+  t.equal(plans.length, 5, 'create-lambda code and deployment events exist') // 2 lambda code (one for each route) and 4 default plans
   delete process.env.ARC_LOCAL
   t.end()
 })

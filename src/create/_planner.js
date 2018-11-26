@@ -9,11 +9,29 @@ module.exports = function planner(arc) {
   // default plans
   //
   var plans = [
-    {action:'create-iam-role', app},
     {action:'create-shared', app},
     {action:'create-public', app},
     {action:'create-views', app}
   ]
+
+  //
+  // default cloud required plans
+  //
+  if (!process.env.ARC_LOCAL) {
+    plans.push({action:'create-iam-role', app})
+  }
+
+  //
+  // http lambdas
+  //
+  if (arc.http) {
+    arc.http.forEach(route=> {
+      plans.push({action:'create-http-lambda-code', route, app})
+      if (!process.env.ARC_LOCAL) {
+        plans.push({action:'create-http-lambda-deployments', route, app})
+      }
+    })
+  }
 
   //
   // event lambdas
@@ -61,18 +79,6 @@ module.exports = function planner(arc) {
   }
 
   //
-  // http lambdas
-  //
-  if (arc.http) {
-    arc.http.forEach(route=> {
-      plans.push({action:'create-http-lambda-code', route, app})
-      if (!process.env.ARC_LOCAL) {
-        plans.push({action:'create-http-lambda-deployments', route, app})
-      }
-    })
-  }
-
-  //
   // slack api endpoints
   //
   if (arc.slack && !process.env.ARC_LOCAL) {
@@ -84,20 +90,6 @@ module.exports = function planner(arc) {
   //
   // dynamo tables
   //
-
-  // Sessions tables are created by default
-  /*
-  let createSessionTables = hasAPI && !process.env.ARC_DISABLE_SESSION && !process.env.ARC_LOCAL
-  if (createSessionTables) {
-    var table = {
-      'arc-sessions': {
-        _idx: '*String',
-        _ttl: 'TTL',
-      }
-    }
-    plans.push({action:'create-tables', table, app})
-  }*/
-
   if (arc.tables) {
     arc.tables.forEach(table=> {
       if (!process.env.ARC_LOCAL) {
