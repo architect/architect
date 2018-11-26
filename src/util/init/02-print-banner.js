@@ -28,8 +28,8 @@ module.exports = function printBanner(arc) {
   let name = arc.app[0]
   let region = process.env.AWS_REGION
   let profile = process.env.AWS_PROFILE
-
-  console.log(chalk.grey(`        app ⌁ ${chalk.cyan.bold(name)}`))
-  console.log(chalk.grey(`     region ⌁ ${chalk.cyan(region)}`))
-  console.log(chalk.grey(`    profile ⌁ ${chalk.cyan(profile)}\n`))
+  let x = process.platform.startsWith('win')? '~' : '⌁'
+  console.log(chalk.grey(`        app ${x} ${chalk.cyan.bold(name)}`))
+  console.log(chalk.grey(`     region ${x} ${chalk.cyan(region)}`))
+  console.log(chalk.grey(`    profile ${x} ${chalk.cyan(profile)}\n`))
 }
