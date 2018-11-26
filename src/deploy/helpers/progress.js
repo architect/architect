@@ -13,7 +13,9 @@ module.exports = function _progress(params) {
 
   function log(txt) {
     text = txt
-    let frames = ['∙∙∙ ●∙∙ ∙●∙ ∙∙● ∙∙∙'].split(' ')
+    let unix = '∙∙∙ ●∙∙ ∙●∙ ∙∙● ∙∙∙'.split(' ')
+    let windows = '∙∙∙ .∙∙ ∙.∙ ∙∙. ∙∙∙'.split(' ')
+    let frames = process.platform.startsWith('win')? windows : unix
     let i = 0
     if (!running && !process.env.CI) {
       running = setInterval(function() {

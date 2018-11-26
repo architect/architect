@@ -11,7 +11,8 @@ module.exports = function _report(params, callback) {
   var end = Date.now()
   let retries = retry()
   if (retries.length === 0) {
-    var h1 = `✓ Success!`
+    let x = process.platform.startsWith('win')? ' √' :'✓'
+    var h1 = `${x} Success!`
     var h1a = ` Deployed ${results.length} Lambdas in `
     var h1b = `${(end - start)/1000}s`
     var title = chalk.green(h1) + chalk.green.dim(h1a) + chalk.green(h1b)
