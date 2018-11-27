@@ -58,6 +58,7 @@ function _logs(arc) {
   logs(name, function pretty(err, result) {
     if (err) error(err)
     else {
+      result.sort((a, b) => (new Date(a.timestamp) - new Date(b.timestamp))) // chronological (most recent at end of output)
       result.forEach(event=> {
         // make the timestamp friendly to read
         //let left = new Date(event.timestamp).toISOString().replace(/T|Z/g, ' ').trim()
