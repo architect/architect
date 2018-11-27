@@ -8,10 +8,10 @@ var progressMock = sinon.spy()
 var lambdaMock = sinon.stub().callsFake(function(args, callback) { callback() })
 var deploy = proxyquire('../../src/deploy', { //stub out dependencies
   './public': publicMock,
-  './_deploy-functions': functionMock,
-  './_deploy-one': oneMock,
-  './_progress': progressMock,
-  './lambda': lambdaMock
+  './lambda-all': functionMock,
+  './lambda-one': oneMock,
+  './helpers/progress': progressMock,
+  './lambda-one/prep': lambdaMock
 })
 const spies = [publicMock, functionMock, oneMock, progressMock, lambdaMock]
 
@@ -34,6 +34,7 @@ test('if static should invoke deployPublic', t=> {
   })
 })
 
+/*
 
 test('if path should invoke deployOne with the path', t=> {
   resetSpies()
@@ -46,4 +47,4 @@ test('if path should invoke deployOne with the path', t=> {
 
   test('if lambda should invoke deployFunctions', t=> { t.end() })
   test('should deploy everything with no qualifying args', t=> { t.end() })
-})
+})*/

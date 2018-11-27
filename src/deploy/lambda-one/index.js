@@ -1,8 +1,12 @@
 var waterfall = require('run-waterfall')
 var assert = require('@smallwins/validate/assert')
-var prep = require('./lambda')
-var deploy = require('./lambda/deploy')
-var _report = require('./_report')
+
+var prep = require('./prep')
+var deploy = require('./deploy')
+
+var report = require('../helpers/report')
+let retry = require('../helpers/retry')
+let delta = require('../helpers/delta')
 
 module.exports = function deployOne(params, callback) {
 
@@ -15,6 +19,8 @@ module.exports = function deployOne(params, callback) {
     start: Number,
   })
 
+  let arc = params.arc
+
   const _prep = prep.bind({}, params)
   const _deploy = deploy.bind({}, params)
 
@@ -23,11 +29,15 @@ module.exports = function deployOne(params, callback) {
     _deploy,
   ],
   function _done(err, stats) {
-    if (err) {
-      console.log(err)
+    let retries = retry()
+    if (err && err.message != 'cancel_not_found') {
+      callback(err)
+    }
+    else if (retries.length > 0) {
+      delta(arc, callback)
     }
     else {
-      _report({
+      report({
         results:[params.pathToCode],
         env:params.env,
         arc:params.arc,

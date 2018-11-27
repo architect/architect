@@ -1,6 +1,7 @@
 var chalk = require('chalk')
-var _getName = require('./lambda/_get-function-name')
-var _getUrl = require('./lambda/_get-url')
+var _getName = require('./get-function-name')
+var _getUrl = require('./get-url')
+let retry = require('./retry')
 
 /**
  * generates the completion report
@@ -8,14 +9,16 @@ var _getUrl = require('./lambda/_get-url')
 module.exports = function _report(params, callback) {
   var {results, env, arc, start, stats} = params
   var end = Date.now()
-  var h1 = `✓ Success!`
-  var h1a = ` Deployed ${results.length} Lambdas in `
-  var h1b = `${(end - start)/1000}s`
-  var title = chalk.green(h1) + chalk.green.dim(h1a) + chalk.green(h1b)
-  console.log(title)
-  var hr = ''
-  //for (var i = 0; i < (h1.length + h1a.length + h1b.length); i++) hr += '-'
-  console.log(chalk.cyan.dim(hr))
+  let retries = retry()
+  if (retries.length === 0) {
+    let x = process.platform.startsWith('win')? ' √' :'✓'
+    var h1 = `${x} Success!`
+    var h1a = ` Deployed ${results.length} Lambdas in `
+    var h1b = `${(end - start)/1000}s`
+    var title = chalk.green(h1) + chalk.green.dim(h1a) + chalk.green(h1b)
+    console.log(title)
+    console.log(chalk.cyan.dim(''))
+  }
   var longest = 0
   var longestName = 0
   results.forEach(r=> {
@@ -50,13 +53,16 @@ module.exports = function _report(params, callback) {
       if (err) {
         console.log(err)
       }
+      else if (url && url === 'Create') {
+        console.log('\n')
+      }
       else if (url) {
         var pretty = chalk.cyan.underline(url)
         console.log('\n' + pretty)
         console.log('\n')
       }
       else {
-        console.log(chalk.bold.red('Error: ') + chalk.yellow('URL for deployment not found.'))
+        //console.log(chalk.bold.red('Error: ') + chalk.yellow('URL for deployment not found.'))
       }
       callback()
     })

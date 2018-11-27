@@ -1,6 +1,7 @@
 let series = require('run-waterfall')
 let aws = require('aws-sdk')
 let zip = require('./_zip-impl')
+let retry = require('../helpers/retry')
 
 /**
  * zips and uploads the function to aws
@@ -24,7 +25,12 @@ module.exports = function uploadZip(params, callback) {
         ZipFile: buffer
       },
       function _updatedFun(err) {
-        if (err) {
+        if (err && err.code === 'ResourceNotFoundException') {
+          retry(params.pathToCode)
+          let stats = {name: params.pathToCode, size: `Creating`}
+          callback(null, stats)
+        }
+        else if (err) {
           callback(err)
         }
         else {

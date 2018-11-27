@@ -5,45 +5,14 @@ let text = ''
 
 function log(txt) {
   text = txt
-  let frames = [
-    "⢹",
-    "⢺",
-    "⢼",
-    "⣸",
-    "⣇",
-    "⡧",
-    "⡗",
-    "⡏",
-    "⠈",
-    "⠉",
-    "⠋",
-    "⠓",
-    "⠒",
-    "⠐",
-    "⠐",
-    "⠒",
-    "⠖",
-    "⠦",
-    "⠤",
-    "⠠",
-    "⠠",
-    "⠤",
-    "⠦",
-    "⠖",
-    "⠒",
-    "⠐",
-    "⠐",
-    "⠒",
-    "⠓",
-    "⠋",
-    "⠉",
-    "⠈"
-  ]
+  let unix = '∙∙∙ ●∙∙ ∙●∙ ∙∙● ∙∙∙'.split(' ')
+  let windows = '∙∙∙ .∙∙ ∙.∙ ∙∙. ∙∙∙'.split(' ')
+  let frames = process.platform.startsWith('win')? windows : unix
   let i = 0
   if (!running) {
     running = setInterval(function() {
       _log(`${chalk.green(frames[i = ++i % frames.length])} ${text}`)
-    }, 80)
+    }, 125)
   }
 }
 
@@ -68,7 +37,7 @@ module.exports = {
   },
 
   stop() {
-    _log('')
+    _log.clear()
     clearInterval(running)
   }
 }

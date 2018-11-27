@@ -5,6 +5,7 @@ var getKeySchema = require('./_get-key-schema')
 var getTTL = require('./_get-ttl')
 var print = require('../../_print')
 var clean = require('./_remove-ttl-and-lambda')
+let list = require('./_list-tables')
 
 module.exports = function _createTable(name, attr, callback) {
 
@@ -12,14 +13,14 @@ module.exports = function _createTable(name, attr, callback) {
   var keys = Object.keys(clean(attr))
   var _ttl = getTTL(attr)
 
-  dynamo.listTables({}, function _tables(err, result) {
+  list(function _tables(err, result) {
     if (err) {
       console.log(err)
       // blow up if a programmer config err
       throw Error('Unable to list Dynamo tables')
     }
     else {
-      var found = result.TableNames.find(tbl=> tbl === name)
+      var found = result.find(tbl=> tbl === name)
       if (found) {
         print.skip('@tables', found)
         callback()

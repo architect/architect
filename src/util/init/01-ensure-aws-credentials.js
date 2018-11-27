@@ -3,6 +3,11 @@ let aws = require('aws-sdk')
 
 module.exports = function ensureAwsCredentials(arc) {
 
+  if (!arc.app) {
+    err('@app namespace not found in .arc file')
+    process.exit(1)
+  }
+
   // check to see if we're coding aws creds into arc
   let override = false
   if (arc.aws) {

@@ -1,4 +1,3 @@
-let join = require('path').join
 let chalk = require('chalk')
 let child = require('child_process')
 // lookup env stuff
@@ -8,7 +7,6 @@ let args = ['-v']
 let options = {shell:true}
 let subprocess = child.spawnSync(cmd, args, options)
 let version = subprocess.stdout.toString().trim()
-let arcVersion = require(join(__dirname, '..', '..', '..', 'package.json')).version
 let err = require('./_err')
 
 module.exports = function printBanner(arc) {
@@ -28,20 +26,10 @@ module.exports = function printBanner(arc) {
   // drawing!
   //
   let name = arc.app[0]
-  let rightColWidth = 40
-  // lil helper fn for logging
-  function log(txt, val) {
-    let all = chalk.bgBlack.grey.dim
-    let right = chalk.cyan.bold(val.padEnd(rightColWidth, ' '))
-    console.log(all(txt, right))
-  }
-  log('                    ', '')
-  log('        ARC_APP_NAME', name + '')
-  log('          AWS_REGION', process.env.AWS_REGION + '')
-  log('         AWS_PROFILE', process.env.AWS_PROFILE + '')
-  log('                    ', '')
-  log('                Node', process.version.replace('v', ''))
-  log('                 npm', version + '')
-  log('                .arc', arcVersion)
-  log('                    ', '')
+  let region = process.env.AWS_REGION
+  let profile = process.env.AWS_PROFILE
+  let x = process.platform.startsWith('win')? '~' : '⌁'
+  console.log(chalk.grey(`        app ${x} ${chalk.cyan.bold(name)}`))
+  console.log(chalk.grey(`     region ${x} ${chalk.cyan(region)}`))
+  console.log(chalk.grey(`    profile ${x} ${chalk.cyan(profile)}\n`))
 }

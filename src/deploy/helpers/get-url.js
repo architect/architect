@@ -25,9 +25,15 @@ module.exports = function _getUrl(params, callback) {
         callback(err)
       }
       else if (result && result.items) {
-        var restApiId = result.items.find(i=> i.name === `${params.arc.app[0]}-${params.env}`).id
-        var url = `https://${restApiId}.execute-api.${process.env.AWS_REGION}.amazonaws.com/${params.env}`
-        callback(null, url)
+        var restApi = result.items.find(i=> i.name === `${params.arc.app[0]}-${params.env}`)
+        if (restApi) {
+          var restApiId = restApi.id
+          var url = `https://${restApiId}.execute-api.${process.env.AWS_REGION}.amazonaws.com/${params.env}`
+          callback(null, url)
+        }
+        else {
+          callback(null, 'Create')
+        }
       }
       else {
         callback()

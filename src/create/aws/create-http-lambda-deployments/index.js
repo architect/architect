@@ -26,7 +26,6 @@ module.exports = function _createDeployments(params, callback) {
         _createLambda(app, name, stage, params.route, callback)
       }
       else if (err) {
-        console.log(err)
         callback(err)
       }
       else {
