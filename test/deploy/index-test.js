@@ -28,7 +28,7 @@ var base = {
 test('if static should invoke deployPublic', t=> {
   resetSpies()
   t.plan(1)
-  deploy.main(base, {}, {isStatic: true}, () => {
+  deploy.main(base, {}, {isStatic: true, shouldDelete: false}, () => {
     t.ok(publicMock.called, 'deployPublic invoked')
     t.end()
   })

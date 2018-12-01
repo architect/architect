@@ -33,6 +33,9 @@ module.exports = function flags(start) {
                    args.includes('--public') ||
                    args.includes('/public')
 
+    // should we delete static assets not present locally under public/
+    let shouldDelete = args.includes('--delete')
+
     let isPath = args.some(arg=> arg.startsWith('/') ||
                  arg.startsWith('src'))
 
@@ -57,7 +60,7 @@ module.exports = function flags(start) {
       filters.push('tables')
 
     //callback(null, arc, raw, {isProd, env, isStatic, isPath, isLambda, start, all: args}, callback)
-    callback(null, arc, raw, {isProd, env, isStatic, isPath, isLambda, filters, start, all: args})
+    callback(null, arc, raw, {isProd, env, isStatic, isPath, isLambda, filters, shouldDelete, start, all: args})
   }
 }
 

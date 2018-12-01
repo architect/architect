@@ -47,7 +47,7 @@ test('deploy/public should not invoke copy if public dir is empty', t=> {
 test('deploy/public should invoke copy with proper bucketname if public dir is not empty', t=> {
   t.plan(2)
   copyStub.resetHistory()
-  copyStub.callsFake((bucket, callback) => callback())
+  copyStub.callsFake((bucket, shouldDelete, callback) => callback())
   var arc = Object.assign(base, {static:[['staging', 'stagingbucket'], ['production', 'prodbucket']]})
   let readStub = sinon.stub(fs, 'readdir').callsFake((path, callback) => callback(null, ['index.html']))
   deployPublic({ arc, env: '' }, () => {

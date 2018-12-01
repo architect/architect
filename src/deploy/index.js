@@ -18,6 +18,7 @@ function main(arc, raw, args, callback) {
   let tasks = []
   let env = args.env
   let start = args.start
+  let shouldDelete = args.shouldDelete
   let filters = args.filters
 
   if (args.isStatic) {
@@ -25,6 +26,7 @@ function main(arc, raw, args, callback) {
     tasks.push(function(callback) {
       deployPublic({
         env,
+        shouldDelete,
         arc,
       }, callback)
     })
