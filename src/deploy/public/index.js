@@ -16,6 +16,7 @@ module.exports = function deploy(params, callback) {
     callback()
   }
   else {
+    let shouldDelete = params.shouldDelete
     let pathToPublic = path.join(process.cwd(), 'public')
     // create public if it does not exist
     mkdir(pathToPublic)
@@ -29,7 +30,7 @@ module.exports = function deploy(params, callback) {
       else {
         let index = params.env === 'staging' ? 0 : 1
         let bucket = params.arc.static[index][1]
-        copyToS3(bucket, callback)
+        copyToS3(bucket, shouldDelete, callback)
       }
     })
   }
