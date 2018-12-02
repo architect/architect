@@ -6,7 +6,7 @@ Deploy, unlike Create, is destructive: it will remorselessly overwrite cloud inf
 
 Deploy will also reset individual lambda function dependencies based on the dependency manifest currently present (i.e. `node_modules/` to the contents of the local `package-lock.json`).
 
-Deploy will _not_ delete remote static assets from S3 that are not present locally in `public/` _unless the `--delete` flag is specified_.
+Deploy will _not_ delete remote static assets from S3 that are not present locally in `public/` _unless the `--delete` flag is specified_. Deploy will only upload local files that have changed (have a newer last modified time locally than on S3).
 
 ## Example Usage
 
