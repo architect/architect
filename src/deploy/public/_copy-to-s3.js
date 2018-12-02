@@ -6,11 +6,14 @@ var chalk = require('chalk')
 var path = require('path')
 var fs = require('fs')
 
+function getContentType(file) {
+  var bits = file.split('.')
+  var last = bits[bits.length - 1]
+  return mime.lookup(last)
+}
+
 module.exports = function factory(bucket, shouldDelete, callback) {
-
   var s3 = new aws.S3({region: process.env.AWS_REGION})
-
-
   var staticAssets = path.join(process.cwd(), 'public', '/**/*')
   glob(staticAssets, function _glob(err, localFiles) {
     if (err) console.log(err)
@@ -21,30 +24,38 @@ module.exports = function factory(bucket, shouldDelete, callback) {
           callback() // noop
         }
         else if (stats.isFile()) {
-          function getContentType(file) {
-            var bits = file.split('.')
-            var last = bits[bits.length - 1]
-            return mime.lookup(last)
-          }
-          s3.putObject({
-            ACL: 'public-read',
+          var key = file.replace(path.join(process.cwd(), 'public'), '').substr(1)
+          s3.headObject({
             Bucket: bucket,
-            Key: file.replace(path.join(process.cwd(), 'public'), '').substr(1),
-            Body: fs.readFileSync(file),
-            ContentType: getContentType(file),
-          },
-          function _putObj(err) {
-            if (err) {
-              console.log(err)
+            Key: key,
+          }, function _headObj(err, headData) {
+            if (err && err.code !== 'NotFound') {
+              console.error('erroring heading object', err)
               callback()
-            }
-            else {
-              var before = file.replace(process.cwd(), '').substr(1)
-              var after = before.replace(/^public/, '')
-              var domain = `https://s3.${process.env.AWS_REGION}.amazonaws.com/`
-              let last = `${domain}${bucket}${after}`
-              console.log(`✓ ${chalk.underline.cyan(last)}`)
-              callback()
+            } else {
+              let last = `https://s3.${process.env.AWS_REGION}.amazonaws.com/${bucket}/${key}`
+              if (!headData || !headData.LastModified || stats.mtime > headData.LastModified) {
+                s3.putObject({
+                  ACL: 'public-read',
+                  Bucket: bucket,
+                  Key: key,
+                  Body: fs.readFileSync(file),
+                  ContentType: getContentType(file),
+                },
+                function _putObj(err) {
+                  if (err) {
+                    console.log(err)
+                    callback()
+                  }
+                  else {
+                    console.log(`${chalk.cyan('✈︎')} ${chalk.underline.cyan(last)}`)
+                    callback()
+                  }
+                })
+              } else {
+                console.log(`${chalk.green('✓')} ${chalk.underline.green(last)}`)
+                callback()
+              }
             }
           })
         }
@@ -83,8 +94,8 @@ module.exports = function factory(bucket, shouldDelete, callback) {
                 console.error('deleting objects on s3 failed', err)
               } else {
                 data.Deleted.forEach(function(deletedFile) {
-                  var file = path.join(process.cwd(), 'public', deletedFile.Key.replace('/', path.sep));
-                  console.log(`🔪 ${chalk.underline.yellow(file)}`)
+                  let last = `https://s3.${process.env.AWS_REGION}.amazonaws.com/${bucket}/${deletedFile.Key}`
+                  console.log(`${chalk.yellow('✗')} ${chalk.underline.yellow(last)}`)
                 })
               }
               callback()

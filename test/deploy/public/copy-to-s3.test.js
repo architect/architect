@@ -9,19 +9,21 @@ var copy = proxyquire('../../../src/deploy/public/_copy-to-s3', {
   'glob': globStub
 })
 
-test('deploy/public/copy-to-s3 should put each globbed file under public as an object to s3', t=> {
+test('deploy/public/copy-to-s3 should put each globbed file under public not already present on S3 to S3', t=> {
   t.plan(4)
   var putStub = sinon.stub().callsFake((params, callback) => callback())
   sinon.stub(aws, 'S3').returns({
     putObject: putStub,
     listObjectsV2: sinon.stub().callsFake((params, callback) => callback(null, {Contents:[]})),
-    deleteObjects: sinon.stub().callsFake((params, callback) => callback(null, {Deleted:[]}))
+    deleteObjects: sinon.stub().callsFake((params, callback) => callback(null, {Deleted:[]})),
+    headObject: sinon.stub().callsFake((params, callback) => callback({code:'NotFound'}))
   })
   globStub.resetBehavior()
   globStub.callsFake((filepath, callback) => callback(null, [path.join(process.cwd(), 'public', 'index.html')]))
   sinon.stub(fs, 'lstatSync').returns({
     isDirectory: () => false,
-    isFile: () => true
+    isFile: () => true,
+    mtime: 2
   })
   sinon.stub(fs, 'readFileSync')
   copy('bukit', false/*shouldDelete*/, () => {
@@ -44,7 +46,8 @@ test('deploy/public/copy-to-s3 should delete files present on the bucket but not
   sinon.stub(aws, 'S3').returns({
     putObject: sinon.stub().callsFake((params, callback) => callback()),
     listObjectsV2: listStub,
-    deleteObjects: deleteStub
+    deleteObjects: deleteStub,
+    headObject: sinon.stub().callsFake((params, callback) => callback(null, {LastModified: 1}))
   })
   globStub.resetBehavior()
   var localFiles = [path.join(process.cwd(), 'public', 'index.html')]
@@ -52,7 +55,8 @@ test('deploy/public/copy-to-s3 should delete files present on the bucket but not
   listStub.callsFake((params, callback) => callback(null, {Contents:[{Key:'index.html'}, {Key:'test.file'}]}))
   sinon.stub(fs, 'lstatSync').returns({
     isDirectory: () => false,
-    isFile: () => true
+    isFile: () => true,
+    mtime: 2
   })
   sinon.stub(fs, 'readFileSync')
   copy('bukit', true/*shouldDelete*/, () => {
@@ -61,6 +65,32 @@ test('deploy/public/copy-to-s3 should delete files present on the bucket but not
     var args = deleteStub.args[0][0]
     t.equals(args.Bucket, 'bukit', 's3.deleteObjects called with proper bucket name')
     t.equals(args.Delete.Objects[0].Key, 'test.file', 's3.deleteObjects called with proper key name using file name')
+    fs.readFileSync.restore()
+    aws.S3.restore()
+    t.end()
+  })
+})
+
+test('should not put objects if they were not modified', t=> {
+  t.plan(1)
+  var putStub = sinon.stub().callsFake((params, callback) => callback())
+  sinon.stub(aws, 'S3').returns({
+    putObject: putStub,
+    listObjectsV2: sinon.stub().callsFake((params, callback) => callback(null, {Contents:[]})),
+    deleteObjects: sinon.stub().callsFake((params, callback) => callback(null, {Deleted:[]})),
+    headObject: sinon.stub().callsFake((params, callback) => callback(null, {LastModified: 1}))
+  })
+  globStub.resetBehavior()
+  globStub.callsFake((filepath, callback) => callback(null, [path.join(process.cwd(), 'public', 'index.html')]))
+  sinon.stub(fs, 'lstatSync').returns({
+    isDirectory: () => false,
+    isFile: () => true,
+    mtime: 0
+  })
+  sinon.stub(fs, 'readFileSync')
+  copy('bukit', false/*shouldDelete*/, () => {
+    fs.lstatSync.restore()
+    t.ok(!putStub.called, 's3.putObject not called')
     fs.readFileSync.restore()
     aws.S3.restore()
     t.end()
