@@ -14,8 +14,8 @@ function start(callback) {
   let {arc} = readArc()
   let close = x=> !x
 
-  // if .arc has events and we're not clobbering with ARC_LOCAL flag
-  if (arc.events && !process.env.hasOwnProperty('ARC_LOCAL')) {
+  // if .arc has events or queues and we're not clobbering with ARC_LOCAL flag
+  if ((arc.events || arc.queues) && !process.env.hasOwnProperty('ARC_LOCAL')) {
     // start a little web server
     let server = http.createServer(function listener(req, res) {
       let body = ''
