@@ -1,7 +1,7 @@
 let chalk = require('chalk')
 let db = require('./db')
 let env = require('./env')
-let events = require('./events')
+let loopback = require('./loopback')
 let http = require('./http')
 let series = require('run-series')
 let init = require('../util/init')
@@ -46,8 +46,8 @@ module.exports = function start(callback) {
       // listens for arc.event.publish events on 3334 and runs them in a child process
       // TODO: consider the case where an arc app does not use events, i.e.
       // pure @static app
-      bus = events.start(function() {
-        let start = chalk.grey(chalk.green.dim('✓'), '@events pub/sub ready on local event bus')
+      bus = loopback.start(function() {
+        let start = chalk.grey(chalk.green.dim('✓'), '@events and @queues pub/sub ready on local event bus')
         console.log(`${start}`)
         callback()
       })
