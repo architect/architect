@@ -3,7 +3,7 @@ let chalk = require('chalk')
 // module instead (easier to test / better encapsulation)
 module.exports = function flags(start) {
 
-  // returns a function that expects to recieve the output of utils/init
+  // returns a function that expects to recieve the output of util/init
   return function(arc, raw, callback) {
 
     // sekret speed tweak

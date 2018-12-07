@@ -2,8 +2,11 @@
 module.exports = {
   appname: /^[a-z][a-z|\-|0-9]+/,      // lowercase alphanumeric dasherized (must start with a letter)
   eventname: /^[a-z][a-z|\-|0-9]+/,    // lowercase alphanumeric dasherized (must start with a letter)
-  slackname: /^[a-z][a-z|\-|0-9]+/,    // lowercase alphanumeric dasherized (must start with a letter)
+  // http                              // see: ./_valid-path.js
+  // TODO queues
   schedulename: /^[a-z][a-z|\-|0-9]+/, // lowercase alphanumeric dasherized (must start with a letter)
+  slackname: /^[a-z][a-z|\-|0-9]+/,    // lowercase alphanumeric dasherized (must start with a letter)
+  // TODO static
   tablename: /^[a-z][a-z|\-|0-9]+/,    // lowercase alphanumeric dasherized (must start with a letter)
   rate: /rate\((.+)\)/,                // "rate(1 minute)".match(regexp.rate) returns ['rate(1 minutes)', '1 minutes']
   cron: /cron\((.+)\)/,                // "cron(* * ? * * *)".match(regexp.cron) returns ['cron(* * ? * * *)', '* * ? * * *']

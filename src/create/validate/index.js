@@ -4,6 +4,7 @@ var domain = require('./validators/domain')
 var events = require('./validators/events')
 var http = require('./validators/http')
 var indexes = require('./validators/indexes')
+// var queues = require('./validators/queues')
 var static = require('./validators/static')
 var slack = require('./validators/slack')
 var scheduled = require('./validators/scheduled')
@@ -38,6 +39,7 @@ function _validate(arc, raw, callback) {
     events,
     http,
     indexes,
+    // queues,
     scheduled,
     slack,
     static,

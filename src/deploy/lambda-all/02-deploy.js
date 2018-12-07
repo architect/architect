@@ -4,7 +4,7 @@ let deploy = require('../lambda-one/deploy')
 let _chunk = require('../helpers/chunk')
 let _flatten = require('../helpers/flatten')
 let _queue = require('../helpers/queue')
-let _progress = require('../helpers/progress')
+let _progress = require('../../util/progress')
 
 module.exports = function _deployer(params) {
 
@@ -18,7 +18,7 @@ module.exports = function _deployer(params) {
 
     // boilerplate for the progress bar
     let total = results.length * 3 // 2 deploy + post-deploy steps + 1 tick for bar instantiation
-    let progress = _progress({name: chalk.green.dim(`Deploying ${results.length} lambdas`), total})
+    let progress = _progress({name: chalk.green.dim(`Deploying ${results.length} Functions:`), total})
     let tick = progress.tick
 
     // fill up a queue

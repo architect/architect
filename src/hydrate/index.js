@@ -3,8 +3,8 @@ let glob = require('glob')
 let parallel = require('run-parallel')
 let spawn = require('child_process').spawn
 let chalk = require('chalk')
-let progress = require('progress')
-let bar
+let _progress = require('../util/progress')
+let progress
 
 /**
  * install/update all node_modules for all lambdas in src
@@ -19,7 +19,7 @@ module.exports = {
  */
 function _initDeps(installing, callback) {
   let exec = installing? _install : _update
-  let banner = chalk.dim.cyan(installing? 'Installing' : 'Updating')
+  let banner = chalk.dim.cyan((installing ? 'Installing' : 'Updating') + ' modules')
   let start = Date.now()
   // do two glob calls; one for src/lambdas and one for src/shared
   parallel({
@@ -29,7 +29,7 @@ function _initDeps(installing, callback) {
          - when we do, take note that Lambda path encoding changed in 4.x when we went from statically bound content type functions to http
          - we added (back) period and dash, and did not reuse chars
          - to maintain backwards compatibility, we'll need to aim legacy functions at a diff path builder
-         - see: src/utils/get[-legacy]-lambda-name.js
+         - see: src/util/get[-legacy]-lambda-name.js
        */
       // all the lambda folders
       let pattern = 'src/@(html|http|css|js|text|xml|json|events|scheduled|tables|slack|queues)/*'
@@ -50,11 +50,10 @@ function _initDeps(installing, callback) {
       let results = [].concat(both.lambdas).concat(shared)
       // two ticks per install/update
       let total = results.length*2
-      let width = 30
-      let complete = '\u001b[46m \u001b[0m'
-      let incomplete = '\u001b[40m \u001b[0m'
-      let clear = true
-      bar = new progress(`${banner} :bar`, {total, width, complete, incomplete, clear})
+      progress = _progress({
+        name: `${banner} in ${results.length} Function${results.length > 1? 's':''}`,
+        total
+      })
       // exec the fn in parallel across all folders
       parallel(results.map(pathToCode=> {
         return function _install(callback) {
@@ -83,10 +82,10 @@ function _install(pathToCode, callback) {
   let options = {cwd, shell:true}
   let subprocess = spawn(cmd, args, options)
   // one tick for opening the process
-  bar.tick()
+  progress.tick()
   subprocess.on('close', function win() {
     // and one tick per close
-    bar.tick()
+    progress.tick()
     callback()
   })
   subprocess.on('error', function fail(err) {
@@ -106,10 +105,10 @@ function _update(pathToCode, callback) {
   let options = {cwd, shell:true}
   let subprocess = spawn(cmd, args, options)
   // one tick for opening the process
-  bar.tick()
+  progress.tick()
   subprocess.on('close', function win() {
     // and one tick per close
-    bar.tick()
+    progress.tick()
     callback()
   })
   subprocess.on('error', function fail(err) {

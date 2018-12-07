@@ -1,7 +1,7 @@
 let parallel = require('run-parallel')
 let waterfall = require('run-waterfall')
 let prep = require('../lambda-one/prep')
-let _progress = require('../helpers/progress')
+let _progress = require('../../util/progress')
 
 module.exports = function _prepare(params) {
   let {env, arc} = params
@@ -9,7 +9,7 @@ module.exports = function _prepare(params) {
 
     let total = results.length * 5 // 4 prep steps + 1 tick for bar instantiation
     let progress = _progress({
-      name: `Prepare ${results.length} Lambda${results.length > 1? 's':''}`,
+      name: `Preparing ${results.length} Function${results.length > 1? 's':''}:`,
       total
     })
     let tick = progress.tick

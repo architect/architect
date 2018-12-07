@@ -12,7 +12,7 @@ let _report = require('./03-report')
        - we added (back) period and dash, and did not reuse chars
        - to maintain backwards compatibility,
          we'll need to aim legacy functions at a diff path builder
-       - see: src/utils/get[-legacy]-lambda-name.js
+       - see: src/util/get[-legacy]-lambda-name.js
      */
 module.exports = function deployAll(params, callback) {
 

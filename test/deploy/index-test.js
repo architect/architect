@@ -10,7 +10,7 @@ var deploy = proxyquire('../../src/deploy', { //stub out dependencies
   './public': publicMock,
   './lambda-all': functionMock,
   './lambda-one': oneMock,
-  './helpers/progress': progressMock,
+  '../util/progress': progressMock,
   './lambda-one/prep': lambdaMock
 })
 const spies = [publicMock, functionMock, oneMock, progressMock, lambdaMock]

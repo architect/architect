@@ -4,7 +4,7 @@ let series = require('run-series')
 let deployPublic = require('./public')
 let deployFunctions = require('./lambda-all')
 let deployOne = require('./lambda-one')
-let _progress = require('./helpers/progress')
+let _progress = require('../util/progress')
 
 module.exports = {
   lambda: deployOne,
