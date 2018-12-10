@@ -28,3 +28,7 @@ $input.path('$.errorMessage')##
 #if($input.path("$.cors"))##
 #set($context.responseOverride.header.Access-Control-Allow-Origin = "*")##
 #end##
+#set($headers = $input.path("$.headers"))## 
+#foreach($key in $headers.keySet())## 
+#set($context.responseOverride.header[$key] = $headers[$key])## 
+#end##
