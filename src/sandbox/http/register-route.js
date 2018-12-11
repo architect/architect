@@ -53,6 +53,10 @@ module.exports = function reg(app, api, type, routes) {
             if (result.cors)
               res.setHeader('Access-Control-Allow-Origin', '*')
 
+            // Re-encode nested JSON responses
+            if (typeof result.json !== 'undefined')
+              result.body = JSON.stringify(result.body)
+
             res.end(result.body || '\n')
           }
         })
