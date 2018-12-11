@@ -72,7 +72,7 @@ module.exports = function reg(app, api, type, routes) {
           else if (!result) {
             res.writeHead(500, { 'content-type': 'text/html' })
             res.end(`<h1>Async Error</h1>
-              <p>Lambda <code>${cwd}</code> ran without executing the completion callback or returning a value.</p>
+              <p>Lambda <code>${fun}</code> ran without executing the completion callback or returning a value.</p>
               
               HTTP Lambda functions that utilize <code>@architect/functions</code> must ensure <code>res</code> gets called.
 

@@ -3,6 +3,7 @@ let path = require('path')
 let fs = require('fs')
 let { spawn } = require('child_process')
 let chalk = require('chalk')
+let parse = require('@architect/parser')
 
 function invokeLambda(lambda, event, callback) {
   let cwd = path.join(process.cwd(), 'src', lambda)

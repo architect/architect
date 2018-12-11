@@ -44,7 +44,7 @@ function listener(req, res) {
   req.on("data", chunk => chunks.push(chunk))
   req.on("end", () => {
     let body = JSON.parse(Buffer.concat(chunks).toString())
-    let {lambda, event, delay} = body
+    let {lambda, event} = body
     if (!lambda && !event && body.name && body.payload) {
       // backwards compatibility for older versions of @architect/functions
       lambda = "events/" + body.name
