@@ -16,8 +16,10 @@ module.exports = function _modules(params, callback) {
   let windows = process.platform.startsWith('win')
   let subprocess = spawn(windows? 'npm.cmd' : 'npm', ['ci', '--ignore-scripts'], opts)
 
-  subprocess.on('close', function close() {
-    callback()
+  let stderr = []
+  subprocess.stderr.on('data', chunk => stderr.push(chunk))
+  subprocess.on('exit', function close(code) {
+    callback(code !== 0 ? new Error(`npm ci in ${lock} exited with code ${code}\n${Buffer.concat(stderr).toString()}`) : null)
   })
 
   subprocess.on('error', function error(err) {
