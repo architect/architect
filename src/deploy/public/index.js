@@ -24,7 +24,6 @@ module.exports = function deploy(params, callback) {
     fs.readdir(pathToPublic, function _readdir (err, items) {
       if (err) console.log(err)
       if (items.length === 0) {
-        console.log(chalk.dim('skipping @static deploy because public is empty.'))
         callback()
       }
       else {
