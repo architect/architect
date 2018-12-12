@@ -1,5 +1,4 @@
 let assert = require('@smallwins/validate/assert')
-let chalk = require('chalk')
 let mkdir = require('mkdirp').sync
 let path = require('path')
 let fs = require('fs')
