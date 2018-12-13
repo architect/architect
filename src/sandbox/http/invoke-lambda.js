@@ -18,7 +18,10 @@ module.exports = function local(cwd, event, callback) {
   })
 
   let timedout = false
-  let timeout = 3*1000 // 3 seconds in milliseconds
+  // 5s is the default timeout that Architect provisions new Lambdas
+  // Establish parity locally at 5s, but allow for override since devs may be phoning home to dbs via a slow connection
+  // This global timeout will be overridden by individual .arc-config files in functions
+  let timeout = process.env.SANDBOX_TIMEOUT && process.env.SANDBOX_TIMEOUT*1000 || 5*1000 // 5 seconds in milliseconds
   let runtime = path.join(__dirname, '/runtimes/node.js')
   let command = 'node'
   let script = fs.readFileSync(runtime).toString()
