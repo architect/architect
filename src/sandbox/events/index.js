@@ -15,7 +15,7 @@ function start(callback) {
   let close = x=> !x
 
   // if .arc has events and we're not clobbering with ARC_LOCAL flag
-  if (arc.events) {
+  if (arc.events || arc.queues) {
     // start a little web server
     let server = http.createServer(function listener(req, res) {
       let body = ''
@@ -23,10 +23,21 @@ function start(callback) {
         body += chunk.toString()
       })
       req.on('end', () => {
-        console.log(chalk.grey.dim('@event'), chalk.green.dim(JSON.stringify(JSON.parse(body), null, 2)))
+        let message = JSON.parse(body)
+        if (req.url === '/queues') {
+          message.arcType = 'queue'
+        } else if (req.url === '/events' || req.url === '/') {
+          message.arcType = 'event'
+        } else {
+          res.statusCode = 404
+          res.end('not found')
+          console.log(chalk.red.dim('event bus 404 for URL ' + req.url))
+          return
+        }
+        console.log(chalk.grey.dim('@' + message.arcType), chalk.green.dim(JSON.stringify(JSON.parse(body), null, 2)))
         // spawn a fork of the node process
         let subprocess = fork(path.join(__dirname, '_subprocess.js'))
-        subprocess.send(JSON.parse(body))
+        subprocess.send(message)
         subprocess.on('message', function _message(msg) {
           console.log(chalk.grey.dim(msg.text))
         })
