@@ -54,8 +54,20 @@ module.exports = function reg(app, api, type, routes) {
               res.setHeader('Access-Control-Allow-Origin', '*')
 
             // Re-encode nested JSON responses
-            if (typeof result.json !== 'undefined')
-              result.body = JSON.stringify(result.body)
+            if (typeof result.json !== 'undefined') {
+              // CYA in case we receive an object instead of encoded JSON
+              try {
+                let body = result.body // noop the try
+                // Real JSON will create an object
+                let maybeRealJSON = JSON.parse(result.body)
+                if (typeof maybeRealJSON !== 'object')
+                  result.body = body
+              }
+              catch (e) {
+                // JSON-parsing an object will fail, so JSON stringify it
+                result.body = JSON.stringify(result.body)
+              }
+            }
 
             res.end(result.body || '\n')
           }
