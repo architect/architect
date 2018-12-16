@@ -1,18 +1,14 @@
 let parse = require('@architect/parser')
 let exists = require('path-exists').sync
-let spawn = require('child_process').spawn
 let path = require('path')
 let mkdir = require('mkdirp').sync
 let fs = require('fs')
 let cp = fs.copyFileSync
+let npm = require('../../util/npm')
 
 module.exports = function _installFunctionsAndData(localPath, callback) {
-  let cmd = process.platform.startsWith('win')? 'npm.cmd' : 'npm'
-  let args =  ['i', '@architect/functions', '@architect/data', '--ignore-scripts']
-  let opts = {cwd:localPath, shell:true}
-  let npm = spawn(cmd, args, opts)
-  npm.on('close', function win() {
-    var pathToLocalArcCopy = path.join(localPath, 'node_modules', '@architect', 'shared')
+  npm(localPath, ['i', '@architect/functions', '@architect/data', '--ignore-scripts'], err => {
+    let pathToLocalArcCopy = path.join(localPath, 'node_modules', '@architect', 'shared')
     mkdir(pathToLocalArcCopy)
     let arcDefaultPath = path.join(process.cwd(), '.arc')
     let arcFinalPath = path.join(pathToLocalArcCopy, '.arc')
@@ -31,7 +27,6 @@ module.exports = function _installFunctionsAndData(localPath, callback) {
       let arc = parse.json.stringify(raw)
       fs.writeFileSync(path.join(pathToLocalArcCopy, '.arc'), arc)
     }
-    callback()
+    callback(err) // propagate npm error to caller
   })
-  npm.on('error', callback)
 }

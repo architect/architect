@@ -1,9 +1,8 @@
-let path = require('path')
 let glob = require('glob')
 let parallel = require('run-parallel')
-let spawn = require('child_process').spawn
 let chalk = require('chalk')
 let _progress = require('../util/progress')
+let npm = require('../util/npm')
 let progress
 
 /**
@@ -18,7 +17,6 @@ module.exports = {
  * runs either install or update function on all lambdas and shared modules
  */
 function _initDeps(installing, callback) {
-  let exec = installing? _install : _update
   let banner = chalk.dim.cyan((installing ? 'Installing' : 'Updating') + ' modules')
   let start = Date.now()
   // do two glob calls; one for src/lambdas and one for src/shared
@@ -70,7 +68,12 @@ function _initDeps(installing, callback) {
       // exec the fn in parallel across all folders
       parallel(results.map(pathToCode=> {
         return function _install(callback) {
-          exec(pathToCode, callback)
+          let args = [(installing? 'install' : 'update'), '--ignore-scripts']
+          progress.tick()
+          npm(pathToCode, args, err => {
+            progress.tick()
+            callback(err)
+          })
         }
       }),
       function(err) {
@@ -80,52 +83,5 @@ function _initDeps(installing, callback) {
         callback()
       })
     }
-  })
-}
-
-/**
- * installs modules into one path
- */
-function _install(pathToCode, callback) {
-
-  let cwd = path.join(process.cwd(), pathToCode)
-  let win = process.platform.startsWith('win')
-  let cmd = win? 'npm.cmd' : 'npm'
-  let args = ['i', '--ignore-scripts']
-  let options = {cwd, shell:true}
-  let subprocess = spawn(cmd, args, options)
-  // one tick for opening the process
-  progress.tick()
-  let stderr = []
-  subprocess.stderr.on('data', chunk => stderr.push(chunk))
-  subprocess.on('exit', function close(code) {
-    progress.tick()
-    callback(code !== 0 ? new Error(`npm ci in ${lock} exited with code ${code}\n${Buffer.concat(stderr).toString()}`) : null)
-  })
-  subprocess.on('error', function fail(err) {
-    callback(err)
-  })
-}
-
-/**
- * updates modules into one path
- */
-function _update(pathToCode, callback) {
-
-  let cwd = path.join(process.cwd(), pathToCode)
-  let win = process.platform.startsWith('win')
-  let cmd = win? 'npm.cmd' : 'npm'
-  let args = ['update', '--ignore-scripts']
-  let options = {cwd, shell:true}
-  let subprocess = spawn(cmd, args, options)
-  // one tick for opening the process
-  progress.tick()
-  subprocess.on('close', function win() {
-    // and one tick per close
-    progress.tick()
-    callback()
-  })
-  subprocess.on('error', function fail(err) {
-    callback(err)
   })
 }
