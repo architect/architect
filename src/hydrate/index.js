@@ -96,10 +96,11 @@ function _install(pathToCode, callback) {
   let subprocess = spawn(cmd, args, options)
   // one tick for opening the process
   progress.tick()
-  subprocess.on('close', function win() {
-    // and one tick per close
+  let stderr = []
+  subprocess.stderr.on('data', chunk => stderr.push(chunk))
+  subprocess.on('exit', function close(code) {
     progress.tick()
-    callback()
+    callback(code !== 0 ? new Error(`npm ci in ${lock} exited with code ${code}\n${Buffer.concat(stderr).toString()}`) : null)
   })
   subprocess.on('error', function fail(err) {
     callback(err)
