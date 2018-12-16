@@ -20,4 +20,25 @@ function npm(pathToCode, args, callback) {
   })
 }
 
-module.exports = npm
+let running = 0
+let limit = process.env.ARC_MAX_NPMS ? parseInt(process.env.ARC_MAX_NPMS) : 16
+let queue = []
+
+function enqueue(pathToCode, args, callback) {
+  queue.push([pathToCode, args, callback])
+  shift()
+}
+
+function shift() {
+  if (queue.length > 0 && running < limit) {
+    const [pathToCode, args, callback] = queue.shift()
+    running += 1
+    npm(pathToCode, args, err => {
+      running -= 1
+      process.nextTick(shift)
+      callback(err)
+    })
+  }
+}
+
+module.exports = enqueue
