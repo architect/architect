@@ -2,25 +2,133 @@
 
 ---
 
-## [4.3.14] - 2018-11-26
+## [4.4.9] - 2018-12-16 (merge commit, no changes)
+
+
+---
+
+## [4.4.8] - 2018-12-12
+
+
+### Added
+
+- To help accommodate `sandbox` calling out to remote databases, `SANDBOX_TIMEOUT` env var allows you specify in seconds how long `sandbox` should wait for all child processes to complete
+  - `SANDBOX_TIMEOUT` is overridden by any directory-specific `.arc-config` files
+
 
 ### Changed
 
-- logs command results now sorted chronologically
+- Default `sandbox` timeout is now symmetrical with Architect's default Lambda timeout time of 5 seconds
+
+
+---
+
+## [4.4.7] - 2018-12-11
+
+
+### Added
+
+- Form-encoded POST values can now be sent enclosed in single quotes /ht @herschel666
+
+
+### Changed
+
+- Skip logging when `@static` isn't deployed
+- Additional hardening of `sandbox` handling of JSON responses emitted from `@architect/functions`
+- Preliminary / prototype commits for outputting CloudFormation from .arc
+- Preliminary / prototype commits in the direction of adding arbitrary header support /ht @mweagle
 
 
 ### Fixed
 
-- Fixes console leaking of large responses in sandbox
+- Issue where `arc.http` JSON responses were crashing `sandbox` due to an encoding mismatch
+- Issue where `ARC_LOCAL` env var wasn't being properly respected by `sandbox` events
+
+
+---
+
+## [4.4.5] - 2018-12-7
+
+
+### Added
+
+- Local `@queues` now available in `sandbox`
+- Big ups to @grncdr for this feature!
+
+
+### Fixed
+
+- `hydrate` wasn't updated to use the new progress indicator, and would fail when used – no longer!
+
+
+---
+
+## [4.4.4] - 2018-12-1
+
+
+### Added
+
+- `deploy` operations now read local and remote last-modified times, and will skip files whose times don't differ, thereby speeding up deploy operations of static files
+- Big ups to @filmaj for this release, too!
+
+
+---
+
+## [4.4.3] - 2018-11-30
+
+
+### Added
+
+- `npx deploy static`: deploys only `@static` assets (as found in the `public/` folder)
+  - Accepts `staging | --staging | -s` and `production | --production | -p` flags
+- `npx deploy static --delete`: deploys static assets, and deletes remote S3 files not present locally in `public/`
+  - Can be used with `staging` and `production` flags
+- Big ups to @filmaj for this release!
+
+
+---
+
+## [4.4.0] - 2018-11-27
+
+
+### Added
+
+- Large refactor of `deploy` workflow to improve stability and reliability
+- `deploy` now identifies missing project resources during deploy operations
+  - Instead of failing / throwing errors, `deploy` now completes its first pass deployment
+  - Then, once completed, `deploy` creates any resources missing from the deployment (and deploys them)
+
+
+### Changed
+
+- `npx inventory --nuke` now destroys `@static` resources (S3 buckets) and `@events` resources (SNS Topics).
+- New projects will no longer create `arc-sessions` tables (for use with `@architect/functions`) by default, and are now explicitly opt-in
+- Replaces `progress` module with a lighter weight, more readily cross-platform homegrown solution
+
+
+---
+
+## [4.3.14] - 2018-11-26
+
+
+### Changed
+
+- `logs` command results now sorted chronologically
+
+
+### Fixed
+
+- Fixes console leaking of large responses in `sandbox`
 
 
 ---
 
 ## [4.3.13] - 2018-11-24
 
+
 ### Fixed
 
-- sandbox was broken in the JWE changeover
+- `sandbox` was broken in the JWE changeover
 - Fixes some broken tests
 
 
@@ -33,16 +141,18 @@
 
 ## [4.3.12] - 2018-11-23
 
+
 ### Changed
 
 - New default for Architect sessions is based on JWE
 - DynamoDB sessions are still available, but [now opt-in](https://arc.codes/guides/sessions)
-- sandbox now matches the 6MB request payload limit of Lambda
+- `sandbox` now matches the 6MB request payload limit of Lambda /ht @herschel666
 
 
 ---
 
 ## [4.3.10] - 2018-11-19
+
 
 ### Added
 
@@ -53,6 +163,7 @@
 
 ## [4.3.9] - 2018-11-15
 
+
 ### Changed
 
 - Architect parser now accepts multiple spaces between http verb and path in `@http` functions
@@ -60,12 +171,13 @@
 
 ### Fixed
 
-- sandbox now properly pretty prints paths
+- `sandbox` now properly pretty prints paths
 
 
 ---
 
 ## [4.3.8] - 2018-11-14
+
 
 ### Added
 
@@ -76,26 +188,29 @@
 
 ## [4.3.7] - 2018-11-13
 
+
 ### Changed
 
-- sandbox clears async function timeout if execution is faster than specified timeout
+- `sandbox` clears async function timeout if execution is faster than specified timeout
 
 
 ---
 
 ## [4.3.6] - 2018-11-12
 
+
 ### Added
 
 - Better async error handling (and more helpful error text) in sandbox
 - Trap and present friendly error when async functions don't return a value in sandbox
-- sandbox returns a promise if no callback is specified
+- `sandbox` returns a promise if no callback is specified
 - Adds repl
 
 
 ---
 
 ## [4.3.1] - 2018-11-12
+
 
 ### Fixed
 
@@ -105,6 +220,7 @@
 ---
 
 ## [4.3.0] - 2018-11-12
+
 
 ### Added
 
@@ -207,7 +323,7 @@
 - Refactored `deploy` command to support additional command line flags, and surgical deploys of just `/public`, or just Lambdas
 - Copy fixes for deployment workflow
 - Made boilerplate HTTP functions a bit more minimal
-- Improved sandbox testing
+- Improved `sandbox` testing
 
 
 ---
