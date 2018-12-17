@@ -15,6 +15,7 @@ module.exports = function readArc(params={}) {
   let cwd = params.cwd? params.cwd : process.cwd()
 
   let arcDefaultPath = join(cwd, '.arc')
+  let appDotArcPath = join(cwd, 'app.arc')
   let arcYamlPath = join(cwd, 'arc.yaml')
   let arcJsonPath = join(cwd, 'arc.json')
 
@@ -23,6 +24,10 @@ module.exports = function readArc(params={}) {
   try {
     if (exists(arcDefaultPath)) {
       raw = read(arcDefaultPath)
+      arc = parse(raw)
+    }
+    else if (exists(appDotArcPath)) {
+      raw = read(appDotArcPath)
       arc = parse(raw)
     }
     else if (exists(arcYamlPath)) {
@@ -38,7 +43,7 @@ module.exports = function readArc(params={}) {
       raw = parse.json.stringify(raw)
     }
     else {
-      throw Error('.arc, arc.yaml or arc.json not found')
+      throw Error('.arc, app.arc, arc.yaml, or arc.json not found')
     }
   }
   catch(e) {
