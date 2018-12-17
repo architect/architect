@@ -58,7 +58,7 @@ module.exports = function start(callback) {
       // defined, i.e. pure @static app
       http.start(function() {
         let start = chalk.grey('\n', 'Started HTTP "server" @ ')
-        let end = chalk.cyan.underline(`http://localhost:${process.env.PORT}`)
+        let end = chalk.cyan.underline(`https://localhost:${process.env.PORT}`)
         console.log(`${start} ${end}`)
         callback()
       })
