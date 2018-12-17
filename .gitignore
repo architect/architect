@@ -5,3 +5,4 @@ test/**/_mock/
 text/**/mock/
 .nyc_output/
 coverage/
+*.pem
