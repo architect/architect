@@ -41,7 +41,15 @@ module.exports = function _report(params, callback) {
     console.log(left + ' ' + right + chalk.cyan.dim(padd) + chalk.green(size))
   })
 
-  let api = r=>r.includes('src/html') || r.includes('src/json') || r.includes('src/http') || r.includes('src/js') || r.includes('src/css') || r.includes('src/text') || r.includes('src/xml')
+  let api = r=>
+    r.includes('src/http') ||
+    // ↓ Deprecated but supported
+    r.includes('src/html') ||
+    r.includes('src/json') ||
+    r.includes('src/js') ||
+    r.includes('src/css') ||
+    r.includes('src/text') ||
+    r.includes('src/xml')
 
   var isHTTP = results.find(api)
   if (isHTTP) {
