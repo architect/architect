@@ -4,29 +4,37 @@ var body = require('body-parser')
 var finalhandler = require('finalhandler')
 
 // built ins
-var http = require('http')
+var http = require('http2')
+var { readFileSync } = require('fs')
 
 // local modules
 let readArc = require('../../util/read-arc')
 var register = require('./register-route')
-var public = require('./public-middleware')
+var _public = require('./public-middleware')
 
 // config arcana
-var limit = '6mb';
+var limit = '6mb'
 var app = Router({mergeparams: true})
 app.use(body.json({limit}))
 app.use(body.urlencoded({
   extended: false,
-  limit,
+  limit
 }))
-app.use(public)
+app.use(_public)
 
 // keep a reference up here for fns below
 let server
 
+// usr locally generated credentials to support http2 secure server
+const cert = readFileSync('./localhost-cert.pem')
+const key = readFileSync('./localhost-privkey.pem')
+const secureServerOptions = {
+  cert,
+  key,
+  allowHTTP1: true
+}
 // starts the http server
-app.start = function start(callback) {
-
+app.start = function start (callback) {
   // read the arc file
   var web = readArc().arc
 
@@ -35,8 +43,7 @@ app.start = function start(callback) {
     register(app, '@http', 'http', web.http)
   }
 
-  // create an actual server; how quaint!
-  server = http.createServer(function _request(req, res) {
+  server = http.createSecureServer(secureServerOptions, function _request (req, res) {
     app(req, res, finalhandler(req, res))
   })
 
@@ -45,7 +52,7 @@ app.start = function start(callback) {
   return app
 }
 
-app.close = function close() {
+app.close = function close () {
   server.close()
 }
 
