@@ -9,6 +9,7 @@ let subprocess = child.spawnSync(cmd, args, options)
 let version = subprocess.stdout.toString().trim()
 let err = require('./_err')
 let join = require('path').join
+let arcVersion = require(join(__dirname, '..', '..', '..', 'package.json')).version
 
 module.exports = function printBanner(arc) {
 
@@ -34,7 +35,6 @@ module.exports = function printBanner(arc) {
   let name = arc.app[0]
   let region = process.env.AWS_REGION
   let profile = process.env.AWS_PROFILE
-  let arcVersion = require(join(__dirname, '..', '..', '..', 'package.json')).version
   let x = process.platform.startsWith('win')? '~' : '⌁'
   console.log(chalk.grey(`        app ${x} ${chalk.cyan.bold(name)}`))
   console.log(chalk.grey(`     region ${x} ${chalk.cyan(region)}`))
