@@ -23,6 +23,11 @@ module.exports = function printBanner(arc) {
   if (process.env.NODE_ENV != 'testing' && !npmOk)
     err('invalid npm version; must be 6 or higher')
 
+  // Suppress init header
+  if (process.env.QUIET) {
+    return ''
+  }
+
   //
   // drawing!
   //
