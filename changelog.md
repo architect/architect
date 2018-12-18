@@ -8,6 +8,7 @@
 
 ### Added
 
+- New logo (added to readme)! /ht @amberdawn
 - `hydrate` and `deploy` now install dependencies in `src/shared` and `src/views` (#240)
 - `QUIET` boolean env var suppresses init header (fixes #238)
   - Helpful for piping data to disk, e.g. setting up new users on an Architect project with `QUIET=1 npx env > .arc-env` 
