@@ -37,15 +37,16 @@ function _initDeps(installing, callback) {
     },
     shared(callback) {
       // any folders under shared with package.json
-      let pattern = 'src/shared/**/*/package.json'
+      let pattern = 'src/shared/**/package.json'
       glob(pattern, callback)
     }
   },
   function _glob(err, both) {
     if (err)  {
       callback(err)
-    }// clean up shared removing 'package.json' and paths that include node_modules
+    }
     else {
+      // clean up shared removing 'package.json' and paths that include node_modules
       let shared = both.shared.map(p=> p.replace('package.json', '')).filter(e=> !e.includes('node_modules'))
       let results = [].concat(both.lambdas).concat(shared)
       // two ticks per install/update
