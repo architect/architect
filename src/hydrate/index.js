@@ -39,20 +39,32 @@ function _initDeps(installing, callback) {
       // any folders under shared with package.json
       let pattern = 'src/shared/**/package.json'
       glob(pattern, callback)
+    },
+    views(callback) {
+      // any folders under views with package.json
+      let pattern = 'src/views/**/package.json'
+      glob(pattern, callback)
     }
   },
-  function _glob(err, both) {
+  function _glob(err, all) {
     if (err)  {
       callback(err)
     }
     else {
-      // clean up shared removing 'package.json' and paths that include node_modules
-      let shared = both.shared.map(p=> p.replace('package.json', '')).filter(e=> !e.includes('node_modules'))
-      let results = [].concat(both.lambdas).concat(shared)
+      // clean up shared + views by removing 'package.json' and paths that include node_modules
+      let allCommon = all.shared.concat(all.views)
+      let common = allCommon.map(p=> p.replace('package.json', '')).filter(e=> !e.includes('node_modules'))
+      let results = [].concat(all.lambdas).concat(common)
       // two ticks per install/update
       let total = results.length*2
+
+      // Installing modules in src/shared, src/views, and 9 Functions
+      let lambdas = all.lambdas.length
+      let shared = all.shared.length > 0 ? 'src/shared, ' : ''
+      let views = all.views.length > 0 ? 'src/views, ' : ''
+      let and = all.shared.length > 0 || all.views.length > 0 ? 'and ' : ''
       progress = _progress({
-        name: `${banner} in ${results.length} Function${results.length > 1? 's':''}`,
+        name: `${banner} in ${shared}${views}${and}${lambdas} Function${results.length > 1? 's':''}`,
         total
       })
       // exec the fn in parallel across all folders
@@ -64,7 +76,7 @@ function _initDeps(installing, callback) {
       function(err) {
         if (err) throw err
         let ts = Date.now() - start
-        console.log(chalk.grey(chalk.cyan('✓'), `Success ${ts}ms`))
+        console.log(`${chalk.green('✓ Success!')} ${chalk.green.dim(`${installing ? 'Installed' : 'Updated'} dependencies in ${ts}ms`)}`)
         callback()
       })
     }
