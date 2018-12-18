@@ -4,6 +4,7 @@ let series = require('run-series')
 let deployPublic = require('./public')
 let deployFunctions = require('./lambda-all')
 let deployOne = require('./lambda-one')
+let hydrateCommon = require('./helpers/hydrate-common')
 let _progress = require('../util/progress')
 
 module.exports = {
@@ -38,7 +39,11 @@ function main(arc, raw, args, callback) {
     let total = 7 // magic number of steps in src
     let progress = _progress({name, total})
     let tick = progress.tick
-    tasks.push(function(callback) {
+    tasks.push(
+      function(callback) {
+        hydrateCommon(callback)
+      },
+      function(callback) {
       deployOne({
         env,
         arc,
@@ -50,7 +55,11 @@ function main(arc, raw, args, callback) {
   }
   else if (args.isLambda) {
     // deploy just the lambdas
-    tasks.push(function(callback) {
+    tasks.push(
+      function(callback) {
+        hydrateCommon(callback)
+      },
+      function(callback) {
       deployFunctions({
         env,
         arc,
@@ -71,7 +80,11 @@ function main(arc, raw, args, callback) {
       }, callback)
     })
     // actual deployz
-    tasks.push(function(callback) {
+    tasks.push(
+      function(callback) {
+        hydrateCommon(callback)
+      },
+      function(callback) {
       deployFunctions({
         env,
         arc,
