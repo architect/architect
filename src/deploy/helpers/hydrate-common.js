@@ -1,7 +1,6 @@
 let glob = require('glob')
-let spawn = require('child_process').spawn
-let path = require('path')
 let parallel = require('run-parallel')
+let npm = require('../../util/npm')
 let _progress = require('../../util/progress')
 let progress
 
@@ -36,22 +35,12 @@ module.exports = function hydrateCommon(callback) {
       // exec the fn in parallel across all folders
       parallel(common.map(pathToCode => {
         return function install(callback) {
-          let cwd = path.join(process.cwd(), pathToCode)
-          let win = process.platform.startsWith('win')
-          let cmd = win? 'npm.cmd' : 'npm'
-          let args = ['ci', '--ignore-scripts']
-          let options = {cwd, shell:true}
-          let subprocess = spawn(cmd, args, options)
-          // one tick for opening the process
           progress.tick()
-          subprocess.on('close', function win() {
-            // and one tick per close
+          npm(pathToCode, ['ci', '--ignore-scripts'], err => {
             progress.tick()
-            callback()
-          })
-          subprocess.on('error', function fail(err) {
-            if (err)
-              console.log('npm ci failed', err)
+            if (err) {
+              console.error(err)
+            }
             callback()
           })
         }
