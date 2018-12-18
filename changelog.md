@@ -3,7 +3,7 @@
 
 ---
 
-## [next release]
+## [4.4.10] - 2018-12-18
 
 
 ### Added
@@ -12,7 +12,7 @@
 - `hydrate` and `deploy` now install dependencies in `src/shared` and `src/views` (#240)
 - `QUIET` boolean env var suppresses init header (fixes #238)
   - Helpful for piping data to disk, e.g. setting up new users on an Architect project with `QUIET=1 npx env > .arc-env` 
-- `app.arc` app filename supported as a non-hidden alternative to `.arc` (#239)
+- `app.arc` app filename supported as a non-dotfile alternative to `.arc` (#239)
 
 
 ### Changed
