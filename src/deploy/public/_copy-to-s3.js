@@ -17,6 +17,10 @@ module.exports = function factory(bucket, shouldDelete, callback) {
   var staticAssets = path.join(process.cwd(), 'public', '/**/*')
   glob(staticAssets, function _glob(err, localFiles) {
     if (err) console.log(err)
+    // Remove default readme.md from static asset deploys
+    let readme = path.join(process.cwd(), 'public', '/readme.md')
+    if (localFiles.includes(readme))
+      localFiles.splice(localFiles.indexOf(readme),1)
     var tasks = localFiles.map(file=> {
       return function _maybeUploadFileToS3(callback) {
         let stats = fs.lstatSync(file)
