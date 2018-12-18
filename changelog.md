@@ -1,5 +1,31 @@
 # Architect changelog
 
+
+---
+
+## [next release]
+
+
+### Added
+
+- `hydrate` and `deploy` now install dependencies in `src/shared` and `src/views` (#240)
+- `QUIET` boolean env var suppresses init header (fixes #238)
+  - Helpful for piping data to disk, e.g. setting up new users on an Architect project with `QUIET=1 npx env > .arc-env` 
+- `app.arc` app filename supported as a non-hidden alternative to `.arc` (#239)
+
+
+### Changed
+
+- Static asset deploys now exclude default `public/readme.md` file
+- Improved `hydrate` progress and completion confirmation
+- Adds Architect version back into the init header
+
+
+### Fixed
+
+- `hydrate` was not properly globbing (and thus, not hydrating) `src/shared` contents
+
+
 ---
 
 ## [4.4.9] - 2018-12-16 (merge commit, no changes)
