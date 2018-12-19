@@ -20,15 +20,15 @@ module.exports = function local (cwd, event, callback) {
     }
   )
 
-  let args = {shell: true, cwd, env}
-  let configure = handleConfig.bind(null, args, callback)
+  let options = {shell: true, cwd, env}
+  let configure = handleConfig.bind(null, options, callback)
   readFile(path.join(cwd, '.arc-config'), 'utf8', configure)
 }
 
-function handleConfig (args, callback, err, data) {
+function handleConfig (options, callback, err, data) {
   if (err) {
     // if config file not found assume node runtime
-    runInNode(args, getTimeout(), callback)
+    runInNode(options, getTimeout(), callback)
   } else {
     let arc = parse(data.toString())
     let awsRuntime = arc.aws.find(tuple => tuple.includes('runtime'))
@@ -37,10 +37,10 @@ function handleConfig (args, callback, err, data) {
 
     switch (runtime) {
       case 'python3.6':
-        runInPython(args, timeout, callback)
+        runInPython(options, timeout, callback)
         break
       default:
-        runInNode(args, timeout, callback)
+        runInNode(options, timeout, callback)
     }
   }
 }
@@ -56,40 +56,40 @@ function getTimeout (arc) {
   return timeout
 }
 
-function runInNode (args, timeout, callback) {
-  let runScript = handleNodeScript.bind(null, args, timeout, callback)
+function runInNode (options, timeout, callback) {
+  let runScript = handleNodeScript.bind(null, options, timeout, callback)
   readFile(nodeRuntimeScriptPath, 'utf8', runScript)
 }
 
-function handleNodeScript (args, timeout, callback, err, data) {
+function handleNodeScript (options, timeout, callback, err, data) {
   if (err) {
     // if we've gotten this far and no node script file is found go boom
     throw err
   } else {
     let command = 'node'
     let script = data.toString()
-    let options = ['-e', minify(script)]
-    spawnChild(command, options, args, timeout, callback)
+    let args = ['-e', minify(script)]
+    spawnChild(command, args, options, timeout, callback)
   }
 }
 
-function runInPython (args, timeout, callback) {
-  let runScript = handlePythonScript.bind(null, args, timeout, callback)
+function runInPython (options, timeout, callback) {
+  let runScript = handlePythonScript.bind(null, options, timeout, callback)
   readFile(pythonRuntimeScriptPath, 'utf8', runScript)
 }
 
-function handlePythonScript (args, timeout, callback, err, data) {
+function handlePythonScript (options, timeout, callback, err, data) {
   if (err) {
     // if we've gotten this far and no python script file is found go boom
     throw err
   }
   let command = 'python3'
   let script = `"${data.toString()}"`
-  let options = ['-c', script]
-  spawnChild(command, options, args, timeout, callback)
+  let args = ['-c', script]
+  spawnChild(command, args, options, timeout, callback)
 }
 
-function spawnChild (command, options, args, timeout, callback) {
+function spawnChild (command, args, options, timeout, callback) {
   let cwd = args.cwd
   let timedout = false
   // run the show
