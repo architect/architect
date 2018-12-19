@@ -90,7 +90,7 @@ function handlePythonScript (options, timeout, callback, err, data) {
 }
 
 function spawnChild (command, args, options, timeout, callback) {
-  let cwd = args.cwd
+  let cwd = options.cwd
   let timedout = false
   // run the show
   let child = spawn(command, args, options)
