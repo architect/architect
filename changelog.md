@@ -1,6 +1,15 @@
 # Architect changelog
 
 
+## [4.4.11] - 2018-12-19
+
+### Added
+
+- Updates sandbox, adding minor performance tweaks now and setting up for future enhancements
+  - Updated sandbox to read files when invoking a mock lambda in an asynchronous way
+  - Updates runtime handling in sandbox to make it easier to add additional runtimes
+  - Each runtime now lives in it's own function. Could enable forking their own process later on.
+
 ---
 
 ## [4.4.10] - 2018-12-18
@@ -11,7 +20,7 @@
 - New logo (added to readme)! /ht @amberdawn
 - `hydrate` and `deploy` now install dependencies in `src/shared` and `src/views` (#240)
 - `QUIET` boolean env var suppresses init header (fixes #238)
-  - Helpful for piping data to disk, e.g. setting up new users on an Architect project with `QUIET=1 npx env > .arc-env` 
+  - Helpful for piping data to disk, e.g. setting up new users on an Architect project with `QUIET=1 npx env > .arc-env`
 - `app.arc` app filename supported as a non-dotfile alternative to `.arc` (#239)
 
 
@@ -363,7 +372,7 @@
 - Automagical `src/views` folder: copies contents into all `HTTP GET` functions' `node_modules/@architect/views`
 - `@views` pragma, overrides bulk `src/views` copy, and only copies into specified functions
 - More information on `src/views` and `@views` [can be found here](https://blog.begin.com/serverless-front-end-patterns-with-architect-views-cf4748aa1ec7)
-- Adds ability to use the following special characters in static URL parts: `-` (dash), `.` (period), `_` underscore 
+- Adds ability to use the following special characters in static URL parts: `-` (dash), `.` (period), `_` underscore
 - New HTTP function validation logic:
   - HTTP functions must begin and end with a letter or number
   - Cannot create URL params that contain special chars (except leading `:`, of course)
