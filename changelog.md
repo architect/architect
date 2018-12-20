@@ -1,6 +1,8 @@
 # Architect changelog
 
 ---
+Also see the [Architect functions changelog](https://github.com/arc-repos/arc-functions/blob/master/changelog.md).
+---
 
 ## [4.4.11] - 2018-12-19
 
