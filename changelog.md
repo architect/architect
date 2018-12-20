@@ -1,14 +1,17 @@
 # Architect changelog
 
+---
 
 ## [4.4.11] - 2018-12-19
 
+
 ### Added
 
-- Updates sandbox, adding minor performance tweaks now and setting up for future enhancements
-  - Updated sandbox to read files when invoking a mock lambda in an asynchronous way
-  - Updates runtime handling in sandbox to make it easier to add additional runtimes
-  - Each runtime now lives in it's own function. Could enable forking their own process later on.
+- Updates `sandbox`, adding minor performance tweaks now, and setting up for future enhancements
+  - Updated `sandbox` to asynchronously read files when invoking a Lambdas
+  - Updates runtime handling in `sandbox` to make it easier to add additional runtimes
+  - Each runtime now lives in its own function, which also enables process forking later on
+
 
 ---
 
