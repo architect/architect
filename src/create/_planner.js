@@ -1,18 +1,10 @@
 module.exports = function planner(arc) {
 
+  // we'll keep references to the arc plan here
+  let plans = []
+
   // grab the app name
   let app = arc.app[0]
-  let hasAPI = arc.hasOwnProperty('http') || arc.hasOwnProperty('slack')
-
-
-  //
-  // default plans
-  //
-  var plans = [
-    {action:'create-shared', app},
-    {action:'create-public', app},
-    {action:'create-views', app}
-  ]
 
   //
   // default cloud required plans
@@ -119,6 +111,7 @@ module.exports = function planner(arc) {
   //
   // api gateway
   //
+  let hasAPI = arc.hasOwnProperty('http') || arc.hasOwnProperty('slack')
   if (hasAPI && !process.env.ARC_LOCAL) {
 
     plans.push({action:'create-routers', app})
