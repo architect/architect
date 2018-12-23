@@ -5,16 +5,7 @@ var base = {
   app: ['mah-app']
 }
 
-test('create planner returns default plans', t=> {
-  var arc = Object.assign({}, base)
-  t.plan(3)
-  var plans = planner(arc)
- // t.deepEqual(plans.filter(x => x.action === 'create-iam-role')[0], {action:'create-iam-role', app: base.app[0]},  'contains create iam role')
-  t.deepEqual(plans.filter(x => x.action === 'create-shared')[0], {action:'create-shared', app: base.app[0]},  'contains create shared')
-  t.deepEqual(plans.filter(x => x.action === 'create-public')[0], {action:'create-public', app: base.app[0]},  'contains create public')
-  t.deepEqual(plans.filter(x => x.action === 'create-views')[0], {action:'create-views', app: base.app[0]},  'contains create views')
-  t.end()
-})
+/*
 test('create planner returns sns event plans', t=> {
   var arc = Object.assign({
     events: ['bing', 'bong']
@@ -111,7 +102,7 @@ test('create planner does not return scheduled lambda deployment plans if local'
   t.equal(plans.length, 5, 'only create-event-lambda-code events exist in this scenario') // 2 for the events and 4 from the default plans
   delete process.env.ARC_LOCAL
   t.end()
-})
+})*/
 test('create planner returns static (s3 bucket) plans', t=> {
   var arc = Object.assign({
     static: [['staging', 'qa'], ['production', 'prod']]
@@ -134,7 +125,7 @@ test('create planner returns no static (s3 bucket) plans when local', t=> {
   t.equal(createstaticplans.length, 0, 'no create static deployment exist')
   delete process.env.ARC_LOCAL
   t.end()
-})
+})/*
 test('create planner returns http lambda code plans', t=> {
   var arc = Object.assign({
     http: [['get', '/'], ['post', '/post']]
@@ -164,7 +155,7 @@ test('create planner does not return http lambda deployment plans if local', t=>
   t.equal(plans.length, 5, 'create-lambda code and deployment events exist') // 2 lambda code (one for each route) and 4 default plans
   delete process.env.ARC_LOCAL
   t.end()
-})
+})*/
 test('create planner returns http route creation plans if not local', t=> {
   var arc = Object.assign({
     http: [['get', '/'], ['post', '/post']]
