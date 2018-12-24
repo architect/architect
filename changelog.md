@@ -4,7 +4,7 @@
 Also see the [Architect functions changelog](https://github.com/arc-repos/arc-functions/blob/master/changelog.md).
 ---
 
-## [4.4.12] - 2018-12-13
+## [4.4.12] - 2018-12-23
 
 
 ### Removed
