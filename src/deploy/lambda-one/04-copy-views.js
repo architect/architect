@@ -1,3 +1,4 @@
+let exists = require('path-exists').sync
 let path = require('path')
 let cp = require('cpr')
 let lambdaPath = require('../../util/get-lambda-name')
@@ -9,10 +10,6 @@ function copy(src, dest, callback) {
   })
 }
 
-/**
- * copies ./src/shared into lambda node_modules/@architect/views
- * If no @views exists in your .arc file it will copy to all @http GET routes, otherwise it will copy only to the specified routes.
- */
 module.exports = function _views(params, callback) {
 
   if (params.tick)
@@ -21,9 +18,10 @@ module.exports = function _views(params, callback) {
   let {arc, pathToCode} = params
   let src = path.join(process.cwd(), 'src', 'views')
   let dest = path.join(process.cwd(), pathToCode, 'node_modules', '@architect', 'views')
+  let hasViews = exists(src)
 
   // @views has entries
-  if (arc.views && arc.views.length) {
+  if (hasViews && arc.views && arc.views.length) {
     let paths = arc.views.map(v => `src/http/${v[0]}${lambdaPath(v[1])}`)
     // If the current lambda is in the list of views specified in your .arc file then copy views
     if (paths.includes(pathToCode)) {
@@ -33,7 +31,7 @@ module.exports = function _views(params, callback) {
       callback()
     }
   }
-  else if (pathToCode.startsWith('src/http/get-')) {
+  else if (hasViews && pathToCode.startsWith('src/http/get-')) {
     // only @http GET routes
     copy(src, dest, callback)
   }
