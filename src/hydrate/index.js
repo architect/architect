@@ -2,7 +2,7 @@ let glob = require('glob')
 let parallel = require('run-parallel')
 let chalk = require('chalk')
 let _progress = require('../util/progress')
-let npm = require('../util/npm')
+let npm = require('./providers/npm')
 let progress
 
 /**
