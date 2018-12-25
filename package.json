@@ -34,9 +34,10 @@
   },
   "scripts": {
     "lint": "eslint . --fix",
+    "test": "npm run lint && npm run test:unit",
     "test:unit": "cross-env NODE_ENV=testing tape 'test/**/*test.js' | tap-spec",
-    "coverage": "cross-env NODE_ENV=testing nyc tape 'test/**/*test.js' | tap-nyc",
-    "test": "npm run lint && npm run test:unit"
+    "test:watch": "cross-env NODE_ENV=testing tape-watch 'test/**/*test.js' -p tap-spec",
+    "test:coverage": "cross-env NODE_ENV=testing nyc tape 'test/**/*test.js' | tap-nyc"
   },
   "keywords": [
     "aws",
@@ -97,6 +98,7 @@
     "tap-nyc": "^1.0.3",
     "tap-spec": "^5.0.0",
     "tape": "^4.9.1",
+    "tape-watch": "^2.3.0",
     "tiny-json-http": "^7.0.0"
   }
 }

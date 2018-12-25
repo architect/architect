@@ -4,6 +4,10 @@
 Also see the [Architect functions changelog](https://github.com/arc-repos/arc-functions/blob/master/changelog.md).
 ---
 
+## `master` branch
+
+- [dev] Added test run watcher script.
+
 ## [4.4.12] - 2018-12-23
 
 
