@@ -1,6 +1,7 @@
 let glob = require('glob')
 let parallel = require('run-parallel')
-let npm = require('../../util/npm')
+// FIXME update this to the proper API
+let npm = require('../../hydrate/providers/npm')
 let _progress = require('../../util/progress')
 let progress
 

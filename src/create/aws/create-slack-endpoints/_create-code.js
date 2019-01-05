@@ -6,7 +6,8 @@ var fs = require('fs')
 var cp = fs.copyFileSync
 var parallel = require('run-parallel')
 var assert = require('@smallwins/validate/assert')
-let npm = require('../../../util/npm')
+// FIXME update this to the proper API
+let npm = require('../../../hydrate/providers/npm')
 
 
 /**

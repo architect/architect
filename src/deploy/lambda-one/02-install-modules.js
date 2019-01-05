@@ -1,4 +1,5 @@
-let npm = require('../../util/npm')
+// FIXME update this to the proper API
+let npm = require('../../hydrate/providers/npm')
 
 /**
  * installs modules using package-lock.json
