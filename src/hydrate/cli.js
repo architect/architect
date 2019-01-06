@@ -4,34 +4,22 @@ let init = require('../util/init')
 let inventory = require('../inventory')
 let waterfall = require('run-waterfall')
 let hydrate = require('.')
-let command = process.argv.slice(0).reverse()[0]
-let isUpdating =  command === 'update' ||
-                  command === '--update' ||
-                  command === '-u'
-let isShared =    command === 'shared' ||
-                  command === '--shared' ||
-                  command === '-u'
+
+// Userland args
+let args = process.argv.slice(2)
+let isShared =    args.includes('shared') ||
+                  args.includes('--shared') ||
+                  args.includes('-s')
+let isUpdating =  args.includes('update') ||
+                  args.includes('--update') ||
+                  args.includes('-u')
+let installing = !isUpdating
 
 /**
- * two dependency use cases this tool helps with:
- *
- * - initializing an app (that has many lambdas and thus many package.json deps to fulfill)
- * - updating an app (same problem as above but upgrading deps)
- *
- * examples
- *
- * initializing an app
- * ---
- * run `npm i --no-scripts` on all lambdas:
- *
- *   npx hydrate
- *
- * updating an app
- * ---
- * run `npm update --no-scripts` on all lambdas:
- *
- *   npx hydrate update
- *
+ * Dependency hydrator
+ * - Initializes an app for local development
+ * - Updates an app's dependencies
+ * - Treats shared code (src/shared + src/views) and their dependencies as dependencies
  */
 
 waterfall([
@@ -42,21 +30,24 @@ function _inventory(err, arc) {
   if (err) error(err)
   else {
     let pathToCode = arc.localPaths
-    if (isUpdating) {
+    let start = Date.now()
+    if (isShared) {
+      // Install shared dependencies
+      // - tldr: npm ci --no-scripts for just src/shared + src/views
+      hydrate.shared({
+        arc,
+        installing,
+        pathToCode,
+        start,
+      }, err => { if (err) error(err) })
+    }
+    else if (isUpdating) {
       // Update dependencies
       //  - tldr: npm update --no-scripts for all Functions + src/shared + src/views
       hydrate.update({
         arc,
-        pathToCode
-      }, err => { if (err) error(err) })
-    }
-    else if (isShared) {
-      // Install shared dependencies
-      // - tldr: npm ci --no-scripts for just src/shared + src/views
-      hydrate.shared({
-        installing: true,
-        arc,
-        pathToCode
+        pathToCode,
+        start,
       }, err => { if (err) error(err) })
     }
     else {
@@ -64,7 +55,8 @@ function _inventory(err, arc) {
       // - tldr: npm ci --no-scripts for for all Functions + src/shared + src/views
       hydrate.install({
         arc,
-        pathToCode
+        pathToCode,
+        start,
       }, err => { if (err) error(err) })
     }
   }

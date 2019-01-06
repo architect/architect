@@ -1,26 +1,39 @@
+let chalk = require('chalk')
 let install = require('./_install')
+let _progress = require('../../util/progress')
+let progress
 let series = require('run-series')
 let shared = require('../shared')
-// TODO impl
-// let chalk = require('chalk')
-// let _progress = require('../../util/progress')
 
 /**
  * Install dependencies for one or many Functions
  *   - pathToCode: single Function operations may be a string
  *                 bulk Function operations must be an array
  */
-
 module.exports = function hydrateInstall(params, callback) {
-  let { arc, pathToCode, tick } = params
-
-  // TODO if no tick, impl progress npx hydrate
-
-  // Normalize to array
-  if (typeof pathToCode === 'string') pathToCode = [pathToCode]
+  let { arc, pathToCode, start, tick } = params
   // TODO add validation?
 
-  let installing = true
+  // Normalize to array in case it's a single path passed from deploy
+  if (typeof pathToCode === 'string') pathToCode = [pathToCode]
+
+  // Install shouldn't use deploy start as a timer
+  if (!start) start = Date.now()
+
+  // Progress
+  // - 2 ticks for install
+  // - 2 for shared
+  // - 4 for shared/copy
+  let total = 8
+  if (!tick) {
+    progress = _progress({
+      name: 'Hydrating:',
+      total
+    })
+    tick = progress.tick
+  }
+
+  const installing = true
 
   series([
     function _install(callback) {
@@ -32,6 +45,8 @@ module.exports = function hydrateInstall(params, callback) {
   ],
   function _done(err) {
     if (err) callback(err)
+    let ts = Date.now() - start
+    console.log(`${chalk.green('✓ Success!')} ${chalk.green.dim(`Installed all dependencies in ${ts}ms`)}`)
     callback()
   })
 }

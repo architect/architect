@@ -6,6 +6,7 @@ let npm = require('../providers/npm')
 let parallel = require('run-parallel')
 let _progress = require('../../util/progress')
 let progress
+let cli
 
 /**
  * Shared code + dependencies hydrator
@@ -14,15 +15,14 @@ let progress
  *   hydrate.shared({
  *     installing: true,  // installing == true, updating == false
  *     arc: {}            // Arc project object
- *     pathToCode: []     // array of paths to operate on (inventory -> localPaths)
+ *     pathToCode: []     // array of relative paths to operate on (see: inventory -> localPaths)
  *   }, callback)
  */
 
 module.exports = function shared(params, callback) {
-  let { installing, arc, pathToCode, tick } = params
+  let { arc, installing, pathToCode, start, tick } = params
 
   let cwd = process.cwd()
-  let start = Date.now()
 
   // NPM specific pattern
   // Note: glob uses ** to recurse, not **/*
@@ -59,24 +59,25 @@ module.exports = function shared(params, callback) {
       let total = results.length+1
 
       // Report: 'Installing modules in src/shared and src/views'
-      let action = chalk.dim.cyan((installing ? 'Installing' : 'Updating') + ' dependencies')
+      let action = (installing ? 'Installing' : 'Updating') + ' dependencies'
       let shared = all.shared.length > 0 ? 'src/shared' : ''
       let views = all.views.length > 0 ? 'src/views' : ''
       let and = all.shared.length > 0 && all.views.length > 0 ? ' and ' : ''
-      let status = `${action} in ${shared}${and}${views}`
+      let msg = `${action} in ${shared}${and}${views}`
       if (!tick) {
+        cli = true
         progress = _progress({
-          name: status,
+          name: 'Hydrating:',
           total
         })
         tick = progress.tick
       }
+      tick(msg)
 
       // Build out the queue of dependencies that need hydrating
       let queue = []
       parallel(results.map(path => {
         return function _enqueue(callback) {
-          tick()
 
           // NPM specific impl: default to ci for package installation
           let args = [(installing? 'ci' : 'update'), '--ignore-scripts']
@@ -107,9 +108,9 @@ module.exports = function shared(params, callback) {
             callback(err)
           }
           else {
-            tick()
+            tick('')
             let ts = Date.now() - start
-            console.log(`${chalk.green('✓ Success!')} ${chalk.green.dim(`${installing ? 'Installed' : 'Updated'} shared dependencies in ${ts}ms`)}`)
+            if (cli) console.log(`${chalk.green('✓ Success!')} ${chalk.green.dim(`${installing ? 'Installed' : 'Updated'} shared dependencies in ${ts}ms`)}`)
             copy({arc, pathToCode, tick}, callback)
           }
         })

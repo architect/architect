@@ -3,7 +3,8 @@ let npm = require('../providers/npm')
 module.exports = function update(params, callback) {
   let { pathToCode, tick } = params
 
-  if (tick) tick('Updating Function dependencies')
+  let total = pathToCode.length
+  if (tick) tick(`Updating dependencies in ${total} Functions`)
 
   // Build out the queue of dependencies that need hydrating
   let queue = []
@@ -20,7 +21,7 @@ module.exports = function update(params, callback) {
       callback(err)
     }
     else {
-      if (tick) tick('Updating Function dependencies')
+      if (tick) tick('')
       callback()
     }
   })
