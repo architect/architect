@@ -1,5 +1,5 @@
 let chalk = require('chalk')
-let copy = require('./_copy.js')
+let copy = require('./_copy')
 let exists = require('path-exists')
 let glob = require('glob')
 let npm = require('../providers/npm')
@@ -21,6 +21,7 @@ let cli
 
 module.exports = function shared(params, callback) {
   let { arc, installing, pathToCode, start, tick } = params
+  if (!start) start = Date.now()
 
   let cwd = process.cwd()
 

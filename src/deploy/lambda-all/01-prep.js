@@ -9,8 +9,9 @@ module.exports = function _prepare(params) {
   return function _prep(results, callback) {
 
     let pathToCode = results
-    // FIXME should be *2, but there's a mystery tick somewhere in lambda-one/prep idk
-    let total = results.length*3+(2*2)
+    // - 3 ticks for each Function prep (validate, before-deploy, run-plugin-promise)
+    // - 8 ticks for hydrate.install()
+    let total = results.length*3+(8)
     let progress = _progress({
       name: `Preparing ${results.length} Function${results.length > 1? 's':''}:`,
       total
@@ -31,9 +32,10 @@ module.exports = function _prepare(params) {
               hydrateDeps,
             },
             function _prepped(err) {
+              // Failure during validation
               if (err && err.message === 'cancel_not_found') {
                 failedprep.push(pathToCode)
-                // TODO re-count these ticks
+                // Two ticks remain at this point
                 tick('')
                 tick('')
                 callback()
