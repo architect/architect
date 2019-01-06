@@ -1,4 +1,17 @@
 #!/usr/bin/env node
+let chalk = require('chalk')
+let init = require('../util/init')
+let inventory = require('../inventory')
+let waterfall = require('run-waterfall')
+let hydrate = require('.')
+let command = process.argv.slice(0).reverse()[0]
+let isUpdating =  command === 'update' ||
+                  command === '--update' ||
+                  command === '-u'
+let isShared =    command === 'shared' ||
+                  command === '--shared' ||
+                  command === '-u'
+
 /**
  * two dependency use cases this tool helps with:
  *
@@ -20,22 +33,45 @@
  *   npx hydrate update
  *
  */
-let init = require('../util/init')
-let hydrate = require('.')
-let noop = x=> !x
-let command = process.argv.slice(0).reverse()[0]
-let isUpdating =  command === 'update' ||
-                  command === '--update' ||
-                  command === '-u'
-init(function _init(err) {
-  if (err) throw err
-  if (isUpdating) {
-    // update everything to latest
-    // npm update --no-scripts (for all lambdas in src)
-    hydrate.update(noop)
-  }
+
+waterfall([
+  init,
+  inventory
+],
+function _inventory(err, arc) {
+  if (err) error(err)
   else {
-    // installing: npm i --no-scripts (for all lambdas in src)
-    hydrate.install(noop)
+    let pathToCode = arc.localPaths
+    if (isUpdating) {
+      // Update dependencies
+      //  - tldr: npm update --no-scripts for all Functions + src/shared + src/views
+      hydrate.update({
+        arc,
+        pathToCode
+      }, err => { if (err) error(err) })
+    }
+    else if (isShared) {
+      // Install shared dependencies
+      // - tldr: npm ci --no-scripts for just src/shared + src/views
+      hydrate.shared({
+        installing: true,
+        arc,
+        pathToCode
+      }, err => { if (err) error(err) })
+    }
+    else {
+      // Install all dependencies
+      // - tldr: npm ci --no-scripts for for all Functions + src/shared + src/views
+      hydrate.install({
+        arc,
+        pathToCode
+      }, err => { if (err) error(err) })
+    }
   }
 })
+
+function error(err) {
+  // Special error presentation here to deal with potentially many individual errors from dependency hydration
+  console.log(chalk.bold.red('Error') + '\n' + chalk.bold.white(err))
+  process.exit(1)
+}

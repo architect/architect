@@ -3,8 +3,7 @@ let npm = require('../providers/npm')
 module.exports = function install(params, callback) {
   let { pathToCode, tick } = params
 
-  if (tick)
-    tick('Installing Function dependencies')
+  if (tick) tick('Installing Function dependencies')
 
   // Build out the queue of dependencies that need hydrating
   let queue = []
@@ -21,7 +20,7 @@ module.exports = function install(params, callback) {
       callback(err)
     }
     else {
-      tick('Installing Function dependencies')
+      if (tick) tick('Installing Function dependencies')
       callback()
     }
   })

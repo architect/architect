@@ -20,12 +20,14 @@ module.exports = function hydrateInstall(params, callback) {
   if (typeof pathToCode === 'string') pathToCode = [pathToCode]
   // TODO add validation?
 
+  let installing = true
+
   series([
     function _install(callback) {
       install({arc, pathToCode, tick}, callback)
     },
     function _shared(callback) {
-      shared({arc, pathToCode, tick}, callback)
+      shared({installing, arc, pathToCode, tick}, callback)
     },
   ],
   function _done(err) {
