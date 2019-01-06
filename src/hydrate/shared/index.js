@@ -1,10 +1,10 @@
 let chalk = require('chalk')
-// let cpr = require('cpr')
+let copy = require('./_copy.js')
 let exists = require('path-exists')
 let glob = require('glob')
-let npm = require('./providers/npm')
+let npm = require('../providers/npm')
 let parallel = require('run-parallel')
-let _progress = require('../util/progress')
+let _progress = require('../../util/progress')
 let progress
 
 /**
@@ -13,15 +13,13 @@ let progress
  * function signature:
  *   hydrate.shared({
  *     installing: true,  // installing == true, updating == false
- *     arc: {}            // Arc project object, only needed if moving files
- *     path: src/…        // path to copy into; null || all == all Functions from Arc
+ *     arc: {}            // Arc project object
+ *     pathToCode: []     // array of paths to operate on (inventory -> localPaths)
  *   }, callback)
  */
 
 module.exports = function shared(params, callback) {
-  let {installing, /*arc, pathToCode*/} = params
-  // installing = installing || true
-  // pathToCode = pathToCode || 'all'  // FIXME tbd/idk yet
+  let { installing, arc, pathToCode, tick } = params
 
   let cwd = process.cwd()
   let start = Date.now()
@@ -58,29 +56,32 @@ module.exports = function shared(params, callback) {
       let results = allCommon.map(p => p.replace('package.json', '')).filter(e => !e.includes('node_modules'))
 
       // One tick per install/update, one to complete
-      // TODO add ticks for copy processes
       let total = results.length+1
 
       // Report: 'Installing modules in src/shared and src/views'
-      let banner = chalk.dim.cyan((installing ? 'Installing' : 'Updating') + ' dependencies')
+      let action = chalk.dim.cyan((installing ? 'Installing' : 'Updating') + ' dependencies')
       let shared = all.shared.length > 0 ? 'src/shared' : ''
       let views = all.views.length > 0 ? 'src/views' : ''
       let and = all.shared.length > 0 && all.views.length > 0 ? ' and ' : ''
-      progress = _progress({
-        name: `${banner} in ${shared}${and}${views}`,
-        total
-      })
+      let status = `${action} in ${shared}${and}${views}`
+      if (!tick) {
+        progress = _progress({
+          name: status,
+          total
+        })
+        tick = progress.tick
+      }
 
       // Build out the queue of dependencies that need hydrating
       let queue = []
       parallel(results.map(path => {
         return function _enqueue(callback) {
-          progress.tick()
+          tick()
 
           // NPM specific impl: default to ci for package installation
           let args = [(installing? 'ci' : 'update'), '--ignore-scripts']
 
-          // NPM specific impl: check to see if package-lock exists; if not, do a normal install instead of CI
+          // NPM specific impl: check to see if package-lock exists; if not, do a normal install instead of CI, otherwise npm fails
           exists(path + '/package-lock.json')
             .then(exists => {
               if (installing && !exists) {
@@ -106,16 +107,13 @@ module.exports = function shared(params, callback) {
             callback(err)
           }
           else {
-            progress.tick()
+            tick()
             let ts = Date.now() - start
             console.log(`${chalk.green('✓ Success!')} ${chalk.green.dim(`${installing ? 'Installed' : 'Updated'} shared dependencies in ${ts}ms`)}`)
-            callback()
-            // copy(callback)
+            copy({arc, pathToCode, tick}, callback)
           }
         })
       })
     }
   })
-  // TODO
-  // function copy(callback) {}
 }
