@@ -1,3 +1,4 @@
+let exists = require('path-exists').sync
 let parallel = require('run-parallel')
 let path = require('path')
 let spawn = require('child_process').spawn
@@ -39,13 +40,23 @@ function exec(callback) {
         }
         else {
           const [pathToCode, args] = queue.shift()
-          running += 1
-          npm(pathToCode, args, err => {
-            // Collect any NPM errors along the way, but don't halt parallel
-            if (err) errors.push(err)
-            running -= 1
+          // CYA in case somehow the local Function directory isn't present
+          // NPM will catch its own failures related to missing or munged package[-lock] files
+          let dir = exists(pathToCode)
+          if (!dir) {
+            errors.push(`Directory not found: ${pathToCode}`)
             callback()
-          })
+          }
+          else {
+            // Add the operation to the queue
+            running += 1
+            npm(pathToCode, args, err => {
+              // Collect any NPM errors along the way, but don't halt parallel
+              if (err) errors.push(err)
+              running -= 1
+              callback()
+            })
+          }
         }
       }
       run()
