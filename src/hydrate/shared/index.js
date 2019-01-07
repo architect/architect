@@ -1,3 +1,4 @@
+let assert = require('@smallwins/validate/assert')
 let chalk = require('chalk')
 let copy = require('./_copy')
 let exists = require('path-exists')
@@ -20,6 +21,15 @@ let cli
  */
 
 module.exports = function shared(params, callback) {
+
+  assert(params, {
+    arc: Object,
+    installing: Boolean,
+    pathToCode: Array,
+    // start: Number,
+    // tick: Function,
+  })
+
   let { arc, installing, pathToCode, start, tick } = params
   if (!start) start = Date.now()
 

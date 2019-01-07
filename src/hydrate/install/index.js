@@ -1,3 +1,4 @@
+let assert = require('@smallwins/validate/assert')
 let chalk = require('chalk')
 let install = require('./_install')
 let _progress = require('../../util/progress')
@@ -11,8 +12,15 @@ let shared = require('../shared')
  *                 bulk Function operations must be an array
  */
 module.exports = function hydrateInstall(params, callback) {
+
+  assert(params, {
+    arc: Object,
+    pathToCode: Array,
+    // start: Number,
+    // tick: Function,
+  })
+
   let { arc, pathToCode, start, tick } = params
-  // TODO add validation?
 
   // Normalize to array in case it's a single path passed from deploy
   if (typeof pathToCode === 'string') pathToCode = [pathToCode]
@@ -45,8 +53,10 @@ module.exports = function hydrateInstall(params, callback) {
   ],
   function _done(err) {
     if (err) callback(err)
-    let ts = Date.now() - start
-    console.log(`${chalk.green('✓ Success!')} ${chalk.green.dim(`Installed all dependencies in ${ts}ms`)}`)
-    callback()
+    else {
+      let ts = Date.now() - start
+      console.log(`${chalk.green('✓ Success!')} ${chalk.green.dim(`Installed all dependencies in ${ts}ms`)}`)
+      callback()
+    }
   })
 }

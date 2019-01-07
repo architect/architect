@@ -1,6 +1,13 @@
+let assert = require('@smallwins/validate/assert')
 let npm = require('../providers/npm')
 
 module.exports = function install(params, callback) {
+
+  assert(params, {
+    pathToCode: Array,
+    // tick: Function,
+  })
+
   let { pathToCode, tick } = params
 
   let total = pathToCode.length

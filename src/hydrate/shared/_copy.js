@@ -12,6 +12,7 @@ let series = require('run-series')
  *   - Copyies all appropriate and necessary shared files into paths
  */
 module.exports = function copyCommon(params, callback) {
+
   assert(params, {
     arc: Object,
     pathToCode: Array,
