@@ -34,10 +34,7 @@ module.exports = function _createTable(name, attr, callback) {
               TableName,
               AttributeDefinitions: getAttributeDefinitions(clean(attr)),
               KeySchema: getKeySchema(attr, keys),
-              ProvisionedThroughput: {
-                ReadCapacityUnits: 1,
-                WriteCapacityUnits: 1
-              }
+              BillingMode: 'PAY_PER_REQUEST'
             }, callback)
           },
           function _maybeWaitForCreateComplete(result, callback) {
