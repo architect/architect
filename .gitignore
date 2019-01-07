@@ -1,7 +1,7 @@
 .DS_Store
+.nyc_output/
+coverage/
 node_modules/
 npm-debug.log
 test/**/_mock/
 text/**/mock/
-.nyc_output/
-coverage/
