@@ -4,9 +4,43 @@
 Also see the [Architect functions changelog](https://github.com/arc-repos/arc-functions/blob/master/changelog.md).
 ---
 
+## [`hydrate` refactor + API branch]
+
+
+### Changed
+
+- `hydrate` refactor and API
+  - NPM operations are now queued and concurrently processed (env var `ARC_MAX_NPM`, defaults to 10) /ht @grncdr
+  - Vastly improved NPM error handling and related deployment reliability (fixes #141 + #151)
+  - Now hydrates (and updates) deterministically from the current .arc manifest, as opposed to globbing
+  - All NPM operations now use `npm ci` for more consistent behavior across environments
+- Updates `deploy` to use `hydrate` API
+- Updates `sandbox` to use new shared code copier module
+- `inventory` now supplies its own Arc project data, allowing it to be called as needed without relying on `util/init`
+
+
+### Fixed
+
+- Freshly created Functions are now properly hydrated with shared code (if available and appropriate; fixes #241)
+- Running `create` on already existing projects now runs orders of magnitute faster
+- `.arc` file is now reliably copied into each Function's `node_modules/@architect/shared` even if you don't use `src/shared` (needed by `@architect` deps)
+- `deploy` now respects `--delete` flag when deploying the whole project
+- Improved progress reporting for `hydrate`, `create`, and `deploy`
+
+
+### Added
+
+- New command: `hydrate --shared [--update]` - hydrates and/or updates `src/shared` and `src/views` (if available)
+
+
+---
+
 ## `master` branch
 
 - [dev] Added test run watcher script.
+
+
+---
 
 ## [4.4.12] - 2018-12-23
 
