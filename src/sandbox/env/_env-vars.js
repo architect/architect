@@ -1,14 +1,12 @@
 let parse = require('@architect/parser')
-let readArc = require('../../util/read-arc')
 let read = require('fs').readFileSync
 let exists = require('path-exists').sync
 let join = require('path').join
 let chalk = require('chalk')
 
-module.exports = function _setupEnv(callback) {
+module.exports = function _setupEnv(inventory, callback) {
 
-  let {arc} = readArc()
-  let name = arc.app[0]
+  let name = inventory.app
 
   // populate ARC_APP_NAME (used by @architect/functions event.publish)
   process.env.ARC_APP_NAME = name

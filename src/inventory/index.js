@@ -1,6 +1,7 @@
 let getLambdaName = require('../util/get-lambda-name')
 let getLegacyLambdaName = require('../util/get-legacy-lambda-name')
 let path = require('path')
+let readArc = require('../util/read-arc')
 
 /**
  * {
@@ -10,6 +11,12 @@ let path = require('path')
  * }
  */
 module.exports = function inventory(arc, raw, callback) {
+
+  if (!arc) {
+    let parsed = readArc()
+    arc = parsed.arc
+    raw = parsed.raw
+  }
 
   let app = arc.app[0]
 
