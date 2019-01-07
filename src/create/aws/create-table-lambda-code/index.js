@@ -1,20 +1,15 @@
-let series = require('run-series')
 let assert = require('@smallwins/validate/assert')
-let path = require('path')
 let mkdir = require('mkdirp').sync
-//let fs = require('fs')
-let print = require('../../_print')
 let getTriggers = require('./_get-triggers')
 let parallel = require('run-parallel')
-let exists = require('path-exists').sync
-let install = require('../_install-workflows-and-data')
-let _createCode = require('../_create-code')
+let createCode = require('../_create-code')
 
 module.exports = function _createLambdaCode(params, callback) {
 
   assert(params, {
     table: Object,
     app: String,
+    arc: Object,
   })
 
   let name = Object.keys(params.table)[0] // table name
@@ -30,7 +25,7 @@ module.exports = function _createLambdaCode(params, callback) {
     let fns = mthd.map(method=> {
       return function _createTriggerCode(callback) {
         // appname-tablename-insert | src/tables/tablename-insert
-        createTrigger(params.app, name, method, callback)
+        createTrigger(params.app, params.arc, name, method, callback)
       }
     })
     parallel(fns, function _done(err) {
@@ -46,29 +41,14 @@ module.exports = function _createLambdaCode(params, callback) {
   }
 }
 
-function createTrigger(app, table, mthd, callback) {
+function createTrigger(app, arc, table, mthd, callback) {
 
   let name = `${table}-${mthd}`
-  let base = path.join(process.cwd(), 'src', 'tables', name)
-  let baseExists = exists(base)
 
-  if (baseExists) {
-    // skip if that dir exists
-    print.skip('@tables', `src/tables/${name}`)
-    install(base, callback)
-  }
-  else {
-    series([
-      function before(callback) {
-        _createCode({
-          space: 'tables',
-          idx: name, // foo-update
-          app,
-        }, callback)
-      },
-      function after(callback) {
-        install(base, callback)
-      },
-    ], callback)
-  }
+  createCode({
+    space: 'tables',
+    idx: name, // foo-update
+    app,
+    arc,
+  }, callback)
 }

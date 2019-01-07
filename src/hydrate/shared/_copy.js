@@ -15,7 +15,7 @@ module.exports = function copyCommon(params, callback) {
   })
 
   let { arc, pathToCode, tick } = params
-  
+
   series([
     function _shared(callback) {
       if (tick) tick(`Copying src/shared into Functions...`)

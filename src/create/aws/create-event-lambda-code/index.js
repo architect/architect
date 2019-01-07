@@ -6,11 +6,13 @@ module.exports = function _createLambdaCode(params, callback) {
   assert(params, {
     event: String,
     app: String,
+    arc: Object,
   })
 
   createCode({
     space: 'events',
     idx: params.event,
-    app: params.app
+    app: params.app,
+    arc: params.arc,
   }, callback)
 }

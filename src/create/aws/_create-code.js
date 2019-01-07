@@ -126,25 +126,30 @@ module.exports = function _createCode(params, callback) {
     idx: String,
     space: String, // http, scheduled, events, queues, tables
     app: String,
+    arc: Object,
   })
+
+  let { idx, space, app, arc } = params
 
   // non destructive setup dir
   mkdir('src')
-  mkdir(`src/${params.space}`)
+  mkdir(`src/${space}`)
 
-  let localPath = path.join(process.cwd(), 'src', params.space, params.idx)
+  let absolutePath = path.join(process.cwd(), 'src', space, idx)
+  let relativePath = path.join('src', space, idx)
 
-  if (exists(localPath)) {
-    print.skip(`@${params.space} code`, `src/${params.space}/${params.idx}`)
+  if (exists(absolutePath)) {
+    print.skip(`@${space} Function`, `src/${space}/${idx}`)
+    callback()
   }
   else {
-    print.create(`@${params.space} code`, `src/${params.space}/${params.idx}`)
+    print.create(`@${space} Function`, `src/${space}/${idx}`)
 
-    let lambda = `src/${params.space}/${params.idx}`
-    let pathToPkg = path.join(localPath, 'package.json')
-    let pathToIndex = path.join(localPath, 'index.js')
-    let pkg = JSON.stringify({name:`${params.app}-${params.idx}`}, null, 2)
-    let index = codes[params.space === 'tables'? getType(params.idx) : params.space]
+    let lambda = `src/${space}/${idx}`
+    let pathToPkg = path.join(absolutePath, 'package.json')
+    let pathToIndex = path.join(absolutePath, 'index.js')
+    let pkg = JSON.stringify({name:`${app}-${idx}`}, null, 2)
+    let index = codes[space === 'tables'? getType(idx) : space]
 
     // make sure the dir exists
     mkdir(lambda)
@@ -154,7 +159,8 @@ module.exports = function _createCode(params, callback) {
     fs.writeFileSync(pathToIndex, index)
   }
 
-  install(localPath, callback)
+  // Install deps, then hydrate with shared code (if any)
+  install({absolutePath, relativePath, arc}, callback)
 }
 
 function getType(idx) {
