@@ -1,0 +1,6 @@
+{
+  "name": "hydrate-post-up-tents",
+  "dependencies": {
+    "tiny-json-http": "^7.0.2"
+  }
+}

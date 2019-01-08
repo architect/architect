@@ -7,6 +7,7 @@ module.exports = function _createLambdaCode(params, callback) {
   assert(params, {
     route: Array,
     app: String,
+    arc: Object,
   })
 
   var mthd = params.route[0].toLowerCase()
@@ -16,6 +17,7 @@ module.exports = function _createLambdaCode(params, callback) {
   createCode({
     space: 'http',
     idx: name,
-    app: params.app
+    app: params.app,
+    arc: params.arc,
   }, callback)
 }

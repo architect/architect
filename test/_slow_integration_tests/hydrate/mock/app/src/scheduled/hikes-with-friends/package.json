@@ -1,0 +1,6 @@
+{
+  "name": "hydrate-hikes-with-friends",
+  "dependencies": {
+    "tiny-json-http": "^7.0.2"
+  }
+}

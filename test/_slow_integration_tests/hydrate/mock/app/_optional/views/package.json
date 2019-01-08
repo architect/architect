@@ -1,0 +1,6 @@
+{
+  "name": "views",
+  "dependencies": {
+    "tiny-json-http": "^7.0.2"
+  }
+}

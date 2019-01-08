@@ -1,13 +1,11 @@
 // deps
-var assert = require('@smallwins/validate/assert')
-var waterfall = require('run-waterfall')
+let assert = require('@smallwins/validate/assert')
+let waterfall = require('run-waterfall')
 
 // local deps
-var validate = require('./00-validate')
-var beforeDeploy = require('./01-before-deploy')
-var installModules = require('./02-install-modules')
-var copyShared = require('./03-copy-shared')
-var copyViews = require('./04-copy-views')
+let validate = require('./00-validate')
+let beforeDeploy = require('./01-before-deploy')
+let hydrate = require('../../hydrate').install
 
 module.exports = function deploy(params, callback) {
 
@@ -17,30 +15,30 @@ module.exports = function deploy(params, callback) {
     arc: Object,
     pathToCode: String,
     tick: Function,
+    hydrateDeps: Boolean,
   })
 
   // local state
   // - env; one of staging or production
   // - arc; the parsed .arc file contents
-  // - pathToCode; absolute path to the lambda function being deployed
+  // - pathToCode; path to the Function being deployed
   // - tick; function to notify progress
-  let {env, arc, pathToCode, tick} = params
+  // - hydrateDeps; skips hydration steps if all Functions are being deployed
+  let {env, arc, pathToCode, tick, hydrateDeps} = params
 
   // binds local state above to the functions below
   const _validate = validate.bind({}, {pathToCode, tick})
   const _before = beforeDeploy.bind({}, {env, pathToCode, arc, tick})
-  const _modules = installModules.bind({}, {pathToCode, tick})
-  const _shared = copyShared.bind({}, {pathToCode, tick})
-  const _views = copyViews.bind({}, {arc, pathToCode, tick})
+  const _hydrate = hydrateDeps
+    ? hydrate.bind({}, {arc, pathToCode, tick})
+    : callback => { callback() } // noop
 
   // executes the functions above
   // in series sharing no state between them
   waterfall([
     _validate,
     _before,
-    _modules,
-    _shared,
-    _views
+    _hydrate,
   ],
   function done(err) {
     if (err) callback(err)

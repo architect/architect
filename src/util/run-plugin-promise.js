@@ -6,7 +6,7 @@ module.exports = function runPluginFunction(params, functionName) {
   let {arc, pathToCode, env, tick} = params
   // reads @plugins
   if (!arc.plugins) {
-    if (tick) tick()
+    if (tick) tick('')
     return Promise.resolve()
   }
   else {
@@ -45,7 +45,7 @@ module.exports = function runPluginFunction(params, functionName) {
     }).filter(Boolean).map(plugin=> plugin.fn({arc, pathToCode, env, pluginConfig: plugin.pluginConfig}))
     // invoke them all concurrently (could be a problem! we probably want sequentially?)
     return Promise.all(fns).then(function() {
-      if (tick) tick()
+      if (tick) tick('')
     })
   }
 }
