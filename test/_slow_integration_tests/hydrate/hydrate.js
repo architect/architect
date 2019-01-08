@@ -71,34 +71,21 @@ function destroyNodeModules(t) {
 // For when you really, truly need to completely reset the state of the test app
 // (Only really needed for failure cases where files are moved or destroyed)
 function rebuildFolder(t) {
-  // TODO ↓ remove me! ↓
-  console.log('ran rebuildFolder')
-  process.chdir('..')
   rm('tmp', function done(err) {
     if (err) {
-      // TODO ↓ remove me! ↓
-      console.log('1')
       t.fail(err)
     }
     else if (exists('tmp/.arc')) {
-      // TODO ↓ remove me! ↓
-      console.log('2')
       t.fail('did not delete mock app during rebuild')
     }
     else {
-      // TODO ↓ remove me! ↓
-      console.log('3')
       mkdir('tmp')
       cp('app', 'tmp', {overwrite:true},
       function done(err){
         if (err) {
-          // TODO ↓ remove me! ↓
-          console.log('4')
           t.fail(err)
         }
         else {
-          // TODO ↓ remove me! ↓
-          console.log('5')
           process.chdir('tmp')
           let created = exists('.arc')
           t.ok(created, 'mock app restored')
