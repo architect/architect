@@ -25,6 +25,9 @@ module.exports = function hydrateUpdate(params, callback) {
   // Normalize to array in case it's a single path passed from deploy
   if (typeof pathToCode === 'string') pathToCode = [pathToCode]
 
+  // Install shouldn't use deploy start as a timer
+  if (!start) start = Date.now()
+
   // Progress
   // - 2 ticks for update
   // - 2 for shared
@@ -49,7 +52,11 @@ module.exports = function hydrateUpdate(params, callback) {
     },
   ],
   function _done(err) {
-    if (err) callback(err)
+    if (err) {
+      // Run out the ticks
+      Array(7).fill().map(()=> tick(''))
+      callback(err)
+    }
     else {
       let ts = Date.now() - start
       console.log(`${chalk.green('✓ Success!')} ${chalk.green.dim(`Updated all dependencies in ${ts}ms`)}`)

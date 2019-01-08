@@ -22,14 +22,33 @@ let installing = !isUpdating
  * - Treats shared code (src/shared + src/views) and their dependencies as dependencies
  */
 
+let arc
+let inventoryReport
+
 waterfall([
-  init,
-  inventory
+  function _init(callback) {
+    init(function initified(err, result) {
+      if (err) callback(err)
+      else {
+        arc = result
+        callback()
+      }
+    })
+  },
+  function _inventory(callback){
+    inventory(arc, null, function inventorized(err, result) {
+      if (err) callback(err)
+      else {
+        inventoryReport = result
+        callback()
+      }
+    })
+  }
 ],
-function _inventory(err, arc) {
+function _inventory(err) {
   if (err) error(err)
   else {
-    let pathToCode = arc.localPaths
+    let pathToCode = inventoryReport.localPaths
     let start = Date.now()
     if (isShared) {
       // Install shared dependencies

@@ -67,7 +67,7 @@ module.exports = function shared(params, callback) {
       let results = allCommon.map(p => p.replace('package.json', '')).filter(e => !e.includes('node_modules'))
 
       // One tick per install/update, one to complete
-      let total = results.length+1
+      let total = 2
 
       // Report: 'Installing modules in src/shared and src/views'
       let action = (installing ? 'Installing' : 'Updating') + ' dependencies'
@@ -112,19 +112,23 @@ module.exports = function shared(params, callback) {
       }),
       function(err) {
         if (err) {
+          tick('')
           callback(err)
         }
-        npm(queue, err => {
-          if (err) {
-            callback(err)
-          }
-          else {
-            tick('')
-            let ts = Date.now() - start
-            if (cli) console.log(`${chalk.green('✓ Success!')} ${chalk.green.dim(`${installing ? 'Installed' : 'Updated'} shared dependencies in ${ts}ms`)}`)
-            copy({arc, pathToCode, tick}, callback)
-          }
-        })
+        else {
+          npm(queue, err => {
+            if (err) {
+              tick('')
+              callback(err)
+            }
+            else {
+              tick('')
+              let ts = Date.now() - start
+              if (cli) console.log(`${chalk.green('✓ Success!')} ${chalk.green.dim(`${installing ? 'Installed' : 'Updated'} shared dependencies in ${ts}ms`)}`)
+              copy({arc, pathToCode, tick}, callback)
+            }
+          })
+        }
       })
     }
   })

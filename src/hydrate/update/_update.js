@@ -18,6 +18,7 @@ module.exports = function update(params, callback) {
 
   npm(queue, err => {
     if (err) {
+      if (tick) tick('')
       callback(err)
     }
     else {

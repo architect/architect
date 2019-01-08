@@ -52,7 +52,11 @@ module.exports = function hydrateInstall(params, callback) {
     },
   ],
   function _done(err) {
-    if (err) callback(err)
+    if (err) {
+      // Run out the ticks
+      Array(7).fill().map(()=> tick(''))
+      callback(err)
+    }
     else {
       let ts = Date.now() - start
       console.log(`${chalk.green('✓ Success!')} ${chalk.green.dim(`Installed all dependencies in ${ts}ms`)}`)

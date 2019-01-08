@@ -4,9 +4,8 @@ let copy = require('../../hydrate/shared/_copy')
 /**
  * Invokes shared modules copier
  */
-module.exports = function _shared(inventory, callback) {
-  let arc = inventory
-  let pathToCode = inventory.localPaths
+module.exports = function _shared(params, callback) {
+  let {arc, pathToCode} = params
   copy({arc, pathToCode}, function _done(err) {
     if (err) console.log(err)
     else {

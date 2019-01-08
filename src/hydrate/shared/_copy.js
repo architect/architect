@@ -55,7 +55,10 @@ module.exports = function copyCommon(params, callback) {
         }
       }),
       function done(err) {
-        if (err) callback(err)
+        if (err) {
+          if (tick) tick('')
+          callback(err)
+        }
         else {
           if (tick) tick('')
           callback()
@@ -98,7 +101,10 @@ module.exports = function copyCommon(params, callback) {
           }
         }),
         function done(err) {
-          if (err) callback(err)
+          if (err) {
+            if (tick) tick('')
+            callback(err)
+          }
           else {
             if (tick) tick('')
             callback()

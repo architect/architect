@@ -3,7 +3,7 @@ let install = require('./install')
 let update = require('./update')
 
 module.exports = {
-  shared,
   install,
+  shared,
   update,
 }
