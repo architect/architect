@@ -1,0 +1,6 @@
+{
+  "name": "hydrate-get-index",
+  "dependencies": {
+    "tiny-json-http": "^7.0.2"
+  }
+}

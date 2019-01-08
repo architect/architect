@@ -1,0 +1,6 @@
+{
+  "name": "hydrate-delete-badness_in_life",
+  "dependencies": {
+    "tiny-json-http": "^7.0.2"
+  }
+}

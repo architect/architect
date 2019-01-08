@@ -1,0 +1,6 @@
+{
+  "name": "hydrate-trails-insert",
+  "dependencies": {
+    "tiny-json-http": "^7.0.2"
+  }
+}
