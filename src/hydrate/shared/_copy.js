@@ -87,9 +87,7 @@ module.exports = function copyCommon(params, callback) {
               if (paths.includes(path)) {
                 copy(src, dest, callback)
               }
-              else {
-                callback()
-              }
+              else callback()
             }
             // Otherwise, just copy src/views to all @http GET routes
             else if (path.startsWith('src/http/get-')) {

@@ -4,7 +4,7 @@
 Also see the [Architect functions changelog](https://github.com/arc-repos/arc-functions/blob/master/changelog.md).
 ---
 
-## [4.5.0] 2019-01-08
+## [4.5.1] 2019-01-08
 
 
 ### Changed
@@ -25,7 +25,7 @@ Also see the [Architect functions changelog](https://github.com/arc-repos/arc-fu
 - Running `create` on already existing projects now runs orders of magnitute faster
 - `.arc` file is now reliably copied into each Function's `node_modules/@architect/shared` even if you don't use `src/shared` (needed by `@architect` deps)
 - `deploy` now respects `--delete` flag when deploying the whole project
-- Improved progress reporting for `hydrate`, `create`, and `deploy`
+- Improved progress reporting in `CI` mode, and for `hydrate`, `create`, and `deploy`
 
 
 ### Added

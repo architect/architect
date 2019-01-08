@@ -9,17 +9,26 @@ module.exports = function _progress(params) {
   let {name, total} = params
   let count = 0
   let running = false
-  let text = ''
+  let n = ''
+  let m = ''
 
-  function log(txt) {
-    text = txt
+  function log() {
     let unix = '∙∙∙ ●∙∙ ∙●∙ ∙∙● ∙∙∙'.split(' ')
     let windows = '∙∙∙ .∙∙ ∙.∙ ∙∙. ∙∙∙'.split(' ')
-    let frames = process.platform.startsWith('win')? windows : unix
+    let frames = process.platform.startsWith('win')
+      ? windows
+      : unix
     let i = 0
+    // End-user progress mode
     if (!running && !process.env.CI) {
       running = setInterval(function() {
-        _log(`${chalk.cyan(frames[i = ++i % frames.length])} ${text}`)
+        _log(`${chalk.cyan(frames[i = ++i % frames.length])} ${n} ${m}`)
+      }, 100)
+    }
+    // CI mode: updates console with status messages but not animations
+    else if (!running && process.env.CI && m.length > 0) {
+      running = setInterval(function() {
+        _log(`${n} ${m}`)
       }, 100)
     }
   }
@@ -35,8 +44,9 @@ module.exports = function _progress(params) {
   function tick(msg) {
     msg = msg || ''
     count += 1
-    var msg = chalk.cyan(msg)
-    log(`${chalk.grey(name)} ${msg}`)
+    n = chalk.grey(name)
+    m = chalk.cyan(msg)
+    log()
     if (count === total) stop()
   }
 
