@@ -39,6 +39,10 @@ Also see the [Architect functions changelog](https://github.com/arc-repos/arc-fu
 
 - [dev] Added test run watcher script.
 
+### Changed
+
+- DynamoDB tables now use on-demand/pay-per-request billing mode, mitigating the need for capacity planning
+
 
 ---
 

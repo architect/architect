@@ -7,10 +7,6 @@ module.exports = function _getGsi(name, attr) {
       KeySchema: getKeySchema(attr),
       Projection: {
         ProjectionType: 'ALL'
-      },
-      ProvisionedThroughput: {
-        ReadCapacityUnits: 1,
-        WriteCapacityUnits: 1
       }
     }
   }]
