@@ -21,7 +21,6 @@ let limit = process.env.ARC_MAX_NPM
   ? parseInt(process.env.ARC_MAX_NPM)
   : 10
 let queue
-let errors = []
 
 module.exports = function npmQueue(commands, callback) {
   queue = commands
@@ -29,6 +28,7 @@ module.exports = function npmQueue(commands, callback) {
 }
 
 function exec(callback) {
+  let errors = []
   parallel(queue.map(command => {
     // Spins up as many fns as there are commands, but doesn't care which command is run
     return function _npm(callback) {
@@ -83,8 +83,10 @@ function npm(pathToCode, args, callback) {
   pathToCode = pathToCode.replace(process.cwd() + '/', '')
   let subprocess = spawn(cmd, args, options)
   let stderr = []
-  subprocess.stderr.on('data', chunk => stderr.push(chunk))
-  subprocess.on('exit', function close(code) {
+  subprocess.stderr.on('data', function data(chunk) {
+    stderr.push(chunk)
+  })
+  subprocess.on('exit', function exit(code) {
     callback(code !== 0
       ? new Error(`npm ${args.join(' ')} in ${pathToCode} exited with code ${code}\n  ${Buffer.concat(stderr).toString().split('\n').join('\n  ')}`)
       : null)

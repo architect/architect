@@ -16,10 +16,13 @@ module.exports = function install(params, callback) {
 
   // Build out the queue of dependencies that need hydrating
   let queue = []
+  // If any errors at this point, bubble them before calling the package manager
+  let errors = []
+
   pathToCode.forEach(path => {
-    // If user opted out of package.json and isn't using another runtime, don't bother with npm
-    let package = exists(path + '/package.json')
+    // TODO impl arcConfig soooooon
     // let arcConfig = exists(path + '/.arc-config')
+    let package = exists(path + '/package.json')
 
     if (package) {
       // Normalize absolute paths
@@ -28,16 +31,28 @@ module.exports = function install(params, callback) {
       let args = ['ci', '--ignore-scripts']
       queue.push([path, args])
     }
+    else {
+      // Guard against missing package
+      // TODO will need refactor for other package managers
+      errors.push(`Missing package.json in ${path}`)
+    }
   })
 
-  npm(queue, err => {
-    if (err) {
-      if (tick) tick('')
-      callback(err)
-    }
-    else {
-      if (tick) tick('')
-      callback()
-    }
-  })
+  // Hydrate!
+  if (errors.length === 0) {
+    npm(queue, err => {
+      if (err) {
+        if (tick) tick('')
+        callback(err)
+      }
+      else {
+        if (tick) tick('')
+        callback()
+      }
+    })
+  }
+  else {
+    if (tick) tick('')
+    callback(errors)
+  }
 }
