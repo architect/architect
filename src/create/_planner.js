@@ -108,8 +108,9 @@ module.exports = function planner(arc) {
     })
   }
 
+
   //
-  // api gateway
+  // api gateway http
   //
   let hasAPI = arc.hasOwnProperty('http') || arc.hasOwnProperty('slack')
   if (hasAPI && !process.env.ARC_LOCAL) {
@@ -125,6 +126,24 @@ module.exports = function planner(arc) {
     // always deploy!
     plans.push({action:'create-router-deployments', app})
   }
+
+
+  //
+  // api gateway web sockets
+  //
+  if (arc.hasOwnProperty('ws')) {
+    plans.push({action:'create-ws-lambda-code', app, name:'ws-connect'})
+    plans.push({action:'create-ws-lambda-code', app, name:'ws-disconnect'})
+    plans.push({action:'create-ws-lambda-code', app, name:'ws-default'})
+    if (!process.env.ARC_LOCAL) {
+      plans.push({action:'create-ws-lambda-deployments', app, name:'ws-connect'})
+      plans.push({action:'create-ws-lambda-deployments', app, name:'ws-disconnect'})
+      plans.push({action:'create-ws-lambda-deployments', app, name:'ws-default'})
+      plans.push({action:'create-ws-router', app})
+      plans.push({action:'create-ws-router-deployments', app})
+    }
+  }
+
 
   return plans
 }

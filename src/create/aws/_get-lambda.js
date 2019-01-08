@@ -52,7 +52,7 @@ module.exports = function _getLambda(params, callback) {
         },
         Description: `@${section} ${codename}`,
         FunctionName: deployname,
-        Handler: "index.handler",
+        Handler: 'index.handler',
         MemorySize: 1152,
         Publish: true,
         Role: role.Arn,
