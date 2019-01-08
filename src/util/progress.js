@@ -27,9 +27,7 @@ module.exports = function _progress(params) {
     }
     // CI mode: updates console with status messages but not animations
     else if (!running && process.env.CI && m.length > 0) {
-      running = setInterval(function() {
-        _log(`${n} ${m}`)
-      }, 100)
+      console.log(`${n} ${m}`)
     }
   }
 
