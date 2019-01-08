@@ -4,7 +4,7 @@
 Also see the [Architect functions changelog](https://github.com/arc-repos/arc-functions/blob/master/changelog.md).
 ---
 
-## [`hydrate` refactor + API branch]
+## [4.5.0] 2019-01-08
 
 
 ### Changed
@@ -14,8 +14,8 @@ Also see the [Architect functions changelog](https://github.com/arc-repos/arc-fu
   - Vastly improved NPM error handling and related deployment reliability (fixes #141 + #151)
   - Now hydrates (and updates) deterministically from the current .arc manifest, as opposed to globbing
   - All NPM operations now use `npm ci` for more consistent behavior across environments
-- Updates `deploy` to use `hydrate` API
-- Updates `sandbox` to use new shared code copier module
+  - Updates `deploy` to use `hydrate` API, and `sandbox` to use new shared code copier module
+- DynamoDB tables now use on-demand/pay-per-request billing mode, mitigating the need for capacity planning /ht @alexdilley
 - `inventory` now supplies its own Arc project data, allowing it to be called as needed without relying on `util/init`
 
 
@@ -31,17 +31,7 @@ Also see the [Architect functions changelog](https://github.com/arc-repos/arc-fu
 ### Added
 
 - New command: `hydrate --shared [--update]` - hydrates and/or updates `src/shared` and `src/views` (if available)
-
-
----
-
-## `master` branch
-
-- [dev] Added test run watcher script.
-
-### Changed
-
-- DynamoDB tables now use on-demand/pay-per-request billing mode, mitigating the need for capacity planning
+- Added test run watcher script /ht @filmaj
 
 
 ---
