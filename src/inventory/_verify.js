@@ -56,7 +56,8 @@ module.exports = function _cloud(inventory) {
       }), callback)
     },
     function s3(callback) {
-      header('S3 Buckets')
+      if (inventory.s3buckets.length > 0)
+        header('S3 Buckets')
       let s3 = new aws.S3({region: process.env.AWS_REGION})
       series(inventory.s3buckets.map(Bucket=> {
         return function _getBucket(callback) {
@@ -76,10 +77,10 @@ module.exports = function _cloud(inventory) {
       }), callback)
     },
     function restapis(callback) {
-      header('API Gateway RestAPIs')
+      header('API Gateway REST APIs')
       let api = new aws.APIGateway({region: process.env.AWS_REGION})
       api.getRestApis({
-        limit: 500 // FIXME this needs pagination; tho most api gateways are limited to 60 by default so no rush..
+        limit: 500
       },
       function _getRestApis(err, result) {
         if (err) {
@@ -107,6 +108,40 @@ module.exports = function _cloud(inventory) {
         callback()
       })
     },
+    function websocketapis(callback) {
+      if (inventory.websocketapis.length > 0) {
+        header('API Gateway WebSocket APIs')
+        let api = new aws.ApiGatewayV2({region: process.env.AWS_REGION})
+        api.getApis({}, function getApis(err, result) {
+          if (err) {
+            error(err.message)
+          }
+          else {
+            let apis = result.Items.map(i=> ({name: i.Name, id: i.ApiId})).filter(t=> t.name.startsWith(inventory.app))
+            var name = `${inventory.app}-ws-staging`
+            var staging = apis.find(o=> o.name === name)
+            if (staging) {
+              found(staging.name, staging.id)
+            }
+            else {
+              notfound(name)
+            }
+            var name = `${inventory.app}-ws-production`
+            var production = apis.find(o=> o.name === name)
+            if (production) {
+              found(production.name, production.id)
+            }
+            else {
+              notfound(name)
+            }
+          }
+          callback()
+        })
+      }
+      else {
+        callback()
+      }
+    },
     function lambdas(callback) {
       header(`Lambda Functions (${inventory.lambdas.length})`)
       let lambda = new aws.Lambda({region:process.env.AWS_REGION})
@@ -129,7 +164,8 @@ module.exports = function _cloud(inventory) {
       }), callback)
     },
     function tables(callback) {
-      header(`DynamoDB Tables`)
+      if (inventory.tables.length > 0)
+        header(`DynamoDB Tables`)
       let db = new aws.DynamoDB({region: process.env.AWS_REGION})
       series(inventory.tables.map(TableName=> {
         return function _getLambda(callback) {
@@ -150,7 +186,8 @@ module.exports = function _cloud(inventory) {
       }), callback)
     },
     function snstopics(callback) {
-      header(`SNS Topics`)
+      if (inventory.snstopics.length > 0)
+        header(`SNS Topics`)
       let copy = inventory.snstopics.slice(0)
       let founds = []
       let sns = new aws.SNS({region: process.env.AWS_REGION})

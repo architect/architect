@@ -50,6 +50,8 @@ module.exports = function flags(start) {
     let filters = []
     if (args.includes('http'))
       filters.push('http')
+    if (args.includes('ws'))
+      filters.push('ws')
     if (args.includes('scheduled'))
       filters.push('scheduled')
     if (args.includes('queues'))

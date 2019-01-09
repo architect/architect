@@ -2,41 +2,40 @@ let chalk = require('chalk')
 
 module.exports = function _local(result) {
 
-  let appHeader = chalk.dim('Inventory')
-  let app = chalk.cyan.bold(result.app)
-  let iamHeader = chalk.dim('IAM Roles')
-  let iam = chalk.cyan(result.iamroles.join('\n'))
-  let s3Header = chalk.dim('S3 Buckets')
-  let s3 = chalk.cyan(result.s3buckets.join('\n'))
-  let restapisHeader = chalk.dim('API Gateway Rest APIs')
-  let restapis = chalk.cyan(result.restapis.join('\n'))
-  let lambdaHeader = chalk.dim(`Lambda Functions (${result.lambdas.length})` )
-  let lambdas = chalk.cyan(result.lambdas.join('\n'))
-  let tableHeader = chalk.dim(`DynamoDB Tables`)
-  let tables = chalk.cyan(result.tables.join('\n'))
-  let snstopicsHeader = chalk.dim(`SNS Topics`)
-  let snstopics = chalk.cyan(result.snstopics.join('\n'))
+  let res = chalk.dim('Inventory') +'\n'
+  res += chalk.cyan.bold(result.app)+'\n'
+  res += '\n'+chalk.dim('IAM Roles')+'\n'
+  res += chalk.cyan(result.iamroles.join('\n'))+'\n'
 
-    console.log(`
-${appHeader}
-${app}
+  if (result.s3buckets.length > 0) {
+    res += chalk.dim('S3 Buckets')+'\n'
+    res += chalk.cyan(result.s3buckets.join('\n'))+'\n'
+  }
 
-${iamHeader}
-${iam}
+  if (result.restapis.length > 0) {
+    res += '\n'+chalk.dim('API Gateway Rest APIs')+'\n'
+    res += chalk.cyan(result.restapis.join('\n'))+'\n'
+  }
 
-${s3Header}
-${s3}
+  if (result.websocketapis.length > 0) {
+    res += '\n'+chalk.dim('API Gateway Web Socket APIs')+'\n'
+    res += chalk.cyan(result.websocketapis.join('\n'))+'\n'
+  }
 
-${restapisHeader}
-${restapis}
+  if (result.lambdas.length > 0) {
+    res += '\n'+chalk.dim(`Lambda Functions (${result.lambdas.length})` )+'\n'
+    res += chalk.cyan(result.lambdas.join('\n'))+'\n'
+  }
 
-${lambdaHeader}
-${lambdas}
+  if (result.tables.length > 0) {
+    res += '\n'+chalk.dim(`DynamoDB Tables`)+'\n'
+    res += chalk.cyan(result.tables.join('\n'))+'\n'
+  }
 
-${tableHeader}
-${tables}
+  if (result.snstopics.length > 0) {
+    res += '\n'+chalk.dim(`SNS Topics`)+'\n'
+    res += chalk.cyan(result.snstopics.join('\n'))+'\n'
+  }
 
-${snstopicsHeader}
-${snstopics}
-    `)
+  console.log(res)
 }

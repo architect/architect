@@ -19,9 +19,11 @@ module.exports = function inventory(arc, raw, callback) {
       `${app}-staging`,
       `${app}-production`,
     ],
+    websocketapis: [],
     lambdas: [],
     types: {
       http:[],
+      ws:[],
       events:[],
       queues:[],
       scheduled:[],
@@ -131,6 +133,31 @@ module.exports = function inventory(arc, raw, callback) {
     report.localPaths = arc.http.map(function fmt(tuple) {
       return path.join.apply({}, getPath('http', tuple))
     })
+  }
+
+  if (arc.ws) {
+    report.websocketapis = [
+      `${arc.app}-ws-staging`,
+      `${arc.app}-ws-production`,
+    ]
+    report.lambdas = report.lambdas.concat([
+      `${arc.app}-staging-ws-default`,
+      `${arc.app}-staging-ws-connect`,
+      `${arc.app}-staging-ws-disconnect`,
+      `${arc.app}-production-ws-default`,
+      `${arc.app}-production-ws-connect`,
+      `${arc.app}-production-ws-disconnect`,
+    ])
+    report.types.ws = [
+      'ws-default',
+      'ws-connect',
+      'ws-disconnect',
+    ]
+    report.localPaths = report.localPaths.concat([
+      path.join('src', 'ws', 'ws-default'),
+      path.join('src', 'ws', 'ws-connect'),
+      path.join('src', 'ws', 'ws-disconnect'),
+    ])
   }
 
   if (arc.html && arc.html.length > 0) {
