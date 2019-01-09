@@ -29,7 +29,7 @@ module.exports = function createWebSocketRouterDeployments(params, callback) {
             ApiId
           }, callback)
         }
-      }), callback) 
+      }), callback)
     }
   ],
   function done(err, result) {
