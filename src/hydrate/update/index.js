@@ -1,4 +1,3 @@
-let assert = require('@smallwins/validate/assert')
 let chalk = require('chalk')
 let _progress = require('../../util/progress')
 let progress
@@ -12,13 +11,6 @@ let shared = require('../shared')
  *                 bulk Function operations must be an array
  */
 module.exports = function hydrateUpdate(params, callback) {
-
-  assert(params, {
-    arc: Object,
-    pathToCode: Array,
-    // start: Number,
-    // tick: Function,
-  })
 
   let { arc, pathToCode, start, tick } = params
 
