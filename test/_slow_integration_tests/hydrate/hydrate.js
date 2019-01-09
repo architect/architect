@@ -71,6 +71,7 @@ function destroyNodeModules(t) {
 // For when you really, truly need to completely reset the state of the test app
 // (Only really needed for failure cases where files are moved or destroyed)
 function rebuildFolder(t) {
+  process.chdir('..')
   rm('tmp', function done(err) {
     if (err) {
       t.fail(err)
