@@ -3,15 +3,16 @@ var aws = require('aws-sdk')
 var print = require('../../_print')
 var getLambda = require('../_get-lambda')
 
-// app
-// name
-// lambda
-// env 
+// app (app name)
+// name (function local code name. eg. ws-disconnect
+// lambda (deployment name. eg. testws-production-ws-default)
+// env (staging or production)
 module.exports = function create(params, callback) {
+  // console.log('calling create-ws-lambda-deployments with' ,params)
   let {name} = params
   let lambda = new aws.Lambda({region: process.env.AWS_REGION})
   lambda.getFunction({
-    FunctionName: name
+    FunctionName: params.lambda
   },
   function done(err) {
     if (err && err.name === 'ResourceNotFoundException') {
@@ -39,23 +40,16 @@ function createLambda(params, callback) {
       }, callback)
     },
     function _addEnvVars(arn, callback) {
-      var config = {
+      lambda.updateFunctionConfiguration({
         FunctionName: params.lambda,
         Environment: {
           Variables: {
             'ARC_APP_NAME': params.app,
             'NODE_ENV': params.env,
+            'SESSION_TABLE_NAME': 'jwe',
           }
         }
-      }
-      // allow for opting out of session
-      if (!process.env.ARC_DISABLE_SESSION)
-        config.Environment.Variables['SESSION_TABLE_NAME'] = `jwe`
-      lambda.updateFunctionConfiguration(config, function update(err) {
-        if (err)
-          console.log(err)
-        callback()
-      })
+      }, callback)
     }
   ], callback)
 }

@@ -17,7 +17,6 @@ module.exports = function createWebSocketLambdaDeployments(params, callback) {
   function done(err) {
     if (err) {
       console.log(err)
-      //process.exit()
     }
     callback()
   })

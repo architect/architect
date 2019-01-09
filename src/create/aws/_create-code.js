@@ -109,9 +109,9 @@ function handler(record, callback) {
 
 exports.handler = arc.tables.destroy(handler)
 `
-let wsLambda = `exports.handler = async function ws(event, context, callback) {
-  console.log(JSON.stringify(record, null, 2))
-  callback()
+let wsLambda = `exports.handler = async function ws(event) {
+  console.log(JSON.stringify(event, null, 2))
+  return {statusCode: 200}
 }
 `
 

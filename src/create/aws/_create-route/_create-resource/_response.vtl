@@ -12,6 +12,9 @@ $input.path('$.errorMessage')##
 #if($input.path("$.code") != "")##
 #set($context.responseOverride.status = $input.path("$.code"))##
 #end##
+#if($input.path("$.statusCode") != "")##
+#set($context.responseOverride.status = $input.path("$.statusCode"))##
+#end##
 ## override Location
 #if($input.path("$.location") != "")##
 #set($context.responseOverride.header.Location = $input.path("$.location"))##
