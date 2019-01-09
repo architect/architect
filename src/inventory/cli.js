@@ -5,7 +5,7 @@ let chalk = require('chalk')
 let _local = require('./_local')
 let _verify = require('./_verify')
 let _tidy = require('./_tidy')
-let _nuke = require('./_nuke')
+let _nuke = require('./nuke')
 let _nukeTables = require('./_nuke-tables')
 let waterfall = require('run-waterfall')
 
@@ -16,6 +16,7 @@ waterfall([
 function _inventory(err, result) {
   if (err) {
     console.log(chalk.bold.red('Error'), chalk.bold.white(err.message))
+    console.log(chalk.grey(err.stack))
     process.exit(1)
   }
   else {

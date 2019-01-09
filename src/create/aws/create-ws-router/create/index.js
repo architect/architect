@@ -1,6 +1,7 @@
 let aws = require('aws-sdk')
 let waterfall = require('run-waterfall')
 let parallel = require('run-parallel')
+let series = require('run-series')
 let route = require('./route')
 
 module.exports = function create({name, env}, callback) {
@@ -32,7 +33,7 @@ module.exports = function create({name, env}, callback) {
     },
 
     function createRoutes({api, account}, callback) {
-      parallel(['$default', '$connect', '$disconnect'].map(RouteKey=> {
+      series(['$default', '$connect', '$disconnect'].map(RouteKey=> {
         return function createRoute(callback) {
           route({
             api,

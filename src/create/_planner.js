@@ -1,3 +1,4 @@
+
 module.exports = function planner(arc) {
 
   // we'll keep references to the arc plan here
@@ -144,5 +145,6 @@ module.exports = function planner(arc) {
     }
   }
 
+  plans.push({action:'stop', app})
   return plans
 }

@@ -44,8 +44,10 @@ module.exports = function createWebSocketRouterDeployments(params, callback) {
 function render(apis) {
   let log = console.log
   apis.forEach(api=> {
+    let e = api.ApiEndpoint
     log(chalk.green.bold.dim(api.Name))
-    log(chalk.cyan.underline(api.ApiEndpoint))
-    log(chalk.cyan.underline(api.ApiEndpoint.replace('wss://', 'https://') + '/@connections'))
+    log(chalk.cyan.underline(e))
+    log(chalk.cyan.underline(e.replace('wss://', 'https://') + '/@connections'))
+    log('\n')
   })
 }
