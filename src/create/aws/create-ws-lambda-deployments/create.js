@@ -51,5 +51,5 @@ function createLambda(params, callback) {
         }
       }, callback)
     }
-  ], callback)
+  ], callback) 
 }

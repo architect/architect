@@ -2,7 +2,7 @@ var aws = require('aws-sdk')
 var chalk = require('chalk')
 var assert = require('@smallwins/validate/assert')
 var parallel = require('run-parallel')
-//let stop = require('../../_print').stop
+let stop = require('../../_print').stop
 
 module.exports = function createRouters(params, callback) {
 
@@ -54,11 +54,11 @@ module.exports = function createRouters(params, callback) {
       ],
       function _create(err, urls) {
         if (err) {
-          //stop()
+          stop()
           callback(err)
         }
         else {
-          //stop()
+          stop()
           if (urls.length === 2) {
             let x = process.platform.startsWith('win')? ' √' :'✓'
             console.log(chalk.green.dim(x), chalk.cyan.dim('AWS resources created'))

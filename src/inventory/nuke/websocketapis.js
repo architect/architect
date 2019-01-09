@@ -37,12 +37,12 @@ module.exports = function snstopics(inventory, callback) {
           }
         },
         function deleteProduction(callback) {
-          setTimeout(function delay() {
-            if (!production) {
-              notfound(`${inventory.app}-ws-production`)
-              callback()
-            }
-            else {
+          if (!production) {
+            notfound(`${inventory.app}-ws-production`)
+            callback()
+          }
+          else {
+            setTimeout(function delay() {
               gateway.deleteApi({
                 ApiId: production.id
               },
@@ -51,8 +51,8 @@ module.exports = function snstopics(inventory, callback) {
                 else deleted(production.name, 'Deleted')
                 callback()
               })
-            }
-          }, staging? 30*1000 : 0)
+            }, staging? 30*1000 : 0)
+          }
         }
       ], callback)
     }

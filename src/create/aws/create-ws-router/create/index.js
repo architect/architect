@@ -6,11 +6,12 @@ let route = require('./route')
 
 module.exports = function create({name, env}, callback) {
 
+  console.log('callingn create-ws-router create index', name, env)
+
   let region = process.env.AWS_REGION
-
   waterfall([
-
     function createApi(callback) {
+
       parallel({
         account(callback) {
           let sts = new aws.STS({region})
@@ -22,17 +23,19 @@ module.exports = function create({name, env}, callback) {
           })
         },
         api(callback) {
-          let gateway = new aws.ApiGatewayV2({region})
-          gateway.createApi({
-            Name: `${name}-ws-${env}`,
-            ProtocolType: 'WEBSOCKET',
-            RouteSelectionExpression: '$request.body.message'
-          }, callback)
+            let gateway = new aws.ApiGatewayV2({region})
+            gateway.createApi({
+              Name: `${name}-ws-${env}`,
+              ProtocolType: 'WEBSOCKET',
+              RouteSelectionExpression: '$request.body.message'
+            }, callback)
         }
       }, callback)
+
     },
 
     function createRoutes({api, account}, callback) {
+      console.log('createRoutes called with', api, account)
       series(['$default', '$connect', '$disconnect'].map(RouteKey=> {
         return function createRoute(callback) {
           route({

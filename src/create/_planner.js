@@ -123,11 +123,7 @@ module.exports = function planner(arc) {
         plans.push({action:'create-http-route', route, app})
       })
     }
-
-    // always deploy!
-    plans.push({action:'create-router-deployments', app})
   }
-
 
   //
   // api gateway web sockets
@@ -145,6 +141,10 @@ module.exports = function planner(arc) {
     }
   }
 
-  plans.push({action:'stop', app})
+  // always deploy the api last!
+  if (hasAPI && !process.env.ARC_LOCAL) {
+    plans.push({action:'create-router-deployments', app})
+  }
+
   return plans
 }

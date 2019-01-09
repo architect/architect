@@ -1,6 +1,7 @@
 let assert = require('@smallwins/validate/assert')
 let parallel = require('run-parallel')
 let waterfall = require('run-waterfall')
+let series = require('run-series')
 let create = require('./create')
 let list = require('./list')
 let skip = require('./skip')
@@ -10,6 +11,7 @@ module.exports = function createWebSocketRouter(params, callback) {
   assert(params, {
     app: String,
   })
+
 
   // apis to create
   let staging = {name: params.app, env: 'staging'}
@@ -24,7 +26,7 @@ module.exports = function createWebSocketRouter(params, callback) {
       let hasProduction = result.find(i=> i.Name === `${params.app}-ws-production`)
       let stage = hasStaging? skip.bind({}, staging) : create.bind({}, staging)
       let prod = hasProduction? skip.bind({}, production) : create.bind({}, production)
-      parallel([
+      series([
         stage,
         prod
       ], callback)

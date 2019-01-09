@@ -1,5 +1,5 @@
 var assert = require('@smallwins/validate/assert')
-let parallel = require('run-parallel')
+let series = require('run-series')
 let create = require('./create')
 
 module.exports = function createWebSocketLambdaDeployments(params, callback) {
@@ -10,7 +10,7 @@ module.exports = function createWebSocketLambdaDeployments(params, callback) {
   let {app, name} = params
   let staging = `${app}-staging-${name}`
   let production = `${app}-production-${name}`
-  parallel([
+  series([
     create.bind({}, {...params, lambda:staging, env:'staging'}),
     create.bind({}, {...params, lambda:production, env:'production'})
   ],

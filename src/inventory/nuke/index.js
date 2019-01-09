@@ -15,7 +15,7 @@ module.exports = function _cloud(inventory) {
   console.log(chalk.red.bold(inventory.app))
 
   // walk the tasks
-  function bind(m) { 
+  function bind(m) {
     return m.bind({}, inventory)
   }
   let tasks = [s3, lambda, restapis, websocketapis, snstopics].map(bind)
