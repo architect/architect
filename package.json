@@ -64,7 +64,7 @@
     "@architect/data": "^2.0.8",
     "@architect/parser": "^1.1.6",
     "@smallwins/validate": "^4.3.0",
-    "aws-sdk": "^2.334.0",
+    "aws-sdk": "^2.384.0",
     "body-parser": "^1.18.3",
     "chalk": "^1.1.3",
     "clear": "^0.1.0",

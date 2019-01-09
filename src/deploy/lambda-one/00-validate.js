@@ -7,7 +7,7 @@ let retry = require('../helpers/retry')
  */
 module.exports = function _validate(params, callback) {
 
-  let pathToCode = params.pathToCode
+  let {pathToCode, tick} = params
   let pathToPkg = path.join(pathToCode, 'package.json')
   let pathToLock = path.join(pathToCode, 'package-lock.json')
   let pkgExists = exists(pathToPkg)
@@ -15,17 +15,20 @@ module.exports = function _validate(params, callback) {
 
   let found = exists(pathToCode)
   if (!found) {
+    if (tick) tick('')
     retry(pathToCode)
     callback(Error('cancel_not_found'))
   }
   else if (!pkgExists) {
+    if (tick) tick('')
     callback(Error('cancel_missing_package'))
   }
   else if (!lockExists) {
+    if (tick) tick('')
     callback(Error('cancel_missing_lock'))
   }
   else {
-    if (params.tick) params.tick('Validating Lambda bundles')
+    if (tick) tick('Validating Lambda bundles')
     callback()
   }
 }

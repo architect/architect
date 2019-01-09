@@ -5,7 +5,7 @@ var path = require('path')
  * reports any errors otherwise silently continue
  */
 module.exports = function _done(params, err, stats) {
-  let {pathToCode, callback, lambda} = params
+  let {pathToCode, callback, lambda, tick} = params
   let pathToPkg = path.join(pathToCode, 'package.json')
   let pathToLock = path.join(pathToCode, 'package-lock.json')
   if (err && err.message === 'cancel_missing_package') {
@@ -20,7 +20,9 @@ module.exports = function _done(params, err, stats) {
   else if (err) {
     console.log(`\n${chalk.dim('deploy')} ${chalk.red.bold(lambda)} ${chalk.dim('failed')}`)
     console.log(err)
+    if (tick) tick('')
     return callback(err)
   }
+  if (tick) tick('')
   callback(null, stats)
 }

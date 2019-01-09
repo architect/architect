@@ -1,9 +1,7 @@
-let chalk = require('chalk')
 let series = require('run-series')
 let deployPublic = require('./public')
 let deployFunctions = require('./lambda-all')
 let deployOne = require('./lambda-one')
-let _progress = require('../util/progress')
 
 module.exports = {
   lambda: deployOne,
@@ -34,10 +32,6 @@ function main(arc, raw, args, callback) {
   else if (args.isPath) {
     // Deploy a single Function
     let pathToCode = args.all.find(arg=> arg.startsWith('/src') || arg.startsWith('src'))
-    let name = chalk.green.dim(`Deploying ${pathToCode}`)
-    let total = 5 // magic number of steps in src
-    let progress = _progress({name, total})
-    let tick = progress.tick
     tasks.push(
       function(callback) {
       deployOne({
@@ -45,7 +39,6 @@ function main(arc, raw, args, callback) {
         env,
         pathToCode,
         start,
-        tick,
       }, callback)
     })
   }

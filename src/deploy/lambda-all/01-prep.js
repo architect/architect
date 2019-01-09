@@ -7,11 +7,9 @@ let series = require('run-series')
 module.exports = function _prepare(params) {
   let {env, arc} = params
   return function _prep(results, callback) {
-
-    let pathToCode = results
     // - 3 ticks for each Function prep (validate, before-deploy, run-plugin-promise)
     // - 8 ticks for hydrate.install()
-    let total = results.length*3+(8)
+    let total = results.length*3+8
     let progress = _progress({
       name: `Preparing ${results.length} Function${results.length > 1? 's':''}:`,
       total
@@ -19,6 +17,7 @@ module.exports = function _prepare(params) {
     let tick = progress.tick
     let hydrateDeps = false
 
+    let passedprep = []
     let failedprep = []
     series([
       function _goPrep(callback) {
@@ -44,6 +43,7 @@ module.exports = function _prepare(params) {
                 callback(err)
               }
               else {
+                passedprep.push(pathToCode)
                 callback()
               }
             })
@@ -51,7 +51,20 @@ module.exports = function _prepare(params) {
         }), callback)
       },
       function _hydrate(callback) {
-        hydrate.install({arc, pathToCode, tick}, callback)
+        // Only hydrate everything if no Functions failed prep, otherwise create actions will cancel early
+        if (failedprep.length === 0) {
+          hydrate.install({
+            arc,
+            pathToCode: passedprep,
+            tick
+          }, callback)
+        }
+        else {
+          // Skip hydration
+          // Two ticks remain at this point
+          Array(8).fill().map(()=> tick(''))
+          callback()
+        }
       },
     ],
     function done(err) {

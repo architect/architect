@@ -7,7 +7,7 @@ let validate = require('./00-validate')
 let beforeDeploy = require('./01-before-deploy')
 let hydrate = require('../../hydrate').install
 
-module.exports = function deploy(params, callback) {
+module.exports = function prep(params, callback) {
 
   // module contract
   assert(params, {

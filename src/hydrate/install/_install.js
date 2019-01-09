@@ -20,6 +20,12 @@ module.exports = function install(params, callback) {
   let errors = []
 
   pathToCode.forEach(path => {
+    // For create: first check to see if this Function exists
+    // If not, throw standard create error
+    if (!exists(path)) {
+      if (tick) Array(7).fill().map(()=> tick(''))
+      callback(Error('cancel_not_found'))
+    }
     // TODO impl arcConfig soooooon
     // let arcConfig = exists(path + '/.arc-config')
     let package = exists(path + '/package.json')

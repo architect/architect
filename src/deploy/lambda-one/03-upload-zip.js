@@ -8,10 +8,11 @@ let retry = require('../helpers/retry')
  */
 module.exports = function uploadZip(params, callback) {
   let {
+    tick,
     pathToCode,
     lambda,
   } = params
-  if (params.tick) params.tick('Updating Lambdas...')
+  if (tick) tick('Updating Lambdas...')
   series([
     // get a handle on the files to zip
     function _zip(callback) {
