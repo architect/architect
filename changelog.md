@@ -4,6 +4,21 @@
 Also see the [Architect functions changelog](https://github.com/arc-repos/arc-functions/blob/master/changelog.md).
 ---
 
+## [On master]
+
+
+### Changed
+
+- Improved status reporting during `deploy` and `create`
+
+
+### Fixed
+
+- Fixes cases where hydration was crashing single function deployments, and deployments that execute `create` for missing resources
+
+
+---
+
 ## [4.5.1] 2019-01-08
 
 
