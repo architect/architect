@@ -113,7 +113,7 @@ module.exports = function copyCommon(params, callback) {
   ],
   function _done(err) {
     if (err) callback(err)
-    callback()
+    else callback()
   })
 }
 
