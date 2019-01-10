@@ -25,7 +25,7 @@ app.use(_public)
 // keep a reference up here for fns below
 let server
 
-// usr locally generated credentials to support http2 secure server
+// use locally generated credentials to support http2 secure server
 const cert = readFileSync('./localhost-cert.pem')
 const key = readFileSync('./localhost-privkey.pem')
 const secureServerOptions = {
