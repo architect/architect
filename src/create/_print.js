@@ -22,18 +22,19 @@ function log(txt) {
 module.exports = {
 
   skip(section, resource) {
-    var skip = chalk.grey('skip')
+    var action = chalk.green('Create:')
+    var skip = chalk.grey('skipping')
     var sect = chalk.grey(section)
     var item = chalk.dim.cyan(resource)
-    var exis = chalk.grey('exists')
-    log(`${skip} ${sect} ${item} ${exis}`)
+    var exis = chalk.grey(', already exists')
+    log(`${action} ${skip} ${sect} ${item}${exis}`)
   },
 
   create(section, resource) {
-    var skip = chalk.green('create')
-    var sect = chalk.grey(section)
+    var action = chalk.green('Create:')
+    var sect = chalk.grey('creating ' + section)
     var item = chalk.bold.blue(resource)
-    log(`${skip} ${sect} ${item}`)
+    log(`${action} ${sect} ${item}`)
   },
 
   stop() {

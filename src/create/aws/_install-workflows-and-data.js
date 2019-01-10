@@ -1,37 +1,15 @@
-let parse = require('@architect/parser')
-let exists = require('path-exists').sync
-let spawn = require('child_process').spawn
-let path = require('path')
-let mkdir = require('mkdirp').sync
-let fs = require('fs')
-let cp = fs.copyFileSync
+// One-off / special case for directly accessing NPM operator
+let npm = require('../../hydrate/providers/npm')
+let copyCommon = require('../../hydrate/shared/_copy')
 
-module.exports = function _installFunctionsAndData(localPath, callback) {
-  let cmd = process.platform.startsWith('win')? 'npm.cmd' : 'npm'
-  let args =  ['i', '@architect/functions', '@architect/data', '--ignore-scripts']
-  let opts = {cwd:localPath, shell:true}
-  let npm = spawn(cmd, args, opts)
-  npm.on('close', function win() {
-    var pathToLocalArcCopy = path.join(localPath, 'node_modules', '@architect', 'shared')
-    mkdir(pathToLocalArcCopy)
-    let arcDefaultPath = path.join(process.cwd(), '.arc')
-    let arcFinalPath = path.join(pathToLocalArcCopy, '.arc')
-    let arcYamlPath = path.join(process.cwd(), 'arc.yaml')
-    let arcJsonPath = path.join(process.cwd(), 'arc.json')
-    if (exists(arcDefaultPath)) {
-      cp(arcDefaultPath, arcFinalPath)
-    }
-    else if (exists(arcYamlPath)) {
-      let raw = fs.readFileSync(arcYamlPath).toString()
-      let arc = parse.yaml.stringify(raw)
-      fs.writeFileSync(path.join(pathToLocalArcCopy, '.arc'), arc)
-    }
-    else if (exists(arcJsonPath)) {
-      let raw = fs.readFileSync(arcJsonPath).toString()
-      let arc = parse.json.stringify(raw)
-      fs.writeFileSync(path.join(pathToLocalArcCopy, '.arc'), arc)
-    }
-    callback()
+// TODO in the future we will need to make this function runtime (and package manager) independent
+
+module.exports = function _installFunctionsAndData(params, callback) {
+  let { absolutePath, relativePath, arc } = params
+  let pathToCode = relativePath.split()
+  // Must be npm i and not npm ci; at this moment the Function dir does not have a package-lock.json file
+  npm([[absolutePath, ['i', '@architect/functions', '@architect/data', '--ignore-scripts']]], function _done(err) {
+    if (err) callback(err)
+    else copyCommon({arc, pathToCode}, callback)
   })
-  npm.on('error', callback)
 }

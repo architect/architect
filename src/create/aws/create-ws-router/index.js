@@ -1,5 +1,4 @@
 let assert = require('@smallwins/validate/assert')
-let parallel = require('run-parallel')
 let waterfall = require('run-waterfall')
 let series = require('run-series')
 let create = require('./create')
@@ -11,7 +10,6 @@ module.exports = function createWebSocketRouter(params, callback) {
   assert(params, {
     app: String,
   })
-
 
   // apis to create
   let staging = {name: params.app, env: 'staging'}

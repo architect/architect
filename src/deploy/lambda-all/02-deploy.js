@@ -16,8 +16,8 @@ module.exports = function _deployer(params) {
     let firstRun = true
     let timeout = 0
 
-    // boilerplate for the progress bar
-    let total = results.length * 3 // 2 deploy + post-deploy steps + 1 tick for bar instantiation
+    // - 3 ticks for deploy + post-deploy steps
+    let total = results.length*4
     let progress = _progress({name: chalk.green.dim(`Deploying ${results.length} Functions:`), total})
     let tick = progress.tick
 
@@ -45,15 +45,21 @@ module.exports = function _deployer(params) {
       }
     })
 
-    // drain the queue
-    queue.start(function _end(err, _stats) {
-      if (err) {
-        callback(err)
-      }
-      else {
-        let stats = _flatten(_stats)
-        callback(null, results, stats)
-      }
-    })
+    if (results.length > 0) {
+      // drain the queue
+      queue.start(function _end(err, _stats) {
+        if (err) {
+          callback(err)
+        }
+        else {
+          let stats = _flatten(_stats)
+          callback(null, results, stats)
+        }
+      })
+    }
+    // Probably a brand new project
+    else {
+      callback(null, results, [])
+    }
   }
 }

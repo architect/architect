@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+let chalk = require('chalk')
 let waterfall = require('run-waterfall')
 let init = require('../util/init')
 let flags = require('./helpers/flags')
@@ -26,7 +27,7 @@ waterfall([
 ],
 function done(err) {
   if (err) {
-    console.log(err)
+    console.log(chalk.bold.red('Error'), chalk.bold.white(err))
     process.exit(1)
   }
   // TODO catch toomanyrequest exceptions and retry once

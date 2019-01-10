@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+let chalk = require('chalk')
 let waterfall = require('run-waterfall')
 let init = require('../util/init')
 let create = require('.')
@@ -7,6 +8,7 @@ let flags = require('./_flags')
 let errArcInvalid = require('./errors/arc-invalid')
 let errTooManyRequests = require('./errors/too-many-requests')
 let errUnknown = require('./errors/unknown')
+let start = Date.now()
 
 waterfall([
   init,
@@ -29,6 +31,8 @@ function done(err) {
   }
   else {
     stop()
+    let ts = Date.now() - start
+    console.log(`${chalk.green('✓ Success!')} ${chalk.green.dim(`Completed create in ${ts}ms`)}`)
     process.exit(0)
   }
 })

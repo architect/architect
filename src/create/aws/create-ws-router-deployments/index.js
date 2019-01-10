@@ -47,7 +47,6 @@ function render(apis) {
     let e = api.ApiEndpoint
     log(chalk.green.bold.dim(api.Name))
     log(chalk.cyan.underline(e))
-    log(chalk.cyan.underline(e.replace('wss://', 'https://') + '/@connections'))
-    log('\n')
+    log(chalk.cyan.underline(e.replace('wss://', 'https://') + '/@connections\n\n'))
   })
 }

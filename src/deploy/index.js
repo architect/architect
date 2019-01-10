@@ -1,11 +1,7 @@
-let chalk = require('chalk')
 let series = require('run-series')
-
 let deployPublic = require('./public')
 let deployFunctions = require('./lambda-all')
 let deployOne = require('./lambda-one')
-let hydrateCommon = require('./helpers/hydrate-common')
-let _progress = require('../util/progress')
 
 module.exports = {
   lambda: deployOne,
@@ -15,7 +11,7 @@ module.exports = {
 
 function main(arc, raw, args, callback) {
 
-  // create a tasks queue to walk
+  // Create a tasks queue to walk
   let tasks = []
   let env = args.env
   let start = args.start
@@ -23,74 +19,62 @@ function main(arc, raw, args, callback) {
   let filters = args.filters
 
   if (args.isStatic) {
-    // deploy /public to s3
+    // Deploy /public to S3
     tasks.push(function(callback) {
       deployPublic({
+        arc,
         env,
         shouldDelete,
-        arc,
+        start,
       }, callback)
     })
   }
   else if (args.isPath) {
-    // deploying one lambda
+    // Deploy a single Function
     let pathToCode = args.all.find(arg=> arg.startsWith('/src') || arg.startsWith('src'))
-    let name = chalk.green.dim(`Deploying ${pathToCode}`)
-    let total = 7 // magic number of steps in src
-    let progress = _progress({name, total})
-    let tick = progress.tick
     tasks.push(
       function(callback) {
-        hydrateCommon(callback)
-      },
-      function(callback) {
       deployOne({
-        env,
         arc,
+        env,
         pathToCode,
-        tick,
         start,
       }, callback)
     })
   }
   else if (args.isLambda) {
-    // deploy just the lambdas
+    // Deploy all Functions, but nothing else
     tasks.push(
       function(callback) {
-        hydrateCommon(callback)
-      },
-      function(callback) {
       deployFunctions({
-        env,
         arc,
+        env,
+        filters,
         raw,
         start,
-        filters,
       }, callback)
     })
   }
   else {
-    // assume wholesale deployment
-    // if already got static don't redeploy it..
+    // Otherwise just assume a full deployment
+    // Deploy /public to S3
     tasks.push(function(callback) {
       deployPublic({
-        env,
         arc,
+        env,
+        shouldDelete,
         start,
       }, callback)
     })
-    // actual deployz
+    // Deploy all Functions
     tasks.push(
       function(callback) {
-        hydrateCommon(callback)
-      },
-      function(callback) {
       deployFunctions({
-        env,
         arc,
+        env,
+        filters,
         raw,
         start,
-        filters,
       }, callback)
     })
   }

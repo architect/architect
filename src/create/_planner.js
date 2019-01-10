@@ -19,9 +19,9 @@ module.exports = function planner(arc) {
   //
   if (arc.http) {
     arc.http.forEach(route=> {
-      plans.push({action:'create-http-lambda-code', route, app})
+      plans.push({action:'create-http-lambda-code', route, app, arc})
       if (!process.env.ARC_LOCAL) {
-        plans.push({action:'create-http-lambda-deployments', route, app})
+        plans.push({action:'create-http-lambda-deployments', route, app, arc})
       }
     })
   }
@@ -31,7 +31,7 @@ module.exports = function planner(arc) {
   //
   if (arc.events) {
     arc.events.forEach(event=> {
-      plans.push({action:'create-event-lambda-code', event, app})
+      plans.push({action:'create-event-lambda-code', event, app, arc})
       if (!process.env.ARC_LOCAL) {
         plans.push({action:'create-events', event, app})
         plans.push({action:'create-event-lambda-deployments', event, app})
@@ -44,7 +44,7 @@ module.exports = function planner(arc) {
   //
   if (arc.queues) {
     arc.queues.forEach(queue=> {
-      plans.push({action:'create-queue-lambda-code', queue, app})
+      plans.push({action:'create-queue-lambda-code', queue, app, arc})
       if (!process.env.ARC_LOCAL) {
         plans.push({action:'create-queue', queue, app})
         plans.push({action:'create-queue-lambda-deployments', queue, app})
@@ -57,7 +57,7 @@ module.exports = function planner(arc) {
   //
   if (arc.scheduled) {
     arc.scheduled.forEach(scheduled=> {
-      plans.push({action:'create-scheduled-lambda-code', scheduled, app})
+      plans.push({action:'create-scheduled-lambda-code', scheduled, app, arc})
       if (!process.env.ARC_LOCAL) {
         plans.push({action:'create-scheduled-lambda-deployments', scheduled, app})
       }
@@ -94,7 +94,7 @@ module.exports = function planner(arc) {
       var hasDestroy = table[name].hasOwnProperty('destroy')
       var hasTrigger = hasInsert || hasUpdate || hasDestroy
       if (hasTrigger) {
-        plans.push({action:'create-table-lambda-code', table, app})
+        plans.push({action:'create-table-lambda-code', table, app, arc})
         if (!process.env.ARC_LOCAL) {
           plans.push({action:'create-table-lambda-deployments', table, app})
         }
@@ -129,9 +129,9 @@ module.exports = function planner(arc) {
   // api gateway web sockets
   //
   if (arc.hasOwnProperty('ws')) {
-    plans.push({action:'create-ws-lambda-code', app, name:'ws-connect'})
-    plans.push({action:'create-ws-lambda-code', app, name:'ws-disconnect'})
-    plans.push({action:'create-ws-lambda-code', app, name:'ws-default'})
+    plans.push({action:'create-ws-lambda-code', app, arc, name:'ws-connect'})
+    plans.push({action:'create-ws-lambda-code', app, arc, name:'ws-disconnect'})
+    plans.push({action:'create-ws-lambda-code', app, arc, name:'ws-default'})
     if (!process.env.ARC_LOCAL) {
       plans.push({action:'create-ws-lambda-deployments', app, name:'ws-connect'})
       plans.push({action:'create-ws-lambda-deployments', app, name:'ws-disconnect'})
