@@ -3,7 +3,7 @@ let retry = require('../helpers/retry')
 let delta = require('../helpers/delta')
 let report = require('../helpers/report')
 
-    // report the lambda deployment results
+// report the lambda deployment results
 module.exports = function getReporter(params) {
   let {env, arc, start} = params
   return function _reports(results, stats, callback) {
@@ -20,7 +20,6 @@ module.exports = function getReporter(params) {
       function(callback) {
         // read any failures into an array ['src/http/get-foo', 'src/events/foo-baz']
         let retries = retry()
-        //console.log(retries)
         if (retries.length > 0) {
           delta(arc, callback)
         }

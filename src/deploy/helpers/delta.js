@@ -1,3 +1,4 @@
+let chalk = require('chalk')
 let create = require('../../create')
 let getName = require('../../util/get-lambda-name')
 let retry = require('./retry')
@@ -52,6 +53,7 @@ module.exports = function delta(arc, callback) {
     })
   }
   let raw = stringify(diff)
+  console.log(`${chalk.green('Found new resources to create!')} ${chalk.green.dim(`Creating them now...`)}`)
   create(diff, raw, callback)
 }
 

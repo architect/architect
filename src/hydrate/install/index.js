@@ -24,8 +24,8 @@ module.exports = function hydrateInstall(params, callback) {
   // - 2 ticks for install
   // - 2 for shared
   // - 4 for shared/copy
-  let total = 8
   if (!tick) {
+    let total = 8
     progress = _progress({
       name: 'Hydrating:',
       total

@@ -1,5 +1,7 @@
+let chalk = require('chalk')
 var waterfall = require('run-waterfall')
 var assert = require('@smallwins/validate/assert')
+let _progress = require('../../util/progress')
 
 var prep = require('./prep')
 var deploy = require('./deploy')
@@ -15,11 +17,22 @@ module.exports = function deployOne(params, callback) {
     env: String,
     arc: Object,
     pathToCode: String,
-    tick: Function,
     start: Number,
   })
 
-  let arc = params.arc
+  let {env, arc, pathToCode, start, tick} = params
+
+  if (!tick) {
+    // - 3 ticks for Function prep (validate, before-deploy, run-plugin-promise)
+    // - 8 ticks for hydrate.install()
+    // - 3 ticks for Deployment
+    let name = chalk.green.dim(`Deploying ${pathToCode}`)
+    let total = 3+8+3
+    let progress = _progress({name, total})
+    tick = progress.tick
+    params.tick = tick
+  }
+
   params.hydrateDeps = true
 
   const _prep = prep.bind({}, params)
@@ -35,15 +48,16 @@ module.exports = function deployOne(params, callback) {
       callback(err)
     }
     else if (retries.length > 0) {
+      Array(14).fill().map(()=> tick(''))
       delta(arc, callback)
     }
     else {
       report({
-        results:[params.pathToCode],
-        env:params.env,
-        arc:params.arc,
-        start:params.start,
-        stats:[stats]
+        results: [pathToCode],
+        env: env,
+        arc: arc,
+        start: start,
+        stats: [stats]
       }, callback)
     }
   })
