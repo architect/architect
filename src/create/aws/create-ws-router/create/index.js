@@ -8,6 +8,13 @@ module.exports = function create({name, env}, callback) {
 
   let region = process.env.AWS_REGION
   waterfall([
+
+    function chill(callback) {
+      setTimeout(function delay() {
+        callback()
+      }, 30*1000)
+    },
+
     function createApi(callback) {
 
       parallel({
@@ -32,6 +39,7 @@ module.exports = function create({name, env}, callback) {
     },
 
     function createRoutes({api, account}, callback) {
+      // console.log('create-ws-router createRoutes got', {api, account})
       series(['$default', '$connect', '$disconnect'].map(RouteKey=> {
         return function createRoute(callback) {
           route({

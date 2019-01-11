@@ -18,6 +18,7 @@ module.exports = function route({api, env, name, region, account, RouteKey}, cal
     function createIntegration(callback) {
       setTimeout(function throttle() {
         let uri = `arn:aws:apigateway:${region}:lambda:path/2015-03-31/functions/${arn}/invocations`
+        console.log(api)
         gateway.createIntegration({
           ApiId: api.ApiId,
           IntegrationMethod: 'POST',

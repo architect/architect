@@ -1,6 +1,6 @@
 var assert = require('@smallwins/validate/assert')
-var parallel = require('run-parallel')
-var create = require('./_create-resource')
+var series = require('run-series')
+var create = require('./create-resource')
 
 module.exports = function _createRoute(params, callback) {
 
@@ -17,7 +17,7 @@ module.exports = function _createRoute(params, callback) {
   var staging = create.bind({}, `${params.app}-staging`, route, method, type)
   var production = create.bind({}, `${params.app}-production`, route, method, type)
 
-  parallel([
+  series([
     staging,
     production
   ],

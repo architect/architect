@@ -1,4 +1,4 @@
-var getPattern = require('../../../../../src/create/aws/_create-route/_create-resource/_get-pattern')
+var getPattern = require('../../../../../src/create/aws/create-http-route/create-route/_get-pattern')
 var test = require('tape')
 
 test('create aws create-route+create-resource get-pattern redirects 302 properly', t=> {

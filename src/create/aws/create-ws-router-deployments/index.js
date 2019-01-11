@@ -36,7 +36,9 @@ module.exports = function createWebSocketRouterDeployments(params, callback) {
     if (err) callback(err)
     else {
       render(result)
-      callback()
+      setTimeout(function delay() {
+        callback()
+      }, 5 * 1000)
     }
   })
 }

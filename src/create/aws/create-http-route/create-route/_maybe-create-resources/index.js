@@ -1,19 +1,28 @@
-var aws = require('aws-sdk')
-var waterfall = require('run-waterfall')
-var createResources = require('./_create-resources')
+let aws = require('aws-sdk')
+let waterfall = require('run-waterfall')
+let createResources = require('./_create-resources')
 
 module.exports = function _maybeCreateResources(stage, route, type, callback) {
 
-  var gateway = new aws.APIGateway({region: process.env.AWS_REGION})
-  var restApiId
+  let gateway = new aws.APIGateway({region: process.env.AWS_REGION})
+  let restApiId
 
   waterfall([
+
+    function _delay(callback) {
+      setTimeout(function delay() {
+        callback()
+      }, 20*1000)
+    },
+
     function _getAPI(callback) {
       // h/t to @kj for finding this limit
-      gateway.getRestApis({limit: 500}, callback)
+      gateway.getRestApis({
+        limit: 500
+      }, callback)
     },
     function _createResources(apis, callback) {
-      var api = apis.items.find(i=> i.name === stage)
+      let api = apis.items.find(i=> i.name === stage)
       restApiId = api.id // reused below (declared above!)
       createResources(restApiId, route, type, callback)
     }

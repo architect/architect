@@ -68,16 +68,7 @@ module.exports = function planner(arc) {
   // s3 buckets
   //
   if (arc.static && !process.env.ARC_LOCAL) {
-    plans.push({action:'create-static-deployments', static:arc.static})
-  }
-
-  //
-  // slack api endpoints
-  //
-  if (arc.slack && !process.env.ARC_LOCAL) {
-    arc.slack.forEach(bot=> {
-      plans.push({action:'create-slack-endpoints', bot, app})
-    })
+    plans.push({action:'create-http-static-deployments', static:arc.static})
   }
 
   //
@@ -113,10 +104,10 @@ module.exports = function planner(arc) {
   //
   // api gateway http
   //
-  let hasAPI = arc.hasOwnProperty('http') || arc.hasOwnProperty('slack')
+  let hasAPI = arc.hasOwnProperty('http')
   if (hasAPI && !process.env.ARC_LOCAL) {
 
-    plans.push({action:'create-routers', app})
+    plans.push({action:'create-http-routers', app})
 
     if (arc.http) {
       arc.http.forEach(route=> {
@@ -143,7 +134,7 @@ module.exports = function planner(arc) {
 
   // always deploy the api last!
   if (hasAPI && !process.env.ARC_LOCAL) {
-    plans.push({action:'create-router-deployments', app})
+    plans.push({action:'create-http-router-deployments', app})
   }
 
   return plans

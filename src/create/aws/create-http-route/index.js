@@ -1,5 +1,5 @@
-var assert = require('@smallwins/validate/assert')
-var create = require('../_create-route')
+let assert = require('@smallwins/validate/assert')
+let create = require('./create-route')
 
 module.exports = function _createHttpRoute(params, callback) {
   assert(params, {

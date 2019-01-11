@@ -6,5 +6,5 @@ module.exports = function getResources(params, callback) {
     params.limit = 500
     let gateway = new aws.APIGateway({region: process.env.AWS_REGION})
     gateway.getResources(params, callback)
-  }, 2016)
+  }, 5000)
 }

@@ -1,6 +1,6 @@
 var test = require('tape')
 
-var createResource = require('../../../../../src/create/aws/_create-route/_create-resource')
+var createResource = require('../../../../../src/create/aws/create-http-route/create-route')
 
 test('createResource starts a waterfall by creating resources with env and route details', t=> {
   t.end()

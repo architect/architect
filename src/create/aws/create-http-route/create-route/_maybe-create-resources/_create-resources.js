@@ -9,7 +9,7 @@ var print = require('../../../../_print')
 
 module.exports = function _createResources(restApiId, route, type, callback) {
 
-  var allRoutes = urlParts(route)
+  var allRoutes = urlParts(route).filter(r=> r != '/')
 
   var routes = allRoutes.map(part=> {
     return function _skipOrCreate(callback) {
@@ -35,10 +35,17 @@ module.exports = function _createResources(restApiId, route, type, callback) {
               restApiId,
             },
             function _create(err) {
-              if (err && err.name != 'ConflictException') {
-                console.log(err)
+              if (err && err.name === 'ConflictException') {
+                // if it already exists just continue
+                callback()
               }
-              callback()
+              else if (err) {
+                // if there was a problem surface it
+                callback(err)
+              }
+              else {
+                callback()
+              }
             })
           }
         }
