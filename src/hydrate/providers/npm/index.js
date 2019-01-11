@@ -71,7 +71,8 @@ function exec(callback) {
 
 // NPM operations
 function npm(pathToCode, args, callback) {
-  let cwd = pathToCode.startsWith('/')
+  // Don't key cwd on leading '/' as that breaks in Windows
+  let cwd = pathToCode.startsWith(process.cwd())
     ? pathToCode
     : path.join(process.cwd(), pathToCode)
   let win = process.platform.startsWith('win')

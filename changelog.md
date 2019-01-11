@@ -4,6 +4,16 @@
 Also see the [Architect functions changelog](https://github.com/arc-repos/arc-functions/blob/master/changelog.md).
 ---
 
+## [4.5.5] 2019-01-11
+
+
+### Fixed
+
+- In Windows, NPM no longer fails with `undefined`, fixes #261
+
+
+---
+
 ## [4.5.4] 2019-01-10
 
 
