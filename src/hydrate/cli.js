@@ -84,5 +84,6 @@ function _inventory(err) {
 function error(err) {
   // Special error presentation here to deal with potentially many individual errors from dependency hydration
   console.log(chalk.bold.red('Error') + '\n' + chalk.bold.white(err))
+  if (err.stack) console.log(chalk.dim(err.stack))
   process.exit(1)
 }

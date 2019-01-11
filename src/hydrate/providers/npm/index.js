@@ -50,11 +50,14 @@ function exec(callback) {
           else {
             // Add the operation to the queue
             running += 1
-            npm(pathToCode, args, err => {
-              // Collect any NPM errors along the way, but don't halt parallel
-              if (err) errors.push(err)
-              running -= 1
-              callback()
+            npm(pathToCode, args, function done(err, npmErr) {
+              if (err) callback(err)
+              else {
+                // Collect any NPM errors along the way, but don't halt parallel
+                if (npmErr) errors.push(npmErr)
+                running -= 1
+                callback()
+              }
             })
           }
         }
@@ -63,8 +66,8 @@ function exec(callback) {
     }
   }),
   function _done(err) {
-    if (err) callback(err) // Generic errors
-    if (errors.length > 0) callback(errors.join('\n')) // NPM errors
+    if (err) callback(err) // Exit immediately on any child process errors
+    else if (errors.length > 0) callback(errors.join('\n')) // NPM errors
     else callback(null)
   })
 }
@@ -88,10 +91,14 @@ function npm(pathToCode, args, callback) {
     stderr.push(chunk)
   })
   subprocess.on('exit', function exit(code) {
-    callback(code !== 0
-      ? new Error(`npm ${args.join(' ')} in ${pathToCode} exited with code ${code}\n  ${Buffer.concat(stderr).toString().split('\n').join('\n  ')}`)
-      : null)
+    // Deal with NPM errors in userland
+    let npmErr
+    if (code !== 0) {
+      npmErr = new Error(`npm ${args.join(' ')} in ${pathToCode} exited with code ${code}\n  ${Buffer.concat(stderr).toString().split('\n').join('\n  ')}`)
+    }
+    callback(null, npmErr)
   })
+  // Deal with child process errors
   subprocess.on('error', function fail(err) {
     callback(err)
   })

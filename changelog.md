@@ -4,6 +4,17 @@
 Also see the [Architect functions changelog](https://github.com/arc-repos/arc-functions/blob/master/changelog.md).
 ---
 
+
+## [On master]
+
+
+### Changed
+
+- Improved error handling in NPM operations
+
+
+---
+
 ## [4.5.5] 2019-01-11
 
 
