@@ -14,6 +14,7 @@ function log(txt) {
       _log(`${chalk.green(frames[i = ++i % frames.length])} ${text}`)
     }, 125)
   }
+  // console.log(`${chalk.green(frames[i = ++i % frames.length])} ${text}`)
 }
 
 /**

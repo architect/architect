@@ -31,8 +31,8 @@ function done(err) {
   }
   else {
     stop()
-    let ts = Date.now() - start
-    console.log(`${chalk.green('✓ Success!')} ${chalk.green.dim(`Completed create in ${ts}ms`)}`)
+    let ts = chalk.green(((Date.now() - start)/1000).toFixed(2)+'s')
+    console.log(chalk.green('✓ Success!'), chalk.green.dim(`Completed create in`), ts)
     process.exit(0)
   }
 })

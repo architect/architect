@@ -1,8 +1,7 @@
-var aws = require('aws-sdk')
-var chalk = require('chalk')
-var assert = require('@smallwins/validate/assert')
-var parallel = require('run-parallel')
-let stop = require('../../_print').stop
+let assert = require('@smallwins/validate/assert')
+let series = require('run-series')
+let list = require('./list-rest-apis')
+let deploy = require('./deploy')
 
 module.exports = function createRouters(params, callback) {
 
@@ -10,65 +9,20 @@ module.exports = function createRouters(params, callback) {
     app: String,
   })
 
-  var gateway = new aws.APIGateway({region: process.env.AWS_REGION})
-
-  function deploy(params, callback) {
-    setTimeout(function _chill() {
-      gateway.createDeployment(params, function _deploy(err) {
-        if (err) {
-          callback(err)
-        }
-        else {
-          // lol, ok
-          // https://forums.aws.amazon.com/thread.jspa?threadID=247394
-          var url = `https://${params.restApiId}.execute-api.${process.env.AWS_REGION}.amazonaws.com/${params.stageName.startsWith('staging')?'staging':'production'}`
-          callback(null, url)
-        }
-      })
-    }, 6000)
-  }
-
-  function list(callback) {
-    setTimeout(function _chill() {
-      gateway.getRestApis({
-        limit: 500,
-      }, callback)
-    }, 6000)
-  }
-
-  list(function _list(err, result) {
-    if (err) {
-      throw err
-    }
+  list(function listed(err, result) {
+    if (err) callback(err)
     else {
 
-      var stagingID = result.items.find(i=> i.name === `${params.app}-staging`).id
-      var productionID = result.items.find(i=> i.name === `${params.app}-production`).id
+      let stagingID = result.items.find(i=> i.name === `${params.app}-staging`).id
+      let productionID = result.items.find(i=> i.name === `${params.app}-production`).id
 
-      var staging = deploy.bind({}, {restApiId:stagingID, stageName:'staging'})
-      var production = deploy.bind({}, {restApiId:productionID, stageName:'production'})
-
-      parallel([
-        staging,
-        production,
+      series([
+        deploy.bind({}, {restApiId:stagingID, stageName:'staging'}),
+        deploy.bind({}, {restApiId:productionID, stageName:'production'}),
       ],
-      function _create(err, urls) {
-        if (err) {
-          stop()
-          callback(err)
-        }
-        else {
-          stop()
-          if (urls.length === 2) {
-            let x = process.platform.startsWith('win')? ' √' :'✓'
-            console.log(`${chalk.green(`${x} Success!`)} ${chalk.green.dim(`AWS resources created`)}`)
-            urls.forEach(url=> {
-              var pretty = chalk.cyan.underline(url)
-              console.log(pretty)
-            })
-          }
-          callback(null, urls)
-        }
+      function create(err) {
+        if (err) callback(err)
+        else callback()
       })
     }
   })

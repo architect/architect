@@ -106,15 +106,13 @@ module.exports = function planner(arc) {
   //
   let hasAPI = arc.hasOwnProperty('http')
   if (hasAPI && !process.env.ARC_LOCAL) {
-
     plans.push({action:'create-http-routers', app})
-
-    if (arc.http) {
-      arc.http.forEach(route=> {
-        plans.push({action:'create-http-route', route, app})
-      })
-    }
+    arc.http.forEach(route=> {
+      plans.push({action:'create-http-route', route, app})
+    })
+    plans.push({action:'create-http-router-deployments', app})
   }
+
 
   //
   // api gateway web sockets
@@ -132,10 +130,10 @@ module.exports = function planner(arc) {
     }
   }
 
-  // always deploy the api last!
-  if (hasAPI && !process.env.ARC_LOCAL) {
-    plans.push({action:'create-http-router-deployments', app})
-  }
 
+  //
+  // report
+  //
+  plans.push({action:'report', arc})
   return plans
 }
