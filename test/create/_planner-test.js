@@ -20,7 +20,7 @@ test('create planner returns sns event plans', t=> {
   var createdeployplans = plans.filter(x => x.action === 'create-event-lambda-deployments')
   t.deepEqual(createdeployplans[0], {action:'create-event-lambda-deployments', app: base.app[0], event:'bing'}, 'contains event lambda deployments with first of two events')
   t.deepEqual(createdeployplans[1], {action:'create-event-lambda-deployments', app: base.app[0], event:'bong'}, 'contains event lambda deployments with second of two events')
-  t.equal(plans.length, 7 , '7 plans exist = 6 plans for the sns events (3 for each sns event) + 1 default plan (create-router)')
+  t.equal(plans.length, 8 , '8 plans exist = 6 plans for the sns events (3 for each sns event) + 1 default plan (create-http-router) and 1 for report')
   t.end()
 })
 test('create planner returns subset of sns event plans if local', t=> {
@@ -33,7 +33,7 @@ test('create planner returns subset of sns event plans if local', t=> {
   var lambdacodeplans = plans.filter(x => x.action === 'create-event-lambda-code')
   t.deepEqual(lambdacodeplans[0], {action:'create-event-lambda-code', app: base.app[0], event:'bing', arc: { events: [ 'bing', 'bong' ], app: [ 'mah-app' ] }},  'contains create lambda code with first of two events')
   t.deepEqual(lambdacodeplans[1], {action:'create-event-lambda-code', app: base.app[0], event:'bong', arc: { events: [ 'bing', 'bong' ], app: [ 'mah-app' ] }},  'contains create lambda code with second of two events')
-  t.equal(plans.length, 2, '2 and only 2 plans exist = 2 plans for the sns events - no create router plans in local scenario')
+  t.equal(plans.length, 3, '3 plans in local scenario')
   delete process.env.ARC_LOCAL
   t.end()
 })
@@ -52,7 +52,7 @@ test('create planner returns queue plans', t=> {
   var createdeployplans = plans.filter(x => x.action === 'create-queue-lambda-deployments')
   t.deepEqual(createdeployplans[0], {action:'create-queue-lambda-deployments', app: base.app[0], queue:'bing'}, 'contains queue lambda deployments with first of two queues')
   t.deepEqual(createdeployplans[1], {action:'create-queue-lambda-deployments', app: base.app[0], queue:'bong'}, 'contains queue lambda deployments with second of two queues')
-  t.equal(plans.length, 7, '7 plans exist = 6 plans to create 3 plans for each queue + 1 create router default plan')
+  t.equal(plans.length, 8, '8 plans exist = 6 plans to create 3 plans for each queue + 1 create router default plan + 1 for report')
   t.end()
 })
 test('create planner returns subset of queue plans if local', t=> {
@@ -84,7 +84,7 @@ test('create planner returns scheduled plans', t=> {
   var lambdadeployplans = plans.filter(x => x.action === 'create-scheduled-lambda-deployments')
   t.deepEqual(lambdadeployplans[0], {action:'create-scheduled-lambda-deployments', app: base.app[0], scheduled:'bing'},  'contains create lambda deployment with first of two schedules')
   t.deepEqual(lambdadeployplans[1], {action:'create-scheduled-lambda-deployments', app: base.app[0], scheduled:'bong'},  'contains create lambda deployment with second of two schedules')
-  t.equal(plans.length, 5, '5 plans exist = 4 scheduled plan events, 2 create-scheduled-lambda-code events per event + 1 default create-router plan')
+  t.equal(plans.length, 6, '6 plans exist = 4 scheduled plan events, 2 create-scheduled-lambda-code events per event + 1 default create-router plan + 1 reporter')
   t.end()
 })
 test('create planner does not return scheduled lambda deployment plans if local', t=> {
@@ -98,7 +98,7 @@ test('create planner does not return scheduled lambda deployment plans if local'
   t.equal(plans.filter(x => x.action === 'create-scheduled-lambda-deployments').length, 0, 'no create-scheduled-lambda-deployment events exist')
   t.deepEqual(lambdacodeplans[0], {action:'create-scheduled-lambda-code', app: base.app[0], scheduled:'bing', arc: { scheduled: [ 'bing', 'bong' ], app: [ 'mah-app' ] }},  'contains create lambda code with first of two events')
   t.deepEqual(lambdacodeplans[1], {action:'create-scheduled-lambda-code', app: base.app[0], scheduled:'bong', arc: { scheduled: [ 'bing', 'bong' ], app: [ 'mah-app' ] }},  'contains create lambda code with second of two events')
-  t.equal(plans.length, 2, '2 plans exist = only 2 create-event-lambda-code event plans - no default plans (create-router)')
+  t.equal(plans.length, 3, '3 plans exist')
   delete process.env.ARC_LOCAL
   t.end()
 })
@@ -137,7 +137,7 @@ test('create planner returns http lambda code plans', t=> {
   var createdeployplans = plans.filter(x => x.action === 'create-http-lambda-deployments')
   t.deepEqual(createdeployplans[0], {action:'create-http-lambda-deployments', app: base.app[0], route:arc.http[0], arc: { http: [ [ 'get', '/' ], [ 'post', '/post' ] ], app: [ 'mah-app' ] }},  'contains create lambda deployment with first of two routes')
   t.deepEqual(createdeployplans[1], {action:'create-http-lambda-deployments', app: base.app[0], route:arc.http[1], arc: { http: [ [ 'get', '/' ], [ 'post', '/post' ] ], app: [ 'mah-app' ] }},  'contains create lambda deployment with second of two routes')
-  t.equal(plans.length, 9, '9 plans exist = 2 lambda code and 2 lambda deploy exist (one for each route), 1 default create-router plan, 1 for routers, 2 http routes (one for each route) plus 1 router deployments')
+  t.equal(plans.length, 10, '10 plans exist')
   t.end()
 })
 test('create planner does not return http lambda deployment plans if local', t=> {
@@ -151,7 +151,7 @@ test('create planner does not return http lambda deployment plans if local', t=>
   var createcodeplans = plans.filter(x => x.action === 'create-http-lambda-code')
   t.equal(createdeployplans.length, 0, 'no http lambda code deployment events exist')
   t.equal(createcodeplans.length, 2, 'two http lambda code creation events exist')
-  t.equal(plans.length, 2, '2 plans exist = only create-lambda-code, no default create-router plan in local case')
+  t.equal(plans.length, 3, '3 plans exist')
   delete process.env.ARC_LOCAL
   t.end()
 })
