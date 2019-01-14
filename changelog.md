@@ -5,7 +5,11 @@ Also see the [Architect functions changelog](https://github.com/arc-repos/arc-fu
 ---
 
 
-## [On master]
+## [4.5.6] 2019-01-14
+
+### Fixed
+
+- Fixes callback in _create-code task, fixes #263
 
 
 ### Changed

@@ -61,10 +61,10 @@ module.exports = function createRouters(params, callback) {
           stop()
           if (urls.length === 2) {
             let x = process.platform.startsWith('win')? ' √' :'✓'
-            console.log(`${chalk.green(`${x} Success!`)} ${chalk.green.dim(`AWS resources created`)}`)
+            console.log(`${chalk.green(`${x} Success!`)} ${chalk.green.dim(`Deployed APIs:`)}`)
             urls.forEach(url=> {
               var pretty = chalk.cyan.underline(url)
-              console.log(pretty)
+              console.log('  - ' + pretty)
             })
           }
           callback(null, urls)
