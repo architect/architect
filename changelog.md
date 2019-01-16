@@ -4,8 +4,18 @@
 Also see the [Architect functions changelog](https://github.com/arc-repos/arc-functions/blob/master/changelog.md).
 ---
 
+## [On master]
+
+
+### Fixed
+
+- Runs `npm i` during `hydrate --update`, resolving a long-standing NPM issue where package-lock files may fall out of sync
+
+
+---
 
 ## [4.5.6] 2019-01-14
+
 
 ### Fixed
 

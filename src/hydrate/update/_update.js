@@ -28,7 +28,7 @@ module.exports = function update(params, callback) {
       // Normalize absolute paths
       if (path.startsWith('src/')) path = process.cwd() + '/' + path
       // NPM
-      let args = ['update', '--ignore-scripts']
+      let args = ['update', '--ignore-scripts', '&&', 'npm', 'i']
       queue.push([path, args])
     }
     else {
