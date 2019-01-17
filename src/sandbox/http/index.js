@@ -1,19 +1,20 @@
 // 3rd party
-var Router = require('router')
-var body = require('body-parser')
-var finalhandler = require('finalhandler')
+let Router = require('router')
+let body = require('body-parser')
+let finalhandler = require('finalhandler')
 
 // built ins
-var http = require('http')
+let http = require('http')
 
 // local modules
 let readArc = require('../../util/read-arc')
-var register = require('./register-route')
-var public = require('./public-middleware')
+let registerHTTP = require('./register-http')
+let registerWebSocket = require('./register-websocket')
+let public = require('./public-middleware')
 
 // config arcana
-var limit = '6mb';
-var app = Router({mergeparams: true})
+let limit = '6mb';
+let app = Router({mergeparams: true})
 app.use(body.json({limit}))
 app.use(body.urlencoded({
   extended: false,
@@ -23,6 +24,7 @@ app.use(public)
 
 // keep a reference up here for fns below
 let server
+let websocket
 
 // starts the http server
 app.start = function start(callback) {
@@ -32,7 +34,7 @@ app.start = function start(callback) {
 
   // build the routes
   if (web.http) {
-    register(app, '@http', 'http', web.http)
+    registerHTTP(app, '@http', 'http', web.http)
   }
 
   // create an actual server; how quaint!
@@ -40,13 +42,19 @@ app.start = function start(callback) {
     app(req, res, finalhandler(req, res))
   })
 
-  server.listen(process.env.PORT, callback)
+  // bind ws
+  if (web.ws) {
+    websocket = registerWebSocket({app, server})
+  }
 
+  // start listening
+  server.listen(process.env.PORT, callback)
   return app
 }
 
 app.close = function close() {
   server.close()
+  websocket.close()
 }
 
 // export the app
