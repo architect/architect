@@ -4,6 +4,56 @@
 Also see the [Architect functions changelog](https://github.com/arc-repos/arc-functions/blob/master/changelog.md).
 ---
 
+## [On master]
+
+
+### Fixed
+
+- Runs `npm i` during `hydrate --update`, resolving a long-standing NPM issue where package-lock files may fall out of sync
+
+
+---
+
+## [4.5.6] 2019-01-14
+
+
+### Fixed
+
+- Fixes callback in _create-code task, fixes #263
+
+
+### Changed
+
+- Improved error handling in NPM operations
+
+
+---
+
+## [4.5.5] 2019-01-11
+
+
+### Fixed
+
+- In Windows, NPM no longer fails with `undefined`, fixes #261
+
+
+---
+
+## [4.5.4] 2019-01-10
+
+
+### Changed
+
+- Improved status reporting during `deploy` and `create`
+
+
+### Fixed
+
+- Fixes cases where hydration was crashing single function deployments, and deployments that execute `create` for missing resources
+
+
+---
+
 ## [4.5.1] 2019-01-08
 
 

@@ -163,10 +163,10 @@ module.exports = function _createCode(params, callback) {
     // write in the files
     fs.writeFileSync(pathToPkg, pkg)
     fs.writeFileSync(pathToIndex, index)
-  }
 
-  // Install deps, then hydrate with shared code (if any)
-  install({absolutePath, relativePath, arc}, callback)
+    // Install deps, then hydrate with shared code (if any)
+    install({absolutePath, relativePath, arc}, callback)
+  }
 }
 
 function getType(idx) {
