@@ -55,7 +55,9 @@ function _createRole(callback) {
       'arn:aws:iam::aws:policy/AmazonS3FullAccess',
       'arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess',
       'arn:aws:iam::aws:policy/AmazonSNSFullAccess',
+      'arn:aws:iam::aws:policy/AmazonSQSFullAccess',
       'arn:aws:iam::aws:policy/service-role/AWSLambdaSQSQueueExecutionRole',
+      'arn:aws:iam::aws:policy/AmazonAPIGatewayInvokeFullAccess',
     ].map(PolicyArn=> {
       return function _attachPolicy(callback) {
         iam.attachRolePolicy({
