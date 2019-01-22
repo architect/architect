@@ -10,7 +10,7 @@ Also see the [Architect functions changelog](https://github.com/arc-repos/arc-fu
 ### Fixed
 
 - Runs `npm i` during `hydrate --update`, resolving a long-standing NPM issue where package-lock files may fall out of sync
-
+- Fixed: on Windows, S3 assets will be correctly created relative to their location beneath `public` rather than their full paths.
 
 ---
 
