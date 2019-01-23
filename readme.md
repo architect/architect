@@ -9,7 +9,7 @@
 ## Quickstart
 No AWS account required!
 
-1. Create a vanilla Node project:
+1. Create a Node project:
 
 ```bash
 mkdir testapp
@@ -23,7 +23,7 @@ npm init --yes
 npm i @architect/architect
 ```
 
-3. Add a basic `.arc` file:
+3. Add an `.arc` file:
 
 ```arc
 @app
@@ -33,7 +33,7 @@ testapp
 get /
 ```
 
-4. Generate your project locally:
+4. Generate your project code locally:
 
 ```bash
 npx create local
@@ -50,9 +50,6 @@ To see all commands run:
 ```bash
 npx help
 ```
-
-> **Heads up:** be sure `npm uninstall @architect/workflows` if you're installing `@architect/architect` to an existing project
-
 
 ### Learn more
 
