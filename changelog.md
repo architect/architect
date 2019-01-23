@@ -1,24 +1,34 @@
 # Architect changelog
 
 ---
-Also see the [Architect functions changelog](https://github.com/arc-repos/arc-functions/blob/master/changelog.md).
+Also see:
+- [Architect Functions changelog](https://github.com/arc-repos/arc-functions/blob/master/changelog.md)
+- [Architect Data changelog](https://github.com/arc-repos/arc-data/blob/master/changelog.md)
 ---
 
-## [5.0.0] 2019-01-22
+## [5.0.1] 2019-01-22
 
 ### Added
 
-- support for `@ws` in `.arc` for generating web socket lambdas and api gateway endpoints
-- support for web socket lambdas in the local sandbox
-- web socket lambdas support in `inventory` which in turn powers most other workflows
+- Support for `@ws` in `.arc` for generating WebSocket Lambdas and API Gateway endpoints
+- Support for WebSocket Lambdas in the local sandbox
+- WebSocket Lambdas support in `inventory`, which in turn powers most other workflows
+
 
 ### Removed
 
-- support for `@slack` as that the more generic `@http` lambdas support that use case better
+- Support for `@slack` as the more generic `@http` Lambdas support that use case better
+
 
 ### Fixed
 
 - Runs `npm i` during `hydrate --update`, resolving a long-standing NPM issue where package-lock files may fall out of sync
+
+
+### Changed
+
+- Updated dependencies
+
 
 ---
 
