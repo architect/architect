@@ -17,7 +17,7 @@ module.exports = {
       let result = await inquirer.prompt([{
         type: 'list',
         name: 'help',
-        prefix: chalk.cyan.dim('@architect/workflows'),
+        prefix: chalk.cyan.dim('@architect/architect'),
         suffix: '',
         message: ' ',
         choices: fs.readdirSync(doc_dir).map(i=> i.replace('.md', '')),

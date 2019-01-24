@@ -29,7 +29,7 @@ module.exports = function start(callback) {
       })
     },
     function _env(callback) {
-      // populates process.env from .arc-env
+      // populates additional environment variables
       env(callback)
     },
     function _db(callback) {
