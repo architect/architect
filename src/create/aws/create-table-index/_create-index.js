@@ -58,6 +58,7 @@ module.exports = function _createTable(name, attr, callback) {
         TableName: name,
         AttributeDefinitions: getAttributeDefinitions(attr),
         GlobalSecondaryIndexUpdates: getGlobalSecondaryIndexes(gsiName, attr),
+        BillingMode: 'PAY_PER_REQUEST',
       }, callback)
     }
   ],

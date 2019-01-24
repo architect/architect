@@ -6,7 +6,7 @@ Also see:
 - [Architect Data changelog](https://github.com/arc-repos/arc-data/blob/master/changelog.md)
 ---
 
-## [5.0.1] 2019-01-22
+## [5.0.2] 2019-01-22
 
 ### Added
 
@@ -22,6 +22,7 @@ Also see:
 
 ### Fixed
 
+- Fixes @indexes creation bug
 - Runs `npm i` during `hydrate --update`, resolving a long-standing NPM issue where package-lock files may fall out of sync
 
 
