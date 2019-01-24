@@ -6,6 +6,25 @@ Also see:
 - [Architect Data changelog](https://github.com/arc-repos/arc-data/blob/master/changelog.md)
 ---
 
+## [5.0.3] 2019-01-24
+
+### Added
+
+- `repl` now respects environments, allowing you to connect to your remote databases with the `NODE_ENV` environment variable
+
+
+### Fixed
+
+- `repl` was being clobbered by `@architect/data`'s own implementation; fixed in `arc-repos/arc-data` #12, dependency updated
+
+
+### Changed
+
+- Updated dependencies
+
+
+---
+
 ## [5.0.2] 2019-01-22
 
 ### Added

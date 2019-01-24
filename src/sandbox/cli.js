@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 var chalk = require('chalk')
+var cleanEnv = require('../util/clean-env')
 var start = require('./start')
 var canUse = require('./_port-in-use')
 var waterfall = require('run-waterfall')
@@ -20,14 +21,3 @@ waterfall(
     }
   }
 )
-
-function cleanEnv(callback) {
-  // enforce local guardrails (and more convenient)
-  // this still allows explicit override:
-  // NODE_ENV=staging npx sandbox
-  if (!process.env.hasOwnProperty('NODE_ENV')) {
-    process.env.NODE_ENV = 'testing'
-  }
-  callback();
-}
-
