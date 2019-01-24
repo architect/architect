@@ -68,6 +68,7 @@
     "body-parser": "^1.18.3",
     "chalk": "^2.4.2",
     "clear": "^0.1.0",
+    "cors": "^2.8.5",
     "cpr": "^3.0.1",
     "dynalite": "^2.2.0",
     "finalhandler": "^1.1.1",

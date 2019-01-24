@@ -5,6 +5,7 @@ let finalhandler = require('finalhandler')
 
 // built ins
 let http = require('http')
+let cors = require('cors')
 
 // local modules
 let readArc = require('../../util/read-arc')
@@ -15,6 +16,7 @@ let public = require('./public-middleware')
 // config arcana
 let limit = '6mb';
 let app = Router({mergeparams: true})
+app.use(cors())
 app.use(body.json({limit}))
 app.use(body.urlencoded({
   extended: false,
