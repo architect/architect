@@ -1,9 +1,14 @@
+let path = require('path')
+
 /* eslint global-require:"off" */
 /**
  * calls a specific plugin function in any plugins registered in .arc
+ * 
+ * pluginFunctionName is one of 'beforeDeploy' or 'afterDeploy'
  */
 module.exports = function runPluginFunction(params, pluginFunctionName) {
   let {arc, pathToCode, env, tick} = params
+
   // reads @plugins
   if (!arc.plugins) {
     if (tick) tick('')
@@ -22,10 +27,13 @@ module.exports = function runPluginFunction(params, pluginFunctionName) {
           pluginName = plugin
         }
         if (pluginName.split('').includes('/')) {
-          pluginName = '@' + pluginName
+          let win = process.platform.startsWith('win')
+          pluginName = win
+            ? '@' + pluginName.replace('/','\\')
+            : '@' + pluginName
         }
         // Must require from full path from via current Architect process
-        var req = process.cwd() + '/node_modules/' + pluginName
+        var req = path.join(process.cwd(), 'node_modules', pluginName)
         var tmp = require(req)
         var has = tmp.hasOwnProperty(pluginFunctionName)
         var fn = tmp[pluginFunctionName]
