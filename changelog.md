@@ -6,6 +6,15 @@ Also see:
 - [Architect Data changelog](https://github.com/arc-repos/arc-data/blob/master/changelog.md)
 ---
 
+## [5.0.5] 2019-01-25
+
+### Fixed
+
+- Fixes `create` breaking if `@ws` is not present in `.arc`, #276
+
+
+---
+
 ## [5.0.4] 2019-01-24
 
 ### Added
@@ -41,7 +50,7 @@ Also see:
 
 ### Fixed
 
-- Fixes @indexes creation bug
+- Fixes `@indexes` creation bug
 - Runs `npm i` during `hydrate --update`, resolving a long-standing NPM issue where package-lock files may fall out of sync
 
 
