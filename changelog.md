@@ -6,7 +6,15 @@ Also see:
 - [Architect Data changelog](https://github.com/arc-repos/arc-data/blob/master/changelog.md)
 ---
 
-## [5.0.5] 2019-01-25
+## [5.0.6] 2019-01-25
+
+### Added
+
+- Improvements to build plugins system (did you know Architect has a build plugins system?)
+  - Now supports NPM scoping (e.g. `@architect/arc-plugin-node-prune`)
+  - Build preparation order now runs pre-deploy build plugins last (after dependency hydration)
+  - Published a companion beta / demo plugin: [`@architect/arc-plugin-node-prune`](https://www.npmjs.com/package/@architect/arc-plugin-node-prune), clean the cruft out of your `node_modules`!
+
 
 ### Fixed
 
