@@ -34,6 +34,7 @@ module.exports = function deployOne(params, callback) {
   }
 
   params.hydrateDeps = true
+  params.prepPlugins = true
 
   const _prep = prep.bind({}, params)
   const _deploy = deploy.bind({}, params)

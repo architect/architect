@@ -2,7 +2,7 @@
 /**
  * calls a specific plugin function in any plugins registered in .arc
  */
-module.exports = function runPluginFunction(params, functionName) {
+module.exports = function runPluginFunction(params, pluginFunctionName) {
   let {arc, pathToCode, env, tick} = params
   // reads @plugins
   if (!arc.plugins) {
@@ -21,16 +21,20 @@ module.exports = function runPluginFunction(params, functionName) {
         } else {
           pluginName = plugin
         }
-
-        var tmp = require(pluginName)
-        var has = tmp.hasOwnProperty(functionName)
-        var fn = tmp[functionName]
+        if (pluginName.split('').includes('/')) {
+          pluginName = '@' + pluginName
+        }
+        // Must require from full path from via current Architect process
+        var req = process.cwd() + '/node_modules/' + pluginName
+        var tmp = require(req)
+        var has = tmp.hasOwnProperty(pluginFunctionName)
+        var fn = tmp[pluginFunctionName]
         var valid = typeof fn === 'function'
         if (has && valid) {
           return {fn, pluginConfig}
         }
         else if (has && !valid) {
-          throw TypeError(pluginName + `.${functionName} not a function`)
+          throw TypeError(pluginName + `.${pluginFunctionName} not a function`)
         }
         else {
           return false

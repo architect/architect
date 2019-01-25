@@ -1,6 +1,7 @@
 let parallel = require('run-parallel')
 let hydrate = require('../../hydrate')
 let prep = require('../lambda-one/prep')
+let beforeDeployPlugins = require('../lambda-one/01-before-deploy')
 let _progress = require('../../util/progress')
 let series = require('run-series')
 
@@ -16,6 +17,7 @@ module.exports = function _prepare(params) {
     })
     let tick = progress.tick
     let hydrateDeps = false
+    let prepPlugins = false
 
     let passedprep = []
     let failedprep = []
@@ -29,6 +31,7 @@ module.exports = function _prepare(params) {
               pathToCode,
               tick,
               hydrateDeps,
+              prepPlugins,
             },
             function _prepped(err) {
               // Failure during validation
@@ -65,6 +68,27 @@ module.exports = function _prepare(params) {
           Array(8).fill().map(()=> tick(''))
           callback()
         }
+      },
+      function _beforeDeploy(callback) {
+        parallel(passedprep.map(pathToCode => {
+          return function _beforeDeploy(callback) {
+            beforeDeployPlugins({
+              env,
+              pathToCode,
+              arc,
+              tick,
+            },
+            function _beforeDeploy(err) {
+              // Failure during plugins
+              if (err) {
+                callback(err)
+              }
+              else {
+                callback()
+              }
+            })
+          }
+        }), callback)
       },
     ],
     function done(err) {
