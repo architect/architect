@@ -16,6 +16,7 @@ module.exports = function prep(params, callback) {
     pathToCode: String,
     tick: Function,
     hydrateDeps: Boolean,
+    prepPlugins: Boolean,
   })
 
   // local state
@@ -24,21 +25,24 @@ module.exports = function prep(params, callback) {
   // - pathToCode; path to the Function being deployed
   // - tick; function to notify progress
   // - hydrateDeps; skips hydration steps if all Functions are being deployed
-  let {env, arc, pathToCode, tick, hydrateDeps} = params
+  // - prepPlugins; skips pre-deploy plugins if all Functions are being deployed
+  let {env, arc, pathToCode, tick, hydrateDeps, prepPlugins} = params
 
   // binds local state above to the functions below
   const _validate = validate.bind({}, {pathToCode, tick})
-  const _before = beforeDeploy.bind({}, {env, pathToCode, arc, tick})
   const _hydrate = hydrateDeps
     ? hydrate.bind({}, {arc, pathToCode, tick})
+    : callback => { callback() } // noop
+  const _before = prepPlugins
+    ? beforeDeploy.bind({}, {env, pathToCode, arc, tick})
     : callback => { callback() } // noop
 
   // executes the functions above
   // in series sharing no state between them
   waterfall([
     _validate,
-    _before,
     _hydrate,
+    _before,
   ],
   function done(err) {
     if (err) callback(err)
