@@ -3,7 +3,7 @@ let path = require('path')
 /* eslint global-require:"off" */
 /**
  * calls a specific plugin function in any plugins registered in .arc
- * 
+ *
  * pluginFunctionName is one of 'beforeDeploy' or 'afterDeploy'
  */
 module.exports = function runPluginFunction(params, pluginFunctionName) {

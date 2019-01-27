@@ -53,15 +53,15 @@ module.exports = function _createCode(params, callback) {
 
     // make sure the dir exists
     mkdir(`src/${space}/${idx}`)
-    
+
     // write in the index code
     let {index, code} = getCodeFor({space, idx, arc})
     fs.writeFileSync(index, code)
 
     // Install deps, then hydrate with shared code (if any)
     install({
-      absolutePath, 
-      relativePath, 
+      absolutePath,
+      relativePath,
       arc,
       app,
       idx,
