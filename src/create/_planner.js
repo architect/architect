@@ -1,4 +1,3 @@
-
 module.exports = function planner(arc) {
 
   // we'll keep references to the arc plan here
@@ -6,6 +5,10 @@ module.exports = function planner(arc) {
 
   // grab the app name
   let app = arc.app[0]
+
+  // get default runtime
+  let hasRuntime = arc.aws && arc.aws.find(t=> t[0] === 'runtime')
+  let runtime = hasRuntime? hasRuntime[1] : 'node'
 
   //
   // default cloud required plans
@@ -21,7 +24,13 @@ module.exports = function planner(arc) {
     arc.http.forEach(route=> {
       plans.push({action:'create-http-lambda-code', route, app, arc})
       if (!process.env.ARC_LOCAL) {
-        plans.push({action:'create-http-lambda-deployments', route, app, arc})
+        plans.push({
+          action: 'create-http-lambda-deployments',
+          route,
+          app,
+          arc,
+          runtime,
+        })
       }
     })
   }
@@ -34,7 +43,12 @@ module.exports = function planner(arc) {
       plans.push({action:'create-event-lambda-code', event, app, arc})
       if (!process.env.ARC_LOCAL) {
         plans.push({action:'create-events', event, app})
-        plans.push({action:'create-event-lambda-deployments', event, app})
+        plans.push({
+          action: 'create-event-lambda-deployments',
+          event,
+          app,
+          runtime,
+        })
       }
     })
   }
@@ -47,7 +61,12 @@ module.exports = function planner(arc) {
       plans.push({action:'create-queue-lambda-code', queue, app, arc})
       if (!process.env.ARC_LOCAL) {
         plans.push({action:'create-queue', queue, app})
-        plans.push({action:'create-queue-lambda-deployments', queue, app})
+        plans.push({
+          action: 'create-queue-lambda-deployments',
+          queue,
+          app,
+          runtime,
+        })
       }
     })
   }
@@ -59,7 +78,12 @@ module.exports = function planner(arc) {
     arc.scheduled.forEach(scheduled=> {
       plans.push({action:'create-scheduled-lambda-code', scheduled, app, arc})
       if (!process.env.ARC_LOCAL) {
-        plans.push({action:'create-scheduled-lambda-deployments', scheduled, app})
+        plans.push({
+          action: 'create-scheduled-lambda-deployments',
+          scheduled,
+          app,
+          runtime,
+        })
       }
     })
   }
@@ -87,7 +111,12 @@ module.exports = function planner(arc) {
       if (hasTrigger) {
         plans.push({action:'create-table-lambda-code', table, app, arc})
         if (!process.env.ARC_LOCAL) {
-          plans.push({action:'create-table-lambda-deployments', table, app})
+          plans.push({
+            action: 'create-table-lambda-deployments',
+            table,
+            app,
+            runtime,
+          })
         }
       }
     })
@@ -122,9 +151,24 @@ module.exports = function planner(arc) {
     plans.push({action:'create-ws-lambda-code', app, arc, name:'ws-disconnect'})
     plans.push({action:'create-ws-lambda-code', app, arc, name:'ws-default'})
     if (!process.env.ARC_LOCAL) {
-      plans.push({action:'create-ws-lambda-deployments', app, name:'ws-connect'})
-      plans.push({action:'create-ws-lambda-deployments', app, name:'ws-disconnect'})
-      plans.push({action:'create-ws-lambda-deployments', app, name:'ws-default'})
+      plans.push({
+        action: 'create-ws-lambda-deployments',
+        name: 'ws-connect',
+        runtime,
+        app,
+      })
+      plans.push({
+        action:'create-ws-lambda-deployments',
+        name:'ws-disconnect',
+        runtime,
+        app,
+      })
+      plans.push({
+        action: 'create-ws-lambda-deployments',
+        name: 'ws-default',
+        runtime,
+        app,
+      })
       plans.push({action:'create-ws-router', app})
       plans.push({action:'create-ws-router-deployments', app})
     }

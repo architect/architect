@@ -10,13 +10,21 @@ var getIAM = require('./_get-iam-role')
 module.exports = function _getLambda(params, callback) {
 
   assert(params, {
-    section: String, // events
-    codename: String, // src/events/foo
+    section: String,    // events
+    codename: String,   // src/events/foo
     deployname: String, // appname-staging-foo
+    runtime: String,    // node, python or ruby
   })
 
+  var {section, codename, deployname, runtime} = params
+
+  let runtimes = {
+    node: 'node8.10',
+    python: 'python3.7',
+    ruby: 'ruby2.5'
+  }
+
   var lambda = new aws.Lambda({region:process.env.AWS_REGION})
-  var {section, codename, deployname} = params
   var appname = deployname.split(/-(production|staging)-/)[0]
 
   parallel([
@@ -56,7 +64,7 @@ module.exports = function _getLambda(params, callback) {
         MemorySize: 1152,
         Publish: true,
         Role: role.Arn,
-        Runtime: 'nodejs8.10',
+        Runtime: runtimes[runtime],
         Timeout: 5,
         Environment: {
           Variables: {
