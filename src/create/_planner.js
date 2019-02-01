@@ -110,6 +110,7 @@ module.exports = function planner(arc) {
     arc.http.forEach(route=> {
       plans.push({action:'create-http-route', route, app})
     })
+    plans.push({action:'create-http-fallback', app, arc})
     plans.push({action:'create-http-router-deployments', app})
   }
 

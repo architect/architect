@@ -4,29 +4,29 @@ let print = require('../../_print')
 let getLambda = require('../_get-lambda')
 
 module.exports = function create({app, name, stage}, callback) {
-  setTimeout(function delay() {
-    let lambda = new aws.Lambda({region: process.env.AWS_REGION})
-    lambda.getFunction({
-      FunctionName: stage
-    },
-    function _gotFn(err) {
-      if (err && err.name === 'ResourceNotFoundException') {
+  let lambda = new aws.Lambda({region: process.env.AWS_REGION})
+  lambda.getFunction({
+    FunctionName: stage
+  },
+  function _gotFn(err) {
+    if (err && err.name === 'ResourceNotFoundException') {
+      setTimeout(function delay() {
         print.create('@http', stage)
         createLambda({
           app,
           name,
           stage,
         }, callback)
-      }
-      else if (err) {
-        callback(err)
-      }
-      else {
-        print.skip('@http', stage)
-        callback()
-      }
-    })
-  }, 7000)
+      }, 7000)
+    }
+    else if (err) {
+      callback(err)
+    }
+    else {
+      print.skip('@http', stage)
+      callback()
+    }
+  })
 }
 
 function createLambda({app, name, stage}, callback) {

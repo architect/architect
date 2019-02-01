@@ -61,10 +61,10 @@
   "license": "Apache-2.0",
   "homepage": "https://arc.codes",
   "dependencies": {
+    "aws-sdk": "^2.395.0",
     "@architect/data": "^2.0.12",
     "@architect/parser": "^1.1.6",
     "@smallwins/validate": "^4.3.0",
-    "aws-sdk": "^2.392.0",
     "body-parser": "^1.18.3",
     "chalk": "^2.4.2",
     "clear": "^0.1.0",

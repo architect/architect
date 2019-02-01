@@ -28,7 +28,7 @@ $input.path('$.errorMessage')##
 #set($context.responseOverride.header.Set-Cookie = $input.path("$.cookie"))##
 #end##
 ## cors support
-#if($input.path("$.cors"))##
+#if($input.path("$.cors") != "")##
 #set($context.responseOverride.header.Access-Control-Allow-Origin = "*")##
 #end##
 #set($headers = $input.path("$.headers"))## 

@@ -11,7 +11,14 @@ function create(name, callback) {
     let gateway = new aws.APIGateway({region: process.env.AWS_REGION})
     gateway.createRestApi({
       name,
-      minimumCompressionSize: 0
+      minimumCompressionSize: 0,
+      binaryMediaTypes: [
+        'application/octet',
+        'image/*',
+        'audio/*',
+        'video/*',
+        'font/*'
+      ],
     }, callback)
   }, timeout)
 }
