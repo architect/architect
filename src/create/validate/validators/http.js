@@ -35,21 +35,32 @@ module.exports = function _http(arc, raw) {
           linenumber: findLineNumber(fkdtuple, raw),
           raw,
           arc,
-          detail: 'Currently .arc only supports get and post for routes. Read more here: https://arc.codes/guides/http',
+          detail: 'Routes must be get, post, put, delete or patch. Read more here: https://arc.codes/guides/http',
         }))
       })
+
+      let missingIndex = !arc[type].some(r=> r[0].toLowerCase() === 'get' && r[1] === '/')
+      if (missingIndex) {
+        errors.push(Err({
+          message: `@http missing "get /"`,
+          linenumber: findHttpLine(raw),
+          raw,
+          arc,
+          detail: '@http must have one get / route. Read more here: https://arc.codes/guides/http',
+        }))
+      }
 
       arc[type].forEach(route=> {
         var path = route[1]
         var err = validPath(path)
         if (err) {
-            errors.push(Err({
-              message: `@${type} invalid route`,
-              linenumber: findLineNumber(route, raw),
-              raw,
-              arc,
-              detail: err.message + ' HTTP reference: https://arc.codes/guides/http',
-            }))
+          errors.push(Err({
+            message: `@${type} invalid route`,
+            linenumber: findLineNumber(route, raw),
+            raw,
+            arc,
+            detail: err.message + ' HTTP reference: https://arc.codes/guides/http',
+          }))
         }
       })
       // for each route in routes
@@ -71,6 +82,16 @@ function findLineNumber(tuple, raw) {
   var lines = raw.split('\n')
   for (var i = 0; i <= lines.length; i++) {
     if (lines[i] && lines[i].startsWith(search)) {
+      return i + 1
+    }
+  }
+  return -1
+}
+
+function findHttpLine(raw) {
+  var lines = raw.split('\n')
+  for (var i = 0; i <= lines.length; i++) {
+    if (lines[i] && lines[i].startsWith('@http')) {
       return i + 1
     }
   }

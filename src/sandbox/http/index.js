@@ -10,7 +10,8 @@ let http = require('http')
 let readArc = require('../../util/read-arc')
 let registerHTTP = require('./register-http')
 let registerWebSocket = require('./register-websocket')
-let public = require('./public-middleware')
+//let public = require('./public-middleware')
+let fallback = require('./fallback')
 
 // config arcana
 let limit = '6mb';
@@ -20,7 +21,8 @@ app.use(body.urlencoded({
   extended: false,
   limit,
 }))
-app.use(public)
+app.use(fallback)
+//app.use(public)
 
 // keep a reference up here for fns below
 let server
