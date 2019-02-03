@@ -9,20 +9,16 @@ let http = require('http')
 // local modules
 let readArc = require('../../util/read-arc')
 let registerHTTP = require('./register-http')
-let registerWebSocket = require('./register-websocket')
-//let public = require('./public-middleware')
+let registerWS = require('./register-websocket')
+let public = require('./public-middleware')
 let fallback = require('./fallback')
 
 // config arcana
-let limit = '6mb';
-let app = Router({mergeparams: true})
-app.use(body.json({limit}))
-app.use(body.urlencoded({
-  extended: false,
-  limit,
-}))
+let app = Router({mergeparams:true})
+app.use(body.json({limit:'6mb'}))
+app.use(body.urlencoded({extended:false, limit:'6mb'}))
+app.use(public)
 app.use(fallback)
-//app.use(public)
 
 // keep a reference up here for fns below
 let server
@@ -46,7 +42,7 @@ app.start = function start(callback) {
 
   // bind ws
   if (web.ws) {
-    websocket = registerWebSocket({app, server})
+    websocket = registerWS({app, server})
   }
 
   // start listening

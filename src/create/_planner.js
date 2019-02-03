@@ -65,13 +65,6 @@ module.exports = function planner(arc) {
   }
 
   //
-  // s3 buckets
-  //
-  if (arc.static && !process.env.ARC_LOCAL) {
-    plans.push({action:'create-http-static-deployments', static:arc.static})
-  }
-
-  //
   // dynamo tables
   //
   if (arc.tables) {
@@ -102,6 +95,14 @@ module.exports = function planner(arc) {
 
 
   //
+  // s3 buckets
+  //
+  if (arc.static && !process.env.ARC_LOCAL) {
+    plans.push({action:'create-http-static-deployments', static:arc.static})
+  }
+
+
+  //
   // api gateway http
   //
   let hasAPI = arc.hasOwnProperty('http')
@@ -111,6 +112,9 @@ module.exports = function planner(arc) {
       plans.push({action:'create-http-route', route, app})
     })
     plans.push({action:'create-http-fallback', app, arc})
+    if (arc.static) {
+      plans.push({action:'create-http-static-proxy', app, arc})
+    }
     plans.push({action:'create-http-router-deployments', app})
   }
 

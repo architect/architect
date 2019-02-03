@@ -5,40 +5,39 @@ let path = require('path')
 let exists = require('path-exists').sync
 
 /**
- * serves static assets found in /public
- * - if /public/index.html exists it will serve it as /
- *   (even if `get /` http lambda is defined)
+ * serves static assets found in ./public/ at http://localhost:3333/_static/
  */
 module.exports = function _public(req, res, next) {
-
-  // assume if public/index.html exists we want to treat that as the app apex
-  let legacy = req.url === '/' && exists(path.join(process.cwd(), 'public', 'index.html'))
-  if (legacy) {
-    req.url = '/index.html'
-  }
-
-  let pathToFile = url.parse(req.url).pathname
-  let fullPath = path.join(process.cwd(), 'public', pathToFile)
-  let found = exists(fullPath) && fs.statSync(fullPath).isFile()
-
-  if (!found) {
+  let _static = req.url.startsWith('/_static')
+  if (!_static) {
     next()
   }
   else {
-    function error(err) {
-      res.statusCode = err.status || 500
-      res.end(err.message)
+    let basePath = req.url.replace('/_static', '')
+    if (!basePath || basePath === '/')
+      basePath = 'index.html'
+    let pathToFile = url.parse(basePath).pathname
+    let fullPath = path.join(process.cwd(), 'public', pathToFile)
+    let found = exists(fullPath) && fs.statSync(fullPath).isFile()
+    if (!found) {
+      next()
     }
+    else {
+      function error(err) {
+        res.statusCode = err.status || 500
+        res.end(err.message)
+      }
 
-    function redirect() {
-      res.statusCode = 301
-      res.setHeader('Location', req.url + '/')
-      res.end('\n')
+      function redirect() {
+        res.statusCode = 301
+        res.setHeader('Location', req.url + '/')
+        res.end('\n')
+      }
+
+      send(req, pathToFile, {root: 'public'})
+        .on('error', error)
+        .on('directory', redirect)
+        .pipe(res)
     }
-
-    send(req, pathToFile, {root: 'public'})
-     .on('error', error)
-     .on('directory', redirect)
-     .pipe(res)
   }
 }
