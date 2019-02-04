@@ -52,7 +52,8 @@ app.start = function start(callback) {
 
 app.close = function close() {
   server.close()
-  websocket.close()
+  if (websocket)
+    websocket.close()
 }
 
 // export the app
