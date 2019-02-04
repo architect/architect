@@ -6,6 +6,24 @@ Also see:
 - [Architect Data changelog](https://github.com/arc-repos/arc-data/blob/master/changelog.md)
 ---
 
+## [5.5.0] 2019-02-03
+
+SPA support: mount S3 on the / of API Gateway
+
+### Added
+
+- `ANY /{proxy+}` will now route any 'not found' to the HTTP Lambda `src/http/get-index`
+- NOTE: proxy+ routes have a slightly different request payload that includes `request.requestContext` not available to regular HTTP Lambdas (so you can use this to test a 404 condition)
+- `ANY /_static/{proxy+}` will proxy to S3 buckets defined by `@static` (this is if you want to skip proxying through lambda)
+- Companion library `@architect/functions` also gained `arc.proxy.public` superpower for proxying all requests NOT defined by `.arc` to the `@static` S3 buckets
+
+[For more about single page apps with Architect see there docs here.](https://arc.codes/guides/spa)
+
+### Changed
+
+- If `@http` is defined then `get /` must also be defined
+- `npx sandbox` now mounts `/public` on `http://localhost:3333/_static` to match the deployed API Gateway S3 proxy
+
 ## [5.0.6] 2019-01-25
 
 ### Added
