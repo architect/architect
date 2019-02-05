@@ -13,9 +13,10 @@ let registerWebSocket = require('./register-websocket')
 let public = require('./public-middleware')
 
 // config arcana
+let jsonTypes = ['application/json', 'application/vnd.api+json']
 let limit = '6mb';
 let app = Router({mergeparams: true})
-app.use(body.json({limit}))
+app.use(body.json({limit, type: req => jsonTypes.includes(req.headers['content-type'] )}))
 app.use(body.urlencoded({
   extended: false,
   limit,
