@@ -18,7 +18,7 @@ let jsonTypes = ['application/json', 'application/vnd.api+json']
 let limit = '6mb';
 let app = Router({mergeparams: true})
 app.use(body.json({
-  limit, 
+  limit,
   type: req => jsonTypes.includes(req.headers['content-type'])
 }))
 app.use(body.urlencoded({
