@@ -4,7 +4,6 @@ let aws = require('aws-sdk')
  * haha, wow2
  */
 module.exports = function write({app, env}, {restApiId, endpoint}, callback) {
-  console.log('write', endpoint)
   let region = process.env.AWS_REGION
   let api = new aws.APIGateway({region})
   api.putRestApi({

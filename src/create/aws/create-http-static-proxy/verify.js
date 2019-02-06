@@ -1,7 +1,6 @@
 let aws = require('aws-sdk')
 
 module.exports = function verify({endpoint, restApiId}, callback) {
-  console.log('verify', endpoint)
   let region = process.env.AWS_REGION
   let api = new aws.APIGateway({region})
   api.getResources({restApiId}, function done(err, result) {

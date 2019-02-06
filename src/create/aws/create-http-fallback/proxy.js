@@ -16,7 +16,6 @@ module.exports = function proxy(env, app, callback) {
   ],
   function done(err) {
     if (err && err === 'cancel') {
-      console.log('cancelling')
       callback()
     }
     else if (err) {

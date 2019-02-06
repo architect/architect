@@ -14,7 +14,6 @@ module.exports = function proxy(env, {app, arc}, callback) {
   ],
   function done(err) {
     if (err && err === 'cancel') {
-      console.log('cancelling')
       callback()
     }
     else if (err) {
