@@ -45,6 +45,9 @@ module.exports = function factory(bucket, shouldDelete, callback) {
                   Key: key,
                   Body: fs.readFileSync(file),
                   ContentType: getContentType(file),
+                  CacheControl: key.startsWith('static/')
+                    ? 'public,max-age=31536000,immutable'
+                    : 'public,max-age=0,must-revalidate'
                 },
                 function _putObj(err) {
                   if (err) {

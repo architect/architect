@@ -6,6 +6,15 @@ Also see:
 - [Architect Data changelog](https://github.com/arc-repos/arc-data/blob/master/changelog.md)
 ---
 
+## [On master]
+
+### Changed
+
+- `ANY /_static/{proxy+}` method renamed `ANY /static/{proxy+}` and proxies objects of equivalent path (i.e. under `/static`) in S3 bucket with long-term caching header à la Gatsby. #292
+
+
+---
+
 ## [5.5.0] 2019-02-03
 
 SPA support: mount S3 on the / of API Gateway

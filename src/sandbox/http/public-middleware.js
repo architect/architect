@@ -5,18 +5,15 @@ let path = require('path')
 let exists = require('path-exists').sync
 
 /**
- * serves static assets found in ./public/ at http://localhost:3333/_static/
+ * serves static assets found in ./public/static at http://localhost:3333/static/
  */
 module.exports = function _public(req, res, next) {
-  let _static = req.url.startsWith('/_static')
-  if (!_static) {
+  let isAsset = req.url.startsWith('/static')
+  if (!isAsset) {
     next()
   }
   else {
-    let basePath = req.url.replace('/_static', '')
-    if (!basePath || basePath === '/')
-      basePath = 'index.html'
-    let pathToFile = url.parse(basePath).pathname
+    let pathToFile = url.parse(req.url).pathname
     let fullPath = path.join(process.cwd(), 'public', pathToFile)
     let found = exists(fullPath) && fs.statSync(fullPath).isFile()
     if (!found) {

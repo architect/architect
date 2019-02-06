@@ -17,7 +17,7 @@ module.exports = function write({app, env}, {restApiId, endpoint}, callback) {
         title: `${app}-${env}`
       },
       paths: {
-        '/_static/{proxy+}': {
+        '/static/{proxy+}': {
           'x-amazon-apigateway-any-method': {
             parameters: [{
               name: 'proxy',
@@ -28,7 +28,7 @@ module.exports = function write({app, env}, {restApiId, endpoint}, callback) {
               }
             }],
             'x-amazon-apigateway-integration': {
-              uri: `${endpoint}/{proxy}`,
+              uri: `${endpoint}/static/{proxy}`,
               responses: {
                 default: {
                   statusCode: '200'
