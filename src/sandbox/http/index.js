@@ -14,9 +14,18 @@ let public = require('./public-middleware')
 let fallback = require('./fallback')
 
 // config arcana
-let app = Router({mergeparams:true})
-app.use(body.json({limit:'6mb'}))
-app.use(body.urlencoded({extended:false, limit:'6mb'}))
+let jsonTypes = ['application/json', 'application/vnd.api+json']
+let limit = '6mb';
+let app = Router({mergeparams: true})
+app.use(body.json({
+  limit, 
+  type: req => jsonTypes.includes(req.headers['content-type'])
+}))
+app.use(body.urlencoded({
+  extended: false,
+  limit,
+}))
+
 app.use(public)
 app.use(fallback)
 

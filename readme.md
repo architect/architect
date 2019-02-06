@@ -6,6 +6,7 @@
 
 [![Build Status](https://travis-ci.com/arc-repos/architect.svg?branch=master)](https://travis-ci.com/arc-repos/architect)
 
+
 ## Quickstart
 No AWS account required!
 
@@ -51,8 +52,14 @@ To see all commands run:
 npx help
 ```
 
+
 ### Learn more
 
 Full docs found at https://arc.codes
 
 [Architect changelog here](./changelog.md)
+
+
+### Founding team
+
+[Amber Costley](https://github.com/amberdawn), [Angelina Fabbro](https://github.com/afabbro), [Brian LeRoux](https://github.com/brianleroux), Jen Fong-Adwent, [Kristofer Joseph](https://github.com/kristoferjoseph), [Kris Borchers](https://github.com/kborchers), [Ryan Block](https://github.com/ryanblock), [Spencer Kelley](https://github.com/spencermountain)
