@@ -14,12 +14,12 @@ let public = require('./public-middleware')
 let fallback = require('./fallback')
 
 // config arcana
-let jsonTypes = ['application/json', 'application/vnd.api+json']
+let jsonTypes = /^application\/.*json/
 let limit = '6mb';
 let app = Router({mergeparams: true})
 app.use(body.json({
   limit,
-  type: req => jsonTypes.includes(req.headers['content-type'])
+  type:  req => jsonTypes.test(req.headers['content-type'])
 }))
 app.use(body.urlencoded({
   extended: false,
