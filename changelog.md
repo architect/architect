@@ -5,6 +5,13 @@ Also see:
 - [Architect Functions changelog](https://github.com/arc-repos/arc-functions/blob/master/changelog.md)
 - [Architect Data changelog](https://github.com/arc-repos/arc-data/blob/master/changelog.md)
 ---
+## [5.5.2] 2019-02-09
+
+### Fix 
+
+- Adds support for `text/tsx` in `/public`
+
+---
 
 ## [5.5.1] 2019-02-08
 
