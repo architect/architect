@@ -9,6 +9,7 @@ var fs = require('fs')
 function getContentType(file) {
   var bits = file.split('.')
   var last = bits[bits.length - 1]
+  if (last === 'tsx') return 'text/tsx'
   return mime.lookup(last)
 }
 
