@@ -1,5 +1,6 @@
 // TODO queues
 var app = require('./validators/app')
+var aws = require('./validators/aws')
 var domain = require('./validators/domain')
 var events = require('./validators/events')
 var http = require('./validators/http')
@@ -35,6 +36,7 @@ function _validate(arc, raw, callback) {
   //
   let validators = [
     app,
+    aws,
     domain,
     events,
     http,
