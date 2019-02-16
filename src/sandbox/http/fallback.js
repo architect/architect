@@ -3,6 +3,7 @@
 //let send = require('send')
 //let exists = require('path-exists').sync
 let path = require('path')
+let parseUrl = require('url').parse
 let readArc = require('../../util/read-arc')
 let invoker = require('./invoke-http')
 
@@ -20,7 +21,8 @@ module.exports = function _public(req, res, next) {
     // tokenize them [['get', '/']]
     let tokens = routes.map(r=> [r[0]].concat(r[1].split('/').filter(Boolean)))
     // tokenize the current req
-    let current = [req.method.toLowerCase()].concat(req.url.split('/').filter(Boolean))
+    let {pathname} = parseUrl(req.url)
+    let current = [req.method.toLowerCase()].concat(pathname.split('/').filter(Boolean))
     // get all exact match routes
     let exact = tokens.filter(t=> !t.some(v=> v.startsWith(':')))
     // get all wildcard routes
