@@ -11,12 +11,13 @@ module.exports = function logs(name, callback) {
 
     function describeLogStreams(callback) {
       cloud.describeLogStreams({
-        logGroupName: name
+        logGroupName: name,
+        descending: true
       }, callback)
     },
 
     function getLogEvents(result, callback) {
-      var names = result.logStreams.map(l=> l.logStreamName)
+      var names = result.logStreams.map(l=> l.logStreamName).reverse()
       parallel(names.map(logStreamName=> {
         return function getOneLogEventStream(callback) {
           cloud.getLogEvents({
