@@ -5,10 +5,11 @@ Also see:
 - [Architect Functions changelog](https://github.com/arc-repos/arc-functions/blob/master/changelog.md)
 - [Architect Data changelog](https://github.com/arc-repos/arc-data/blob/master/changelog.md)
 ---
-## [5.5.2 - 5.5.3 ] 2019-02-16
+## [5.5.2 - 5.5.4 ] 2019-02-20
 
 ### Fix 
 
+- `npx logs` forces descending order
 - Query params no longer trigger index.html override for sandbox
 - Adds support for `text/tsx` in `/public`
 
