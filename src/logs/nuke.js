@@ -17,6 +17,7 @@ module.exports = function nuke(name, callback) {
 
   let run = () => {
     cloud.describeLogStreams({logGroupName: name}, (err, streams) => {
+      if (err) return callback(err)
       streams = streams.logStreams
       if (!streams.length) return callback(null, count)
       count += streams.length
