@@ -12,7 +12,8 @@ module.exports = function logs(name, callback) {
     function describeLogStreams(callback) {
       cloud.describeLogStreams({
         logGroupName: name,
-        descending: true
+        descending: true,
+        orderBy: 'LastEventTime' 
       }, callback)
     },
 
