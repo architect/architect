@@ -2,7 +2,7 @@ let regexp = require('../_regexp')
 let Err = require('../_error-factory')
 let getRuntime = require('../../../util/get-runtime')
 let getLayers = require('../../../util/get-layers')
-let validRuntimes = ['nodejs6.10', 'nodejs8.10', 'provided']
+let validRuntimes = getRuntime.validRuntimes
 
 /**
  * aws
