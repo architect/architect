@@ -6,11 +6,23 @@ Also see:
 - [Architect Data changelog](https://github.com/arc-repos/arc-data/blob/master/changelog.md)
 ---
 
-## [On master]
+## [5.5.6 - 5.5.8] 2019-02-28
 
 ### Fixed
 
+- Now properly deletes the entire CloudWatch log group when nuking; fixes #311 /ht @mikeal
+- Fixes `sandbox` to work properly when `content-type` has charset assignment; #303, #305 /ht @hada-unlimited
+- Fixes issue with `audit` breaking on `@ws` functions; #311 /ht @mikeal
 - `sandbox` now accepts `statusCode`, in addition to `status` and `code`; fixes #323
+
+
+---
+
+## [5.5.5] 2019-02-22
+
+### Fixed
+
+- Fixes ordering logs by last event /ht @mikeal
 
 
 ---
@@ -22,6 +34,7 @@ Also see:
 - `logs` forces descending order
 - Query params no longer trigger index.html override for `sandbox`
 - Adds support for `text/tsx` in `/public`
+
 
 ---
 
