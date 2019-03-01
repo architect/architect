@@ -70,4 +70,5 @@ function findtype(report, functionname) {
   if (report.types.tables.includes(functionname)) return 'tables'
   if (report.types.text.includes(functionname)) return 'text'
   if (report.types.xml.includes(functionname)) return 'xml'
+  if (report.types.ws.includes(functionname)) return 'ws'
 }
