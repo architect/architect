@@ -104,7 +104,7 @@ SPA support: mount S3 on the `/` of API Gateway
 
 - Fixes `@indexes` creation bug
 - Runs `npm i` during `hydrate --update`, resolving a long-standing NPM issue where package-lock files may fall out of sync
-
+- Fixed: on Windows, S3 assets will be correctly created relative to their location beneath `public` rather than their full paths.
 
 ### Changed
 

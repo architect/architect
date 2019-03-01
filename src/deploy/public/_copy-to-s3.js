@@ -13,13 +13,20 @@ function getContentType(file) {
   return mime.lookup(last)
 }
 
+function normalizePath(path) {
+  // process.cwd() and path.join uses '\\' as a path delimiter on Windows
+  // glob uses '/'
+  return path.replace(/\\/g, '/')
+}
+
 module.exports = function factory(bucket, shouldDelete, callback) {
   var s3 = new aws.S3({region: process.env.AWS_REGION})
   var staticAssets = path.join(process.cwd(), 'public', '/**/*')
+  var publicDir = normalizePath(path.join(process.cwd(), 'public'))
   glob(staticAssets, function _glob(err, localFiles) {
     if (err) console.log(err)
     // Remove default readme.md from static asset deploys
-    let readme = path.join(process.cwd(), 'public', '/readme.md')
+    let readme = normalizePath(path.join(process.cwd(), 'public', '/readme.md'))
     if (localFiles.includes(readme))
       localFiles.splice(localFiles.indexOf(readme),1)
     var tasks = localFiles.map(file=> {
@@ -29,7 +36,7 @@ module.exports = function factory(bucket, shouldDelete, callback) {
           callback() // noop
         }
         else if (stats.isFile()) {
-          var key = file.replace(path.join(process.cwd(), 'public'), '').substr(1)
+          var key = file.replace(publicDir, '').substr(1)
           s3.headObject({
             Bucket: bucket,
             Key: key,
