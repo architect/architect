@@ -26,7 +26,7 @@ module.exports = function invokeHTTP({verb, pathToFunction}) {
       if (err) res(err)
       else {
         res.setHeader('Content-Type', result.type || 'application/json; charset=utf-8')
-        res.statusCode = result.status || result.code || 200
+        res.statusCode = result.status || result.code || result.statusCode || 200
 
         // remove Secure because localhost won't be SSL (and the cookie won't get set)
         if (result.cookie)
