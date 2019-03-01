@@ -9,7 +9,7 @@ let series = require('run-series')
 /**
  * Shared modules copier
  *   - Accepts Arc project object and array of relative paths (inventory -> localPaths)
- *   - Copyies all appropriate and necessary shared files into paths
+ *   - Copies all appropriate and necessary shared files into paths
  */
 module.exports = function copyCommon(params, callback) {
 
