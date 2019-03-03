@@ -1,37 +1,58 @@
-#if($input.path('$.body') != "")##
-$input.path('$.body')##
-#end##
+## set up body
+#if($input.path('$.body') != "")
+  $input.path('$.body')
+#end
+
 ## show any error
-#if($input.path('$.errorMessage') != "")##
-$input.path('$.errorMessage')##
-#end##
+#if($input.path('$.errorMessage') != "")
+  $input.path('$.errorMessage')
+#end
+
 ## override status
-#if($input.path("$.status") != "")##
-#set($context.responseOverride.status = $input.path("$.status"))##
-#end##
-#if($input.path("$.code") != "")##
-#set($context.responseOverride.status = $input.path("$.code"))##
-#end##
-#if($input.path("$.statusCode") != "")##
-#set($context.responseOverride.status = $input.path("$.statusCode"))##
-#end##
+#if($input.path("$.status") != "")
+  #set($context.responseOverride.status = $input.path("$.status"))
+#elseif($input.path("$.code") != "")
+  #set($context.responseOverride.status = $input.path("$.code"))
+#elseif($input.path("$.statusCode") != "")
+  #set($context.responseOverride.status = $input.path("$.statusCode"))
+#end
+
 ## override Location
-#if($input.path("$.location") != "")##
-#set($context.responseOverride.header.Location = $input.path("$.location"))##
-#end##
+#if($input.path("$.location") != "")
+  #set($context.responseOverride.header.Location = $input.path("$.location"))
+#end
+
 ## override Content-Type
-#if($input.path("$.type") != "")##
-#set($context.responseOverride.header.Content-Type = $input.path("$.type"))##
-#end##
+## default: append charset=utf-8
+#if($input.path("$.type") != "")
+  #set($context.responseOverride.header.Content-Type = $input.path("$.type"))
+#else
+  #set($context.responseOverride.header.Content-Type = "application/json; charset=utf-8;")
+#end
+
 ## override Set-Cookie
-#if($input.path("$.cookie") != "")##
-#set($context.responseOverride.header.Set-Cookie = $input.path("$.cookie"))##
-#end##
-## cors support
-#if($input.path("$.cors") != "")##
-#set($context.responseOverride.header.Access-Control-Allow-Origin = "*")##
-#end##
-#set($headers = $input.path("$.headers"))## 
-#foreach($key in $headers.keySet())## 
-#set($context.responseOverride.header[$key] = $headers[$key])## 
-#end##
+#if($input.path("$.cookie") != "")
+  #set($context.responseOverride.header.Set-Cookie = $input.path("$.cookie"))
+#end
+
+## CORS support
+#if($input.path("$.cors") != "")
+  #set($context.responseOverride.header.Access-Control-Allow-Origin = "*")
+#end
+
+## layer in Cache-Control
+## default: do not allow caching of HTML or JSON
+#if($input.path("$.cacheControl") != "")
+  #set($context.responseOverride.header.Cache-Control = $input.path("$.cacheControl"))
+#elseif($context.responseOverride.header.Content-Type.contains("text/html") ||
+        $context.responseOverride.header.Content-Type.contains("application/json"))
+  #set($context.responseOverride.header.Cache-Control = "no-store")
+#else
+  #set($context.responseOverride.header.Cache-Control = "max-age=86400")
+#end
+
+## go!
+#set($headers = $input.path("$.headers"))
+#foreach($key in $headers.keySet())
+#set($context.responseOverride.header[$key] = $headers[$key])
+#end
