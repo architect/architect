@@ -46,7 +46,7 @@
   #set($context.responseOverride.header.Cache-Control = $input.path("$.cacheControl"))
 #elseif($context.responseOverride.header.Content-Type.contains("text/html") ||
         $context.responseOverride.header.Content-Type.contains("application/json"))
-  #set($context.responseOverride.header.Cache-Control = "no-store")
+  #set($context.responseOverride.header.Cache-Control = "no-cache, no-store, must-revalidate, max-age=0, s-maxage=0")
 #else
   #set($context.responseOverride.header.Cache-Control = "max-age=86400")
 #end
