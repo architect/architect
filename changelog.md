@@ -6,6 +6,25 @@ Also see:
 - [Architect Data changelog](https://github.com/arc-repos/arc-data/blob/master/changelog.md)
 ---
 
+## [5.5.9] 2019-03-13
+
+### Added
+
+- Cache-control header support; if not specified, defaults to:
+  - HTML + JSON: `no-cache, no-store, must-revalidate, max-age=0, s-maxage=0`
+  - Everything else: `max-age=86400`
+  - This change only applies to Architect apps provisioned from this version forward
+
+### Fixed
+
+- Default `content-type` response of `application/json` is now `application/json; charset=utf-8;`
+
+### Changed
+
+- Updated dependencies
+
+---
+
 ## [5.5.6 - 5.5.8] 2019-02-28
 
 ### Fixed
