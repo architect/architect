@@ -6,6 +6,12 @@ Also see:
 - [Architect Data changelog](https://github.com/arc-repos/arc-data/blob/master/changelog.md)
 ---
 
+## [On master]
+
+### Fixed
+
+- Fixes websocket support in `sandbox`; #328 /ht @rschweizer
+
 ## [5.5.6 - 5.5.8] 2019-02-28
 
 ### Fixed
