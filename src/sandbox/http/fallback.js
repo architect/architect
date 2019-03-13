@@ -16,8 +16,11 @@ module.exports = function _public(req, res, next) {
   // immediately exit to normal flow if /
   if (req.path === '/') next()
   else {
+    let arc = readArc().arc
     // reads all routes
-    let routes = readArc().arc.http
+    let routes = arc.http
+    // add websocket route if necessary
+    if (arc.ws) routes.push(['post', '/__arc'])
     // tokenize them [['get', '/']]
     let tokens = routes.map(r=> [r[0]].concat(r[1].split('/').filter(Boolean)))
     // tokenize the current req
