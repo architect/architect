@@ -6,7 +6,37 @@ Also see:
 - [Architect Data changelog](https://github.com/arc-repos/arc-data/blob/master/changelog.md)
 ---
 
-## [5.5.6 - 5.5.8] 2019-02-28
+## [5.5.10] - 2019-03-15
+
+### Added
+
+- Cache-control header support to `sandbox`
+  - Default for local dev environment is not to send any `cache-control` header
+  - If specified, `cache-control` passes through
+
+
+---
+
+## [5.5.9] - 2019-03-13
+
+### Added
+
+- Cache-control header support; if not specified, defaults to:
+  - HTML + JSON: `no-cache, no-store, must-revalidate, max-age=0, s-maxage=0`
+  - Everything else: `max-age=86400`
+  - This change only applies to Architect apps provisioned from this version forward
+
+### Fixed
+
+- Default `content-type` response of `application/json` is now `application/json; charset=utf-8;`
+
+### Changed
+
+- Updated dependencies
+
+---
+
+## [5.5.6 - 5.5.8] - 2019-02-28
 
 ### Fixed
 
@@ -18,7 +48,7 @@ Also see:
 
 ---
 
-## [5.5.5] 2019-02-22
+## [5.5.5] - 2019-02-22
 
 ### Fixed
 
@@ -27,7 +57,7 @@ Also see:
 
 ---
 
-## [5.5.2 - 5.5.4] 2019-02-20
+## [5.5.2 - 5.5.4] - 2019-02-20
 
 ### Fixed
 
@@ -38,7 +68,7 @@ Also see:
 
 ---
 
-## [5.5.1] 2019-02-08
+## [5.5.1] - 2019-02-08
 
 ### Changed
 
@@ -51,7 +81,7 @@ Also see:
 
 ---
 
-## [5.5.0] 2019-02-03
+## [5.5.0] - 2019-02-03
 
 SPA support: mount S3 on the `/` of API Gateway
 
@@ -73,7 +103,7 @@ SPA support: mount S3 on the `/` of API Gateway
 
 ---
 
-## [5.0.6] 2019-01-25
+## [5.0.6] - 2019-01-25
 
 ### Added
 
@@ -90,7 +120,7 @@ SPA support: mount S3 on the `/` of API Gateway
 
 ---
 
-## [5.0.4] 2019-01-24
+## [5.0.4] - 2019-01-24
 
 ### Added
 
@@ -109,7 +139,7 @@ SPA support: mount S3 on the `/` of API Gateway
 
 ---
 
-## [5.0.2] 2019-01-22
+## [5.0.2] - 2019-01-22
 
 ### Added
 
@@ -136,7 +166,7 @@ SPA support: mount S3 on the `/` of API Gateway
 
 ---
 
-## [4.5.6] 2019-01-14
+## [4.5.6] - 2019-01-14
 
 
 ### Fixed
@@ -151,7 +181,7 @@ SPA support: mount S3 on the `/` of API Gateway
 
 ---
 
-## [4.5.5] 2019-01-11
+## [4.5.5] - 2019-01-11
 
 
 ### Fixed
@@ -161,7 +191,7 @@ SPA support: mount S3 on the `/` of API Gateway
 
 ---
 
-## [4.5.4] 2019-01-10
+## [4.5.4] - 2019-01-10
 
 
 ### Changed
@@ -176,7 +206,7 @@ SPA support: mount S3 on the `/` of API Gateway
 
 ---
 
-## [4.5.1] 2019-01-08
+## [4.5.1] - 2019-01-08
 
 
 ### Changed
