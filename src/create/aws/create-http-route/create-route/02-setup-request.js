@@ -65,7 +65,9 @@ module.exports = function _02setupRequest(params, callback) {
               'text/css': vtl,
               'text/javascript': vtl,
               'text/plain': vtl,
-            }
+            },
+            passthroughBehavior: 'WHEN_NO_MATCH',
+            contentHandling: 'CONVERT_TO_TEXT',
           },
           function(err,result) {
             if (err) {

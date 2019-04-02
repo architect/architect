@@ -13,11 +13,7 @@ function create(name, callback) {
       name,
       minimumCompressionSize: 0,
       binaryMediaTypes: [
-        'application/octet',
-        'image/*',
-        'audio/*',
-        'video/*',
-        'font/*'
+        '*/*',
       ],
     }, callback)
   }, timeout)
