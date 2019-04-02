@@ -1,49 +1,52 @@
+## set up response
+#set($response = $util.parseJson($util.base64Decode($input.json('$'))))
+
 ## set up body
-#if($input.path('$.body') != "")
-  $input.path('$.body')
+#if($response.get('body') != "")
+  $response.get('body')
 #end
 
 ## show any error
-#if($input.path('$.errorMessage') != "")
-  $input.path('$.errorMessage')
+#if($response.get('errorMessage') != "")
+  $response.get('errorMessage')
 #end
 
 ## override status
-#if($input.path("$.status") != "")
-  #set($context.responseOverride.status = $input.path("$.status"))
-#elseif($input.path("$.code") != "")
-  #set($context.responseOverride.status = $input.path("$.code"))
-#elseif($input.path("$.statusCode") != "")
-  #set($context.responseOverride.status = $input.path("$.statusCode"))
+#if($response.get("status") != "")
+  #set($context.responseOverride.status = $response.get("status"))
+#elseif($response.get("code") != "")
+  #set($context.responseOverride.status = $response.get("code"))
+#elseif($response.get("statusCode") != "")
+  #set($context.responseOverride.status = $response.get("statusCode"))
 #end
 
 ## override Location
-#if($input.path("$.location") != "")
-  #set($context.responseOverride.header.Location = $input.path("$.location"))
+#if($response.get("location") != "")
+  #set($context.responseOverride.header.Location = $response.get("location"))
 #end
 
 ## override Content-Type
 ## default: append charset=utf-8
-#if($input.path("$.type") != "")
-  #set($context.responseOverride.header.Content-Type = $input.path("$.type"))
+#if($response.get("type") != "")
+  #set($context.responseOverride.header.Content-Type = $response.get("type"))
 #else
   #set($context.responseOverride.header.Content-Type = "application/json; charset=utf-8;")
 #end
 
 ## override Set-Cookie
-#if($input.path("$.cookie") != "")
-  #set($context.responseOverride.header.Set-Cookie = $input.path("$.cookie"))
+#if($response.get("cookie") != "")
+  #set($context.responseOverride.header.Set-Cookie = $response.get("cookie"))
 #end
 
 ## CORS support
-#if($input.path("$.cors") != "")
+#if($response.get("cors") != "")
   #set($context.responseOverride.header.Access-Control-Allow-Origin = "*")
 #end
 
 ## layer in Cache-Control
 ## default: do not allow caching of HTML or JSON
-#if($input.path("$.cacheControl") != "")
-  #set($context.responseOverride.header.Cache-Control = $input.path("$.cacheControl"))
+#if($response.get("cacheControl") != "")
+  #set($context.responseOverride.header.Cache-Control = $response.get("cacheControl"))
 #elseif($context.responseOverride.header.Content-Type.contains("text/html") ||
         $context.responseOverride.header.Content-Type.contains("application/json"))
   #set($context.responseOverride.header.Cache-Control = "no-cache, no-store, must-revalidate, max-age=0, s-maxage=0")
@@ -52,7 +55,7 @@
 #end
 
 ## go!
-#set($headers = $input.path("$.headers"))
+#set($headers = $response.get("headers"))
 #foreach($key in $headers.keySet())
-#set($context.responseOverride.header[$key] = $headers[$key])
+  #set($context.responseOverride.header[$key] = $headers[$key])
 #end

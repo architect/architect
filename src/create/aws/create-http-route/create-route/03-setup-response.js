@@ -51,7 +51,8 @@ function _new(params, callback) {
         statusCode,
         responseTemplates: {
           'text/html': vtl
-        }
+        },
+        contentHandling: 'CONVERT_TO_TEXT',
       },
       function _putIntegrationResponse(err) {
         // if the method already exists bail quietly
