@@ -1,7 +1,7 @@
 ## Version 1.0.0
 
 {
-  "body" : $input.json('$'),
+  "body" : $util.base64Decode($input.json('$')),
   "path": "$context.resourcePath",
   "headers": {
     #foreach($header in $input.params().header.keySet())
