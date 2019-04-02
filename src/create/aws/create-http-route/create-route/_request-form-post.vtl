@@ -15,7 +15,7 @@
 
 ## get the raw post data from the AWS built-in variable and give it a nicer name
 #if ($context.httpMethod == "POST")
-  #set($rawAPIData = $input.path('$'))
+  #set($rawAPIData = $util.base64Decode($input.path('$')))
 #elseif ($context.httpMethod == "GET")
   #set($rawAPIData = $input.params().querystring)
   #set($rawAPIData = $rawAPIData.toString())
