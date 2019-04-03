@@ -6,6 +6,18 @@ Also see:
 - [Architect Data changelog](https://github.com/arc-repos/arc-data/blob/master/changelog.md)
 ---
 
+
+## [On master]
+
+### Added
+
+- Enables both text and binary file transit in newly provisioned Arc apps
+- Adds the same capability to `sandbox`
+
+
+---
+
+
 ## [5.5.10] - 2019-03-15
 
 ### Added

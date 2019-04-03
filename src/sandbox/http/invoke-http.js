@@ -47,6 +47,25 @@ module.exports = function invokeHTTP({verb, pathToFunction}) {
           })
         }
 
+        if (result.isBase64Encoded) {
+          let documents = [
+            'application/javascript',
+            'application/json',
+            'text/css',
+            'text/html',
+            'text/javascript',
+            'text/plain',
+            'text/xml'
+          ]
+          // Check to see if it's a known-supported doc without assuming normalized header casing
+          // Gross but it works
+          if (documents.some(d => result.headers['content-type'] && result.headers['content-type'].startsWith(d) || result.headers['Content-Type'] && result.headers['Content-Type'].startsWith(d))) {
+            result.body = Buffer.from(result.body, 'base64').toString()
+          }
+          // Otherwise it's a binary
+          else result.body = Buffer.from(result.body, 'base64')
+        }
+
         // Re-encode nested JSON responses
         if (typeof result.json !== 'undefined') {
           // CYA in case we receive an object instead of encoded JSON

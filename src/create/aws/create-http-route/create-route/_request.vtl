@@ -1,5 +1,7 @@
+## Version 2.0.0
+
 {
-  "body" : $input.json('$'),
+  "body" : "$util.base64Decode($input.json('$'))",
   "path": "$context.resourcePath",
   "headers": {
     #foreach($header in $input.params().header.keySet())
@@ -19,5 +21,5 @@
     "$queryParam": "$util.escapeJavaScript($input.params().querystring.get($queryParam))" #if($foreach.hasNext),#end
 
     #end
-  }  
+  }
 }
