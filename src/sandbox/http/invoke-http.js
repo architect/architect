@@ -60,10 +60,10 @@ module.exports = function invokeHTTP({verb, pathToFunction}) {
           // Check to see if it's a known-supported doc without assuming normalized header casing
           // Gross but it works
           if (documents.some(d => result.headers['content-type'] && result.headers['content-type'].startsWith(d) || result.headers['Content-Type'] && result.headers['Content-Type'].startsWith(d))) {
-            result.body = new Buffer(result.body, 'base64').toString()
+            result.body = Buffer.from(result.body, 'base64').toString()
           }
           // Otherwise it's a binary
-          else result.body = new Buffer(result.body, 'base64')
+          else result.body = Buffer.from(result.body, 'base64')
         }
 
         // Re-encode nested JSON responses
