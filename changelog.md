@@ -7,7 +7,7 @@ Also see:
 ---
 
 
-## [On master]
+## [5.6.0] - 2019-04-04
 
 ### Added
 
