@@ -13,6 +13,7 @@ Also see:
 
 - Enables both text and binary file transit in newly provisioned Arc apps
 - Adds the same capability to `sandbox`
+- This is NOT a breaking update, however if you'd like your existing app to serve binary assets, you'll need to re-create your API (or hang tight until we release our forthcoming API migration tool)
 
 
 ---
