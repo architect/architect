@@ -1,7 +1,14 @@
 ## Version 2.0.0
 
+#set($inputJson = $util.base64Decode($input.json('$')))
+#if($inputJson.isEmpty())
+  #set($body = "{}")
+#else
+  #set($body = $inputJson)
+#end
+
 {
-  "body" : "$util.base64Decode($input.json('$'))",
+  "body" : $body,
   "path": "$context.resourcePath",
   "headers": {
     #foreach($header in $input.params().header.keySet())
