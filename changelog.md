@@ -6,6 +6,21 @@ Also see:
 - [Architect Data changelog](https://github.com/arc-repos/arc-data/blob/master/changelog.md)
 ---
 
+## [5.6.1] - 2019-04-05
+
+### Added
+
+- Enables creation of dead letter queues associated to a queue.
+- `maxReceiveCount` is required 
+- Example: 
+  ```
+  @queues
+  myqueue
+  myqueuewithdeadletter
+    maxReceiveCount 10
+  ```
+
+---
 
 ## [5.6.0] - 2019-04-04
 
