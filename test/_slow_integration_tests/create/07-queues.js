@@ -1,30 +1,29 @@
 let fs = require('fs')
-let print = require('../../src/create/_print')
+let print = require('../../../src/create/_print')
 let parse = require('@architect/parser')
-var nukeLambdas = require('./_nuke-lambdas')
-var nukeTopics = require('./_nuke-topics')
+// var nukeLambdas = require('./_nuke-lambdas')
+// var nukeTopics = require('./_nuke-topics')
 var path = require('path')
-var rm = require('rimraf').sync
+// var rm = require('rimraf').sync
 var mkdir = require('mkdirp').sync
 var cp = require('fs').copyFileSync
 var test = require('tape')
-var run = require('../../src/create')
+var run = require('../../../src/create')
 
-test('env', t=> {
+test('env', t => {
   t.plan(1)
   t.ok(run, 'run exists')
 })
 
-test('setup', t=> {
+test('setup', t => {
   t.plan(1)
   mkdir('test/create/_mock')
-  cp('test/create/07-queues-mock.arc', 'test/create/_mock/.arc')
+  cp(path.join(__dirname, '07-queues-mock.arc'), 'test/create/_mock/.arc')
   process.chdir('test/create/_mock')
   t.ok(true, 'created test/_mock/.arc')
-  console.log(process.cwd())
 })
 
-test('exec', t=> {
+test('exec', t => {
   t.plan(1)
   let arcPath = path.join(process.cwd(), '.arc')
   let raw = fs.readFileSync(arcPath).toString()
