@@ -1,6 +1,13 @@
-var assert = require('@smallwins/validate/assert')
-var unexpress = require('./_un-express-route')
-var putMethod = require('./_put-method')
+let aws = require('aws-sdk')
+let assert = require('@smallwins/validate/assert')
+let unexpress = require('./_un-express-route')
+
+function putMethod(params, callback) {
+  setTimeout(function _latency() {
+    let gateway = new aws.APIGateway({region: process.env.AWS_REGION})
+    gateway.putMethod(params, callback)
+  }, 1111)
+}
 
 module.exports = function _01addMethod(params, callback) {
 

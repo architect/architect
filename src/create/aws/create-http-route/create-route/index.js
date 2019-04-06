@@ -1,32 +1,46 @@
-var assert = require('@smallwins/validate/assert')
-var series = require('run-series')
-var create = require('./create-resource')
+let waterfall = require('run-waterfall')
+let create = require('./00-create-resources')
+let addMethod = require('./01-add-method')
+let setupRequest = require('./02-setup-request')
+let setupResponse = require('./03-setup-response')
+let getName = require('../../../../util/get-lambda-name')
 
-module.exports = function _createRoute(params, callback) {
+module.exports = function _createResource(stage, route, httpMethod, type, callback) {
 
-  assert(params, {
-    app: String,
-    route: Array,
-    type: String,
-  })
+  let deployname = `${stage}-${httpMethod}${getName(route)}`
 
-  var route = params.route[1]
-  var method = params.route[0]
-  var type = params.type
-
-  var staging = create.bind({}, `${params.app}-staging`, route, method, type)
-  var production = create.bind({}, `${params.app}-production`, route, method, type)
-
-  series([
-    staging,
-    production
-  ],
-  function _done(err) {
-    if (err) {
-      callback(err)
+  waterfall([
+    function _00(callback) {
+      create({
+        stage,
+        route,
+        type,
+      }, callback)
+    },
+    function _01(restApiId, resources, callback) {
+      addMethod({
+        route,
+        httpMethod,
+        restApiId,
+        resources,
+      }, callback)
+    },
+    function _02(resourceId, restApiId, callback) {
+      setupRequest({
+        route,
+        httpMethod,
+        deployname,
+        resourceId,
+        restApiId,
+      }, callback)
+    },
+    function _03(resourceId, restApiId, callback) {
+      setupResponse({
+        httpMethod,
+        resourceId,
+        restApiId,
+        type,
+      }, callback)
     }
-    else {
-      callback()
-    }
-  })
+  ], callback)
 }
