@@ -14,9 +14,11 @@ module.exports = function invokeHTTP({verb, pathToFunction}) {
 
     let request = {
       method: verb,
+      httpMethod: verb,
       path: url.parse(req.url).pathname,
       headers: req.headers,
       query: url.parse(req.url, true).query,
+      queryStringParameters: url.parse(req.url, true).query,
       body: req.body,
       params: req.params,
     }
