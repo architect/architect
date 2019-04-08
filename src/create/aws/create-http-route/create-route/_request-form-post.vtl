@@ -1,7 +1,9 @@
+## Version 2.0.1
+
 ## many eyeballs were in this code
 ## convert HTML POST data or HTTP GET query string to JSON
 ## most recent edit adds proper escaping of values
-#*Ref: 
+#*Ref:
 
   https://gist.github.com/ryanray/668022ad2432e38493df
   https://github.com/mweagle/Sparta/blob/master/resources/provision/apigateway/inputmapping_formencoded.vtl
@@ -13,15 +15,15 @@
 
 ## get the raw post data from the AWS built-in variable and give it a nicer name
 #if ($context.httpMethod == "POST")
- #set($rawAPIData = $input.path('$'))
+  #set($rawAPIData = $util.base64Decode($input.path('$')))
 #elseif ($context.httpMethod == "GET")
- #set($rawAPIData = $input.params().querystring)
- #set($rawAPIData = $rawAPIData.toString())
- #set($rawAPIDataLength = $rawAPIData.length() - 1)
- #set($rawAPIData = $rawAPIData.substring(1, $rawAPIDataLength))
- #set($rawAPIData = $rawAPIData.replace(", ", "&"))
+  #set($rawAPIData = $input.params().querystring)
+  #set($rawAPIData = $rawAPIData.toString())
+  #set($rawAPIDataLength = $rawAPIData.length() - 1)
+  #set($rawAPIData = $rawAPIData.substring(1, $rawAPIDataLength))
+  #set($rawAPIData = $rawAPIData.replace(", ", "&"))
 #else
- #set($rawAPIData = "")
+  #set($rawAPIData = "")
 #end
 
 ## first we get the number of "&" in the string, this tells us if there is more than one key value pair
@@ -31,7 +33,7 @@
 ## we append an ampersand to the string so that we can tokenise it the same way as multiple kv pairs.
 ## the "empty" kv pair to the right of the ampersand will be ignored anyway.
 #if ($countAmpersands == 0)
- #set($rawPostData = $rawAPIData + "&")
+  #set($rawPostData = $rawAPIData + "&")
 #end
 
 ## now we tokenise using the ampersand(s)
@@ -42,18 +44,19 @@
 
 ## now we set up a loop to find the valid key value pairs, which must contain only one "="
 #foreach( $kvPair in $tokenisedAmpersand )
- #set($countEquals = $kvPair.length() - $kvPair.replace("=", "").length())
- #if ($countEquals == 1)
-  #set($kvTokenised = $kvPair.split("="))
-  #if ($kvTokenised[0].length() > 0)
-   ## we found a valid key value pair. add it to the list.
-   #set($devNull = $tokenisedEquals.add($kvPair))
+  #set($countEquals = $kvPair.length() - $kvPair.replace("=", "").length())
+  #if ($countEquals == 1)
+    #set($kvTokenised = $kvPair.split("="))
+    #if ($kvTokenised[0].length() > 0)
+      ## we found a valid key value pair. add it to the list.
+      #set($devNull = $tokenisedEquals.add($kvPair))
+    #end
   #end
- #end
 #end
 
 {
   "method": "$context.httpMethod",
+  "httpMethod": "$context.httpMethod",
   "path": "$context.resourcePath",
   "body" : {
     #foreach( $kvPair in $tokenisedEquals )
@@ -75,13 +78,16 @@
   "query": {
     #foreach($param in $input.params().querystring.keySet())
     "$param": "$util.escapeJavaScript($input.params().querystring.get($param))" #if($foreach.hasNext),#end
-
+    #end
+  },
+  "queryStringParameters": {
+    #foreach($param in $input.params().querystring.keySet())
+    "$param": "$util.escapeJavaScript($input.params().querystring.get($param))" #if($foreach.hasNext),#end
     #end
   },
   "params": {
     #foreach($param in $input.params().path.keySet())
     "$param": "$util.escapeJavaScript($input.params().path.get($param))" #if($foreach.hasNext),#end
-
     #end
   }
 }
