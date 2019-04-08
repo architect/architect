@@ -61,7 +61,13 @@ module.exports = function invokeHTTP({verb, pathToFunction}) {
           ]
           // Check to see if it's a known-supported doc without assuming normalized header casing
           // Gross but it works
-          if (documents.some(d => result.headers['content-type'] && result.headers['content-type'].startsWith(d) || result.headers['Content-Type'] && result.headers['Content-Type'].startsWith(d))) {
+          if (documents.some(d => {
+            let isText =
+              result.headers && result.headers['content-type'].startsWith(d) ||
+              result.headers && result.headers['Content-Type'].startsWith(d) ||
+              result.type && result.type.startsWith(d)
+            return isText
+          })) {
             result.body = Buffer.from(result.body, 'base64').toString()
           }
           // Otherwise it's a binary
