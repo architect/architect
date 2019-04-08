@@ -7,6 +7,16 @@ Also see:
 ---
 
 
+## [On master]
+
+### Fixed
+
+- Fixes websocket support in `sandbox`; #328 /ht @rschweizer
+
+
+---
+
+
 ## [5.6.0 - 5.6.1] - 2019-04-04
 
 ### Added
