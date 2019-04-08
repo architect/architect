@@ -1,8 +1,8 @@
-var assert = require('@smallwins/validate/assert')
-var waterfall = require('run-waterfall')
-var aws = require('aws-sdk')
-let fs = require('fs')
+let aws = require('aws-sdk')
+let waterfall = require('run-waterfall')
+let assert = require('@smallwins/validate/assert')
 let path = require('path')
+let fs = require('fs')
 
 module.exports = function _03setupResponse(params, callback) {
   assert(params, {

@@ -1,4 +1,4 @@
-## Version 2.0.0
+## Version 2.0.1
 
 ## many eyeballs were in this code
 ## convert HTML POST data or HTTP GET query string to JSON
@@ -56,6 +56,7 @@
 
 {
   "method": "$context.httpMethod",
+  "httpMethod": "$context.httpMethod",
   "path": "$context.resourcePath",
   "body" : {
     #foreach( $kvPair in $tokenisedEquals )
@@ -77,13 +78,16 @@
   "query": {
     #foreach($param in $input.params().querystring.keySet())
     "$param": "$util.escapeJavaScript($input.params().querystring.get($param))" #if($foreach.hasNext),#end
-
+    #end
+  },
+  "queryStringParameters": {
+    #foreach($param in $input.params().querystring.keySet())
+    "$param": "$util.escapeJavaScript($input.params().querystring.get($param))" #if($foreach.hasNext),#end
     #end
   },
   "params": {
     #foreach($param in $input.params().path.keySet())
     "$param": "$util.escapeJavaScript($input.params().path.get($param))" #if($foreach.hasNext),#end
-
     #end
   }
 }

@@ -9,11 +9,23 @@ Also see:
 
 ## [On master]
 
+### Fixed
+
+- Fixes websocket support in `sandbox`; #328 /ht @rschweizer
+
+
+---
+
+
+## [5.6.0 - 5.6.1] - 2019-04-04
+
 ### Added
 
 - Enables both text and binary file transit in newly provisioned Arc apps
 - Adds the same capability to `sandbox`
-
+- This is NOT a breaking update, however if you'd like your existing app to serve binary assets, you'll need to re-create your API (or hang tight until we release our forthcoming API migration tool)
+- Adds `req.httpMethod` and `req.queryStringParameters`
+- Removes deprecated code paths
 
 ---
 
