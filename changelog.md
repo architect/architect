@@ -7,6 +7,37 @@ Also see:
 ---
 
 
+## [5.6.2] - 2019-04-08
+
+### Fixed
+
+- Fixes WebSocket support in `sandbox`; fixes #328 /ht @rschweizer
+
+
+### Changed
+
+- Cleans up http invocation for doc content-types in `sandbox`
+- Slightly better rate limit error message
+
+
+---
+
+
+## [5.6.1] - 2019-04-06
+
+### Added
+
+- Adds `req.httpMethod` and `req.queryStringParameters`
+
+
+### Removed
+
+- Removes deprecated code paths
+
+
+---
+
+
 ## [5.6.0 - 5.6.1] - 2019-04-04
 
 ### Added
