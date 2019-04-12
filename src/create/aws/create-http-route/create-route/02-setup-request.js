@@ -21,6 +21,7 @@ module.exports = function _02setupRequest(params, callback) {
   var {httpMethod, deployname, resourceId, restApiId} = params
   var vtl = fs.readFileSync(path.join(__dirname, '_request.vtl')).toString()
   var vtlForm = fs.readFileSync(path.join(__dirname, '_request-form-post.vtl')).toString()
+  var vtlBinary = fs.readFileSync(path.join(__dirname, '_request-binary.vtl')).toString()
   waterfall([
     function _getLambda(callback) {
       lambda.getFunction({
@@ -56,13 +57,14 @@ module.exports = function _02setupRequest(params, callback) {
             integrationHttpMethod: 'POST',
             uri,
             requestTemplates: {
-              'text/html': vtl,
-              'application/x-www-form-urlencoded': vtlForm,
-              'multipart/form-data': vtl,
               'application/json': vtl,
+              'application/octet-stream': vtlBinary,
               'application/vnd.api+json': vtl,
+              'application/x-www-form-urlencoded': vtlForm,
               'application/xml': vtl,
+              'multipart/form-data': vtlBinary,
               'text/css': vtl,
+              'text/html': vtl,
               'text/javascript': vtl,
               'text/plain': vtl,
             },
