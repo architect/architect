@@ -6,6 +6,17 @@ Also see:
 - [Architect Data changelog](https://github.com/arc-repos/arc-data/blob/master/changelog.md)
 ---
 
+## [On master] - 2019-04-14
+
+### Added
+
+- Support for `application/binary-octet` & `multipart/form-data` requests, fixes #353
+  - Requests with those two `Content-Type` headers will produce a `base64` object in the `body` object, like so: `body: {base64: 'aLongBase64StringHere'}`
+  - Empty request bodies will still produce an empty object (e.g. `body: {}`)
+
+
+---
+
 
 ## [5.6.3] - 2019-04-08
 
