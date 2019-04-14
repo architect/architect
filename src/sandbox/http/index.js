@@ -10,16 +10,18 @@ let http = require('http')
 let readArc = require('../../util/read-arc')
 let registerHTTP = require('./register-http')
 let registerWS = require('./register-websocket')
+let binary = require('./binary-handler')
 let public = require('./public-middleware')
 let fallback = require('./fallback')
 
 // config arcana
 let jsonTypes = /^application\/.*json/
 let limit = '6mb';
-let app = Router({mergeparams: true})
+let app = Router({mergeParams: true})
+app.use(binary)
 app.use(body.json({
   limit,
-  type:  req => jsonTypes.test(req.headers['content-type'])
+  type: req => jsonTypes.test(req.headers['content-type'])
 }))
 app.use(body.urlencoded({
   extended: false,

@@ -4,7 +4,7 @@
 #if($inputJson.isEmpty())
   #set($body = "{}")
 #else
-  #set($body = $inputJson)
+  #set($body = "{ ""base64"": $input.json('$') }")
 #end
 ##
 {
