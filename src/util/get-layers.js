@@ -1,4 +1,3 @@
-
 /**
  * Extract layers from arc
  * - finds for `layers` array in json or yaml files
