@@ -4,7 +4,7 @@ let validPath = require('../_valid-path')
 /**
  * http
  * ---
- * validator for @html
+ * validator for @http
  */
 module.exports = function _http(arc, raw) {
   var type = 'http'
@@ -39,17 +39,6 @@ module.exports = function _http(arc, raw) {
         }))
       })
 
-      let missingIndex = !arc[type].some(r=> r[0].toLowerCase() === 'get' && r[1] === '/')
-      if (missingIndex) {
-        errors.push(Err({
-          message: `@http missing "get /"`,
-          linenumber: findHttpLine(raw),
-          raw,
-          arc,
-          detail: '@http must have one get / route. Read more here: https://arc.codes/guides/http',
-        }))
-      }
-
       arc[type].forEach(route=> {
         var path = route[1]
         var err = validPath(path)
@@ -82,16 +71,6 @@ function findLineNumber(tuple, raw) {
   var lines = raw.split('\n')
   for (var i = 0; i <= lines.length; i++) {
     if (lines[i] && lines[i].startsWith(search)) {
-      return i + 1
-    }
-  }
-  return -1
-}
-
-function findHttpLine(raw) {
-  var lines = raw.split('\n')
-  for (var i = 0; i <= lines.length; i++) {
-    if (lines[i] && lines[i].startsWith('@http')) {
       return i + 1
     }
   }
