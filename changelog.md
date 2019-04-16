@@ -8,6 +8,10 @@ Also see:
 
 ## [On master] - 2019-04-14
 
+### Removed
+
+- `get /` no longer required by `@http`
+
 ### Added
 
 - Support for `application/binary-octet` & `multipart/form-data` requests, fixes #353
