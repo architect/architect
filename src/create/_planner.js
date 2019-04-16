@@ -113,11 +113,7 @@ module.exports = function planner(arc) {
       plans.push({action:'create-http-route', route, app})
     })
     if (hasRoot) {
-      console.log('hasroot')
       plans.push({action:'create-http-fallback', app, arc})
-    }
-    else {
-      console.log('no root!')
     }
     if (arc.static) {
       plans.push({action:'create-http-static-proxy', app, arc})
