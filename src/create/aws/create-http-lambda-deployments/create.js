@@ -16,7 +16,7 @@ module.exports = function create({app, name, stage, arc}, callback) {
           app,
           name,
           stage,
-          arc
+          arc,
         }, callback)
       }, 7000)
     }
@@ -38,7 +38,7 @@ function createLambda({app, name, stage, arc}, callback) {
         section: 'http',
         codename: name,
         deployname: stage,
-        arc
+        arc,
       }, callback)
     },
     function write(arn, callback) {
