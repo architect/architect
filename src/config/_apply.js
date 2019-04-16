@@ -5,7 +5,7 @@ let aws = require('aws-sdk')
 let series = require('run-series')
 let chalk = require('chalk')
 let getFunctionName = require('./_get-function-name')
-let allowed = require('./_allowed-runtimes')
+let allowed = require('../util/get-runtime').allowed
 
 // helpers
 let error = msg=> console.log(chalk.bold.red('Error: ') + chalk.bold.white(msg))
