@@ -2,7 +2,6 @@ let regexp = require('../_regexp')
 let Err = require('../_error-factory')
 let getRuntime = require('../../../util/get-runtime')
 let getLayers = require('../../../util/get-layers')
-let validRuntimes = getRuntime.validRuntimes
 
 /**
  * aws
@@ -17,31 +16,43 @@ module.exports = function app(arc, raw) {
 
   if (!arc.aws) return errors
 
-  // Validate runtime
-  let runtime = getRuntime(arc)
-
-  if (!validRuntimes.includes(runtime)) {
-    errors.push(Err({
-      message: 'runtime is not supported',
-      arc,
-      raw,
-      linenumber: findLineNumber(runtime, raw),
-      detail: 'supported runtimes: ' + validRuntimes.join(', ')
-    }))
+  // Issue a warning if invalid runtime is found
+  //   System will automatically default to a valid runtime
+  if (arc.aws.some(tuple => tuple.includes('runtime'))) {
+    let awsRuntime = arc.aws.find(tuple => tuple.includes('runtime'))
+    getRuntime.allowed(awsRuntime)
   }
 
   // Validate layers
   let layers = getLayers(arc)
 
+  // Check valid ARN
   if (Array.isArray(layers)) {
     layers.forEach(layer => {
       if (!regexp.layer.test(layer)) {
         errors.push(Err({
-          message: `layer is not a valid arn`,
+          message: `Layer is not a valid ARN`,
           linenumber: findLineNumber(layer, raw),
           raw,
           arc,
-          detail: 'layer should be a valid arn',
+          detail: 'Layer should be a valid ARN',
+        }))
+      }
+    })
+  }
+
+  // Ensure layers are in the correct region
+  if (Array.isArray(layers)) {
+    layers.forEach(layer => {
+      let layerRegion = layer.split(':')[3]
+      let arcRegion = process.env.AWS_REGION
+      if (layerRegion !== arcRegion) {
+        errors.push(Err({
+          message: `Layers must be in the same region as Lambdas`,
+          linenumber: findLineNumber(layer, raw),
+          raw,
+          arc,
+          detail: 'Layer ARNs specify a region, this region must be the same as that of your Lambdas',
         }))
       }
     })
