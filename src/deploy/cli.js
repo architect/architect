@@ -1,9 +1,11 @@
 #!/usr/bin/env node
-let chalk = require('chalk')
 let waterfall = require('run-waterfall')
 let init = require('../util/init')
 let flags = require('./helpers/flags')
 let {main} = require('.')
+let errArcInvalid = require('../util/errors/arc-invalid')
+let errTooManyRequests = require('../util/errors/too-many-requests')
+let errUnknown = require('../util/errors/unknown')
 let start = Date.now() // use this later for measuring time
 
 /**
@@ -26,9 +28,17 @@ waterfall([
   main,         // feed params into task generator + runner
 ],
 function done(err) {
-  if (err) {
-    console.log(chalk.bold.red('Error'), chalk.bold.white(err))
-    process.exit(1)
+  // trap common errors and try to help
+  let arcInvalid = err && err.linenumber > -1
+  let tooManyRequests = err && err.message === 'Too Many Requests'
+
+  if (arcInvalid) {
+    errArcInvalid(err)
   }
-  // TODO catch toomanyrequest exceptions and retry once
+  else if (tooManyRequests) {
+    errTooManyRequests(err)
+  }
+  else if (err) {
+    errUnknown(err)
+  }
 })
