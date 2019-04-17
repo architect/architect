@@ -6,17 +6,33 @@ Also see:
 - [Architect Data changelog](https://github.com/arc-repos/arc-data/blob/master/changelog.md)
 ---
 
-## [On master] - 2019-04-14
-
-### Removed
-
-- `get /` no longer required by `@http`
+## [On master] - 2019-04-16
 
 ### Added
 
+- Support for AWS layers! /ht @julianduque
+  - You may now specify `layer $layerARN` in the `@aws` section of your project manifest, or `.arc-config` files (see: [config](https://arc.codes/reference/arc-config)!
+- Support for additional runtimes: `python3.7` and `ruby2.5`!
+  - The list also includes: `nodejs8.10`, `python3.6`, `go1.x`, `dotnetcore2.1`, and `java8`
+  - Specify `runtime $yourRuntime` in the `@aws` section of your project manifest, or `.arc-config` files
+  - Of course, you can also add the runtime of your choosing by way of layer support
 - Support for `application/binary-octet` & `multipart/form-data` requests, fixes #353
-  - Requests with those two `Content-Type` headers will produce a `base64` object in the `body` object, like so: `body: {base64: 'aLongBase64StringHere'}`
+  - Requests with those two `Content-Type` headers will produce a `base64` object in the `body` object, like so: `body: {base64: 'R28gR2lhbnRzIQ=='}`
   - Empty request bodies will still produce an empty object (e.g. `body: {}`)
+
+
+### Fixed
+
+- `config [--apply]` now has an easier to read layout, improved diffing, and instructions on how to apply changes
+- Added resource creation error handling and validation to `deploy`
+- Invalid runtime settings emit a friendly warning about defaulting to `node8.10`
+
+
+### Changed
+
+- `get /` no longer required by `@http`
+- Updated dependencies (most notably `@architect/parser` to support `runtime` and `layers` settings)
+- Resource creation error handling moved into common utils (internal)
 
 
 ---

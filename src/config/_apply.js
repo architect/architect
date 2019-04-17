@@ -5,11 +5,12 @@ let aws = require('aws-sdk')
 let series = require('run-series')
 let chalk = require('chalk')
 let getFunctionName = require('./_get-function-name')
-let allowed = require('./_allowed-runtimes')
+let getLayers = require('../util/get-layers')
+let getRuntime = require('../util/get-runtime')
 
 // helpers
 let error = msg=> console.log(chalk.bold.red('Error: ') + chalk.bold.white(msg))
-let title = msg=> console.log(chalk.dim.cyan(msg))
+let title = msg=> console.log(chalk.bold.cyan('Found config:'), chalk.dim.cyan(msg))
 
 module.exports = function report(arc) {
 
@@ -28,9 +29,15 @@ module.exports = function report(arc) {
     if (err) {
       error(err.message)
     }
+    else if (!files.length) {
+      console.log(chalk.bold.cyan('No .arc-config files found in src/ tree'))
+    }
     else {
-      files.forEach(file=> {
+      files.forEach(file => {
         try {
+          // FIXME: add validation logic here
+          //   Needs some finagling: create validator looks at a whole .arc manifest, not .arc-config
+
           // read the .arc-config
           let raw = fs.readFileSync(file).toString().trim()
           let config = parse(raw)
@@ -38,13 +45,16 @@ module.exports = function report(arc) {
           if (config && config.aws) {
             let timeout = config.aws.find(e=> e[0] === 'timeout') || 5
             let memory = config.aws.find(e=> e[0] === 'memory') || 1152
-            let runtime = config.aws.find(e=> e[0] === 'runtime') || 'nodejs8.10'
+            let runtime = config.aws.find(e=> e[0] === 'runtime') || getRuntime(config) // default runtime
+            let layers = config.aws.find(e=> e[0] === 'layer') || []
             if (Array.isArray(timeout))
               timeout = timeout[1]
             if (Array.isArray(memory))
               memory = memory[1]
             if (Array.isArray(runtime))
-              runtime = allowed(runtime[1])
+              runtime = getRuntime(config)
+            if (layers.length)
+              layers = getLayers(config)
             title(file)
             let staging = getFunctionName(appname, 'staging', file)
             let production = getFunctionName(appname, 'production', file)
@@ -55,6 +65,7 @@ module.exports = function report(arc) {
                   MemorySize: memory,
                   Timeout: timeout,
                   Runtime: runtime,
+                  Layers: layers,
                 }, callback)
               }
             }),
@@ -64,7 +75,7 @@ module.exports = function report(arc) {
               }
               else {
                 results.forEach(r=> {
-                  console.log(chalk.green(r.FunctionName))
+                  console.log(chalk.green('Successfully updated:'), chalk.white(r.FunctionName))
                 })
               }
             })

@@ -6,6 +6,8 @@ var glob = require('glob')
 var path = require('path')
 var aws = require('aws-sdk')
 var getIAM = require('./_get-iam-role')
+var getRuntime = require('../../util/get-runtime')
+var getLayers = require('../../util/get-layers')
 
 module.exports = function _getLambda(params, callback) {
 
@@ -15,8 +17,14 @@ module.exports = function _getLambda(params, callback) {
     deployname: String, // appname-staging-foo
   })
 
+  if (params.arc) {
+    assert(params, {
+      arc: Object
+    })
+  }
+
   var lambda = new aws.Lambda({region:process.env.AWS_REGION})
-  var {section, codename, deployname} = params
+  var {section, codename, deployname, arc} = params
   var appname = deployname.split(/-(production|staging)-/)[0]
 
   parallel([
@@ -42,11 +50,12 @@ module.exports = function _getLambda(params, callback) {
       callback(err)
     }
     else {
-
       var role = results.find(r=> r.hasOwnProperty('Arn'))
       var zip = results.find(r=> !r.hasOwnProperty('Arn'))
+      var runtime = getRuntime(arc)
+      var layers = getLayers(arc)
 
-      lambda.createFunction({
+      var lambdaFn = {
         Code: {
           ZipFile: zip
         },
@@ -56,7 +65,7 @@ module.exports = function _getLambda(params, callback) {
         MemorySize: 1152,
         Publish: true,
         Role: role.Arn,
-        Runtime: 'nodejs8.10',
+        Runtime: runtime,
         Timeout: 5,
         Environment: {
           Variables: {
@@ -64,8 +73,16 @@ module.exports = function _getLambda(params, callback) {
             'ARC_APP_NAME': appname,
           }
         }
-      },
-      function _createFn(err, result) {
+      }
+
+      // Add layers to lambda function
+      if (Array.isArray(layers)) {
+        lambdaFn = Object.assign({}, lambdaFn, {
+          Layers: layers
+        })
+      }
+
+      lambda.createFunction(lambdaFn, function _createFn(err, result) {
         if (err && err.name != 'ResourceConflictException') {
           console.log(err)
           callback(err)
