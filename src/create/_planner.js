@@ -106,12 +106,15 @@ module.exports = function planner(arc) {
   // api gateway http
   //
   let hasAPI = arc.hasOwnProperty('http')
+  let hasRoot = hasAPI && arc.http.find(r=> r[0]==='get'&&r[1]==='/')
   if (hasAPI && !process.env.ARC_LOCAL) {
     plans.push({action:'create-http-routers', app})
     arc.http.forEach(route=> {
       plans.push({action:'create-http-route', route, app})
     })
-    plans.push({action:'create-http-fallback', app, arc})
+    if (hasRoot) {
+      plans.push({action:'create-http-fallback', app, arc})
+    }
     if (arc.static) {
       plans.push({action:'create-http-static-proxy', app, arc})
     }

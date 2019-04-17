@@ -8,6 +8,10 @@ Also see:
 
 ## [On master] - 2019-04-16
 
+### Removed
+
+- `get /` no longer required by `@http`
+
 ### Added
 
 - Support for AWS layers! /ht @julianduque
