@@ -49,10 +49,10 @@ function _validate(arc, raw, callback) {
   ]
 
   // map function: accepts a validater; applies it to arc
-  let validate = validator=> validator(arc, raw)
+  let validate = validator => validator(arc, raw)
 
   // reduce function: just concats the error arrays into one array
-  let flatten = (a, b)=> a.concat(b)
+  let flatten = (a, b) => a.concat(b)
 
   // the final collection of errors
   let errors = validators.map(validate).reduce(flatten)

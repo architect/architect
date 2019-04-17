@@ -19,7 +19,7 @@ module.exports = function app(arc, raw) {
   // Issue a warning if invalid runtime is found
   //   System will automatically default to a valid runtime
   if (arc.aws.some(tuple => tuple.includes('runtime'))) {
-    let awsRuntime = arc.aws.find(tuple => tuple.includes('runtime'))
+    let awsRuntime = arc.aws.find(tuple => tuple.includes('runtime'))[1]
     getRuntime.allowed(awsRuntime)
   }
 
