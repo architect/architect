@@ -45,15 +45,15 @@ module.exports = function report(arc) {
           if (config && config.aws) {
             let timeout = config.aws.find(e=> e[0] === 'timeout') || 5
             let memory = config.aws.find(e=> e[0] === 'memory') || 1152
-            let runtime = config.aws.find(e=> e[0] === 'runtime') || ''
-            let layers = config.aws.find(e=> e[0] === 'layers') || []
+            let runtime = config.aws.find(e=> e[0] === 'runtime') || getRuntime(config) // default runtime
+            let layers = config.aws.find(e=> e[0] === 'layer') || []
             if (Array.isArray(timeout))
               timeout = timeout[1]
             if (Array.isArray(memory))
               memory = memory[1]
             if (Array.isArray(runtime))
               runtime = getRuntime(config)
-            if (Array.isArray(layers))
+            if (layers.length)
               layers = getLayers(config)
             title(file)
             let staging = getFunctionName(appname, 'staging', file)
