@@ -8,10 +8,6 @@ Also see:
 
 ## [On master] - 2019-04-16
 
-### Removed
-
-- `get /` no longer required by `@http`
-
 ### Added
 
 - Support for AWS layers! /ht @julianduque
@@ -34,6 +30,7 @@ Also see:
 
 ### Changed
 
+- `get /` no longer required by `@http`
 - Updated dependencies (most notably `@architect/parser` to support `runtime` and `layers` settings)
 - Resource creation error handling moved into common utils (internal)
 
