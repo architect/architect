@@ -10,7 +10,7 @@ let allowed = [
   `python3.7`,
   `python3.6`,
   `go1.x`,
-  'ruby2.5',
+  `ruby2.5`,
   `dotnetcore2.1`,
   `java8`,
 ]
