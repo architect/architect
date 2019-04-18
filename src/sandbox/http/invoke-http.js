@@ -90,7 +90,7 @@ module.exports = function invokeHTTP({verb, pathToFunction}) {
           }
         }
 
-        res.end(result.body || '\n')
+        res.end(result.body || '')
       }
     })
   }
