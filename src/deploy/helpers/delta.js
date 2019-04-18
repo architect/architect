@@ -17,6 +17,9 @@ module.exports = function delta(arc, callback) {
     events: [],
     tables: [],
   }
+  if (arc.aws) {
+    Object.assign(diff, {aws: arc.aws})
+  }
   if (arc.http) {
     arc.http.forEach(route=> {
       if (isHttpRetry(route, retries)) {
@@ -124,6 +127,9 @@ function stringify(arc) {
 
   if (arc.tables.length > 0)
     str += `\n@tables\n` + arc.tables.map(fmtTbl).join('\n')
+
+  if (arc.aws.length > 0)
+    str += `\n@aws\n` + arc.aws.map(tuple=> tuple.join(' ') + '\n').join('')
   //////////
   return str
 }

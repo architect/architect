@@ -5,9 +5,9 @@ let init = require('../util/init')
 let create = require('.')
 let stop = require('./_print').stop
 let flags = require('./_flags')
-let errArcInvalid = require('./errors/arc-invalid')
-let errTooManyRequests = require('./errors/too-many-requests')
-let errUnknown = require('./errors/unknown')
+let errArcInvalid = require('../util/errors/arc-invalid')
+let errTooManyRequests = require('../util/errors/too-many-requests')
+let errUnknown = require('../util/errors/unknown')
 let start = Date.now()
 
 waterfall([

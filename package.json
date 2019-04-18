@@ -1,6 +1,6 @@
 {
   "name": "@architect/architect",
-  "version": "5.6.5",
+  "version": "5.7.0",
   "description": "Create, deploy, and maintain next-generation AWS cloud function-based serverless infrastructure with full local, offline workflows, and more.",
   "main": "index",
   "bin": {
@@ -61,7 +61,7 @@
   "homepage": "https://arc.codes",
   "dependencies": {
     "@architect/data": "^2.0.14",
-    "@architect/parser": "^1.1.6",
+    "@architect/parser": "^1.1.7",
     "@smallwins/validate": "^4.3.0",
     "aws-sdk": "^2.421.0",
     "body-parser": "^1.18.3",
@@ -90,14 +90,14 @@
   },
   "devDependencies": {
     "cross-env": "^5.2.0",
-    "eslint": "^5.15.1",
+    "eslint": "^5.16.0",
     "nyc": "^13.3.0",
     "proxyquire": "^2.1.0",
     "rimraf": "^2.6.3",
-    "sinon": "^7.2.7",
+    "sinon": "^7.3.1",
     "tap-nyc": "^1.0.3",
     "tap-spec": "^5.0.0",
     "tape": "^4.10.1",
-    "tiny-json-http": "^7.0.2"
+    "tiny-json-http": "^7.1.2"
   }
 }

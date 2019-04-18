@@ -37,6 +37,7 @@ function createLambda(params, callback) {
         section: 'ws',
         codename: params.name,
         deployname: params.lambda,
+        arc: params.arc,
       }, callback)
     },
     function _addEnvVars(arn, callback) {

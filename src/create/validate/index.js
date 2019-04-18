@@ -1,5 +1,6 @@
 // TODO queues
 var app = require('./validators/app')
+var aws = require('./validators/aws')
 var domain = require('./validators/domain')
 var events = require('./validators/events')
 var http = require('./validators/http')
@@ -35,6 +36,7 @@ function _validate(arc, raw, callback) {
   //
   let validators = [
     app,
+    aws,
     domain,
     events,
     http,
@@ -47,10 +49,10 @@ function _validate(arc, raw, callback) {
   ]
 
   // map function: accepts a validater; applies it to arc
-  let validate = validator=> validator(arc, raw)
+  let validate = validator => validator(arc, raw)
 
   // reduce function: just concats the error arrays into one array
-  let flatten = (a, b)=> a.concat(b)
+  let flatten = (a, b) => a.concat(b)
 
   // the final collection of errors
   let errors = validators.map(validate).reduce(flatten)

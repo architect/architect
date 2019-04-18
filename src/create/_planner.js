@@ -130,9 +130,9 @@ module.exports = function planner(arc) {
     plans.push({action:'create-ws-lambda-code', app, arc, name:'ws-disconnect'})
     plans.push({action:'create-ws-lambda-code', app, arc, name:'ws-default'})
     if (!process.env.ARC_LOCAL) {
-      plans.push({action:'create-ws-lambda-deployments', app, name:'ws-connect'})
-      plans.push({action:'create-ws-lambda-deployments', app, name:'ws-disconnect'})
-      plans.push({action:'create-ws-lambda-deployments', app, name:'ws-default'})
+      plans.push({action:'create-ws-lambda-deployments', app, arc, name:'ws-connect'})
+      plans.push({action:'create-ws-lambda-deployments', app, arc, name:'ws-disconnect'})
+      plans.push({action:'create-ws-lambda-deployments', app, arc, name:'ws-default'})
       plans.push({action:'create-ws-router', app})
       plans.push({action:'create-ws-router-deployments', app})
     }
