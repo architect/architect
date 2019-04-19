@@ -6,6 +6,11 @@ Also see:
 - [Architect Data changelog](https://github.com/arc-repos/arc-data/blob/master/changelog.md)
 ---
 
+## Master
+
+- Adds `npx inventory nuke -f` for deleting DynamoDB tables and S3 buckets (even if they have contents)
+- Aliases: `npx inventory -nf`, `npx inventory -fn`
+
 ## [5.7.0] - 2019-04-17
 
 ### Added
