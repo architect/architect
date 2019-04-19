@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 let init = require('../util/init')
-let inventory = require('.')
 let chalk = require('chalk')
-let _local = require('./_local')
-let _verify = require('./_verify')
-let _tidy = require('./_tidy')
-let _nuke = require('./nuke')
-let _nukeTables = require('./_nuke-tables')
 let waterfall = require('run-waterfall')
+
+let inventory = require('.')
+let local = require('./local')
+let verify = require('./verify')
+let nuke = require('./nuke')
+let nukeTables = require('./nuke-tables')
+let nukeWithForce = require('./nuke-with-force')
 
 waterfall([
   init,
@@ -20,36 +21,37 @@ function _inventory(err, result) {
     process.exit(1)
   }
   else {
-    var reporter = _local // default to local only
-    var command = process.argv.slice(0).reverse().shift()
+    let reporter = local // default to local only
+    let command = process.argv.slice(0).reverse().shift()
 
-    var isVerify = command === 'verify' ||
+    let isVerify = command === 'verify' ||
                    command === '--verify' ||
                    command === '-v'
 
-    var isTidy = command === 'tidy' ||
-                 command === '--tidy' ||
-                 command === '-t'
-
-    var isNuke = command === 'nuke' ||
+    let isNuke = command === 'nuke' ||
                  command === '--nuke' ||
                  command === '-n'
 
-    var isNukeTables = command === '--nuke=tables' ||
+    let argv = process.argv.slice(0)
+    let isForceNuke = command === '-nf' ||
+                      command === '-fn' ||
+                      argv.some(arg=> arg === 'nuke' || arg === '--nuke' || arg === '-n') &&
+                      argv.some(arg=> arg === '-f')
+
+    let isNukeTables = command === '--nuke=tables' ||
                        process.env.ARC_NUKE === 'tables'
-    // cascade override
-    // from least destructive to most
+
     if (isVerify) {
-      reporter = _verify
+      reporter = verify
     }
-    else if (isTidy) {
-      reporter = _tidy
+    else if (isForceNuke) {
+      reporter = nukeWithForce
     }
     else if (isNuke) {
-      reporter = _nuke
+      reporter = nuke
     }
     else if (isNukeTables) {
-      reporter = _nukeTables
+      reporter = nukeTables
     }
 
     reporter(result)
