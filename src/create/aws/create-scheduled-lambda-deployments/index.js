@@ -23,8 +23,7 @@ module.exports = function createDeployments(params, callback) {
     create.bind({}, `${app}-production-${name}`, name, rule),
   ],
   function done(err) {
-    if (err)
-      console.log(err)
-    callback()
+    if (err) callback(err)
+    else callback()
   })
 }

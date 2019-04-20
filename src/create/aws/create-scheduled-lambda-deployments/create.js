@@ -58,8 +58,14 @@ module.exports = function createScheduledLambda(deployname, codename, rule, call
     }
   ],
   function done(err) {
-    if (err)
-      console.log(err)
-    callback()
+    if (err && err.code === 'ValidationException') {
+      callback(Error(`@scheduled ${deployname} invalid rule: ${rule}`))
+    }
+    else if (err) {
+      callback(err)
+    }
+    else {
+      callback()
+    }
   })
 }

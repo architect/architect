@@ -78,7 +78,17 @@ module.exports = function scheduled(arc, raw) {
         }
         if (isCron) {
           var guts = expressionValue.match(regexp.cron)[1]
-          // TODO validate the guts of cron() expressions
+          let spilled = guts.split(' ')
+          let hasSix = spilled.length === 6
+          if (!hasSix) {
+            errors.push(Err({
+              message: `@scheduled cron() expression must have six values (found ${spilled.length})`,
+              linenumber: findLineNumber(copy.join(' '), raw),
+              raw,
+              arc,
+              detail: `Scheduled function reference: https://arc.codes/reference/scheduled`,
+            }))
+          }
         }
       }
       else {
