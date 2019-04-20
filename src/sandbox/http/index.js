@@ -48,14 +48,16 @@ app.start = function start(callback) {
 
   // create an actual server; how quaint!
   server = http.createServer(function _request(req, res) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Request-Method', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET');
-    res.setHeader('Access-Control-Allow-Headers', '*');
-    if (req.method === 'OPTIONS') {
-      res.writeHead(200);
-      res.end();
-      return;
+    if (process.env.ARC_SANDBOX_ENABLE_CORS) {
+      res.setHeader('Access-Control-Allow-Origin', '*')
+      res.setHeader('Access-Control-Request-Method', '*')
+      res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET')
+      res.setHeader('Access-Control-Allow-Headers', '*')
+      if (req.method === 'OPTIONS') {
+        res.writeHead(200)
+        res.end()
+        return
+      }
     }
     app(req, res, finalhandler(req, res))
   })

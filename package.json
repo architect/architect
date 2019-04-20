@@ -60,7 +60,7 @@
   "license": "Apache-2.0",
   "homepage": "https://arc.codes",
   "dependencies": {
-    "@architect/data": "^2.0.14",
+    "@architect/data": "^2.0.17",
     "@architect/parser": "^1.1.7",
     "@smallwins/validate": "^4.3.0",
     "aws-sdk": "^2.421.0",
