@@ -7,7 +7,6 @@ var http = require('./validators/http')
 var indexes = require('./validators/indexes')
 // var queues = require('./validators/queues')
 var static = require('./validators/static')
-var slack = require('./validators/slack')
 var scheduled = require('./validators/scheduled')
 var tables = require('./validators/tables')
 
@@ -43,7 +42,6 @@ function _validate(arc, raw, callback) {
     indexes,
     // queues,
     scheduled,
-    slack,
     static,
     tables,
   ]
