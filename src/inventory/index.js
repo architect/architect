@@ -48,6 +48,7 @@ module.exports = function inventory(arc, raw, callback) {
     snstopics: [],
     sqstopics: [],
     s3buckets: [],
+    cwerules: [],
     tables: [],
     localPaths: [],
   }
@@ -249,6 +250,7 @@ module.exports = function inventory(arc, raw, callback) {
     report.localPaths = report.localPaths.concat(arc.scheduled.map(function fmt(tuple) {
       return path.join.apply({}, getPath('scheduled', tuple))
     }))
+    report.cwerules = scheds.slice(0)
   }
 
   if (arc.tables) {

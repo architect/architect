@@ -34,7 +34,7 @@ module.exports = function createScheduledLambda(deployname, codename, rule, call
         Principal: "events.amazonaws.com",
         StatementId: deployname,
         SourceArn: arn.RuleArn,
-      }, 
+      },
       function done(err) {
         if (err && err.code === 'ResourceConflictException') {
           callback() // only add it once
@@ -58,7 +58,7 @@ module.exports = function createScheduledLambda(deployname, codename, rule, call
     }
   ],
   function done(err) {
-    if (err) 
+    if (err)
       console.log(err)
     callback()
   })

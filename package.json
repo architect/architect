@@ -35,6 +35,7 @@
   "scripts": {
     "lint": "eslint . --fix",
     "test": "npm run lint && npm run test:unit",
+    "test:slow": "NODE_ENV=testing tape test/_slow_integration_tests/create/03-scheduled.js | tap-spec",
     "test:unit": "cross-env NODE_ENV=testing tape 'test/**/*test.js' | tap-spec",
     "test:coverage": "cross-env NODE_ENV=testing nyc tape 'test/**/*test.js' | tap-nyc"
   },
