@@ -10,7 +10,7 @@ module.exports = function prettyprint(arc, raw, configs, callback) {
       timeout,
       memory,
       runtime,
-      layers,
+      //layers,
       state,
       concurrency,
       states,

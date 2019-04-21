@@ -1,12 +1,10 @@
 let waterfall = require('run-waterfall')
-let inventory = require('../../inventory')
-let read = require('./00-read')
-let validate = require('./01-validate')
-let print = require('./02-pretty-print')
+let read = require('../_read')
+let validate = require('./00-validate')
+let print = require('./01-pretty-print')
 
 module.exports = function report(arc, raw, callback) {
   waterfall([
-    inventory.bind({}, arc, raw),
     read.bind({}, arc, raw),
     validate.bind({}, arc, raw),
     print.bind({}, arc, raw),

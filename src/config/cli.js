@@ -3,8 +3,7 @@ let waterfall = require('run-waterfall')
 let chalk = require('chalk')
 
 let init = require('../util/init')
-let report = require('./report')
-let apply = require('./apply')
+let {report, apply} = require('.')
 
 // figure out if we're reporting or applying
 let command = process.argv.slice(0).reverse().shift()
