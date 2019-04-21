@@ -1,12 +1,11 @@
 let chalk = require('chalk')
 
 module.exports = function prettyprint(arc, raw, configs, callback) {
-  
+
   let deltas = false
 
   configs.forEach(config=> {
     let {
-      isScheduled,
       arcFile,
       timeout,
       memory,
@@ -56,21 +55,25 @@ module.exports = function prettyprint(arc, raw, configs, callback) {
         results[name] = {}
       results[name].concurrency = l.concurrency
     })
-    //TODO layers
+    //TODO restore layers
     Object.keys(results).forEach(lambda=> {
       console.log(chalk.cyan.bold.dim(lambda.padStart(margin, ' ')))
       Object.keys(results[lambda]).forEach(prop=> {
         let defaultProp = defaults[prop]
         let actualProp = results[lambda][prop]
-        if (defaultProp!=actualProp) 
-          deltas = true 
+        if (defaultProp!=actualProp)
+          deltas = true
         let txt = (defaultProp != actualProp)? bad(actualProp):good(actualProp)
         console.log(chalk.dim.cyan(prop.padStart(margin, ' ')), txt)
       })
       console.log('')
     })
   })
-  if (deltas)
-    console.log(`⚠️  To resolve config errors run ${chalk.bgBlack.bold.green('npx config --apply')}\n`)
+
+  if (deltas) {
+    let grey = chalk.grey(`⚠️  To resolve config errors run `)
+    let green = chalk.bgBlack.bold.green('npx config --apply')
+    console.log(grey+green)
+  }
   callback()
 }
