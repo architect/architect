@@ -17,12 +17,8 @@ module.exports = function report(arc, raw, callback) {
   ], callback)
 }
 
-
 function read(arc, raw, inventory, callback) {
-
-  let full = basepath=> path.join(basepath, '.arc-config')
-  let configs = inventory.localPaths.map(full).filter(exists)
-
+  let configs = inventory.localPaths.map(base=> path.join(base, '.arc-config')).filter(exists)
   series(configs.map(arcFile=> {
     return function validateOne(callback) {
       try {
