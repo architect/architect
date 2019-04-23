@@ -4,7 +4,7 @@ let series = require('run-series')
 
 module.exports = function sqstopics(inventory, callback) {
 
-  let {header, notfound, error, /*deleted*/} = print(inventory)
+  let {header, notfound, error, deleted} = print(inventory)
 
   if (inventory.sqstopics.length > 0)
     header(`SQS Topics`)
@@ -27,10 +27,11 @@ module.exports = function sqstopics(inventory, callback) {
           sqs.deleteQueue({
             QueueUrl
           },
-          function deleted(err) {
+          function done(err) {
             if (err) error(err.message)
             else {
-              deleted(QueueUrl)
+              let i = QueueUrl.split('/').reverse().shift()
+              deleted(i, QueueUrl)
             }
             callback()
           })
