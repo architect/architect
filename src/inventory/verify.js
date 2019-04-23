@@ -77,36 +77,41 @@ module.exports = function _cloud(inventory) {
       }), callback)
     },
     function restapis(callback) {
-      header('API Gateway REST APIs')
-      let api = new aws.APIGateway({region: process.env.AWS_REGION})
-      api.getRestApis({
-        limit: 500
-      },
-      function _getRestApis(err, result) {
-        if (err) {
-          error(err.message)
-          callback()
-        }
-        else {
-          var name = `${inventory.app}-staging`
-          var staging = result.items.find(o=> o.name === name)
-          if (staging) {
-            found(staging.name, staging.id)
-          }
-          else {
-            notfound(name)
-          }
-          var name = `${inventory.app}-production`
-          var production = result.items.find(o=> o.name === name)
-          if (production) {
-            found(production.name, production.id)
-          }
-          else {
-            notfound(name)
-          }
-        }
+      if (inventory.types.http.length === 0) {
         callback()
-      })
+      }
+      else {
+        header('API Gateway REST APIs')
+        let api = new aws.APIGateway({region: process.env.AWS_REGION})
+        api.getRestApis({
+          limit: 500
+        },
+        function _getRestApis(err, result) {
+          if (err) {
+            error(err.message)
+            callback()
+          }
+          else {
+            var name = `${inventory.app}-staging`
+            var staging = result.items.find(o=> o.name === name)
+            if (staging) {
+              found(staging.name, staging.id)
+            }
+            else {
+              notfound(name)
+            }
+            var name = `${inventory.app}-production`
+            var production = result.items.find(o=> o.name === name)
+            if (production) {
+              found(production.name, production.id)
+            }
+            else {
+              notfound(name)
+            }
+          }
+          callback()
+        })
+      }
     },
     function websocketapis(callback) {
       if (inventory.websocketapis.length > 0) {
@@ -184,6 +189,29 @@ module.exports = function _cloud(inventory) {
           })
         }
       }), callback)
+    },
+    function sqstopics(callback) {
+      if (inventory.sqstopics.length > 0)
+        header(`SQS Topics`)
+      let copy = inventory.sqstopics.slice(0)
+      //let founds = []
+      let sqs = new aws.SQS({region: process.env.AWS_REGION})
+      sqs.listQueues({
+        QueueNamePrefix: inventory.app
+      },
+      function listQueues(err, result) {
+        if (err) {
+          error(err.message)
+          callback()
+        }
+        else if (result && result.QueueUrls) {
+          let working = result.QueueUrls.map(u=> ([u.split('/').reverse().shift(), u]))
+          working.forEach(a=> found.apply({}, a))
+        }
+        else {
+          copy.forEach(notfound)
+        }
+      })
     },
     function snstopics(callback) {
       if (inventory.snstopics.length > 0)

@@ -6,7 +6,7 @@ let restapis = require('./restapis')
 let websocketapis = require('./websocketapis')
 let snstopics = require('./snstopics')
 let cwerules = require('./cwerules')
-// TODO let sqstopics = require('./sqstopics')
+let sqstopics = require('./sqstopics')
 
 module.exports = function nuke(inventory, callback) {
 
@@ -22,7 +22,8 @@ module.exports = function nuke(inventory, callback) {
     restapis,
     websocketapis,
     snstopics,
-    cwerules
+    cwerules,
+    sqstopics
   ].map(function bind(m) {
     return m.bind({}, inventory)
   }), callback)

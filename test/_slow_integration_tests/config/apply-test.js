@@ -1,13 +1,15 @@
 let aws = require('aws-sdk')
+let test = require('tape')
 let parallel = require('run-parallel')
 let parse = require('@architect/parser')
 let path = require('path')
 let fs = require('fs')
+let cp = require('fs').copyFileSync
 let rm = require('rimraf').sync
 let mkdir = require('mkdirp').sync
-let cp = require('fs').copyFileSync
-let test = require('tape')
+
 let create = require('../../../src/create')
+let report = require('../../../src/config/report')
 let inventory = require('../../../src/inventory')
 let nuke = require('../../../src/inventory/nuke')
 
@@ -53,6 +55,23 @@ test('inventory', t=> {
     if (err) t.fail(err)
     else {
       t.ok(result.lambdas.length === 8, '8 lambdas generated')
+      console.log(result)
+    }
+  })
+})
+
+/**
+ * npx config 
+ */
+test('npx config', t=> {
+  t.plan(1)
+  let arcFile = path.join(process.cwd(), '.arc')
+  let raw = fs.readFileSync(arcFile).toString()
+  let arc = parse(raw)
+  config(arc, raw, function(err, result) {
+    if (err) t.fail(err)
+    else {
+      t.ok(true, 'got result')
       console.log(result)
     }
   })
