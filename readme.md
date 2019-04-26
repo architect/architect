@@ -63,3 +63,8 @@ Full docs found at https://arc.codes
 ### Founding team
 
 [Amber Costley](https://github.com/amberdawn), [Angelina Fabbro](https://github.com/afabbro), [Brian LeRoux](https://github.com/brianleroux), Jen Fong-Adwent, [Kristofer Joseph](https://github.com/kristoferjoseph), [Kris Borchers](https://github.com/kborchers), [Ryan Block](https://github.com/ryanblock), [Spencer Kelley](https://github.com/spencermountain)
+
+
+### Special thanks
+
+[Pinyao Guo](https://github.com/pug132) for the [Architect GitHub name](https://github.com/architect)
