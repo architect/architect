@@ -6,10 +6,21 @@ Also see:
 - [Architect Data changelog](https://github.com/arc-repos/arc-data/blob/master/changelog.md)
 ---
 
-## Master
+## [On master]
 
 - Adds `npx inventory nuke -f` for deleting DynamoDB tables and S3 buckets (even if they have contents)
 - Aliases: `npx inventory -nf`, `npx inventory -fn`
+
+
+### Changed
+
+- New GitHub name! Find us at: [github.com/architect](https://github.com/architect)
+  - If you're already developing for Architect projects, don't forget to update your git remotes, e.g.: `git remote set-url origin https://github.com/architect/architect.git && git remote -v`
+  - Special thanks to @pug132 for the name (and a big hat-tip to @mikemaccana)!
+
+
+---
+
 
 ## [5.7.0] - 2019-04-17
 
