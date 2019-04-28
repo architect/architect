@@ -1,8 +1,10 @@
 let WebSocket = require('ws')
 let join = require('path').join
 let invoke = require('./invoke-lambda')
+let fs = require('fs')
+let uuid = require('uuid/v4')
 
-module.exports = function registerWebSocket({app, server}) {
+module.exports = function registerWebSocket({app, server, routes}) {
 
   let wss = new WebSocket.Server({server})
   let connections = []
@@ -10,35 +12,51 @@ module.exports = function registerWebSocket({app, server}) {
   wss.on('connection', function connection(ws) {
 
     // build paths to default ws lambdas
+    // we're guaranteed that these routes will exist
     let cwd = name=> join(process.cwd(), 'src', 'ws', name)
-    let $connect = cwd('ws-connect')
-    let $disconnect = cwd('ws-disconnect')
-    let $default = cwd('ws-default')
+    let $connect = cwd('ws-$connect')
+    let $disconnect = cwd('ws-$disconnect')
+    let $default = cwd('ws-$default')
 
-    // create a connectionId
-    let connectionId = `x${Date.now()}`
+    // create a connectionId uuid
+    let connectionId = uuid()
     connections.push({id:connectionId, ws})
 
     function noop(err) {
       if (err) console.log(err)
     }
 
-    // invoke src/ws/ws-connect w mock payload
+    // invoke src/ws/ws-$connect w mock payload
     invoke($connect, {
       body: '{}',
       requestContext: {connectionId}
     }, noop)
 
     ws.on('message', function message(msg) {
-      // invoke src/ws/ws-default
-      invoke($default, {
-        body: msg,
-        requestContext: {connectionId}
-      }, noop)
+      let payload = JSON.parse(msg)
+      let action = payload.action || null
+      let localAction = `ws-${action}`
+
+      if (action === null || !fs.existsSync(cwd(localAction))) {
+        // invoke src/ws/ws-$default
+        console.log('lambda not found, invoking $default route')
+        invoke($default, {
+          body: msg,
+          requestContext: {connectionId}
+        }, noop)
+      }
+      else {
+        // invoke src/ws/ws-${action}
+        console.log(`lambda found, routing to ${localAction}`)
+        invoke(cwd(localAction), {
+          body: msg,
+          requestContext: {connectionId}
+        }, noop)
+      }
     })
 
     ws.on('close', function close() {
-      // invoke src/ws/ws-disconnect
+      // invoke src/ws/ws-$disconnect
       invoke($disconnect, {
         body: '{}',
         requestContext: {connectionId}
