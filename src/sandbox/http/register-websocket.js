@@ -4,7 +4,7 @@ let invoke = require('./invoke-lambda')
 let fs = require('fs')
 let uuid = require('uuid/v4')
 
-module.exports = function registerWebSocket({app, server, routes}) {
+module.exports = function registerWebSocket({app, server}) {
 
   let wss = new WebSocket.Server({server})
   let connections = []
