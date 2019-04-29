@@ -1,4 +1,4 @@
-# Architect changelog
+ # Architect changelog
 
 ---
 Also see:
@@ -10,6 +10,13 @@ Also see:
 
 - Adds `npx inventory nuke -f` for deleting DynamoDB tables and S3 buckets (even if they have contents)
 - Aliases: `npx inventory -nf`, `npx inventory -fn`
+
+
+### Added
+
+- Support for custom routes in AWS WebSocket API Gateway
+  - `@ws` now accepts routes defined in `.arc`
+  - To route to these custom routes, the client message must contain an `action` key that is the name of the route
 
 
 ### Changed
