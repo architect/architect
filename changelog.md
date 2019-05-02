@@ -2,8 +2,8 @@
 
 ---
 Also see:
-- [Architect Functions changelog](https://github.com/arc-repos/arc-functions/blob/master/changelog.md)
-- [Architect Data changelog](https://github.com/arc-repos/arc-data/blob/master/changelog.md)
+- [Architect Functions changelog](https://github.com/architect/arc-functions/blob/master/changelog.md)
+- [Architect Data changelog](https://github.com/architect/arc-data/blob/master/changelog.md)
 ---
 
 ## [On master]
@@ -221,7 +221,7 @@ SPA support: mount S3 on the `/` of API Gateway
 
 ### Fixed
 
-- `repl` was being clobbered by `@architect/data`'s own implementation; fixed in `arc-repos/arc-data` #12, dependency updated
+- `repl` was being clobbered by `@architect/data`'s own implementation; fixed in `architect/arc-data` #12, dependency updated
 
 
 ### Changed
@@ -729,13 +729,13 @@ Functionality remains unchanged: Contents of `src/shared` are synced to `node_mo
   - `npx deploy`:
     - `production`, `--production`, `-p`
     - `staging`, `--staging`, `-s`
-- New [Examples repo](https://github.com/arc-repos/examples)
+- New [Examples repo](https://github.com/architect/examples)
 
 
 ### Changed
 - Some light boilerplate code cleanup
-- [#168](https://github.com/arc-repos/architect/issues/168) Fixed issue where Architect parser was missing `@http` support in JSON + YAML manifests
-- [#164](https://github.com/arc-repos/architect/issues/164) Fixed issue in Windows where Architect would try to copy files over itself
+- [#168](https://github.com/architect/architect/issues/168) Fixed issue where Architect parser was missing `@http` support in JSON + YAML manifests
+- [#164](https://github.com/architect/architect/issues/164) Fixed issue in Windows where Architect would try to copy files over itself
 
 
 ---
@@ -758,7 +758,7 @@ Functionality remains unchanged: Contents of `src/shared` are synced to `node_mo
 ### Changed
 
 - Simpler package name (`npm i @architect/architect`)
-- New GitHub name ([https://github.com/arc-repos/architect](https://github.com/arc-repos/architect))
+- New GitHub name ([https://github.com/architect/architect](https://github.com/architect/architect))
 - Smarter rate-limiting for deployments of large (50+ function) projects
 - Complete docs revamp with new sample projects at [arc.codes](https://arc.codes)
 - Fix for obscure bug where `server.close`causes a TypeError

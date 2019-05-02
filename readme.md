@@ -4,7 +4,7 @@
 
 > Create, deploy, and maintain next-generation AWS cloud function-based serverless infrastructure with full local, offline workflows, and more.
 
-[![Build Status](https://travis-ci.com/arc-repos/architect.svg?branch=master)](https://travis-ci.com/arc-repos/architect)
+[![Build Status](https://travis-ci.com/architect/architect.svg?branch=master)](https://travis-ci.com/architect/architect)
 
 
 ## Quickstart
