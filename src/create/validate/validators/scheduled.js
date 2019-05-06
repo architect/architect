@@ -12,13 +12,13 @@ module.exports = function scheduled(arc, raw) {
         var copy2 = expression.slice(0)
         var expressionName = copy2.shift()
         var expressionValue = copy2.join(' ')
-        if (expressionName.length > 20) {
+        if (expressionName.length > 35) {
           errors.push(Err({
-            message: `@scheduled ${expressionName} > 20 characters`,
+            message: `@scheduled ${expressionName} > 35 characters`,
             linenumber: findLineNumber(copy.join(' '), raw),
             raw,
             arc,
-            detail: 'Scheduled function expression names must be 20 characters or less.',
+            detail: 'Scheduled function expression names must be 35 characters or less.',
           }))
         }
         if (!regexp.schedulename.test(expressionName)) {

@@ -44,7 +44,7 @@ module.exports = function write(arc, raw, configs, callback) {
                     }, callback)
                   }
                   else {
-                    lambda.updateFunctionConcurrency({
+                    lambda.putFunctionConcurrency({
                       FunctionName,
                       ReservedConcurrentExecutions: concurrency,
                     }, callback)

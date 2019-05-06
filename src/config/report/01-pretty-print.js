@@ -5,6 +5,7 @@ module.exports = function prettyprint(arc, raw, configs, callback) {
   let deltas = false
 
   configs.forEach(config=> {
+
     let {
       arcFile,
       timeout,

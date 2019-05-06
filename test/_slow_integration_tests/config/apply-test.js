@@ -9,8 +9,9 @@ let rm = require('rimraf').sync
 let mkdir = require('mkdirp').sync
 
 let create = require('../../../src/create')
-let report = require('../../../src/config/report')
 let inventory = require('../../../src/inventory')
+let report = require('../../../src/config/report')
+let apply = require('../../../src/config/apply')
 let nuke = require('../../../src/inventory/nuke')
 
 /**
@@ -61,6 +62,30 @@ test('inventory', t=> {
 })
 
 /**
+ * copy in .arc-config files
+ * - one unmodified
+ * - one http fn with everythign changed
+ * - one sqs with visability
+ * - one scheduled with state
+ */
+test('copy .arc-config', t=> {
+  t.plan(1)
+  cp(
+    '../../_slow_integration_tests/config/mock-scheduled.arc',
+    'src/scheduled/sched/.arc-config'
+  )
+  cp(
+    '../../_slow_integration_tests/config/mock-http.arc', 
+    'src/http/get-index/.arc-config'
+  )
+  cp(
+    '../../_slow_integration_tests/config/mock-queues.arc', 
+    'src/queues/aq/.arc-config'
+  )
+  t.ok(true, 'copies')
+})
+
+/**
  * npx config 
  */
 test('npx config', t=> {
@@ -68,7 +93,24 @@ test('npx config', t=> {
   let arcFile = path.join(process.cwd(), '.arc')
   let raw = fs.readFileSync(arcFile).toString()
   let arc = parse(raw)
-  config(arc, raw, function(err, result) {
+  report(arc, raw, function(err, result) {
+    if (err) t.fail(err)
+    else {
+      t.ok(true, 'got result')
+      console.log(result)
+    }
+  })
+})
+
+/**
+ * npx config apply
+ */
+test('npx config apply', t=> {
+  t.plan(1)
+  let arcFile = path.join(process.cwd(), '.arc')
+  let raw = fs.readFileSync(arcFile).toString()
+  let arc = parse(raw)
+  apply(arc, raw, function(err, result) {
     if (err) t.fail(err)
     else {
       t.ok(true, 'got result')
@@ -79,7 +121,6 @@ test('npx config', t=> {
 
 /**
  * test inventory/nuke
- */
 test('inventory/nuke', t=> {
   t.plan(1)
   let arcFile = path.join(process.cwd(), '.arc')
@@ -95,6 +136,7 @@ test('inventory/nuke', t=> {
     }
   })
 })
+ */
 
 /*
 test('@scheduled verify nuke', t=> {

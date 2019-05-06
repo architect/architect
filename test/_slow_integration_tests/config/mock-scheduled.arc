@@ -1,0 +1,2 @@
+@aws
+state disabled
