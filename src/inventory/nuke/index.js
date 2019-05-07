@@ -5,19 +5,26 @@ let lambda = require('./lambdas')
 let restapis = require('./restapis')
 let websocketapis = require('./websocketapis')
 let snstopics = require('./snstopics')
-// TODO add cloudwatch events
-// TODO add queues
+let cwerules = require('./cwerules')
+let sqstopics = require('./sqstopics')
 
-module.exports = function _cloud(inventory) {
+module.exports = function nuke(inventory, callback) {
 
-  // draw some header output
+  if (!callback)
+    callback = function noop() {}
+
   console.log('\n'+chalk.grey.bold('Inventory Nuke ☢︎'))
   console.log(chalk.red.bold(inventory.app))
 
-  // walk the tasks
-  function bind(m) {
+  series([
+    s3,
+    lambda,
+    restapis,
+    websocketapis,
+    snstopics,
+    cwerules,
+    sqstopics
+  ].map(function bind(m) {
     return m.bind({}, inventory)
-  }
-  let tasks = [s3, lambda, restapis, websocketapis, snstopics].map(bind)
-  series(tasks)
+  }), callback)
 }

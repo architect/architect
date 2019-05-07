@@ -4,7 +4,7 @@
  * - finds for `layer` tuples in arc file and return a `layers` array
  */
 module.exports = function getLayers(arc) {
-  if (!arc.aws) return
+  if (!arc || !arc.aws) return
 
   // `layers` can come from json or yaml
   let layers = arc.aws.find(tuple => tuple.includes('layers'))

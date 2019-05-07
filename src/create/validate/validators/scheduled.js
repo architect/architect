@@ -12,13 +12,13 @@ module.exports = function scheduled(arc, raw) {
         var copy2 = expression.slice(0)
         var expressionName = copy2.shift()
         var expressionValue = copy2.join(' ')
-        if (expressionName.length > 20) {
+        if (expressionName.length > 35) {
           errors.push(Err({
-            message: `@scheduled ${expressionName} > 20 characters`,
+            message: `@scheduled ${expressionName} > 35 characters`,
             linenumber: findLineNumber(copy.join(' '), raw),
             raw,
             arc,
-            detail: 'Scheduled function expression names must be 20 characters or less.',
+            detail: 'Scheduled function expression names must be 35 characters or less.',
           }))
         }
         if (!regexp.schedulename.test(expressionName)) {
@@ -78,7 +78,17 @@ module.exports = function scheduled(arc, raw) {
         }
         if (isCron) {
           var guts = expressionValue.match(regexp.cron)[1]
-          // TODO validate the guts of cron() expressions
+          let spilled = guts.split(' ')
+          let hasSix = spilled.length === 6
+          if (!hasSix) {
+            errors.push(Err({
+              message: `@scheduled cron() expression must have six values (found ${spilled.length})`,
+              linenumber: findLineNumber(copy.join(' '), raw),
+              raw,
+              arc,
+              detail: `Scheduled function reference: https://arc.codes/reference/scheduled`,
+            }))
+          }
         }
       }
       else {

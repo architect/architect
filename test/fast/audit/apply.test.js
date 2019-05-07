@@ -2,7 +2,7 @@ var test = require('tape')
 var proxyquire = require('proxyquire')
 var sinon = require('sinon')
 var syncStub = sinon.stub().callsFake(function(thing, callback) { callback() })
-var apply = proxyquire('../../src/audit/_apply', {
+var apply = proxyquire('../../../src/audit/_apply', {
   './_reads': function(arc, callback) { callback(null, [1,2,3]) },
   './_sync-role': syncStub
 })

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-let report = require('./_report')
-let apply = require('./_apply')
+let report = require('./report')
+let apply = require('./apply')
 
 module.exports = {report, apply}

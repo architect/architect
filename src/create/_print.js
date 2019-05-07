@@ -41,5 +41,7 @@ module.exports = {
   stop() {
     clearInterval(running)
     _log.clear()
-  }
+  },
+
+  log
 }

@@ -6,7 +6,7 @@ var sinon = require('sinon')
 let mkdirStub = sinon.stub(mkdir, 'sync')
 let copyStub = sinon.stub()
 
-var deployPublic = proxyquire('../../../src/deploy/public', {
+var deployPublic = proxyquire('../../../../src/deploy/public', {
   './_copy-to-s3': copyStub
 })
 

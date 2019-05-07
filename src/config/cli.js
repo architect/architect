@@ -1,24 +1,26 @@
 #!/usr/bin/env node
-let _report = require('./_report')
-let _apply = require('./_apply')
-let init = require('../util/init')
 let waterfall = require('run-waterfall')
 let chalk = require('chalk')
-let error = msg=> console.log(chalk.bold.red('Error: ') + chalk.bold.white(msg))
+
+let init = require('../util/init')
+let {report, apply} = require('.')
 
 // figure out if we're reporting or applying
 let command = process.argv.slice(0).reverse().shift()
 let applyOrReport = command === 'apply' ||
                     command === '--apply' ||
                     command === '-a'
-                      ? _apply
-                      : _report
-
+                      ? apply
+                      : report
 // giddy up
 waterfall([
   init,
   applyOrReport
 ],
 function done(err) {
-  if (err) error(err.message)
+  if (err) {
+    let red = chalk.bold.red
+    let white = chalk.bold.white
+    console.log(red('Error: ') + white(err.message))
+  }
 })

@@ -2,7 +2,7 @@ var test = require('tape')
 var sinon = require('sinon')
 var inquirer = require('inquirer')
 
-var help = require('../../src/help')
+var help = require('../../../src/help')
 var logstub = sinon.stub(help, 'log')
 
 test('help function exists', t=> {

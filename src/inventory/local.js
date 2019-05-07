@@ -37,5 +37,10 @@ module.exports = function _local(result) {
     res += chalk.cyan(result.snstopics.join('\n'))+'\n'
   }
 
+  if (result.sqstopics.length > 0) {
+    res += '\n'+chalk.dim(`SQS Topics`)+'\n'
+    res += chalk.cyan(result.sqstopics.join('\n'))+'\n'
+  }
+
   console.log(res)
 }

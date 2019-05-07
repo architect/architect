@@ -5,7 +5,6 @@ let readArc = require('../util/read-arc')
 
 /**
  * {
- *   TODO cloudwatch rules
  *   TODO add SSM Params used by env
  *   TODO additional iam roles
  * }
@@ -48,6 +47,7 @@ module.exports = function inventory(arc, raw, callback) {
     snstopics: [],
     sqstopics: [],
     s3buckets: [],
+    cwerules: [],
     tables: [],
     localPaths: [],
   }
@@ -221,27 +221,6 @@ module.exports = function inventory(arc, raw, callback) {
     }))
   }
 
-  if (arc.slack) {
-    arc.slack.forEach(b=> {
-      report.types.slack.push(`${b}-events`)
-      report.types.slack.push(`${b}-slash`)
-      report.types.slack.push(`${b}-actions`)
-      report.types.slack.push(`${b}-options`)
-      report.lambdas.push(`${app}-staging-slack-${b}-events`)
-      report.lambdas.push(`${app}-staging-slack-${b}-slash`)
-      report.lambdas.push(`${app}-staging-slack-${b}-actions`)
-      report.lambdas.push(`${app}-staging-slack-${b}-options`)
-      report.lambdas.push(`${app}-production-slack-${b}-events`)
-      report.lambdas.push(`${app}-production-slack-${b}-slash`)
-      report.lambdas.push(`${app}-production-slack-${b}-actions`)
-      report.lambdas.push(`${app}-production-slack-${b}-options`)
-      report.localPaths.push(path.join('src', 'scheduled', `${b}-events`))
-      report.localPaths.push(path.join('src', 'scheduled', `${b}-slash`))
-      report.localPaths.push(path.join('src', 'scheduled', `${b}-actions`))
-      report.localPaths.push(path.join('src', 'scheduled', `${b}-options`))
-    })
-  }
-
   if (arc.scheduled) {
     let scheds = arc.scheduled.map(getScheduledName).slice(0).reduce((a,b)=>a.concat(b))
     report.lambdas = report.lambdas.concat(scheds)
@@ -249,6 +228,7 @@ module.exports = function inventory(arc, raw, callback) {
     report.localPaths = report.localPaths.concat(arc.scheduled.map(function fmt(tuple) {
       return path.join.apply({}, getPath('scheduled', tuple))
     }))
+    report.cwerules = scheds.slice(0)
   }
 
   if (arc.tables) {
