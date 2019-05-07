@@ -163,10 +163,8 @@ test('verify queues .arc-config settings', t=> {
   function done(err, result) {
     if (err) t.fail(err)
     else {
-      // setTimeout(function wait() {
-      t.ok(result.Attributes.VisabilityTimeout === '5', 'set to 5')
+      t.ok(result.Attributes.VisibilityTimeout === '5', 'set to 5')
       console.log(result)
-      // }, 5*1000)
     }
   })
 })
