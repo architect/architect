@@ -27,6 +27,7 @@ function read(arc, raw, inventory, callback) {
         let raw = fs.readFileSync(arcFile).toString().trim()
         let config = parse(raw)
         let isScheduled = arcFile.includes('scheduled')
+        let isQueue = arcFile.includes('queues')
 
         // default config
         let staging = getFunctionName(appname, 'staging', arcFile)
@@ -62,6 +63,7 @@ function read(arc, raw, inventory, callback) {
         callback(null, {
           arcFile,
           isScheduled,
+          isQueue,
           staging,
           production,
           timeout,

@@ -7,6 +7,6 @@ module.exports = function report(arc, raw, callback) {
   waterfall([
     read.bind({}, arc, raw),
     validate.bind({}, arc, raw),
-    print.bind({}, arc, raw),
+    print,
   ], callback)
 }

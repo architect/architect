@@ -1,6 +1,7 @@
 let aws = require('aws-sdk')
 let test = require('tape')
 let parallel = require('run-parallel')
+let waterfall = require('run-waterfall')
 let parse = require('@architect/parser')
 let path = require('path')
 let fs = require('fs')
@@ -20,7 +21,7 @@ let nuke = require('../../../src/inventory/nuke')
 test('npx config test setup', t=> {
   t.plan(1)
   mkdir('test/config/_mock')
-  cp('test/_slow_integration_tests/config/mock.arc', 'test/config/_mock/.arc')
+  cp('test/slow/config/mock.arc', 'test/config/_mock/.arc')
   process.chdir('test/config/_mock')
   t.ok(true, 'created test/config/_mock/.arc')
   console.log(process.cwd())
@@ -70,19 +71,13 @@ test('inventory', t=> {
  */
 test('copy .arc-config', t=> {
   t.plan(1)
-  cp(
-    '../../_slow_integration_tests/config/mock-scheduled.arc',
-    'src/scheduled/sched/.arc-config'
-  )
-  cp(
-    '../../_slow_integration_tests/config/mock-http.arc', 
-    'src/http/get-index/.arc-config'
-  )
-  cp(
-    '../../_slow_integration_tests/config/mock-queues.arc', 
-    'src/queues/aq/.arc-config'
-  )
-  t.ok(true, 'copies')
+  cp('../../slow/config/mock-scheduled.arc',
+     'src/scheduled/sched/.arc-config')
+  cp('../../slow/config/mock-http.arc', 
+     'src/http/get-index/.arc-config')
+  cp('../../slow/config/mock-queues.arc', 
+     'src/queues/aq/.arc-config')
+  t.ok(true, 'copied test configuration files')
 })
 
 /**
@@ -96,7 +91,7 @@ test('npx config', t=> {
   report(arc, raw, function(err, result) {
     if (err) t.fail(err)
     else {
-      t.ok(true, 'got result')
+      t.ok(true, 'ran without error')
       console.log(result)
     }
   })
@@ -113,61 +108,84 @@ test('npx config apply', t=> {
   apply(arc, raw, function(err, result) {
     if (err) t.fail(err)
     else {
-      t.ok(true, 'got result')
+      t.ok(true, 'ran without error')
       console.log(result)
     }
   })
 })
 
+test('verify http .arc-config settings', t=> {
+  t.plan(3)
+  let lambda = new aws.Lambda
+  lambda.getFunction({
+    FunctionName: 'testapp-production-get-index',
+  },
+  function done(err, result) {
+    if (err) t.fail(err)
+    else {
+      t.ok(result.Configuration.MemorySize === 128, 'memory eq 128')
+      t.ok(result.Configuration.Timeout === 10, 'timeout eq 10')
+      t.ok(result.Concurrency.ReservedConcurrentExecutions === 1, 'concurrency eq 1')
+    }
+  })
+})
+
+test('verify scheduled .arc-config settings', t=> {
+  t.plan(1)
+  let cloudwatch = new aws.CloudWatchEvents
+  cloudwatch.describeRule({
+    Name: 'testapp-production-sched',
+  }, 
+  function done(err, result) {
+    if (err) t.fail(err)
+    else {
+      t.ok(result.State === 'DISABLED', 'is disabled')
+    }
+  })
+})
+
+test('verify queues .arc-config settings', t=> {
+  t.plan(1)
+  let sqs = new aws.SQS
+  waterfall([
+    function getQueueUrl(callback) {
+      sqs.getQueueUrl({
+        QueueName: 'testapp-production-aq'
+      }, callback)
+    },
+    function getQueueAttr({QueueUrl}, callback) {
+      sqs.getQueueAttributes({
+        QueueUrl,
+        AttributeNames: ['VisibilityTimeout']
+      }, callback)
+    }
+  ],
+  function done(err, result) {
+    if (err) t.fail(err)
+    else {
+      // setTimeout(function wait() {
+      t.ok(result.Attributes.VisabilityTimeout === '5', 'set to 5')
+      console.log(result)
+      // }, 5*1000)
+    }
+  })
+})
+
+
 /**
- * test inventory/nuke
+ * cleanup (and test inventory/nuke!)
+ */
 test('inventory/nuke', t=> {
   t.plan(1)
   let arcFile = path.join(process.cwd(), '.arc')
   let raw = fs.readFileSync(arcFile).toString()
   let arc = parse(raw)
-  inventory(arc, raw, function(err, result) {
+  inventory(arc, raw, function done(err, result) {
     if (err) t.fail(err)
     else {
       nuke(result, function(err, result) {
-        t.ok(true, 'got result')
-        console.log(err, result)
+        t.ok(true, 'cleaned up')
       })
     }
   })
 })
- */
-
-/*
-test('@scheduled verify nuke', t=> {
-  t.plan(8)
-  parallel({
-    lambdas(callback) {
-      let lambda = new aws.Lambda
-      lambda.listFunctions({}, function done(err, {Functions}) {
-        if (err) callback(err)
-        else callback(null, Functions.map(f=> f.FunctionName))
-      })
-    },
-    rules(callback) {
-      let cw = new aws.CloudWatchEvents
-      cw.listRules({}, function done(err, {Rules}) {
-        if (err) callback(err)
-        else callback(null, Rules.map(r=> r.Name))
-      }) 
-    },
-  },
-  function done(err, {lambdas, rules}) {
-    if (err) t.fail(err)
-    else {
-      t.ok(lambdas.includes('testapp-production-sched') === false, 'testapp-production-sched')
-      t.ok(lambdas.includes('testapp-staging-sched') === false, 'testapp-staging-sched')
-      t.ok(lambdas.includes('testapp-production-sched2') === false, 'testapp-production-sched2')
-      t.ok(lambdas.includes('testapp-staging-sched2') === false, 'testapp-staging-sched2')
-      t.ok(rules.includes('testapp-production-sched') === false, 'testapp-production-sched')
-      t.ok(rules.includes('testapp-staging-sched') === false, 'testapp-staging-sched')
-      t.ok(rules.includes('testapp-production-sched2') === false, 'testapp-production-sched2')
-      t.ok(rules.includes('testapp-staging-sched2') === false, 'testapp-staging-sched2')
-    }
-  })
-})*/

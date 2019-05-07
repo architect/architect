@@ -35,9 +35,10 @@
   "scripts": {
     "lint": "eslint . --fix",
     "test": "npm run lint && npm run test:unit",
-    "test:slow": "NODE_ENV=testing tape test/_slow_integration_tests/config/*-test.js | tap-spec",
-    "test:integration:scheduled": "NODE_ENV=testing tape test/_slow_integration_tests/create/03-scheduled.js | tap-spec",
-    "test:unit": "cross-env NODE_ENV=testing tape 'test/**/*test.js' | tap-spec",
+    "test:slow": "NODE_ENV=testing tape test/slow/config/*-test.js | tap-spec",
+    "test:integration:scheduled": "NODE_ENV=testing tape test/slow/create/03-scheduled.js | tap-spec",
+    "test:integration:config": "NODE_ENV=testing tape test/slow/config/*-test.js | tap-spec",
+    "test:unit": "cross-env NODE_ENV=testing tape 'test/fast/**/*test.js' | tap-spec",
     "test:coverage": "cross-env NODE_ENV=testing nyc tape 'test/**/*test.js' | tap-nyc"
   },
   "keywords": [

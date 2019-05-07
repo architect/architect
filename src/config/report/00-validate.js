@@ -6,7 +6,6 @@ let _concurrencies = require('./_concurrencies')
 let _states = require('./_states')
 
 module.exports = function validate(arc, origraw, configs, callback) {
-
   series(configs.map(config=> {
     return function validateOne(callback) {
 

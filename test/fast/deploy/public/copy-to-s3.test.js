@@ -5,7 +5,7 @@ var aws = require('aws-sdk')
 var fs = require('fs')
 var path = require('path')
 let globStub = sinon.stub().callsFake((path, callback) => callback(null, []))
-var copy = proxyquire('../../../src/deploy/public/_copy-to-s3', {
+var copy = proxyquire('../../../../src/deploy/public/_copy-to-s3', {
   'glob': globStub
 })
 
