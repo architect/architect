@@ -126,14 +126,17 @@ module.exports = function planner(arc) {
   // api gateway web sockets
   //
   if (arc.hasOwnProperty('ws')) {
-    plans.push({action:'create-ws-lambda-code', app, arc, name:'ws-connect'})
-    plans.push({action:'create-ws-lambda-code', app, arc, name:'ws-disconnect'})
-    plans.push({action:'create-ws-lambda-code', app, arc, name:'ws-default'})
+    // these are the three default routes that AWS requires
+    let routes = ['$connect', '$disconnect', '$default']
+    Array.prototype.push.apply(routes, arc.ws)
+    routes.forEach(route=> {
+      plans.push({action:'create-ws-lambda-code', app, arc, name:`ws-${route}`})
+    })
     if (!process.env.ARC_LOCAL) {
-      plans.push({action:'create-ws-lambda-deployments', app, arc, name:'ws-connect'})
-      plans.push({action:'create-ws-lambda-deployments', app, arc, name:'ws-disconnect'})
-      plans.push({action:'create-ws-lambda-deployments', app, arc, name:'ws-default'})
-      plans.push({action:'create-ws-router', app})
+      routes.forEach(route=> {
+        plans.push({action:'create-ws-lambda-deployments', app, arc, name:`ws-${route}`})
+      })
+      plans.push({action:'create-ws-router', app, routes})
       plans.push({action:'create-ws-router-deployments', app})
     }
   }

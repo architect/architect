@@ -1,4 +1,4 @@
-# Architect changelog
+ # Architect changelog
 
 ---
 Also see:
@@ -18,6 +18,13 @@ Also see:
 - concurrency 0-1 flag  in `.arc-config` w `npx config` (all functions)
 - sync queue visibility to function timeout (fix #204)
 - verifies queue resources deleted with `npx inventory nuke` (closes #132)
+
+### Added
+
+- Support for custom routes in AWS WebSocket API Gateway
+  - `@ws` now accepts routes defined in `.arc`
+  - To route to these custom routes, the client message must contain an `action` key that is the name of the route
+
 
 ### Changed
 

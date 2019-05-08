@@ -4,7 +4,7 @@ let parallel = require('run-parallel')
 let series = require('run-series')
 let route = require('./route')
 
-module.exports = function create({name, env}, callback) {
+module.exports = function create({name, env, routes}, callback) {
 
   let region = process.env.AWS_REGION
   waterfall([
@@ -32,7 +32,7 @@ module.exports = function create({name, env}, callback) {
           gateway.createApi({
             Name: `${name}-ws-${env}`,
             ProtocolType: 'WEBSOCKET',
-            RouteSelectionExpression: '$request.body.message'
+            RouteSelectionExpression: '$request.body.action'
           }, callback)
         }
       }, callback)
@@ -40,7 +40,7 @@ module.exports = function create({name, env}, callback) {
 
     function createRoutes({api, account}, callback) {
       // console.log('create-ws-router createRoutes got', {api, account})
-      series(['$default', '$connect', '$disconnect'].map(RouteKey=> {
+      series(routes.slice(0).map(RouteKey=> {
         return function createRoute(callback) {
           route({
             api,
