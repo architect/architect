@@ -6,7 +6,7 @@ Also see:
 - [Architect Data changelog](https://github.com/architect/arc-data/blob/master/changelog.md)
 ---
 
-## [5.8.0]
+## [5.8.1]
 
 ### Added
 
