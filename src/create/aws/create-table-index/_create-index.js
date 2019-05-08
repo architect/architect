@@ -18,7 +18,7 @@ function createIndex(name, attr, callback) {
       check()
 
       function check() {
-        let timeout = 3000 
+        let timeout = 3000
         dynamo.describeTable({
           TableName: name
         },
