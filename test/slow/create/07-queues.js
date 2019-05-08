@@ -1,86 +1,69 @@
-let fs = require('fs')
-let print = require('../../src/create/_print')
+let aws = require('aws-sdk')
+let parallel = require('run-parallel')
 let parse = require('@architect/parser')
-var nukeLambdas = require('./_nuke-lambdas')
-var nukeTopics = require('./_nuke-topics')
-var path = require('path')
-var rm = require('rimraf').sync
-var mkdir = require('mkdirp').sync
-var cp = require('fs').copyFileSync
-var test = require('tape')
-var run = require('../../src/create')
+let path = require('path')
+let fs = require('fs')
+let rm = require('rimraf').sync
+let mkdir = require('mkdirp').sync
+let cp = require('fs').copyFileSync
+let test = require('tape')
+let create = require('../../../src/create')
+let inventory = require('../../../src/inventory')
+let nuke = require('../../../src/inventory/nuke')
 
-test('env', t=> {
+/**
+ * test/_mock/.arc
+ */
+test('@queues setup', t=> {
   t.plan(1)
-  t.ok(run, 'run exists')
-})
-
-test('setup', t=> {
-  t.plan(1)
-  mkdir('test/create/_mock')
-  cp('test/create/07-queues-mock.arc', 'test/create/_mock/.arc')
-  process.chdir('test/create/_mock')
+  mkdir('test/_mock')
+  cp('test/slow/create/07-queues-mock.arc', 'test/_mock/.arc')
+  process.chdir('test/_mock')
   t.ok(true, 'created test/_mock/.arc')
   console.log(process.cwd())
 })
 
-test('exec', t=> {
-  t.plan(1)
-  let arcPath = path.join(process.cwd(), '.arc')
-  let raw = fs.readFileSync(arcPath).toString()
+/**
+ * runs create on test/create/_mock/.arc
+ */
+test('@queues verify lambdas', t=> {
+  t.plan(4)
+
+  let arcFile = path.join(process.cwd(), '.arc')
+  let raw = fs.readFileSync(arcFile).toString()
   let arc = parse(raw)
-  run(arc, raw, function _ran(err) {
+
+  create(arc, raw, function _ran(err, plans) {
     if (err) {
       t.fail(err)
     }
     else {
-      t.ok(true, 'created queues')
-      print.stop()
+      let lambda = new aws.Lambda
+      lambda.listFunctions({}, function done(err, result) {
+        if (err) t.fail(err)
+        else {
+          let res = result.Functions.map(f=> f.FunctionName)
+          t.ok(res.some(n=> n === 'testapp-production-test-queue'), 'testapp-production-test-queue')
+          t.ok(res.some(n=> n === 'testapp-staging-test-queue'), 'testapp-staging-test-queue')
+          t.ok(res.some(n=> n === 'testapp-production-test-queue-two'), 'testapp-production-test-queue-two')
+          t.ok(res.some(n=> n === 'testapp-staging-test-queue-two'), 'testapp-staging-test-queue-two')
+        }
+      })
     }
   })
 })
 
-/*
-test('cleanup lambdas', t=> {
+test('@queues inventory/nuke', t=> {
   t.plan(1)
-  process.chdir('../../')
-  rm('test/_mock')
-  nukeLambdas([
-    'testapp-staging-test-event',
-    'testapp-staging-test-event-two',
-    'testapp-production-test-event',
-    'testapp-production-test-event-two',
-  ],
-  function _nuke(err) {
-    if (err) {
-      t.fail(err)
-    }
+  let arcFile = path.join(process.cwd(), '.arc')
+  let raw = fs.readFileSync(arcFile).toString()
+  let arc = parse(raw)
+  inventory(arc, raw, function(err, result) {
+    if (err) t.fail(err)
     else {
-      t.ok(true, 'lambdas nuked')
+      nuke(result, function(err, result) {
+        t.ok(true, 'nuked')
+      })
     }
   })
 })
-
-test('cleanup sns topics', t=> {
-  t.plan(1)
-  nukeTopics([
-    'testapp-staging-test-event',
-    'testapp-production-test-event',
-    'testapp-staging-test-event-two',
-    'testapp-production-test-event-two',
-  ],
-  function _nuke(err) {
-    if (err) {
-      t.fail(err)
-    }
-    else {
-      t.ok(true, 'topics nuked')
-    }
-  })
-})
-
-test('return home', t=> {
-  t.plan(1)
-  process.chdir(path.join(__dirname, '..', '..', '..'))
-  t.ok(true, 'returned back to cwd')
-})*/

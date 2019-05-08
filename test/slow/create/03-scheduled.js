@@ -16,10 +16,10 @@ let nuke = require('../../../src/inventory/nuke')
  */
 test('@scheduled setup', t=> {
   t.plan(1)
-  mkdir('test/create/_mock')
-  cp('test/_slow_integration_tests/create/03-scheduled-mock.arc', 'test/create/_mock/.arc')
-  process.chdir('test/create/_mock')
-  t.ok(true, 'created test/create/_mock/.arc')
+  mkdir('test/_mock')
+  cp('test/slow/create/03-scheduled-mock.arc', 'test/_mock/.arc')
+  process.chdir('test/_mock')
+  t.ok(true, 'created test/_mock/.arc')
   console.log(process.cwd())
 })
 
