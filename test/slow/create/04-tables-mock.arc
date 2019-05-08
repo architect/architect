@@ -9,10 +9,22 @@ posts
 
 ppl
   personID *String
-  insert Lambda
-  update Lambda
-  delete Lambda
+  #insert Lambda
+  #update Lambda
+  #delete Lambda
+
+data
+  PK *String
+  SK **String
 
 @indexes
+data
+  GSI1PK *String
+  GSI1SK **String
+
+data
+  GSI2PK *String
+  GSI2SK **String
+
 posts
   personID *String

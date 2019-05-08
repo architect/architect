@@ -5,7 +5,9 @@ var print = require('../../_print')
 var getGsiName = require('./_get-gsi-name')
 var getGlobalSecondaryIndexes = require('./_get-global-secondary-indexes')
 
-module.exports = function _createTable(name, attr, callback) {
+module.exports = createIndex
+
+function createIndex(name, attr, callback) {
 
   var dynamo = new aws.DynamoDB({region: process.env.AWS_REGION})
   var gsiName = `${name}-${getGsiName(attr)}`
@@ -16,7 +18,7 @@ module.exports = function _createTable(name, attr, callback) {
       check()
 
       function check() {
-        let timeout = 2010
+        let timeout = 3000 
         dynamo.describeTable({
           TableName: name
         },
@@ -63,9 +65,18 @@ module.exports = function _createTable(name, attr, callback) {
     }
   ],
   function _updated(err) {
-    if (err && err != 'skipping') {
-      console.log(err)
+    if (err && err.code === 'LimitExceededException') {
+      // retry but delay a bitty
+      setTimeout(function wait() {
+        createIndex(name, attr, callback)
+      }, 10*1000)
     }
-    callback()
+    else if (err && err != 'skipping') {
+      console.log(err)
+      callback()
+    }
+    else {
+      callback()
+    }
   })
 }

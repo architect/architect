@@ -10,6 +10,7 @@ Also see:
 
 ### Added
 
+- DynamoDB tables and indexes now queue during create (fixes #268)
 - Now `npx inventory nuke` destroys lambdas and cloudwatch events rules
 - Enhanced cron() and rate() validatation (closes #148)
 - Adds `npx inventory nuke -f` for deleting DynamoDB tables and S3 buckets (even if they have contents)
@@ -19,7 +20,7 @@ Also see:
 - sync queue visibility to function timeout (fix #204)
 - verifies queue resources deleted with `npx inventory nuke` (closes #132)
 
-### Added
+### New!
 
 - Support for custom routes in AWS WebSocket API Gateway
   - `@ws` now accepts routes defined in `.arc`

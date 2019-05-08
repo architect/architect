@@ -3,7 +3,9 @@ let series = require('run-series')
 let aws = require('aws-sdk')
 let _longest = require('./_get-longest-subject')
 
-module.exports = function _nukeTables(inventory) {
+module.exports = function _nukeTables(inventory, callback) {
+
+  if (!callback) callback = function noop() {}
 
   let db = new aws.DynamoDB({region: process.env.AWS_REGION})
   let longest = _longest(inventory)
@@ -52,5 +54,5 @@ module.exports = function _nukeTables(inventory) {
         callback()
       })
     }
-  }))
+  }), callback)
 }
