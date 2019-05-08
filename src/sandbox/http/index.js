@@ -64,7 +64,8 @@ app.start = function start(callback) {
 
   // bind ws
   if (web.ws) {
-    websocket = registerWS({app, server})
+    let routes = web.ws
+    websocket = registerWS({app, server, routes})
   }
 
   // start listening

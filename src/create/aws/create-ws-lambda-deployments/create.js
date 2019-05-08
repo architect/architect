@@ -4,15 +4,15 @@ var print = require('../../_print')
 var getLambda = require('../_get-lambda')
 
 // app (app name)
-// name (function local code name. eg. ws-disconnect
-// lambda (deployment name. eg. testws-production-ws-default)
+// name (function local code name. eg. ws-$disconnect)
+// lambda (deployment name. eg. testws-production-ws-$default)
 // env (staging or production)
 module.exports = function create(params, callback) {
   // console.log('calling create-ws-lambda-deployments with' ,params)
   let {name} = params
   let lambda = new aws.Lambda({region: process.env.AWS_REGION})
   lambda.getFunction({
-    FunctionName: params.lambda
+    FunctionName: params.lambda.replace('$', '')
   },
   function done(err) {
     if (err && err.name === 'ResourceNotFoundException') {
@@ -36,13 +36,13 @@ function createLambda(params, callback) {
       getLambda({
         section: 'ws',
         codename: params.name,
-        deployname: params.lambda,
+        deployname: params.lambda.replace('$', ''),
         arc: params.arc,
       }, callback)
     },
     function _addEnvVars(arn, callback) {
       lambda.updateFunctionConfiguration({
-        FunctionName: params.lambda,
+        FunctionName: params.lambda.replace('$', ''),
         Environment: {
           Variables: {
             'ARC_APP_NAME': params.app,

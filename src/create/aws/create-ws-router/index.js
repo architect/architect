@@ -9,11 +9,12 @@ module.exports = function createWebSocketRouter(params, callback) {
 
   assert(params, {
     app: String,
+    routes: Array
   })
 
   // apis to create
-  let staging = {name: params.app, env: 'staging'}
-  let production = {name: params.app, env: 'production'}
+  let staging = {name: params.app, env: 'staging', routes: params.routes}
+  let production = {name: params.app, env: 'production', routes: params.routes}
 
   waterfall([
     function reads(callback) {
