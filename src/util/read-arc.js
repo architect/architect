@@ -47,7 +47,7 @@ module.exports = function readArc(params={}) {
     }
   }
   catch(e) {
-    err(e.message)
+    err('invalid arcfile in ' + cwd)
     process.exit(1)
   }
 

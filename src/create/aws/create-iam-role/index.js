@@ -1,16 +1,9 @@
-var assert = require('@smallwins/validate/assert')
-var getRole = require('../_get-iam-role')
+let assert = require('@smallwins/validate/assert')
+let getRole = require('../_get-iam-role')
 
-module.exports = function createJsonRoute(params, callback) {
-
+module.exports = function createIAMRole(params, callback) {
   assert(params, {
     app: String,
   })
-
-  getRole(function _done(err) {
-    if (err) {
-      console.log(err)
-    }
-    callback()
-  })
+  getRole(callback)
 }

@@ -8,6 +8,7 @@ let flags = require('./_flags')
 let errArcInvalid = require('../util/errors/arc-invalid')
 let errTooManyRequests = require('../util/errors/too-many-requests')
 let errUnknown = require('../util/errors/unknown')
+let errInvalidCreds = require('../util/errors/invalid-creds')
 let start = Date.now()
 
 waterfall([
@@ -19,12 +20,16 @@ function done(err) {
   // trap common errors and try to help
   let arcInvalid = err && err.linenumber > -1
   let tooManyRequests = err && err.message === 'Too Many Requests'
+  let invalidCreds = err && (['InvalidClientTokenId', 'CredentialsError'].includes(err.code))
 
   if (arcInvalid) {
     errArcInvalid(err)
   }
   else if (tooManyRequests) {
     errTooManyRequests(err)
+  }
+  else if (invalidCreds) {
+    errInvalidCreds(err)
   }
   else if (err) {
     errUnknown(err)
