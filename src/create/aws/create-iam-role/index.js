@@ -5,5 +5,9 @@ module.exports = function createIAMRole(params, callback) {
   assert(params, {
     app: String,
   })
-  getRole(callback)
+
+  getRole(function(err) {
+    if (err) callback(err)
+    else callback() // important, the planner chain assumes nothing returned
+  })
 }
