@@ -40,11 +40,19 @@ module.exports = function factory(bucket, shouldDelete, callback) {
           s3.headObject({
             Bucket: bucket,
             Key: key,
-          }, function _headObj(err, headData) {
+          },
+          function headObj(err, headData) {
             if (err && err.code !== 'NotFound') {
               console.error('erroring heading object', err)
               callback()
-            } else {
+            }
+            else if (err && err.code === 'AccessDenied') {
+              console.log(chalk.bgRed.bold.white('Access Denied'))
+              console.log(chalk.yellow('Could not access S3 bucket '+ bucket))
+              console.log('Possible reason: bucket already exists and belongs to another AWS account')
+              callback()
+            }
+            else {
               let last = `https://s3.${process.env.AWS_REGION}.amazonaws.com/${bucket}/${key}`
               if (!headData || !headData.LastModified || stats.mtime > headData.LastModified) {
                 s3.putObject({
@@ -55,7 +63,13 @@ module.exports = function factory(bucket, shouldDelete, callback) {
                   ContentType: getContentType(file),
                 },
                 function _putObj(err) {
-                  if (err) {
+                  if (err && err.code === 'AccessDenied') {
+                    console.log(chalk.bgRed.bold.white('Access Denied'))
+                    console.log(chalk.yellow('Could not access S3 bucket '+ bucket))
+                    console.log('Possible reason: bucket already exists and belongs to another AWS account')
+                    callback()
+                  }
+                  else if (err) {
                     console.log(err)
                     callback()
                   }
