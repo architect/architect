@@ -10,29 +10,28 @@ Also see:
 
 ### Added
 
-- DynamoDB tables and indexes now queue during create (fixes #268)
-- Now `npx inventory nuke` destroys lambdas and cloudwatch events rules
-- Enhanced cron() and rate() validatation (closes #148)
 - Adds `npx inventory nuke -f` for deleting DynamoDB tables and S3 buckets (even if they have contents)
 - Aliases: `npx inventory -nf`, `npx inventory -fn`
 - state enabled/disabled flag in `.arc-config` w `npx config` (if a scheduled function)
 - concurrency 0-1 flag  in `.arc-config` w `npx config` (all functions)
-- sync queue visibility to function timeout (fix #204)
-- verifies queue resources deleted with `npx inventory nuke` (closes #132)
-
-### New!
 
 - Support for custom routes in AWS WebSocket API Gateway
   - `@ws` now accepts routes defined in `.arc`
   - To route to these custom routes, the client message must contain an `action` key that is the name of the route
 
-
-### Changed
-
 - New GitHub name! Find us at: [github.com/architect](https://github.com/architect)
   - If you're already developing for Architect projects, don't forget to update your git remotes, e.g.: `git remote set-url origin https://github.com/architect/architect.git && git remote -v`
   - Special thanks to @pug132 for the name (and a big hat-tip to @mikemaccana)!
 - scheduled functions always putRule on `npx create` (fixes #326)
+
+### Fixes
+
+- DynamoDB tables and indexes now queue during create (fixes #268)
+- sync queue visibility to function timeout (fix #204)
+- verifies queue resources deleted with `npx inventory nuke` (closes #132)
+- Enhanced cron() and rate() validatation (closes #148)
+- Now `npx inventory nuke` destroys lambdas and cloudwatch events rules
+- Enhanced error reporting for bad creds or bad arcfiles (closes #339, #364)
 
 ---
 
