@@ -10,7 +10,11 @@ let server
  * - also creates a local session table
  */
 function start(callback) {
-  let handle = {close(){server.close()}}
+  let handle = {
+    close() {
+      server.close()
+    }
+  }
   check(function _check(err, inUse) {
     if (err) throw err
     if (inUse) {

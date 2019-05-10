@@ -12,6 +12,7 @@ let isAPI = require('../_is-api')
 let chalk = require('chalk')
 
 module.exports = function nukeDNS(parms, callback) {
+  if (!callback) callback = function noop() {}
   init(function exec(err, arc) {
     if (err) {
       callback(err)
