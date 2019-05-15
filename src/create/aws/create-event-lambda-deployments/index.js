@@ -94,7 +94,7 @@ function _createLambda(app, event, env, callback) {
         MemorySize: 1152,
         Publish: true,
         Role: role.Arn,
-        Runtime: 'nodejs8.10',
+        Runtime: 'nodejs10.x',
         Timeout: 5,
         Environment: {
           Variables: {

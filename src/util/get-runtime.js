@@ -6,7 +6,8 @@ let chalk = require('chalk')
  * 2. we will always support the runtimes below as long as aws does...
  */
 let allowed = [
-  `nodejs8.10`, // index 0 == default runtime
+  `nodejs10.x`, // index 0 == default runtime
+  `nodejs8.10`,
   `python3.7`,
   `python3.6`,
   `go1.x`,
