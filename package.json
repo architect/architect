@@ -17,6 +17,7 @@
     "arc-logs": "./src/logs/cli.js",
     "arc-version": "./src/version/cli.js",
     "arc-repl": "./src/repl/cli.js",
+    "arc-package": "./src/package/cli.js",
     "audit": "./src/audit/cli.js",
     "config": "./src/config/cli.js",
     "create": "./src/create/cli.js",
@@ -30,7 +31,8 @@
     "tags": "./src/tags/cli.js",
     "version": "./src/version/cli.js",
     "sandbox": "./src/sandbox/cli.js",
-    "repl": "./src/repl/cli.js"
+    "repl": "./src/repl/cli.js",
+    "package": "./src/package/cli.js"
   },
   "scripts": {
     "lint": "eslint . --fix",
