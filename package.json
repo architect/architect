@@ -1,6 +1,6 @@
 {
   "name": "@architect/architect",
-  "version": "5.8.5",
+  "version": "5.8.6",
   "description": "Create, deploy, and maintain next-generation AWS cloud function-based serverless infrastructure with full local, offline workflows, and more.",
   "main": "index",
   "bin": {
