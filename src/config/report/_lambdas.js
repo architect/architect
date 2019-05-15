@@ -7,9 +7,11 @@ module.exports = function lambdas({staging, production}, callback) {
   let lambda = new aws.Lambda({region})
   series([staging, production].map(FunctionName=> {
     return function getConfig(callback) {
-      lambda.getFunctionConfiguration({
-        FunctionName
-      }, callback)
+      setTimeout(function rateLimit() {
+        lambda.getFunctionConfiguration({
+          FunctionName
+        }, callback)
+      }, 200)
     }
   }), callback)
 }

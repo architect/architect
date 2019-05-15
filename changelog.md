@@ -6,11 +6,13 @@ Also see:
 - [Architect Data changelog](https://github.com/architect/arc-data/blob/master/changelog.md)
 ---
 
-## [5.8.5] - 2019-05-15
+
+## [5.8.6] - 2019-05-15
 
 ### Changed
 
 - Default Lambda runtime is now Node 10.x (from Node 8.10)
+- Added simple rate limits to `npx config` and `npx config --apply`
 - Updated dependencies
 
 

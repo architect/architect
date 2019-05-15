@@ -7,9 +7,11 @@ module.exports = function states({staging, production, isScheduled}, callback) {
     let cloudwatchevents = new aws.CloudWatchEvents({region})
     series([staging, production].map(FunctionName=> {
       return function getFun(callback) {
-        cloudwatchevents.describeRule({
-          Name: FunctionName,
-        }, callback)
+        setTimeout(function rateLimit() {
+          cloudwatchevents.describeRule({
+            Name: FunctionName,
+          }, callback)
+        }, 200)
       }
     }), callback)
   }

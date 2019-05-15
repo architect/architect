@@ -37,25 +37,31 @@ module.exports = function write(arc, raw, configs, callback) {
             return function update(callback) {
               series([
                 function updateFunctionConfiguration(callback) {
-                  lambda.updateFunctionConfiguration({
-                    FunctionName,
-                    MemorySize: memory,
-                    Timeout: timeout,
-                    Runtime: runtime,
-                    Layers: layers,
-                  }, callback)
+                  setTimeout(function rateLimit() {
+                    lambda.updateFunctionConfiguration({
+                      FunctionName,
+                      MemorySize: memory,
+                      Timeout: timeout,
+                      Runtime: runtime,
+                      Layers: layers,
+                    }, callback)
+                  }, 200)
                 },
                 function updateFunctionConcurrency(callback) {
                   if (concurrency === 'unthrottled') {
-                    lambda.deleteFunctionConcurrency({
-                      FunctionName,
-                    }, callback)
+                    setTimeout(function rateLimit() {
+                      lambda.deleteFunctionConcurrency({
+                        FunctionName,
+                      }, callback)
+                    }, 200)
                   }
                   else {
-                    lambda.putFunctionConcurrency({
-                      FunctionName,
-                      ReservedConcurrentExecutions: concurrency,
-                    }, callback)
+                    setTimeout(function rateLimit() {
+                      lambda.putFunctionConcurrency({
+                        FunctionName,
+                        ReservedConcurrentExecutions: concurrency,
+                      }, callback)
+                    }, 200)
                   }
                 }
               ], callback)
@@ -71,14 +77,18 @@ module.exports = function write(arc, raw, configs, callback) {
             series([staging, production].map(FunctionName=> {
               return function update(callback) {
                 if (state === 'disabled') {
-                  cloudwatch.disableRule({
-                    Name: FunctionName,
-                  }, callback)
+                  setTimeout(function rateLimit() {
+                    cloudwatch.disableRule({
+                      Name: FunctionName,
+                    }, callback)
+                  }, 200)
                 }
                 else {
-                  cloudwatch.enableRule({
-                    Name: FunctionName,
-                  }, callback)
+                  setTimeout(function rateLimit() {
+                    cloudwatch.enableRule({
+                      Name: FunctionName,
+                    }, callback)
+                  }, 200)
                 }
               }
             }), callback)
@@ -97,17 +107,21 @@ module.exports = function write(arc, raw, configs, callback) {
               return function update(callback) {
                 waterfall([
                   function getQueueUrl(callback) {
-                    sqs.getQueueUrl({
-                      QueueName: FunctionName
-                    }, callback)
+                    setTimeout(function rateLimit() {
+                      sqs.getQueueUrl({
+                        QueueName: FunctionName
+                      }, callback)
+                    }, 200)
                   },
                   function getQueueAttr({QueueUrl}, callback) {
-                    sqs.setQueueAttributes({
-                      QueueUrl,
-                      Attributes: {
-                        VisibilityTimeout: ''+timeout // cast to string
-                      }
-                    }, callback)
+                    setTimeout(function rateLimit() {
+                      sqs.setQueueAttributes({
+                        QueueUrl,
+                        Attributes: {
+                          VisibilityTimeout: ''+timeout // cast to string
+                        }
+                      }, callback)
+                    }, 200)
                   }
                 ], callback)
               }
