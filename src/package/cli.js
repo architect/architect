@@ -7,17 +7,31 @@ let getCF = require('.')
 init(function main(err, arc) {
   if (err) console.log(err)
   else {
-    //TODO validate
-    //- has a bucket
-    //- has awscli installed
-    //- has samcli installed
-    let sam = chalk.green(`sam package --template-file template.json --output-template-file out.yaml --s3-bucket cf-sam-deployments-east`)
-    let cf = chalk.green(`aws cloudformation deploy --template-file /Users/brianleroux/Repo/node-restful-api/out.yaml --stack-name FutzFive --s3-bucket cf-sam-deployments-east --capabilities CAPABILITY_IAM`)
+    // TODO has a bucket and a region configured
+    // TODO has awscli installed
+    // TODO has samcli installed
+
     let config = getCF(arc)
-    fs.writeFileSync('template.json', JSON.stringify(config,null,2))
-    console.log(chalk.grey('nice work! package the code to s3 by running'))
-    console.log(sam)
-    console.log(chalk.grey('once that completes you can deploy by running'))
-    console.log(cf)
+    fs.writeFileSync('sam.json', JSON.stringify(config,null,2))
+
+    // draw the deploy instructions
+    let sam = chalk.bold.green(`sam package --template-file sam.json --output-template-file out.yaml --s3-bucket [S3 bucket]`)
+    let cf = chalk.bold.green(`sam deploy --template-file out.yaml --stack-name [Stack Name] --s3-bucket [S3 bucket] --capabilities CAPABILITY_IAM`)
+    let ugh = chalk.bold.yellow(`Update binary media types in the API Gateway console to */* and redeploy ¯\_(ツ)_/¯`)
+
+    let x = process.platform.startsWith('win')? ' √' :'✓'
+    let f = chalk.cyan.bold('sam.json')
+
+    console.log(chalk.grey(`${x} Successfully created ${f}! Now deploy it by following these steps:
+
+1.) Package code with SAM:
+${sam}
+
+2.) Deploy the CloudFormation stack:
+${cf}
+
+3.) Patch API Gateway BinaryMediaTypes
+${ugh}
+    `))
   }
 })
