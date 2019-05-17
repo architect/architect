@@ -1,5 +1,5 @@
 /**
- * needs to replace puncutation with alphanumeric
+ * convert .arc typical dash-case-stuff into PascalCaseStuff
  */
 module.exports = function toLogicalID(str) {
   str = str.replace(/([A-Z])/g, ' $1')
@@ -13,4 +13,3 @@ module.exports = function toLogicalID(str) {
   if (str === 'Get') return 'GetIndex'
   else return str
 }
-

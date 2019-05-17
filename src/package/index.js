@@ -1,44 +1,30 @@
-let toLogicalID = require('./to-logical-id')
-let getApiProperties = require('./get-api-properties')
-let getLambdaName = require('../util/get-lambda-name')
+let visitors = require('./visitors')
 
-let http = require('./visitors/http')
-let statics = require('./visitors/static')
-let tables = require('./visitors/tables')
+/**
+ * returns AWS::Serverless JSON for a given (parsed) .arc file
+ */
+module.exports = function toServerlessCloudFormation(arc) {
 
-module.exports = function getCF(arc) {
+  let supports = [
+    'http',
+    'static',
+    'tables',
+    //queues
+    //events
+    //scheduled
+    //ws
+    //indexes
+  ]
+
+  let supported = pragma=> supports.includes(pragma)
+  let httpFirst = (x, y)=> x == 'http'? -1 : y == 'http'? 1 : 0
+  let pragmas = Object.keys(arc).filter(supported).sort(httpFirst)
+  let visit = (resources, pragma)=> visitors[pragma](arc, resources)
+
   return {
     AWSTemplateFormatVersion: '2010-09-09',
     Transform: 'AWS::Serverless-2016-10-31',
-    Description: 'Exported by .arc',
-    Resources: getResources(arc),
+    Description: `Exported by .arc ${new Date(Date.now()).toISOString()}`,
+    Resources: pragmas.reduce(visit, {})
   }
 }
-
-function getResources(arc) {
-
-  let appname = toLogicalID(arc.app[0])
-  let result = {}
-
-  /*
-   * TODO reduce visitors
-  let resources = Object.keys(arc).reduce((resources, pragma)=> {
-    return vistors[pragma](arc, resources)
-  })*/
-
-  if (arc.http)
-    result = http(arc, result)
-
-  if (arc.static)
-    result = statics(arc, result) 
-
-  if (arc.tables) 
-    result = tables(arc, result) 
-  
-  // TODO sns if (arc.events) {} 
-  // TODO sqs if (arc.queues) {}
-  // TODO cwe if (arc.scheduled) {} 
-  // TODO apig2 if (arc.ws) {}
-  return result
-}
-
