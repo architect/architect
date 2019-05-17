@@ -1,8 +1,9 @@
 let path = require('path')
 let fs = require('fs')
-let getLambdaName = require('../util/get-lambda-name')
-let toLogicalID = require('./to-logical-id')
-let unexpress = require('../create/aws/create-http-route/create-route/_un-express-route')
+
+let toLogicalID = require('../to-logical-id')
+let getLambdaName = require('../../../util/get-lambda-name')
+let unexpress = require('../../../create/aws/create-http-route/create-route/_un-express-route')
 
 module.exports = function getApiProperties(arc) {
   return {
@@ -27,7 +28,7 @@ function getOpenApi(arc) {
 
 function getPaths(routes) {
 
-  let dir = path.join(__dirname, '..', 'create', 'aws', 'create-http-route', 'create-route')
+  let dir = path.join(__dirname, '..', '..', '..', 'create', 'aws', 'create-http-route', 'create-route')
   let vtl = fs.readFileSync(path.join(dir, '_request.vtl')).toString()
   let vtlForm = fs.readFileSync(path.join(dir, '_request-form-post.vtl')).toString()
   let vtlBinary = fs.readFileSync(path.join(dir, '_request-binary.vtl')).toString()
@@ -80,14 +81,13 @@ function getPaths(routes) {
       }
     }
   })
-  return addStatic(addFallback(result))
+  return addFallback(result)
 }
 
 function getURI({path, method}) {
   let name = toLogicalID(getLambdaName(`${method.toLowerCase()}${path}`))
-  return {
-    "Fn::Sub": `arn:aws:apigateway:\${AWS::Region}:lambda:path/2015-03-31/functions/\${${name}.Arn}/invocations`
-  }
+  let arn = `arn:aws:apigateway:\${AWS::Region}:lambda:path/2015-03-31/functions/\${${name}.Arn}/invocations`
+  return {'Fn::Sub': arn}
 }
 
 function addFallback(cf) {
@@ -119,9 +119,5 @@ function addFallback(cf) {
       }
     }
   }
-  return cf
-}
-
-function addStatic(cf) {
   return cf
 }
