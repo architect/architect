@@ -2,7 +2,7 @@ let assert = require('@smallwins/validate/assert')
 let mkdir = require('mkdirp').sync
 let path = require('path')
 let fs = require('fs')
-let copyToS3 = require('./_copy-to-s3')
+let publishToS3 = require('./_publish-to-s3')
 
 module.exports = function deploy(params, callback) {
   assert(params, {
@@ -28,7 +28,7 @@ module.exports = function deploy(params, callback) {
       else {
         let index = params.env === 'staging' ? 0 : 1
         let bucket = params.arc.static[index][1]
-        copyToS3(bucket, shouldDelete, callback)
+        publishToS3(bucket, shouldDelete, callback)
       }
     })
   }

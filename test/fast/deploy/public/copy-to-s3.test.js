@@ -5,11 +5,11 @@ var aws = require('aws-sdk')
 var fs = require('fs')
 var path = require('path')
 let globStub = sinon.stub().callsFake((path, callback) => callback(null, []))
-var copy = proxyquire('../../../../src/deploy/public/_copy-to-s3', {
+var publish = proxyquire('../../../../src/deploy/public/_publish-to-s3', {
   'glob': globStub
 })
 
-test('deploy/public/copy-to-s3 should put each globbed file under public not already present on S3 to S3', t=> {
+test('deploy/public/publish-to-s3 should put each globbed file under public not already present on S3 to S3', t=> {
   t.plan(4)
   var putStub = sinon.stub().callsFake((params, callback) => callback())
   sinon.stub(aws, 'S3').returns({
@@ -26,7 +26,7 @@ test('deploy/public/copy-to-s3 should put each globbed file under public not alr
     mtime: 2
   })
   sinon.stub(fs, 'readFileSync')
-  copy('bukit', false/*shouldDelete*/, () => {
+  publish('bukit', false/*shouldDelete*/, () => {
     fs.lstatSync.restore()
     t.ok(putStub.called, 's3.putObject called')
     var args = putStub.args[0][0]
@@ -39,7 +39,7 @@ test('deploy/public/copy-to-s3 should put each globbed file under public not alr
   })
 })
 
-test('deploy/public/copy-to-s3 should delete files present on the bucket but not in the ./public/ folder', t=> {
+test('deploy/public/publish-to-s3 should delete files present on the bucket but not in the ./public/ folder', t=> {
   t.plan(3)
   var deleteStub = sinon.stub().callsFake((params, callback) => callback(null, {Deleted:[{Key:'test.file'}]}))
   var listStub = sinon.stub().callsFake((params, callback) => callback())
@@ -59,7 +59,7 @@ test('deploy/public/copy-to-s3 should delete files present on the bucket but not
     mtime: 2
   })
   sinon.stub(fs, 'readFileSync')
-  copy('bukit', true/*shouldDelete*/, () => {
+  publish('bukit', true/*shouldDelete*/, () => {
     fs.lstatSync.restore()
     t.ok(deleteStub.called, 's3.deleteObjects called')
     var args = deleteStub.args[0][0]
@@ -88,7 +88,7 @@ test('should not put objects if they were not modified', t=> {
     mtime: 0
   })
   sinon.stub(fs, 'readFileSync')
-  copy('bukit', false/*shouldDelete*/, () => {
+  publish('bukit', false/*shouldDelete*/, () => {
     fs.lstatSync.restore()
     t.ok(!putStub.called, 's3.putObject not called')
     fs.readFileSync.restore()
