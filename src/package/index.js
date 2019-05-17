@@ -1,7 +1,10 @@
+let toLogicalID = require('./to-logical-id')
 let getApiProperties = require('./get-api-properties')
 let getLambdaName = require('../util/get-lambda-name')
-let unexpress = require('../create/aws/create-http-route/create-route/_un-express-route')
-let toLogicalID = require('./to-logical-id')
+
+let http = require('./visitors/http')
+let statics = require('./visitors/static')
+let tables = require('./visitors/tables')
 
 module.exports = function getCF(arc) {
   return {
@@ -17,57 +20,25 @@ function getResources(arc) {
   let appname = toLogicalID(arc.app[0])
   let result = {}
 
-  if (arc.http) {
-    // cool we are adding an api gateway resource
-    let Type = 'AWS::Serverless::Api'
-    let Properties = getApiProperties(arc)
-    result[appname] = {Type, Properties}
+  /*
+   * TODO reduce visitors
+  let resources = Object.keys(arc).reduce((resources, pragma)=> {
+    return vistors[pragma](arc, resources)
+  })*/
 
-    // walk the arc file http routes
-    arc.http.forEach(route=> {
+  if (arc.http)
+    result = http(arc, result)
 
-      let method = route[0]
-      let path = unexpress(route[1])
-      let name = toLogicalID(getLambdaName(`${method.toLowerCase()}${path}`))
+  if (arc.static)
+    result = statics(arc, result) 
 
-      // adding lambda resources
-      result[name] = {
-        Type: 'AWS::Serverless::Function',
-        Properties: {
-          Handler: 'index.handler',
-          Runtime: 'nodejs10.x',
-          CodeUri: `./src/http/${route[0]}${getLambdaName(route[1])}`,
-          MemorySize: 1024,
-          Timeout: 15,
-          Events: {}
-        }
-      }
-
-      // construct the event source so SAM can wire the permissions
-      let eventName = `${name}Event`
-      result[name].Properties.Events[eventName] = {
-        Type: 'Api',
-        Properties: {
-          Path: path,
-          Method: route[0].toUpperCase(),
-          RestApiId: {'Ref': appname}
-        }
-      }
-
-
-    })
-  }
-  // if (arc.static) {
-  //Bucket1:
- //   Type: 'AWS::S3::Bucket'
- //   Properties:
-//BucketName: !Sub "${BucketNamePrefix}-get-object"
-  // }
-  // if (arc.tables) 
-  // if (arc.indexes) 
-  // if (arc.events) 
-  // if (arc.queues) 
-  // if (arc.scheduled) 
-  // if (arc.ws)
+  if (arc.tables) 
+    result = tables(arc, result) 
+  
+  // TODO sns if (arc.events) {} 
+  // TODO sqs if (arc.queues) {}
+  // TODO cwe if (arc.scheduled) {} 
+  // TODO apig2 if (arc.ws) {}
   return result
 }
+
