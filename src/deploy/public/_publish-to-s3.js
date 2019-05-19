@@ -66,6 +66,8 @@ module.exports = function factory(params, callback) {
      */
     function writeStaticManifest(callback) {
       if (fingerprint) {
+        console.log(`${chalk.yellow('Notice')} ${chalk.white(`Static asset fingerprinting is now enabled by default. Please see: https://arc.codes/guides/static-assets`)}`)
+        console.log(`\n${chalk.yellow('Warning')} ${chalk.white(`Starting in August 2019, the default static asset deployment behavior will change to pruning S3 files not found in your public/ dir. Please see: https://arc.codes/guides/static-assets`)}`)
         // Hash those files
         let hashFiles = files.map(file => {
           return (callback) => {
@@ -93,7 +95,7 @@ module.exports = function factory(params, callback) {
       }
       else {
         if (pathExists(path.join(publicDir, 'static.json'))) {
-          console.log(`${chalk.yellow('Warning')} ${chalk.gray(`Found ${publicDir + path.sep}static.json file with fingerprinting disabled, deleting file`)}`)
+          console.log(`${chalk.yellow('Warning')} ${chalk.white(`Found ${publicDir + path.sep}static.json file with fingerprinting disabled, deleting file`)}`)
           let cmd = 'rm static.json'
           exec(cmd, {cwd: publicDir}, (err, stdout, stderr) => {
             if (err) callback(err)
