@@ -34,7 +34,8 @@ module.exports = function flags(start) {
                    args.includes('/public')
 
     // should we delete static assets not present locally under public/
-    let deleteOrphans = args.includes('--delete')
+    let prune = args.includes('--delete') ||
+                args.includes('--prune')
 
     let isPath = args.some(arg=> arg.startsWith('/') ||
                  arg.startsWith('src'))
@@ -68,7 +69,7 @@ module.exports = function flags(start) {
       isPath,
       isLambda,
       filters,
-      deleteOrphans,
+      prune,
       start,
       all: args
     })

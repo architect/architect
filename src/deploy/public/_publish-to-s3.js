@@ -25,7 +25,7 @@ function normalizePath(path) {
 }
 
 module.exports = function factory(params, callback) {
-  let {Bucket, fingerprinting, ignore, deleteOrphans} = params
+  let {Bucket, fingerprint, ignore, prune} = params
   let s3 = new aws.S3({region: process.env.AWS_REGION})
   let publicDir = normalizePath(path.join(process.cwd(), 'public'))
   let staticAssets = path.join(publicDir, '/**/*')
@@ -65,7 +65,7 @@ module.exports = function factory(params, callback) {
      * Write (or remove) fingerprinted static asset manifest
      */
     function writeStaticManifest(callback) {
-      if (fingerprinting) {
+      if (fingerprint) {
         // Hash those files
         let hashFiles = files.map(file => {
           return (callback) => {
@@ -93,7 +93,7 @@ module.exports = function factory(params, callback) {
       }
       else {
         if (pathExists(path.join(publicDir, 'static.json'))) {
-          console.log(`${chalk.yellow('Warning')} ${chalk.gray(`Found ${publicDir}static.json file with fingerprinting disabled, deleting file`)}`)
+          console.log(`${chalk.yellow('Warning')} ${chalk.gray(`Found ${publicDir + path.sep}static.json file with fingerprinting disabled, deleting file`)}`)
           let cmd = 'rm static.json'
           exec(cmd, {cwd: publicDir}, (err, stdout, stderr) => {
             if (err) callback(err)
@@ -117,7 +117,7 @@ module.exports = function factory(params, callback) {
           // First, let's check to ensure we even need to upload the file
           let stats = fs.lstatSync(file)
           let Key = file.replace(publicDir, '').substr(1)
-          if (fingerprinting) {
+          if (fingerprint) {
             Key = staticManifest[file.replace(publicDir, '').substr(1)]
           }
           s3.headObject({
@@ -142,7 +142,7 @@ module.exports = function factory(params, callback) {
                   Body: fs.readFileSync(file),
                   ContentType: getContentType(file),
                 }
-                if (fingerprinting) {
+                if (fingerprint) {
                   params.CacheControl = 'max-age=315360000'
                 }
                 s3.putObject(params, function _putObj(err) {
@@ -176,7 +176,7 @@ module.exports = function factory(params, callback) {
      * Delete old files (if requested)
      */
     function deleteFiles(results, callback) {
-      if (deleteOrphans) {
+      if (prune) {
         s3.listObjectsV2({Bucket}, function(err, filesOnS3) {
           if (err) {
             console.error('Listing objects for deletion in S3 failed', err)
@@ -193,7 +193,7 @@ module.exports = function factory(params, callback) {
               return {Key: S3File.Key}
             })
 
-            if (fingerprinting) {
+            if (fingerprint) {
               leftovers = filesOnS3.Contents.filter((S3File) => {
                 return !Object.values(staticManifest).some(f => f === S3File.Key)
               }).map(function(S3File) {
