@@ -19,15 +19,20 @@ module.exports = function deploy(params, callback) {
   }
   else {
     // Enable deletion of files not present in public/ folder
-    let shouldDelete = params.shouldDelete
+    let deleteOrphans = params.deleteOrphans || false
+    if (static.some(s => {
+      if (!s[0]) return false
+      if (s.includes('deleteOrphans') && s.includes(true)) return true
+      return false
+    })) {deleteOrphans = true}
 
     // Enable fingerprinting
-    let fingerprinting = static.some(s => {
+    let fingerprinting = true
+    if (static.some(s => {
       if (!s[0]) return false
-      if (!s.includes('fingerprinting')) return false
-      if (s.includes('fingerprinting') && s.includes(false)) return false
-      return true
-    })
+      if (s.includes('fingerprinting') && s.includes(false)) return true
+      return false
+    })) {fingerprinting = false}
 
     // Collect any strings to match against for ignore
     let ignore = static.find(s => s['ignore'])
@@ -45,7 +50,7 @@ module.exports = function deploy(params, callback) {
       Bucket,
       fingerprinting,
       ignore,
-      shouldDelete,
+      deleteOrphans,
     }
     publishToS3(S3params, callback)
   }

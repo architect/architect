@@ -25,7 +25,7 @@ function normalizePath(path) {
 }
 
 module.exports = function factory(params, callback) {
-  let {Bucket, fingerprinting, ignore, shouldDelete} = params
+  let {Bucket, fingerprinting, ignore, deleteOrphans} = params
   let s3 = new aws.S3({region: process.env.AWS_REGION})
   let publicDir = normalizePath(path.join(process.cwd(), 'public'))
   let staticAssets = path.join(publicDir, '/**/*')
@@ -176,7 +176,7 @@ module.exports = function factory(params, callback) {
      * Delete old files (if requested)
      */
     function deleteFiles(results, callback) {
-      if (shouldDelete) {
+      if (deleteOrphans) {
         s3.listObjectsV2({Bucket}, function(err, filesOnS3) {
           if (err) {
             console.error('Listing objects for deletion in S3 failed', err)
