@@ -1,15 +1,15 @@
 let aws = require('aws-sdk')
-let exec = require('child_process').exec
-let mime = require('mime-types')
-let glob = require('glob')
 let chalk = require('chalk')
+let exec = require('child_process').exec
+let fs = require('fs')
+let glob = require('glob')
+let mime = require('mime-types')
 let path = require('path')
 let pathExists = require('path-exists').sync
-let fs = require('fs')
-let waterfall = require('run-waterfall')
 let series = require('run-series')
 let sha = require('sha')
 let sort = require('path-sort')
+let waterfall = require('run-waterfall')
 
 function getContentType(file) {
   let bits = file.split('.')
