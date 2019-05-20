@@ -28,47 +28,49 @@ test('Deploy/public should make a public dir if arc specifies @static pragma', t
   t.plan(1)
   deployPublic({ arc, env: '' }, () => {
     t.ok(mkdirStub.called, 'mkdir called')
+    mkdirStub.resetHistory()
     t.end()
   })
 })
 
 test('Fingerprinting should be enabled by default', t=> {
   t.plan(3)
-  sinon.resetHistory()
   deployPublic({ arc, env: '' }, () => {
     t.equals(publishStub.args[0][0].fingerprint, true, 'Fingerprinting enabled by default')
   })
+  publishStub.resetHistory()
 
-  sinon.resetHistory()
   let fingerprintEnabled = JSON.parse(JSON.stringify(arc)) // Deep clone for mutation
   fingerprintEnabled.static.push(["fingerprint", true])
   deployPublic({ arc: fingerprintEnabled, env: '' }, () => {
     t.equals(publishStub.args[0][0].fingerprint, true, 'Fingerprinting explicitly enabled')
   })
+  publishStub.resetHistory()
 
-  sinon.resetHistory()
   let fingerprintDisabled = JSON.parse(JSON.stringify(arc)) // Deep clone for mutation
   fingerprintDisabled.static.push(["fingerprint", false])
   deployPublic({ arc: fingerprintDisabled, env: '' }, () => {
+    // publishStub.resetHistory()
     t.equals(publishStub.args[0][0].fingerprint, false, 'Fingerprinting explicitly disabled')
     t.end()
   })
+  publishStub.resetHistory()
 })
 
 
 test('Orphaned file deletion should be disabled by default', t=> {
   t.plan(3)
-  sinon.resetHistory()
   deployPublic({ arc, env: '' }, () => {
     t.equals(publishStub.args[0][0].prune, false, 'Orphaned file deletion disabled by default')
   })
+  publishStub.resetHistory()
 
-  sinon.resetHistory()
   let pruneEnabled = JSON.parse(JSON.stringify(arc)) // Deep clone for mutation
   pruneEnabled.static.push(["prune", true])
   deployPublic({ arc: pruneEnabled, env: '' }, () => {
     t.equals(publishStub.args[0][0].prune, true, 'Orphaned file deletion explicitly enabled')
   })
+  publishStub.resetHistory()
 
   sinon.resetHistory()
   let pruneDisabled = JSON.parse(JSON.stringify(arc)) // Deep clone for mutation
@@ -77,6 +79,7 @@ test('Orphaned file deletion should be disabled by default', t=> {
     t.equals(publishStub.args[0][0].prune, false, 'Orphaned file deletion explicitly disabled')
     t.end()
   })
+  publishStub.resetHistory()
 })
 
 test('Deploy/public should invoke publish with proper params and defaults', t=> {
@@ -89,4 +92,5 @@ test('Deploy/public should invoke publish with proper params and defaults', t=> 
     t.equals(publishStub.args[0][0].prune, false, 'Orphan deletion default disabled')
     t.end()
   })
+  publishStub.resetHistory()
 })
