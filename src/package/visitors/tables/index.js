@@ -7,7 +7,7 @@ let getAttributeDefinitions = require('./get-attribute-definitions')
 /**
  * visit arc.tables and merge in AWS::Serverless resources
  */
-module.exports = function tables(arc, resources) {
+module.exports = function tables(arc, template) {
   arc.tables.forEach(table=> {
 
     let tbl = Object.keys(table)[0]
@@ -19,7 +19,7 @@ module.exports = function tables(arc, resources) {
     let TableName = toLogicalID(tbl)
     let AttributeDefinitions = getAttributeDefinitions(clean(attr))
 
-    resources[`${TableName}Table`] = {
+    template.Resources[`${TableName}Table`] = {
       Type: 'AWS::DynamoDB::Table',
       Properties: {
         KeySchema,
@@ -32,7 +32,7 @@ module.exports = function tables(arc, resources) {
     }
 
     if (hasTTL) {
-      resources[`${TableName}Table`].Properties.TimeToLiveSpecification = {
+      template.Resources[`${TableName}Table`].Properties.TimeToLiveSpecification = {
         AttributeName : hasTTL,
         Enabled: true
       }
@@ -41,5 +41,5 @@ module.exports = function tables(arc, resources) {
     // TODO if stream defined
     // TODO if indexes defined
   })
-  return resources
+  return template
 }

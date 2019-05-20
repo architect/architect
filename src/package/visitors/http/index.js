@@ -6,13 +6,20 @@ let toLogicalID = require('../to-logical-id')
 /**
  * visit arc.http and merge in AWS::Serverless resources
  */
-module.exports = function http(arc, resources) {
+module.exports = function http(arc, template) {
 
   let Type = 'AWS::Serverless::Api'
   let Properties = getApiProperties(arc)
-
   let appname = toLogicalID(arc.app[0])
-  resources[appname] = {Type, Properties}
+
+  // ensure cf standard sections exist
+  if (!template.Resources)
+    template.Resources = {}
+  if (!template.Outputs) 
+    template.Outputs = {}
+
+  // construct the api resource
+  template.Resources[appname] = {Type, Properties}
 
   // walk the arc file http routes
   arc.http.forEach(route=> {
@@ -22,7 +29,7 @@ module.exports = function http(arc, resources) {
     let name = toLogicalID(getLambdaName(`${method.toLowerCase()}${path}`))
 
     // adding lambda resources
-    resources[name] = {
+    template.Resources[name] = {
       Type: 'AWS::Serverless::Function',
       Properties: {
         Handler: 'index.handler',
@@ -36,7 +43,7 @@ module.exports = function http(arc, resources) {
 
     // construct the event source so SAM can wire the permissions
     let eventName = `${name}Event`
-    resources[name].Properties.Events[eventName] = {
+    template.Resources[name].Properties.Events[eventName] = {
       Type: 'Api',
       Properties: {
         Path: path,
@@ -47,8 +54,8 @@ module.exports = function http(arc, resources) {
   })
 
   // add permissions for proxy+ resource aiming at GetIndex
-  if (resources.GetIndex) {
-    resources.InvokeProxyPermission = {
+  if (template.Resources.GetIndex) {
+    template.Resources.InvokeProxyPermission = {
       Type: 'AWS::Lambda::Permission',
       Properties: {
         FunctionName: {Ref: 'GetIndex'},
@@ -59,7 +66,21 @@ module.exports = function http(arc, resources) {
     }
   }
 
-  return resources
+  template.Outputs.ProductionURL = {
+    Description: 'Deployment URL',
+    //Value: {!Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+    Value: { 
+      'Fn::Sub': [ 
+        'https://${restApiId}.execute-api.${AWS::Region}.amazonaws.com/production/', 
+        {restApiId: {'Ref': appname}} 
+      ]
+    }
+  }
+
+
+
+
+  return template
 }
 
 function getSourceArn(appname) {

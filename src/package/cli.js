@@ -10,6 +10,7 @@ init(function main(err, arc) {
     // TODO has a bucket and a region configured
     // TODO has awscli installed
     // TODO has samcli installed
+    // WARN about unsupported pragmas
 
     let config = getCF(arc)
     fs.writeFileSync('sam.json', JSON.stringify(config,null,2))
