@@ -33,6 +33,19 @@ module.exports = function factory(params, callback) {
   let staticManifest = {}
   waterfall([
     /**
+     * Notices
+     */
+    function notices(callback) {
+      if (fingerprint) {
+        console.log(chalk.green.dim('✓'), chalk.grey(`Static asset fingerpringing enabled`))
+      }
+      if (prune) {
+        console.log(chalk.green.dim('✓'), chalk.grey(`Orphaned file pruning enabled`))
+      }
+      callback()
+    },
+
+    /**
      * Scan for files in the public directory
      */
     function globFiles(callback) {
@@ -48,7 +61,7 @@ module.exports = function factory(params, callback) {
         '.DS_Store',
         'node_modules',
         'readme.md',
-        'static.json',
+        'static.json', // Ignored here, but uploaded later
       ])
 
       // Find non-ignored files and sort for readability
@@ -66,8 +79,6 @@ module.exports = function factory(params, callback) {
      */
     function writeStaticManifest(callback) {
       if (fingerprint) {
-        console.log(`${chalk.yellow('Notice')} ${chalk.white(`Static asset fingerprinting is now enabled by default. Please see: https://arc.codes/guides/static-assets`)}`)
-        console.log(`\n${chalk.yellow('Warning')} ${chalk.white(`Starting in August 2019, the default static asset deployment behavior will change to pruning S3 files not found in your public/ dir. Please see: https://arc.codes/guides/static-assets`)}`)
         // Hash those files
         let hashFiles = files.map(file => {
           return (callback) => {
@@ -89,6 +100,7 @@ module.exports = function factory(params, callback) {
           if (err) callback(err)
           else {
             // Write out public/static.json
+            // TODO / note: rn this file upload with every build. Perhaps compare data and only upload if changes are detected?
             fs.writeFile(path.join(publicDir, 'static.json'), JSON.stringify(staticManifest, null, 2), callback)
           }
         })
@@ -114,12 +126,17 @@ module.exports = function factory(params, callback) {
      * Upload files to S3
      */
     function uploadFiles(callback) {
+      if (fingerprint) {
+        // Ensure static.json is uploaded
+        files.push(path.join(publicDir, 'static.json'))
+      }
+
       let tasks = files.map(file=> {
         return function _maybeUploadFileToS3(callback) {
           // First, let's check to ensure we even need to upload the file
           let stats = fs.lstatSync(file)
           let Key = file.replace(publicDir, '').substr(1)
-          if (fingerprint) {
+          if (fingerprint && Key !== 'static.json') {
             Key = staticManifest[file.replace(publicDir, '').substr(1)]
           }
           s3.headObject({
@@ -144,8 +161,11 @@ module.exports = function factory(params, callback) {
                   Body: fs.readFileSync(file),
                   ContentType: getContentType(file),
                 }
-                if (fingerprint) {
+                if (fingerprint && Key !== 'static.json') {
                   params.CacheControl = 'max-age=315360000'
+                }
+                if (fingerprint && Key === 'static.json') {
+                  params.CacheControl = 'no-cache, no-store, must-revalidate, max-age=0, s-maxage=0'
                 }
                 s3.putObject(params, function _putObj(err) {
                   if (err && err.code === 'AccessDenied') {

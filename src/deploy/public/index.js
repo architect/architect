@@ -27,12 +27,12 @@ module.exports = function deploy(params, callback) {
     })) {prune = true}
 
     // Enable fingerprinting
-    let fingerprint = true
+    let fingerprint = false
     if (static.some(s => {
       if (!s[0]) return false
-      if (s.includes('fingerprint') && s.includes(false)) return true
+      if (s.includes('fingerprint') && s.includes(true)) return true
       return false
-    })) {fingerprint = false}
+    })) {fingerprint = true}
 
     // Collect any strings to match against for ignore
     let ignore = static.find(s => s['ignore'])

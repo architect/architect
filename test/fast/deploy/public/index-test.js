@@ -33,10 +33,10 @@ test('Deploy/public should make a public dir if arc specifies @static pragma', t
   })
 })
 
-test('Fingerprinting should be enabled by default', t=> {
+test('Fingerprinting should be disabled by default', t=> {
   t.plan(3)
   deployPublic({ arc, env: '' }, () => {
-    t.equals(publishStub.args[0][0].fingerprint, true, 'Fingerprinting enabled by default')
+    t.equals(publishStub.args[0][0].fingerprint, false, 'Fingerprinting disabled by default')
   })
   publishStub.resetHistory()
 
@@ -87,7 +87,7 @@ test('Deploy/public should invoke publish with proper params and defaults', t=> 
   deployPublic({ arc, env: '' }, () => {
     t.ok(publishStub.called, 'publish called')
     t.equals(publishStub.args[0][0].Bucket, 'prodbucket', 'Proper bucket name found')
-    t.equals(publishStub.args[0][0].fingerprint, true, 'Fingerprinting default enabled')
+    t.equals(publishStub.args[0][0].fingerprint, false, 'Fingerprinting default disabled')
     t.ok(publishStub.args[0][0].ignore, 'No ignored files found')
     t.equals(publishStub.args[0][0].prune, false, 'Orphan deletion default disabled')
     t.end()
