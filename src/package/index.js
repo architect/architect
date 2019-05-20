@@ -1,3 +1,4 @@
+let version = require('../version')
 let visitors = require('./visitors')
 
 /**
@@ -19,12 +20,20 @@ module.exports = function toServerlessCloudFormation(arc) {
   let supported = pragma=> supports.includes(pragma)
   let httpFirst = (x, y)=> x == 'http'? -1 : y == 'http'? 1 : 0
   let pragmas = Object.keys(arc).filter(supported).sort(httpFirst)
-  let visit = (resources, pragma)=> visitors[pragma](arc, resources)
+  let visit = (template, pragma)=> visitors[pragma](arc, template)
 
-  return {
+  // default cloudformation template
+  let template = {
     AWSTemplateFormatVersion: '2010-09-09',
     Transform: 'AWS::Serverless-2016-10-31',
-    Description: `Exported by .arc ${new Date(Date.now()).toISOString()}`,
-    Resources: pragmas.reduce(visit, {})
+    Description: `Exported by .arc ${version} on ${new Date(Date.now()).toISOString()}`,
+    //Parameters: {},
+    //Mappings: {},
+    //Conditions: {},
+    Resources: {},
+    //Outputs: {}
   }
+
+  // walk pragmas to reduce final template contents
+  return pragmas.reduce(visit, template)
 }

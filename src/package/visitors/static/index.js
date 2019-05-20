@@ -3,12 +3,12 @@ let toLogicalID = require('../to-logical-id')
 /**
  * visit arc.static and merge in AWS::Serverless resources
  */
-module.exports = function statics(arc, resources) {
+module.exports = function statics(arc, template) {
 
   // idk if this is what we want to do…
   // but we need the bucketname and it needs be lowcase
   let BucketName = `${arc.app[0]}-static-bucket`
-  resources.StaticBucket = {
+  template.Resources.StaticBucket = {
     Type: 'AWS::S3::Bucket',
     Properties: {
       BucketName,
@@ -22,19 +22,19 @@ module.exports = function statics(arc, resources) {
 
   // if an api is defined then add _static
   if (arc.http)
-    resources = addStatic(arc, resources)
+    template = addStatic(arc, template)
   
-  return resources
+  return template
 }
 
-function addStatic(arc, resources) {
+function addStatic(arc, template) {
 
   let region = process.env.AWS_REGION
   let bucket = `${arc.app[0]}-static-bucket`
   let endpoint = `https://s3-${region}.amazonaws.com/${bucket}`
   let appname = toLogicalID(arc.app[0])
 
-  resources[appname].Properties.DefinitionBody.paths['/_static/{proxy+}'] = {
+  template.Resources[appname].Properties.DefinitionBody.paths['/_static/{proxy+}'] = {
     'x-amazon-apigateway-any-method': {
       parameters: [{
         name: 'proxy',
@@ -64,5 +64,5 @@ function addStatic(arc, resources) {
       }
     }
   }
-  return resources
+  return template
 }
