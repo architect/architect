@@ -5,7 +5,10 @@ let init = require('../util/init')
 let getCF = require('.')
 
 init(function main(err, arc) {
-  if (err) console.log(err)
+  if (err) {
+    console.log(err)
+    console.log('hi ok')
+  }
   else {
     // TODO has a bucket and a region configured
     // TODO has awscli installed
