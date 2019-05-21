@@ -40,18 +40,20 @@ module.exports = function addStaticMocks(arc, template) {
         'x-amazon-apigateway-integration': {
           responses: {
             default: {
-              statusCode: '200',
+              statusCode: "200",
               responseParameters: {
-                'method.response.header.Content-Type': type
+                "method.response.header.Content-Type": type
               },
               responseTemplates: {
-                'application/json': body
-              }
+                "text/html": body
+              },
+              contentHandling: 'CONVERT_TO_TEXT'
             }
           },
           requestTemplates: {
             'application/json': '{"statusCode": 200}'
           },
+          contentHandling: 'CONVERT_TO_TEXT',
           passthroughBehavior: 'when_no_match',
           type: 'mock'
         }

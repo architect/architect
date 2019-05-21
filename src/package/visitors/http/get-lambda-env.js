@@ -10,8 +10,18 @@ module.exports = function getEnv(arc) {
     NODE_ENV: 'production',
     SESSION_TABLE_NAME: 'jwe'
   }
+  // this was tidy
   if (arc.static) {
     env.ARC_STATIC_BUCKET = {Ref: 'StaticBucket'}
+  }
+  // yikes tradeoffs... now we need to reconcile the dynamo table name w upcased env var
+  if (arc.tables) {
+    arc.tables.forEach(table=> {
+      let tbl = Object.keys(table)[0]
+      let key = `ARC_TABLE_${toLogicalID(tbl).toUpperCase()}`
+      let val = {Ref: `${toLogicalID(tbl)}Table`}
+      env[key] = val
+    })
   }
   let arcFile = path.join('.', '.arc-env')
   let exists = fs.existsSync(arcFile)

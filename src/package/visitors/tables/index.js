@@ -24,10 +24,10 @@ module.exports = function tables(arc, template) {
 
     template.Resources[`${TableName}Table`] = {
       Type: 'AWS::DynamoDB::Table',
-      DeletionPolicy: 'Retain',
+      //DeletionPolicy: 'Retain',
       Properties: {
         KeySchema,
-        TableName: tbl,
+        //TableName: tbl,
         AttributeDefinitions,
         BillingMode: 'PAY_PER_REQUEST',
         //GlobalSecondaryIndexes: [ GlobalSecondaryIndex, ... ],
