@@ -102,7 +102,8 @@ module.exports = function http(arc, template) {
         'https://${restApiId}.execute-api.${AWS::Region}.amazonaws.com/production/', 
         {restApiId: {'Ref': appname}} 
       ]
-    }
+    },
+    Export: {Name: 'WebRootUrl'}
   }
 
   return template

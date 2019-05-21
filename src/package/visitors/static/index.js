@@ -34,7 +34,8 @@ module.exports = function statics(arc, template) {
         'http://${bukkit}.s3.${AWS::Region}.amazonaws.com', 
         {bukkit: {'Ref': 'StaticBucket'}} 
       ]
-    }
+    },
+    Export: {Name: 'BucketUrl'}
   }
 
   // if an api is defined then add _static proxy and attempt to serialize ./public
