@@ -7,6 +7,16 @@ Also see:
 ---
 
 
+## [5.8.7] - 2019-05-21
+
+### Fixes
+
+- Fixes lack of `console.[warn|error|trace]` output in sandbox console
+
+
+---
+
+
 ## [5.8.5 - 5.8.6] - 2019-05-15
 
 ### Changed
