@@ -1,4 +1,5 @@
 let addStatic = require('./add-static-proxy')
+let addMocks = require('./add-static-mocks')
 
 /**
  * visit arc.static and merge in AWS::Serverless resources
@@ -36,9 +37,11 @@ module.exports = function statics(arc, template) {
     }
   }
 
-  // if an api is defined then add _static
-  if (arc.http)
+  // if an api is defined then add _static proxy and attempt to serialize ./public
+  if (arc.http) {
     template = addStatic(arc, template)
+    template = addMocks(arc, template)
+  }
   
   return template
 }

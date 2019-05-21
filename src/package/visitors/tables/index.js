@@ -8,6 +8,9 @@ let getAttributeDefinitions = require('./get-attribute-definitions')
  * visit arc.tables and merge in AWS::Serverless resources
  */
 module.exports = function tables(arc, template) {
+  if (!template.Resources)
+    template.Resources = {}
+
   arc.tables.forEach(table=> {
 
     let tbl = Object.keys(table)[0]

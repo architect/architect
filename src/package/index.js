@@ -23,15 +23,11 @@ module.exports = function toServerlessCloudFormation(arc) {
   let visit = (template, pragma)=> visitors[pragma](arc, template)
 
   // default cloudformation template
+  // visitors will interpolate: Parameters, Mappings, Conditions, Resources, and Outputs
   let template = {
     AWSTemplateFormatVersion: '2010-09-09',
     Transform: 'AWS::Serverless-2016-10-31',
     Description: `Exported by .arc ${version} on ${new Date(Date.now()).toISOString()}`,
-    //Parameters: {},
-    //Mappings: {},
-    //Conditions: {},
-    Resources: {},
-    //Outputs: {}
   }
 
   // walk pragmas to reduce final template contents
