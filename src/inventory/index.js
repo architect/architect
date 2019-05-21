@@ -134,37 +134,30 @@ module.exports = function inventory(arc, raw, callback) {
     return Object.keys(tbl)[0]
   }
 
+  // get a WebSocket route name
+
+  function getWsRouteName(route) {
+    route = route.replace('$', '')
+    return [`${arc.app}-production-ws-${route}`, `${arc.app}-staging-ws-${route}`]
+  }
+
   if (arc.http && arc.http.length > 0) {
-    report.lambdas = arc.http.map(getName).reduce((a,b)=>a.concat(b))
+    Array.prototype.push.apply(report.lambdas, arc.http.map(getName).reduce((a,b)=>a.concat(b)))
     report.types.http = arc.http.map(getSystemName)
-    report.localPaths = arc.http.map(function fmt(tuple) {
+    Array.prototype.push.apply(report.localPaths, arc.http.map(function fmt(tuple) {
       return path.join.apply({}, getPath('http', tuple))
-    })
+    }))
   }
 
   if (arc.ws) {
-    report.websocketapis = [
-      `${arc.app}-ws-staging`,
-      `${arc.app}-ws-production`,
-    ]
-    report.lambdas = report.lambdas.concat([
-      `${arc.app}-staging-ws-default`,
-      `${arc.app}-staging-ws-connect`,
-      `${arc.app}-staging-ws-disconnect`,
-      `${arc.app}-production-ws-default`,
-      `${arc.app}-production-ws-connect`,
-      `${arc.app}-production-ws-disconnect`,
-    ])
-    report.types.ws = [
-      'ws-default',
-      'ws-connect',
-      'ws-disconnect',
-    ]
-    report.localPaths = report.localPaths.concat([
-      path.join('src', 'ws', 'ws-default'),
-      path.join('src', 'ws', 'ws-connect'),
-      path.join('src', 'ws', 'ws-disconnect'),
-    ])
+    // these are the three default routes that AWS requires
+    let defaultRoutes = ['$connect', '$disconnect', '$default']
+    Array.prototype.unshift.apply(arc.ws, defaultRoutes)
+    Array.prototype.push.apply(report.lambdas, arc.ws.map(getWsRouteName).reduce((a,b)=>a.concat(b)))
+    report.types.ws = arc.ws.map(x=>`ws-${x}`)
+    Array.prototype.push.apply(report.localPaths, arc.ws.map(function fmt(route) {
+      return path.join.apply({}, getPath('ws', `ws-${route}`))
+    }))
   }
 
   if (arc.html && arc.html.length > 0) {

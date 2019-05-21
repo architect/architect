@@ -24,7 +24,7 @@ module.exports = function install(params, callback) {
     // If not, throw standard create error
     if (!exists(path)) {
       if (tick) Array(7).fill().map(()=> tick(''))
-      callback(Error('cancel_not_found'))
+      callback(Error(`cancel_not_found: ${pathToCode}`))
     }
     // TODO impl arcConfig soooooon
     // let arcConfig = exists(path + '/.arc-config')
