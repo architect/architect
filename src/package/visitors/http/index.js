@@ -1,20 +1,28 @@
 let getLambdaName = require('../../../util/get-lambda-name')
 let unexpress = require('../../../create/aws/create-http-route/create-route/_un-express-route')
-let getApiProperties = require('./get-api-properties')
 let toLogicalID = require('../to-logical-id')
+let getApiProperties = require('./get-api-properties')
+let getPropertyHelper = require('./get-lambda-config')
+let getEnv = require('./get-lambda-env')
+let getPolicies = require('./get-lambda-policies')
 
 /**
  * visit arc.http and merge in AWS::Serverless resources
  */
 module.exports = function http(arc, template) {
 
+  // base props
   let Type = 'AWS::Serverless::Api'
   let Properties = getApiProperties(arc)
   let appname = toLogicalID(arc.app[0])
 
+  // construct the runtime env
+  let env = getEnv(arc)
+
   // ensure cf standard sections exist
   if (!template.Resources)
     template.Resources = {}
+
   if (!template.Outputs) 
     template.Outputs = {}
 
@@ -24,21 +32,36 @@ module.exports = function http(arc, template) {
   // walk the arc file http routes
   arc.http.forEach(route=> {
 
-    let method = route[0]
-    let path = unexpress(route[1])
-    let name = toLogicalID(getLambdaName(`${method.toLowerCase()}${path}`))
+    let method = route[0] // get, post, put, delete, patch
+    let path = unexpress(route[1]) // /foo/{bar}
+    let name = toLogicalID(getLambdaName(`${method.toLowerCase()}${path}`)) // GetIndex
+    let code = `./src/http/${method}${getLambdaName(route[1])}` // ./src/http/get-index
+    let prop = getPropertyHelper(code) // returns a helper function for getting props
+    let policies = getPolicies(arc, code)
 
     // adding lambda resources
     template.Resources[name] = {
       Type: 'AWS::Serverless::Function',
       Properties: {
         Handler: 'index.handler',
-        Runtime: 'nodejs10.x',
-        CodeUri: `./src/http/${route[0]}${getLambdaName(route[1])}`,
-        MemorySize: 1024,
-        Timeout: 15,
+        CodeUri: code,
+        Runtime: prop('runtime'),
+        MemorySize: prop('memory'),
+        Timeout: prop('timeout'),
+        Environment: {Variables: env},
+        Policies: policies,
         Events: {}
       }
+    }
+
+    let concurrency = prop('concurrency')
+    if (concurrency != 'unthrottled') {
+      template.Resources[name].Properties.ReservedConcurrentExecutions = concurrency
+    }
+
+    let layers = prop('layers')
+    if (Array.isArray(layers) && layers.length > 0) {
+      template.Resources[name].Properties.Layers = layers
     }
 
     // construct the event source so SAM can wire the permissions
@@ -61,14 +84,19 @@ module.exports = function http(arc, template) {
         FunctionName: {Ref: 'GetIndex'},
         Action: 'lambda:InvokeFunction',
         Principal: 'apigateway.amazonaws.com',
-        SourceArn: getSourceArn(appname)
+        SourceArn: { 
+          'Fn::Sub': [ 
+            'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${restApiId}/*/*', 
+            {restApiId: {'Ref': appname}} 
+          ]
+        }
       }
     }
   }
 
+  // add the deployment url to the output
   template.Outputs.ProductionURL = {
     Description: 'Deployment URL',
-    //Value: {!Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
     Value: { 
       'Fn::Sub': [ 
         'https://${restApiId}.execute-api.${AWS::Region}.amazonaws.com/production/', 
@@ -77,17 +105,5 @@ module.exports = function http(arc, template) {
     }
   }
 
-
-
-
   return template
-}
-
-function getSourceArn(appname) {
-  return { 
-    'Fn::Sub': [ 
-      'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${restApiId}/*/*', 
-      {restApiId: {'Ref': appname}} 
-    ]
-  }
 }

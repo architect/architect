@@ -1,22 +1,38 @@
-let toLogicalID = require('../to-logical-id')
+let addStatic = require('./add-static-proxy')
 
 /**
  * visit arc.static and merge in AWS::Serverless resources
  */
 module.exports = function statics(arc, template) {
+  
+  // ensure cf standard sections exist
+  if (!template.Resources)
+    template.Resources = {}
 
-  // idk if this is what we want to do…
-  // but we need the bucketname and it needs be lowcase
-  let BucketName = `${arc.app[0]}-static-bucket`
+  if (!template.Outputs) 
+    template.Outputs = {}
+
+  // we leave the bucket name generation up to cloudfront
   template.Resources.StaticBucket = {
     Type: 'AWS::S3::Bucket',
+    //DeletionPolicy: 'Retain',
     Properties: {
-      BucketName,
       AccessControl: 'PublicRead',
       WebsiteConfiguration: {
         IndexDocument: 'index.html',
         ErrorDocument: '404.html'
       }
+    }
+  }
+
+  // which means we need to share it here
+  template.Outputs.BucketURL = {
+    Description: 'Bucket URL',
+    Value: { 
+      'Fn::Sub': [ 
+        'http://${bukkit}.s3.${AWS::Region}.amazonaws.com', 
+        {bukkit: {'Ref': 'StaticBucket'}} 
+      ]
     }
   }
 
@@ -27,42 +43,3 @@ module.exports = function statics(arc, template) {
   return template
 }
 
-function addStatic(arc, template) {
-
-  let region = process.env.AWS_REGION
-  let bucket = `${arc.app[0]}-static-bucket`
-  let endpoint = `https://s3-${region}.amazonaws.com/${bucket}`
-  let appname = toLogicalID(arc.app[0])
-
-  template.Resources[appname].Properties.DefinitionBody.paths['/_static/{proxy+}'] = {
-    'x-amazon-apigateway-any-method': {
-      parameters: [{
-        name: 'proxy',
-        in: 'path',
-        required: true,
-        schema: {
-          type: 'string'
-        }
-      }],
-      'x-amazon-apigateway-integration': {
-        uri: `${endpoint}/{proxy}`,
-        responses: {
-          default: {
-            statusCode: '200'
-          }
-        },
-        requestParameters: {
-          'integration.request.path.proxy': 'method.request.path.proxy'
-        },
-        passthroughBehavior: 'when_no_match',
-        httpMethod: 'ANY',
-        cacheNamespace: 'xlr8r2',
-        cacheKeyParameters: [
-          'method.request.path.proxy'
-        ],
-        type: 'http_proxy'
-      }
-    }
-  }
-  return template
-}
