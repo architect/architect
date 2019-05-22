@@ -6,6 +6,18 @@ Also see:
 - [Architect Data changelog](https://github.com/architect/arc-data/blob/master/changelog.md)
 ---
 
+## [On master] - 2019-05-21
+
+### Added
+
+- Static asset fingerprinting beta!
+  - Add `fingerprinting true` to your `@static` pragma to enable fingerprinting
+  - Add `ignore` followed by a two-space indented list to ignore certain files from `public/`
+  - [More information here](https://arc.codes/reference/static)
+- Added new flag for pruning old static assets: `npx deploy [--static] --prune`
+
+
+---
 
 ## [5.8.7] - 2019-05-21
 
@@ -15,7 +27,6 @@ Also see:
 
 
 ---
-
 
 ## [5.8.5 - 5.8.6] - 2019-05-15
 
