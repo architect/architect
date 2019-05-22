@@ -37,11 +37,12 @@
   "scripts": {
     "lint": "eslint . --fix",
     "test": "npm run lint && npm run test:unit",
-    "test:slow": "npm run test:integration:tables",
+    "test:slow": "npm run test:integration:package",
     "test:integration:scheduled": "NODE_ENV=testing tape test/slow/create/03-scheduled.js | tap-spec",
     "test:integration:config": "NODE_ENV=testing tape test/slow/config/*-test.js | tap-spec",
     "test:integration:queues": "NODE_ENV=testing tape test/slow/create/07-queues.js | tap-spec",
     "test:integration:tables": "NODE_ENV=testing tape test/slow/create/04-tables.js | tap-spec",
+    "test:integration:package": "NODE_ENV=testing tape test/slow/package/package-test.js | tap-spec",
     "test:unit": "cross-env NODE_ENV=testing tape 'test/fast/**/*test.js' | tap-spec",
     "test:coverage": "cross-env NODE_ENV=testing nyc tape 'test/**/*test.js' | tap-nyc"
   },
