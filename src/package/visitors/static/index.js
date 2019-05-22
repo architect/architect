@@ -35,7 +35,7 @@ module.exports = function statics(arc, template) {
         {bukkit: {'Ref': 'StaticBucket'}} 
       ]
     },
-    Export: {Name: 'BucketUrl'}
+    //Export: {Name: 'BucketUrl'}
   }
 
   // if an api is defined then add _static proxy and attempt to serialize ./public

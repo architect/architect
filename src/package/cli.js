@@ -2,26 +2,26 @@
 let fs = require('fs')
 let chalk = require('chalk')
 let init = require('../util/init')
-let getCF = require('.')
+let config = require('.')
 
 init(function main(err, arc) {
-  if (err) {
-    console.log(err)
-    console.log('hi ok')
-  }
+  if (err) console.log(err)
   else {
-    // TODO has a bucket and a region configured
-    // TODO has awscli installed
-    // TODO has samcli installed
-    // WARN about unsupported pragmas
-
-    let config = getCF(arc)
-    fs.writeFileSync('sam.json', JSON.stringify(config,null,2))
+    // 
+    // warn awscli installed
+    // warn samcli installed
+    // warn unsupported pragmas: ws, events, queues, scheduled, dns
+    //
+    fs.writeFileSync('sam.json', JSON.stringify(config(arc), null, 2))
 
     // draw the deploy instructions
-    let sam = chalk.bold.green(`sam package --template-file sam.json --output-template-file out.yaml --s3-bucket [S3 bucket]`)
-    let cf = chalk.bold.green(`sam deploy --template-file out.yaml --stack-name [Stack Name] --s3-bucket [S3 bucket] --capabilities CAPABILITY_IAM`)
-    let ugh = chalk.bold.yellow(`Update binary media types in the API Gateway console to */* and redeploy ¯\_(ツ)_/¯`)
+    let pkg = `sam package --template-file sam.json --output-template-file out.yaml --s3-bucket [S3 bucket]`
+    let dep = `sam deploy --template-file out.yaml --stack-name [Stack Name] --s3-bucket [S3 bucket] --capabilities CAPABILITY_IAM`
+    let no = `Update binary media types in the API Gateway console to */* and redeploy ¯\\_(ツ)_/¯`
+
+    let sam = chalk.bold.green(pkg)
+    let cf = chalk.bold.green(dep)
+    let ugh = chalk.bold.yellow(no)
 
     let x = process.platform.startsWith('win')? ' √' :'✓'
     let f = chalk.cyan.bold('sam.json')
