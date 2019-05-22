@@ -36,12 +36,8 @@ module.exports = function factory(params, callback) {
      * Notices
      */
     function notices(callback) {
-      if (fingerprint) {
-        console.log(chalk.green.dim('✓'), chalk.grey(`Static asset fingerpringing enabled`))
-      }
-      if (prune) {
-        console.log(chalk.green.dim('✓'), chalk.grey(`Orphaned file pruning enabled`))
-      }
+      console.log(chalk.green.dim('✓'), chalk.grey(`Static asset fingerpringing ${fingerprint ? 'enabled' : 'disabled'}`))
+      console.log(chalk.green.dim('✓'), chalk.grey(`Orphaned file pruning ${prune ? 'enabled' : 'disabled'}`))
       callback()
     },
 
