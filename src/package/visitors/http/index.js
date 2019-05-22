@@ -36,7 +36,7 @@ module.exports = function http(arc, template) {
     let path = unexpress(route[1]) // /foo/{bar}
     let name = toLogicalID(getLambdaName(`${method.toLowerCase()}${path}`)) // GetIndex
     let code = `./src/http/${method}${getLambdaName(route[1])}` // ./src/http/get-index
-    let prop = getPropertyHelper(code) // returns a helper function for getting props
+    let prop = getPropertyHelper(arc, code) // returns a helper function for getting props
     let policies = getPolicies(arc, code)
 
     // adding lambda resources
@@ -103,7 +103,7 @@ module.exports = function http(arc, template) {
         {restApiId: {'Ref': appname}} 
       ]
     },
-    Export: {Name: 'WebRootUrl'}
+    //Export: {Name: 'WebRootUrl'}
   }
 
   return template
