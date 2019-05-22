@@ -6,6 +6,7 @@ Also see:
 - [Architect Data changelog](https://github.com/architect/arc-data/blob/master/changelog.md)
 ---
 
+
 ## [On master] - 2019-05-21
 
 ### Added
@@ -15,6 +16,11 @@ Also see:
   - Add `ignore` followed by a two-space indented list to ignore certain files from `public/`
   - [More information here](https://arc.codes/reference/static)
 - Added new flag for pruning old static assets: `npx deploy [--static] --prune`
+
+
+### Fixes
+
+- Hydration (and other things that depend on hydrator operations) should now work more reliably on non-UNIXy machines
 
 
 ---
