@@ -128,7 +128,7 @@ module.exports = function factory(params, callback) {
     function uploadFiles(callback) {
       if (fingerprint) {
         // Ensure static.json is uploaded
-        files.push(path.join(publicDir, 'static.json'))
+        files.unshift(path.join(publicDir, 'static.json'))
       }
 
       let tasks = files.map(file=> {
@@ -217,7 +217,8 @@ module.exports = function factory(params, callback) {
 
             if (fingerprint) {
               leftovers = filesOnS3.Contents.filter((S3File) => {
-                return !Object.values(staticManifest).some(f => f === S3File.Key)
+                if (S3File.Key === 'static.json') return
+                else return !Object.values(staticManifest).some(f => f === S3File.Key)
               }).map(function(S3File) {
                 return {Key: S3File.Key}
               })

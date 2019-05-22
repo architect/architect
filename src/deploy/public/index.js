@@ -30,7 +30,7 @@ module.exports = function deploy(params, callback) {
     let fingerprint = false
     if (static.some(s => {
       if (!s[0]) return false
-      if (s.includes('fingerprint') && s.includes(true)) return true
+      if (s.includes('fingerprint') && (s.includes(true) || s.includes('enabled') || s.includes('on'))) return true
       return false
     })) {fingerprint = true}
 
