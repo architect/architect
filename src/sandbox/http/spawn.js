@@ -33,6 +33,9 @@ module.exports = function spawnChild(command, args, options, timeout, callback) 
     if (tidy.length > 0) {
       console.log(tidy)
     }
+    if (stderr) {
+      console.error(stderr)
+    }
 
     clearTimeout(to) // ensure the timeout doesn't block
     if (timedout) {
