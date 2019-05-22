@@ -1,8 +1,8 @@
 let assert = require('@smallwins/validate/assert')
 let mkdir = require('mkdirp').sync
 let path = require('path')
-let fs = require('fs')
-let copyToS3 = require('./_copy-to-s3')
+let pathExists = require('path-exists').sync
+let publishToS3 = require('./_publish-to-s3')
 
 module.exports = function deploy(params, callback) {
   assert(params, {
@@ -10,26 +10,48 @@ module.exports = function deploy(params, callback) {
     arc: Object
   })
 
-  let ignore = !params.arc.static
-  if (ignore) {
+  let static = params.arc.static
+
+  // Exit early if @static pragma is not specified
+  let skip = !static
+  if (skip) {
     callback()
   }
   else {
-    let shouldDelete = params.shouldDelete
-    let pathToPublic = path.join(process.cwd(), 'public')
-    // create public if it does not exist
-    mkdir(pathToPublic)
-    // see if there are files in public
-    fs.readdir(pathToPublic, function _readdir (err, items) {
-      if (err) console.log(err)
-      if (items.length === 0) {
-        callback()
-      }
-      else {
-        let index = params.env === 'staging' ? 0 : 1
-        let bucket = params.arc.static[index][1]
-        copyToS3(bucket, shouldDelete, callback)
-      }
-    })
+    // Enable deletion of files not present in public/ folder
+    let prune = params.prune || false
+    if (static.some(s => {
+      if (!s[0]) return false
+      if (s.includes('prune') && s.includes(true)) return true
+      return false
+    })) {prune = true}
+
+    // Enable fingerprinting
+    let fingerprint = false
+    if (static.some(s => {
+      if (!s[0]) return false
+      if (s.includes('fingerprint') && (s.includes(true) || s.includes('enabled') || s.includes('on'))) return true
+      return false
+    })) {fingerprint = true}
+
+    // Collect any strings to match against for ignore
+    let ignore = static.find(s => s['ignore'])
+    if (ignore) {ignore = Object.getOwnPropertyNames(ignore.ignore)}
+    else {ignore = []}
+
+    // Create public if it does not exist
+
+    let publicDir = path.join(process.cwd(), 'public')
+    if (!pathExists(publicDir)) {mkdir(publicDir)}
+
+    let index = params.env === 'staging' ? 0 : 1
+    let Bucket = static[index][1]
+    let S3params = {
+      Bucket,
+      fingerprint,
+      ignore,
+      prune,
+    }
+    publishToS3(S3params, callback)
   }
 }

@@ -15,7 +15,7 @@ function main(arc, raw, args, callback) {
   let tasks = []
   let env = args.env
   let start = args.start
-  let shouldDelete = args.shouldDelete
+  let prune = args.prune || false
   let filters = args.filters
 
   if (args.isStatic) {
@@ -24,7 +24,7 @@ function main(arc, raw, args, callback) {
       deployPublic({
         arc,
         env,
-        shouldDelete,
+        prune,
         start,
       }, callback)
     })
@@ -62,7 +62,7 @@ function main(arc, raw, args, callback) {
       deployPublic({
         arc,
         env,
-        shouldDelete,
+        prune,
         start,
       }, callback)
     })

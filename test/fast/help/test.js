@@ -1,9 +1,9 @@
-var test = require('tape')
-var sinon = require('sinon')
-var inquirer = require('inquirer')
+let test = require('tape')
+let sinon = require('sinon')
+let inquirer = require('inquirer')
 
-var help = require('../../../src/help')
-var logstub = sinon.stub(help, 'log')
+let help = require('../../../src/help')
+let logstub = sinon.stub(help, 'log')
 
 test('help function exists', t=> {
   t.plan(1)
@@ -13,10 +13,10 @@ test('help function exists', t=> {
 
 test('help should invoke inquirer if unrecognized subcommand provided', async t=> {
   t.plan(1)
-  var inquirerstub = sinon.stub(inquirer, 'prompt').returns({
+  let inquirerstub = sinon.stub(inquirer, 'prompt').returns({
     help: 'obiwan'
   })
-  var readstub = sinon.stub(help, 'read').returns('')
+  let readstub = sinon.stub(help, 'read').returns('')
   await help.main(['help', 'me', 'obiwankenobi'])
   t.ok(inquirerstub.called, 'inquirer was called')
   inquirerstub.restore()
@@ -26,7 +26,7 @@ test('help should invoke inquirer if unrecognized subcommand provided', async t=
 
 test('known command reads appropriate doc file', async t=> {
   t.plan(1)
-  var readspy = sinon.spy(help, 'read')
+  let readspy = sinon.spy(help, 'read')
   await help.main(['help', 'deploy'])
   t.ok(readspy.firstCall.args[0].endsWith('doc/deploy.md'), 'read called with appropriate file path')
   readspy.restore()
