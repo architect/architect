@@ -42,7 +42,7 @@ test('Deploy/public should exit if public dir has no files to upload', t=> {
 })
 
 test('Deploy/public uploads to S3, generates static.json manifest', t=> {
-  t.plan(6)
+  t.plan(7)
   // Globbing
   globStub.resetBehavior()
   globStub.callsFake((filepath, options, callback) => callback(null, [
@@ -76,7 +76,8 @@ test('Deploy/public uploads to S3, generates static.json manifest', t=> {
     t.ok(fsStub.called, 'static.json manifest written')
     t.ok(headStub.calledThrice, 'Correct number of s3.headObject reqs made')
     t.ok(putStub.calledThrice, 'Correct number of s3.putObject reqs made')
-    t.equals(putStub.args[0][0].CacheControl, 'max-age=315360000', 'Fingerprinted cache-control headers set')
+    t.equals(putStub.args[0][0].CacheControl, 'no-cache, no-store, must-revalidate, max-age=0, s-maxage=0', 'static.json anti-caching headers set')
+    t.equals(putStub.args[1][0].CacheControl, 'max-age=315360000', 'Fingerprinted cache-control headers set')
     fs.writeFile.restore()
     fs.lstatSync.restore()
     fs.readFileSync.restore()

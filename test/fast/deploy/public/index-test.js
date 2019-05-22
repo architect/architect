@@ -33,7 +33,7 @@ test('Deploy/public should make a public dir if arc specifies @static pragma', t
   })
 })
 
-test('Fingerprinting should be disabled by default', t=> {
+test('Fingerprinting enabled and disabled', t=> {
   t.plan(3)
   deployPublic({ arc, env: '' }, () => {
     t.equals(publishStub.args[0][0].fingerprint, false, 'Fingerprinting disabled by default')
@@ -58,7 +58,7 @@ test('Fingerprinting should be disabled by default', t=> {
 })
 
 
-test('Orphaned file deletion should be disabled by default', t=> {
+test('Orphaned file deletion enabled and disabled', t=> {
   t.plan(3)
   deployPublic({ arc, env: '' }, () => {
     t.equals(publishStub.args[0][0].prune, false, 'Orphaned file deletion disabled by default')
