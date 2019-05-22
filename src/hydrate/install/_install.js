@@ -1,6 +1,8 @@
 let assert = require('@smallwins/validate/assert')
 let exists = require('path-exists').sync
+let join = require('path').join
 let npm = require('../providers/npm')
+let sep = require('path').sep
 
 module.exports = function install(params, callback) {
 
@@ -27,12 +29,12 @@ module.exports = function install(params, callback) {
       callback(Error('cancel_not_found'))
     }
     // TODO impl arcConfig soooooon
-    // let arcConfig = exists(path + '/.arc-config')
-    let package = exists(path + '/package.json')
+    // let arcConfig = exists(join(path, '.arc-config'))
+    let package = exists(join(path, 'package.json'))
 
     if (package) {
       // Normalize absolute paths
-      if (path.startsWith('src/')) path = process.cwd() + '/' + path
+      if (path.startsWith(`src${sep}`)) path = join(process.cwd(), path)
       // NPM specific impl: ci for package installation
       let args = ['ci', '--ignore-scripts']
       queue.push([path, args])

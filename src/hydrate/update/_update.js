@@ -1,6 +1,8 @@
 let assert = require('@smallwins/validate/assert')
 let exists = require('path-exists').sync
+let join = require('path').join
 let npm = require('../providers/npm')
+let sep = require('path').sep
 
 module.exports = function update(params, callback) {
 
@@ -21,12 +23,12 @@ module.exports = function update(params, callback) {
 
   pathToCode.forEach(path => {
     // TODO impl arcConfig soooooon
-    // let arcConfig = exists(path + '/.arc-config')
-    let package = exists(path + '/package.json')
+    // let arcConfig = exists(join(path, '.arc-config'))
+    let package = exists(join(path, 'package.json'))
 
     if (package) {
       // Normalize absolute paths
-      if (path.startsWith('src/')) path = process.cwd() + '/' + path
+      if (path.startsWith(`src${sep}`)) path = join(process.cwd(), path)
       // NPM
       let args = ['update', '--ignore-scripts', '&&', 'npm', 'i']
       queue.push([path, args])

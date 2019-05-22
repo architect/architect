@@ -1,9 +1,12 @@
 let assert = require('@smallwins/validate/assert')
 let copyArc = require('./_arc')
+let copyStatic = require('./_static')
 let cp = require('cpr')
 let exists = require('path-exists').sync
 let lambdaPath = require('../../util/get-lambda-name')
 let parallel = require('run-parallel')
+let join = require('path').join
+let sep = require('path').sep
 let series = require('run-series')
 
 /**
@@ -23,20 +26,19 @@ module.exports = function copyCommon(params, callback) {
 
   series([
     function _shared(callback) {
-      if (tick) tick(`Copying src/shared into Functions...`)
-      let src = process.cwd() + '/src/shared'
+      if (tick) tick(`Copying src${sep}shared into Functions...`)
+      let src = join(process.cwd(), 'src', 'shared')
 
       // Skip copying src/shared early if project doesn't use it
-      let shared = false
-      if (exists(src)) shared = true
+      let hasShared = exists(src) || false
       parallel(pathToCode.map(path => {
         return function _copy(callback) {
-          let dest = process.cwd() + '/' + path + '/node_modules/@architect/shared'
+          let dest = join(process.cwd(), path, 'node_modules', '@architect', 'shared')
 
           series([
             // Maybe copy src/shared to all Functions
             function copyShared(callback) {
-              if (shared) {
+              if (hasShared) {
                 copy(src, dest, callback)
               }
               else {
@@ -46,7 +48,11 @@ module.exports = function copyCommon(params, callback) {
             // Copy .arc to all Functions
             function copyArcFile(callback) {
               copyArc(path, callback)
-            }
+            },
+            // Maybe copy static.json to all Functions
+            function copyStaticManifest(callback) {
+              copyStatic(path, callback)
+            },
           ],
           function done(err) {
             if (err) callback(err)
@@ -66,23 +72,24 @@ module.exports = function copyCommon(params, callback) {
       })
     },
     function _views(callback) {
-      if (tick) tick(`Copying src/views into Functions...`)
+      if (tick) tick(`Copying src${sep}views into Functions...`)
 
-      let src = process.cwd() + '/src/views'
+      let src = join(process.cwd(), 'src', 'views')
 
       // Bail early if project doesn't use src/views
-      if (!exists(src)) {
+      let hasViews = exists(src)
+      if (!hasViews) {
         if (tick) tick('')
         callback()
       }
       else {
         parallel(pathToCode.map(path => {
           return function _copy(callback) {
-            let dest = process.cwd() + '/' + path + '/node_modules/@architect/views'
+            let dest = join(process.cwd(), path, 'node_modules', '@architect', 'views')
 
             // @views has entries
             if (arc.views && arc.views.length) {
-              let paths = arc.views.map(v => `src/http/${v[0]}${lambdaPath(v[1])}`)
+              let paths = arc.views.map(v => `src${sep}http${sep}${v[0]}${lambdaPath(v[1])}`)
               // If this Function is listed in @views, copy views to it
               if (paths.includes(path)) {
                 copy(src, dest, callback)
@@ -90,7 +97,7 @@ module.exports = function copyCommon(params, callback) {
               else callback()
             }
             // Otherwise, just copy src/views to all @http GET routes
-            else if (path.startsWith('src/http/get-')) {
+            else if (path.startsWith(`src${sep}http${sep}get-`)) {
               copy(src, dest, callback)
             }
             else {
