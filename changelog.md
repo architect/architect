@@ -17,6 +17,12 @@ Also see:
   - [More information here](https://arc.codes/reference/static)
 - Added new flag for pruning old static assets: `npx deploy [--static] --prune`
 
+- Cloudformation support! 🚀
+  - `npx package` will export the current `.arc` file to `sam.json` and print further instructions for deploying
+  - Currently only `@http`, `@static` and `@tables` pragmas are supported; you can track the other pragmas dev (or submit a PR!) here https://github.com/architect/architect/issues/386
+  - any env variables in `.arc-env` are automatically applied to the cloudformation stack
+  - `.arc-config` settings are fully supported also
+  - Unfortunately CF has a bug currently with binary media types which we are tracking here https://github.com/awslabs/serverless-application-model/issues/561
 
 ### Fixes
 

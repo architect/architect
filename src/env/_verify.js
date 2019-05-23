@@ -44,7 +44,6 @@ module.exports = function _verify(appname, callback) {
       let longest = _longest(result.lambdas.lambdas)
       let _pads = v=> chalk.dim(`${v} `.padEnd(longest, '.')) + ' '
       let error = msg=> console.log(chalk.bold.red('Error'), chalk.bold.white(msg))
-      let notfound = name=> console.log(_pads(name), chalk.yellow('not found (run inventory and create to fix)'))
       let ok = name=> console.log(_pads(name), chalk.green('env ok'))
 
       // walk each lambda
@@ -53,7 +52,6 @@ module.exports = function _verify(appname, callback) {
           setTimeout(function _delay() {
             lambda.getFunctionConfiguration({FunctionName}, function _prettyPrint(err, result) {
               if (err && err.code === 'ResourceNotFoundException') {
-                notfound(FunctionName)
                 callback()
               }
               else if (err) {

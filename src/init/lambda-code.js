@@ -26,7 +26,7 @@ module.exports = function code({type, runtime, method, path}, callback) {
 
     if (type === 'http' && extension === 'js') {
       body = `// learn more about http functions here: https://arc.codes/guides/http
-module.exports = async function http(req) {
+exports.handler = async function http(req) {
   return {
     headers: {'content-type': 'text/html; charset=utf8'}, 
     body: '<b>hello world from nodejs<b>'
