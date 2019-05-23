@@ -37,7 +37,7 @@ test('Test env', t=> {
 
 test('Setup folder', t=> {
   t.plan(1)
-  process.chdir('mock')
+  process.chdir('test/slow/hydrate/mock')
   mkdir('tmp')
   cp('app', 'tmp', {overwrite:true},
   function done(err){
@@ -393,45 +393,6 @@ test('Shared file copier copies shared files into file folders', t=> {
         }
       })
     }
-  })
-})
-
-/**
- * Fail state tests
- * - Failing hydration will fail a deploy!
- * - Remember: fully restore the state of files after each test
- */
-test('Missing package.json fails hydration', t=> {
-  t.plan(2)
-  // Make missing the package file
-  fs.renameSync(join(indexPath, 'package.json'), join(indexPath, 'package.bak'))
-  hydrate.install({
-    arc,
-    pathToCode
-  },
-  function done(err) {
-    if (err) {
-      t.ok(true, `Successfully exited 1 with message: ${err.message}...`)
-      rebuildFolder(t)
-    }
-    else t.fail('Hydration did not fail')
-  })
-})
-
-test('Missing package-lock.json fails hydration', t=> {
-  t.plan(2)
-  // Make missing the package-lock file
-  fs.renameSync(join(indexPath, 'package-lock.json'), join(indexPath, 'package-lock.bak'))
-  hydrate.install({
-    arc,
-    pathToCode
-  },
-  function done(err) {
-    if (err) {
-      t.ok(true, `Successfully exited 1 with message: ${err.message}...`)
-      rebuildFolder(t)
-    }
-    else t.fail('Hydration did not fail')
   })
 })
 

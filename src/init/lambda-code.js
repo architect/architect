@@ -16,7 +16,7 @@ module.exports = function code({type, runtime, method, path}, callback) {
   let basePath = join(process.cwd(), 'src', type, folder)
   let fullPath = join(basePath, `index.${extension}`)
 
-  if (fs.existsSync(fullPath)) {
+  if (fs.existsSync(basePath)) {
     callback()
   }
   else {
@@ -35,12 +35,14 @@ module.exports = async function http(req) {
     }
 
     if (type === 'http' && extension === 'py') {
+      fs.writeFileSync(join(basePath, '.arc-config'), `@aws\nruntime python3.7`)
       body = `// learn more about http functions here: https://arc.codes/guides/http
 def handler(req, context):
   return {'headers': {'content-type': 'text/html'}, 'body': '<b>hello world from python<b>'}`
     }
 
     if (type === 'http' && extension === 'rb') {
+      fs.writeFileSync(join(basePath, '.arc-config'), `@aws\nruntime ruby2.5`)
       body = `// learn more about http functions here: https://arc.codes/guides/http
 def handler(req)
   {headers: {'content-type': 'text/html'}, body: '<b>hello world from ruby<b>'}
