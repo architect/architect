@@ -4,7 +4,7 @@
 
 Manages installation of modules in all Functions (including calling to `hydrate.shared()`).
 
-To ensure local development behavior is as close to `staging` and `production` as possible, `hydrate.install()` (and other hydrate functions) now only use `npm ci`, and not `npm i`.
+To ensure local development behavior is as close to `staging` and `production` as possible, `hydrate.install()` (and other hydrate functions) uses `npm ci` if `package-lock.json` is present and `npm i` if not.
 
 
 ## `npx hydrate --update` || `hydrate.update()`

@@ -11,56 +11,38 @@ module.exports = function install(params, callback) {
     // tick: Function,
   })
 
-  let { pathToCode, tick } = params
+  let {pathToCode, tick} = params
 
   let total = pathToCode.length
-  if (tick) tick(`Installing dependencies in ${total} Functions`)
+  if (tick)
+    tick(`Installing dependencies in ${total} Functions`)
 
-  // Build out the queue of dependencies that need hydrating
-  let queue = []
-  // If any errors at this point, bubble them before calling the package manager
-  let errors = []
-
-  pathToCode.forEach(path => {
-    // For create: first check to see if this Function exists
-    // If not, throw standard create error
-    if (!exists(path)) {
-      if (tick) Array(7).fill().map(()=> tick(''))
-      callback(Error('cancel_not_found'))
+  let queue = pathToCode.map(function iter(path) {
+    if (exists(join(path, 'package.json')) && !exists(join(path, 'package-lock.json'))) {
+      if (path.startsWith(`src${sep}`))
+        path = join(process.cwd(), path)
+      return [path, ['i', '--ignore-scripts']]
     }
-    // TODO impl arcConfig soooooon
-    // let arcConfig = exists(join(path, '.arc-config'))
-    let package = exists(join(path, 'package.json'))
-
-    if (package) {
-      // Normalize absolute paths
-      if (path.startsWith(`src${sep}`)) path = join(process.cwd(), path)
-      // NPM specific impl: ci for package installation
-      let args = ['ci', '--ignore-scripts']
-      queue.push([path, args])
+    else if (exists(join(path, 'package.json'))) {
+      if (path.startsWith(`src${sep}`))
+        path = join(process.cwd(), path)
+      return [path, ['ci', '--ignore-scripts']]
     }
     else {
-      // Guard against missing package
-      // TODO will need refactor for other package managers
-      errors.push(`Missing package.json in ${path}`)
+      if (tick)
+        Array(7).fill().map(()=> tick(''))
+      return // no deps is ok
     }
-  })
+  }).filter(Boolean)
 
-  // Hydrate!
-  if (errors.length === 0) {
-    npm(queue, err => {
-      if (err) {
-        if (tick) tick('')
-        callback(err)
-      }
-      else {
-        if (tick) tick('')
-        callback()
-      }
+  if (queue.length > 0) {
+    npm(queue, function done(err) {
+      if (tick) tick('')
+      if (err) callback(err)
+      else callback()
     })
   }
   else {
-    if (tick) tick('')
-    callback(errors)
+    callback()
   }
 }

@@ -5,6 +5,7 @@ let events = require('./events')
 let http = require('./http')
 let series = require('run-series')
 let init = require('../util/init')
+let initLocal = require('../init')
 
 module.exports = function start(callback) {
 
@@ -23,9 +24,9 @@ module.exports = function start(callback) {
   series([
     // hulk smash
     function _banner(callback) {
-      init(function _init(err) {
+      init(function _init(err, arcFile) {
         if (err) callback(err)
-        else callback()
+        else initLocal(arcFile, callback)
       })
     },
     function _env(callback) {

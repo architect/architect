@@ -17,6 +17,8 @@
     "arc-logs": "./src/logs/cli.js",
     "arc-version": "./src/version/cli.js",
     "arc-repl": "./src/repl/cli.js",
+    "arc-package": "./src/package/cli.js",
+    "arc-init": "./src/init/cli.js",
     "audit": "./src/audit/cli.js",
     "config": "./src/config/cli.js",
     "create": "./src/create/cli.js",
@@ -30,16 +32,20 @@
     "tags": "./src/tags/cli.js",
     "version": "./src/version/cli.js",
     "sandbox": "./src/sandbox/cli.js",
-    "repl": "./src/repl/cli.js"
+    "repl": "./src/repl/cli.js",
+    "package": "./src/package/cli.js",
+    "init": "./src/init/cli.js"
   },
   "scripts": {
     "lint": "eslint . --fix",
     "test": "npm run lint && npm run test:unit",
-    "test:slow": "npm run test:integration:tables",
+    "test:slow": "npm run test:integration:hydrate",
     "test:integration:scheduled": "NODE_ENV=testing tape test/slow/create/03-scheduled.js | tap-spec",
     "test:integration:config": "NODE_ENV=testing tape test/slow/config/*-test.js | tap-spec",
     "test:integration:queues": "NODE_ENV=testing tape test/slow/create/07-queues.js | tap-spec",
     "test:integration:tables": "NODE_ENV=testing tape test/slow/create/04-tables.js | tap-spec",
+    "test:integration:package": "NODE_ENV=testing tape test/slow/package/package-test.js | tap-spec",
+    "test:integration:hydrate": "NODE_ENV=testing tape test/slow/hydrate/hydrate.js | tap-spec",
     "test:unit": "cross-env NODE_ENV=testing tape 'test/fast/**/*test.js' | tap-spec",
     "test:coverage": "cross-env NODE_ENV=testing nyc tape 'test/**/*test.js' | tap-nyc"
   },

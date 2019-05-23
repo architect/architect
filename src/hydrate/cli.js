@@ -4,6 +4,7 @@ let init = require('../util/init')
 let inventory = require('../inventory')
 let waterfall = require('run-waterfall')
 let hydrate = require('.')
+let initLocal = require('../init')
 
 // Userland args
 let args = process.argv.slice(2)
@@ -31,7 +32,7 @@ waterfall([
       if (err) callback(err)
       else {
         arc = result
-        callback()
+        initLocal(arc, callback)
       }
     })
   },
