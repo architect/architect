@@ -25,7 +25,7 @@ module.exports = function copyCommon(params, callback) {
   })
 
   let { arc, pathToCode, tick } = params
-  let enableShared = true
+  let sharingDisabledPaths = [] // Collects paths with shared modules disabled
 
   series([
     function _shared(callback) {
@@ -41,6 +41,7 @@ module.exports = function copyCommon(params, callback) {
       parallel(pathToCode.map(path => {
         return function _copy(callback) {
 
+          let enableShared = true
           let arcConfig = join(process.cwd(), path, '.arc-config')
           if (exists(arcConfig)) {
             let config = parse(fs.readFileSync(arcConfig).toString())
@@ -48,7 +49,10 @@ module.exports = function copyCommon(params, callback) {
               if (!s[0]) return false
               if (s.includes('shared') && (s.includes(false) || s.includes('disabled') || s.includes('off'))) return true
               return false
-            })) {enableShared = false}
+            })) {
+              enableShared = false
+              sharingDisabledPaths.push(path)
+            }
           }
 
           if (enableShared) {
@@ -78,8 +82,7 @@ module.exports = function copyCommon(params, callback) {
               else callback()
             })
           }
-          else (callback())
-
+          else callback()
         }
       }),
       function done(err) {
@@ -100,31 +103,40 @@ module.exports = function copyCommon(params, callback) {
 
       // Bail early if project doesn't use src/views
       let hasViews = exists(src)
-      if (!hasViews || !enableShared) {
+      if (!hasViews) {
         if (tick) tick('')
         callback()
       }
       else {
         parallel(pathToCode.map(path => {
           return function _copy(callback) {
-            let dest = join(process.cwd(), path, 'node_modules', '@architect', 'views')
 
-            // @views has entries
-            if (arc.views && arc.views.length) {
-              let paths = arc.views.map(v => `src${sep}http${sep}${v[0]}${lambdaPath(v[1])}`)
-              // If this Function is listed in @views, copy views to it
-              if (paths.includes(path)) {
+            let enableShared = true
+            if (sharingDisabledPaths.includes(path)) {
+              enableShared = false
+            }
+
+            if (enableShared) {
+              let dest = join(process.cwd(), path, 'node_modules', '@architect', 'views')
+
+              // @views has entries
+              if (arc.views && arc.views.length) {
+                let paths = arc.views.map(v => `src${sep}http${sep}${v[0]}${lambdaPath(v[1])}`)
+                // If this Function is listed in @views, copy views to it
+                if (paths.includes(path)) {
+                  copy(src, dest, callback)
+                }
+                else callback()
+              }
+              // Otherwise, just copy src/views to all @http GET routes
+              else if (path.startsWith(`src${sep}http${sep}get-`)) {
                 copy(src, dest, callback)
               }
-              else callback()
+              else {
+                callback()
+              }
             }
-            // Otherwise, just copy src/views to all @http GET routes
-            else if (path.startsWith(`src${sep}http${sep}get-`)) {
-              copy(src, dest, callback)
-            }
-            else {
-              callback()
-            }
+            else callback()
           }
         }),
         function done(err) {

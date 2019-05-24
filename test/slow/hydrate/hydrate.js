@@ -397,7 +397,8 @@ test('Shared file copier copies shared files into file folders', t=> {
 })
 
 test('Shared file copier does not copy shared files if .aws-config disables shared', t=> {
-  t.plan(6)
+  t.plan(10)
+  let secondPath = join('src', 'http', 'post-up-tents')
   cp('_optional', 'src', {overwrite: true},
   cp('_optional/shared/.arc-config', 'src/http/get-index/', {overwrite: true},
   function done(err) {
@@ -405,21 +406,32 @@ test('Shared file copier does not copy shared files if .aws-config disables shar
     else {
       sharedCopy({
         arc,
-        pathToCode: [indexPath] // Testing a single file is sufficient
+        pathToCode: [indexPath, secondPath] // Testing a single file is sufficient
       },
       function done(err) {
         if (err) t.fail(err)
         else {
-          // Check to see if files that are supposed to be there are actually there
-          let shared = exists(join(indexPath, 'node_modules', '@architect', 'shared', 'shared.md'))
-          let views = exists(join(indexPath, 'node_modules', '@architect', 'views', 'views.md'))
-          let dotArc = exists(join(indexPath, 'node_modules', '@architect', 'shared', '.arc'))
-          let staticManifest = exists(join(indexPath, 'node_modules', '@architect', 'shared', 'static.json'))
-          t.ok(!dotArc, `Did not find .arc file in ${indexPath}`)
-          t.ok(!shared, `Did not find src/shared file in ${indexPath}`)
-          t.ok(!views, `Did not find src/views file in ${indexPath}`)
-          t.ok(!staticManifest, `Did not find static.json file in ${indexPath}`)
-          if (dotArc || shared || views || staticManifest) {
+          // Check to see if files that aren't supposed to be there are actually there
+          let missingShared = !exists(join(indexPath, 'node_modules', '@architect', 'shared', 'shared.md'))
+          let missingViews = !exists(join(indexPath, 'node_modules', '@architect', 'views', 'views.md'))
+          let missingDotArc = !exists(join(indexPath, 'node_modules', '@architect', 'shared', '.arc'))
+          let missingStaticManifest = !exists(join(indexPath, 'node_modules', '@architect', 'shared', 'static.json'))
+          t.ok(missingShared, `Did not find .arc file in ${indexPath}`)
+          t.ok(missingViews, `Did not find src/shared file in ${indexPath}`)
+          t.ok(missingDotArc, `Did not find src/views file in ${indexPath}`)
+          t.ok(missingStaticManifest, `Did not find static.json file in ${indexPath}`)
+
+          // Check to see if files that ARE supposed to be there are actually there
+          let shared = exists(join(secondPath, 'node_modules', '@architect', 'shared', 'shared.md'))
+          let views = exists(join(secondPath, 'node_modules', '@architect', 'views', 'views.md'))
+          let dotArc = exists(join(secondPath, 'node_modules', '@architect', 'shared', '.arc'))
+          let staticManifest = exists(join(secondPath, 'node_modules', '@architect', 'shared', 'static.json'))
+          t.ok(dotArc, `Found .arc file in ${secondPath}`)
+          t.ok(shared, `Found src/shared file in ${secondPath}`)
+          t.ok(views, `Found src/views file in ${secondPath}`)
+          t.ok(staticManifest, `Found static.json file in ${secondPath}`)
+
+          if (!missingShared || !missingViews || !missingDotArc || !missingStaticManifest || !dotArc || !shared || !views || !staticManifest) {
             t.fail(new Error(`File found in ${indexPath}`))
           }
           else {
