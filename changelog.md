@@ -11,18 +11,20 @@ Also see:
 
 ### Added
 
+- CloudFormation support! 🚀
+  - `npx package` will export the current `.arc` file to `sam.json` and print further instructions for deploying
+  - Currently only `@http`, `@static` and `@tables` pragmas are supported; you can track the other pragmas dev (or submit a PR!) here at #386
+  - Any env vars in `.arc-env` are automatically applied to the CloudFormation stack
+  - `.arc-config` settings are also fully supported
+  - Unfortunately CF currently has a bug with binary media types which we're tracking here https://github.com/awslabs/serverless-application-model/issues/561
 - Static asset fingerprinting beta!
   - Add `fingerprinting true` to your `@static` pragma to enable fingerprinting
   - Add `ignore` followed by a two-space indented list to ignore certain files from `public/`
   - [More information here](https://arc.codes/reference/static)
 - Added new flag for pruning old static assets: `npx deploy [--static] --prune`
+- Added ability to completely disable shared folder copying into functions
+  - Add an `@arc` pragma to your function's `.arc-config` file, and pass it the `shared false` flag
 
-- Cloudformation support! 🚀
-  - `npx package` will export the current `.arc` file to `sam.json` and print further instructions for deploying
-  - Currently only `@http`, `@static` and `@tables` pragmas are supported; you can track the other pragmas dev (or submit a PR!) here https://github.com/architect/architect/issues/386
-  - any env variables in `.arc-env` are automatically applied to the cloudformation stack
-  - `.arc-config` settings are fully supported also
-  - Unfortunately CF has a bug currently with binary media types which we are tracking here https://github.com/awslabs/serverless-application-model/issues/561
 
 ### Fixes
 

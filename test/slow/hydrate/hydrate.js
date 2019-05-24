@@ -396,6 +396,42 @@ test('Shared file copier copies shared files into file folders', t=> {
   })
 })
 
+test('Shared file copier does not copy shared files if .aws-config disables shared', t=> {
+  t.plan(6)
+  cp('_optional', 'src', {overwrite: true},
+  cp('_optional/shared/.arc-config', 'src/http/get-index/', {overwrite: true},
+  function done(err) {
+    if (err) t.fail(err)
+    else {
+      sharedCopy({
+        arc,
+        pathToCode: [indexPath] // Testing a single file is sufficient
+      },
+      function done(err) {
+        if (err) t.fail(err)
+        else {
+          // Check to see if files that are supposed to be there are actually there
+          let shared = exists(join(indexPath, 'node_modules', '@architect', 'shared', 'shared.md'))
+          let views = exists(join(indexPath, 'node_modules', '@architect', 'views', 'views.md'))
+          let dotArc = exists(join(indexPath, 'node_modules', '@architect', 'shared', '.arc'))
+          let staticManifest = exists(join(indexPath, 'node_modules', '@architect', 'shared', 'static.json'))
+          t.ok(!dotArc, `Did not find .arc file in ${indexPath}`)
+          t.ok(!shared, `Did not find src/shared file in ${indexPath}`)
+          t.ok(!views, `Did not find src/views file in ${indexPath}`)
+          t.ok(!staticManifest, `Did not find static.json file in ${indexPath}`)
+          if (dotArc || shared || views || staticManifest) {
+            t.fail(new Error(`File found in ${indexPath}`))
+          }
+          else {
+            t.ok(true, 'Shared installed')
+            destroyNodeModules(t)
+          }
+        }
+      })
+    }
+  }))
+})
+
 test('Corrupt package-lock.json fails hydration', t=> {
   t.plan(2)
   // Make missing the package-lock file
