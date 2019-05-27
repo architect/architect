@@ -7,7 +7,7 @@ Also see:
 ---
 
 
-## [5.9.0 - 5.9.1] - 2019-05-23
+## [5.9.0 - 5.9.2] - 2019-05-23
 
 ### Added
 
@@ -24,6 +24,8 @@ Also see:
 - Added new flag for pruning old static assets: `npx deploy [--static] --prune`
 - Added ability to completely disable shared folder copying into functions
   - Add an `@arc` pragma to your function's `.arc-config` file, and pass it the `shared false` flag
+- Ruby and Python local runtime support
+  - `.arc-config` with `runtime` of either `ruby2.5` or `python3.7` works on localhost (make sure you have python and ruby installed!)
 
 
 ### Fixes
