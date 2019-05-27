@@ -1,5 +1,5 @@
 let url = require('url')
-let invoke = require('./invoke-lambda')
+let invoke = require('../invoke-lambda')
 
 /**
  * builds response middleware for invoke

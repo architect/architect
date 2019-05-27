@@ -1,6 +1,6 @@
 let WebSocket = require('ws')
 let join = require('path').join
-let invoke = require('./invoke-lambda')
+let invoke = require('../invoke-lambda')
 let fs = require('fs')
 let uuid = require('uuid/v4')
 
