@@ -8,7 +8,8 @@ module.exports = function getEnv(arc) {
     ARC_CLOUDFORMATION: toLogicalID(arc.app[0]),
     ARC_APP_NAME: arc.app[0],
     NODE_ENV: 'production',
-    SESSION_TABLE_NAME: 'jwe'
+    SESSION_TABLE_NAME: 'jwe',
+    PYTHONPATH: '/var/task/vendor:/var/runtime:/opt/python'
   }
   // this was tidy
   if (arc.static) {
