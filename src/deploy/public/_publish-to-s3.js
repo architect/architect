@@ -155,7 +155,9 @@ module.exports = function factory(params, callback) {
                   Bucket,
                   Key,
                   Body: fs.readFileSync(file),
-                  ContentType: getContentType(file),
+                }
+                if (getContentType(file)) {
+                  params.ContentType = getContentType(file)
                 }
                 if (fingerprint && Key !== 'static.json') {
                   params.CacheControl = 'max-age=315360000'
