@@ -132,6 +132,7 @@ module.exports = function factory(params, callback) {
           // First, let's check to ensure we even need to upload the file
           let stats = fs.lstatSync(file)
           let Key = file.replace(publicDir, '').substr(1)
+          let big = stats.size >= 5750000
           if (fingerprint && Key !== 'static.json') {
             Key = staticManifest[file.replace(publicDir, '').substr(1)]
           }
@@ -175,12 +176,14 @@ module.exports = function factory(params, callback) {
                   }
                   else {
                     console.log(`${chalk.blue('[  Uploaded  ]')} ${chalk.underline.cyan(url)}`)
+                    if (big) console.log(`${chalk.yellow('[  Warning!  ]')} ${chalk.white.bold(`${Key} is > 5.75MB`)}${chalk.white(`; files over 6MB cannot be proxied by Lambda (arc.proxy)`)}`)
                     callback()
                   }
                 })
               }
               else {
                 console.log(`${chalk.gray('[Not modified]')} ${chalk.underline.cyan(url)}`)
+                if (big) console.log(`${chalk.yellow('[  Warning!  ]')} ${chalk.white.bold(`${Key} is > 5.75MB`)}${chalk.white(`; files over 6MB cannot be proxied by Lambda (arc.proxy)`)}`)
                 callback()
               }
             }

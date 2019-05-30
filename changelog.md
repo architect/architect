@@ -6,6 +6,15 @@ Also see:
 - [Architect Data changelog](https://github.com/architect/arc-data/blob/master/changelog.md)
 ---
 
+## [On master] - 2019-05-29
+
+### Fixes
+
+- Warns users of static deployments of files approaching the payload limit of Lambda, fixes #387
+- Fixes static deploy errors of unknown file types
+
+
+---
 
 ## [5.9.0 - 5.9.2] - 2019-05-23
 
