@@ -6,6 +6,15 @@ Also see:
 - [Architect Data changelog](https://github.com/architect/arc-data/blob/master/changelog.md)
 ---
 
+### Changed
+
+- Projects that use the `@ws` directive in their `.arc` file will need to be cautious about upgrading
+  - The default directories that get created are now `ws-$connect`, `ws-$default`, and `ws-$disconnect`; it is recommended that you run `npx create` and copy your code from `ws-connect` to `ws-$connect`, `ws-default` to `ws-$default`, and `ws-disconnect` to `ws-$disconnect` and then delete the old directories
+
+### Fixes
+
+- `@ws` directive now works correctly with the `npx inventory` command set
+
 
 ## [5.8.5 - 5.8.6] - 2019-05-15
 
