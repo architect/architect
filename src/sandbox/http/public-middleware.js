@@ -17,7 +17,7 @@ module.exports = function _public(req, res, next) {
     if (!basePath || basePath === '/')
       basePath = 'index.html'
     let pathToFile = url.parse(basePath).pathname
-    let fullPath = path.join(process.cwd(), 'public', pathToFile)
+    let fullPath = path.join(process.cwd(), 'public', decodeURI(pathToFile))
     let found = exists(fullPath) && fs.statSync(fullPath).isFile()
     if (!found) {
       next()

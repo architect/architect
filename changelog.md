@@ -6,10 +6,11 @@ Also see:
 - [Architect Data changelog](https://github.com/architect/arc-data/blob/master/changelog.md)
 ---
 
-## [On master] - 2019-05-29
+## [5.9.3] - 2019-05-29
 
 ### Fixes
 
+- Corrects URI encoding when accessing local static assets in _static, fixes #390
 - Warns users of static deployments of files approaching the payload limit of Lambda, fixes #387
 - Fixes static deploy errors of unknown file types
 
