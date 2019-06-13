@@ -12,5 +12,10 @@ module.exports = function sandboxImplementation(opts) {
     if (opts.indexOf('port') >= 0)
       process.env.PORT = opts[opts.indexOf('port') + 1]
   }
-  sandbox.start({version})
+  sandbox.start({version}, function _done(err) {
+    if (err) {
+      console.log(err)
+      process.exit(1)
+    }
+  })
 }
