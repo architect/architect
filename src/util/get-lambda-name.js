@@ -1,4 +1,4 @@
-/*
+/**
  * Lambda names:
  * - Up to 64 characters
  * - Can contain only letters, numbers, hyphens, and underscores
@@ -13,7 +13,7 @@
  * This is a lossy substitution, optimized for human readability
  * One should not expect to be able to reliably extract Arc names from Lambda names created with this encoding
  * Also, order matters: slashes should be converted last, after there are no more dashes to convert
-*/
+ */
 
 module.exports = function getLambdaName(fn) {
   return fn === '/'
