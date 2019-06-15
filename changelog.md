@@ -6,9 +6,19 @@ Also see:
 - [Architect Data changelog](https://github.com/architect/arc-data/blob/master/changelog.md)
 ---
 
+## [5.9.4] - 2019-06-15
+
+### Added
+
+- Added ability to disable Architect managing a given function's environment variables
+  - Add an `@arc` pragma to your function's `.arc-config` file, and pass it the `env false` flag
+
+
+---
+
 ## [5.9.3] - 2019-05-29
 
-### Fixes
+### Fixed
 
 - Corrects URI encoding when accessing local static assets in _static, fixes #390
 - Warns users of static deployments of files approaching the payload limit of Lambda, fixes #387
@@ -38,7 +48,7 @@ Also see:
   - `.arc-config` with `runtime` of either `ruby2.5` or `python3.7` works on localhost (make sure you have python and ruby installed!)
 
 
-### Fixes
+### Fixed
 
 - Hydration (and other things that depend on hydrator operations) should now work more reliably on non-UNIXy machines
 
@@ -47,7 +57,7 @@ Also see:
 
 ## [5.8.7] - 2019-05-21
 
-### Fixes
+### Fixed
 
 - Fixes lack of `console.[warn|error|trace]` output in sandbox console
 
@@ -78,7 +88,7 @@ Also see:
   - To use these custom routes, the client message must contain an `action` key that is the name of the route
 
 
-### Fixes
+### Fixed
 
 - DynamoDB tables and indexes now enqueue during create; fixes #268
 - Sync queue visibility to function timeout; fixes #204
