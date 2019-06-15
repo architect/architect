@@ -1,9 +1,11 @@
 let aws = require('aws-sdk')
 let chalk = require('chalk')
+let exists = require('path-exists').sync
 let parallel = require('run-parallel')
 let series = require('run-series')
 let eq = require('shallow-equal/objects')
 let path = require('path')
+let parse = require('@architect/parser')
 let fs = require('fs')
 let readArc = require('../util/read-arc')
 let isReserved = require('./_is-reserved')
@@ -45,60 +47,81 @@ module.exports = function _verify(appname, callback) {
       let _pads = v=> chalk.dim(`${v} `.padEnd(longest, '.')) + ' '
       let error = msg=> console.log(chalk.bold.red('Error'), chalk.bold.white(msg))
       let ok = name=> console.log(_pads(name), chalk.green('env ok'))
+      let optout = name=> console.log(_pads(name), chalk.yellow('env disabled'))
 
+      // check to see which lambdas have opted out of env vars
+      let optedOut = []
+      series(result.lambdas.localPaths.map(functionPath => {
+        return function (callback) {
+          let arcConfig = `${process.cwd()}/${functionPath}/.arc-config`
+          if (exists(arcConfig)) {
+            let config = parse(fs.readFileSync(arcConfig).toString())
+            if (config.arc && config.arc.find(v => v[0] === 'env' && v[1] === false)) {
+              optedOut.push(functionPath.split('/').pop())
+            }
+          }
+          callback()
+        }
+      }),
       // walk each lambda
       series(result.lambdas.lambdas.map(FunctionName=> {
         return function _verifyLambda(callback) {
-          setTimeout(function _delay() {
-            lambda.getFunctionConfiguration({FunctionName}, function _prettyPrint(err, result) {
-              if (err && err.code === 'ResourceNotFoundException') {
-                callback()
-              }
-              else if (err) {
-                error(err.message)
-                callback()
-              }
-              else {
-                // clean env vars of anything reserved
-                let copy = {}
-                let saves = {}
-                for (let key in result.Environment.Variables) {
-                  if (!isReserved(key)) {
-                    copy[key] = result.Environment.Variables[key]
-                  }
-                  else {
-                    saves[key] = result.Environment.Variables[key]
-                  }
+          if (optedOut.find(f => `${appname}-staging-${f}` === FunctionName || `${appname}-production-${f}` === FunctionName)) {
+            optout(FunctionName)
+            callback()
+          }
+          else {
+            setTimeout(function _delay() {
+              lambda.getFunctionConfiguration({FunctionName}, function _prettyPrint(err, result) {
+                if (err && err.code === 'ResourceNotFoundException') {
+                  callback()
                 }
-
-                let isProduction = result.Environment.Variables.NODE_ENV === 'production'
-                let expected = toEnv(isProduction? production : staging)
-
-                if (eq(expected, copy)) {
-                  ok(FunctionName)
+                else if (err) {
+                  error(err.message)
                   callback()
                 }
                 else {
-                  lambda.updateFunctionConfiguration({
-                    FunctionName,
-                    Environment: {
-                      Variables: {
-                        ...expected,
-                        ...saves,
-                      }
+                  // clean env vars of anything reserved
+                  let copy = {}
+                  let saves = {}
+                  for (let key in result.Environment.Variables) {
+                    if (!isReserved(key)) {
+                      copy[key] = result.Environment.Variables[key]
                     }
-                  },
-                  function _syncd(err) {
-                    if (err) error(err.message)
-                    else ok(FunctionName)
+                    else {
+                      saves[key] = result.Environment.Variables[key]
+                    }
+                  }
+
+                  let isProduction = result.Environment.Variables.NODE_ENV === 'production'
+                  let expected = toEnv(isProduction? production : staging)
+
+                  if (eq(expected, copy)) {
+                    ok(FunctionName)
                     callback()
-                  })
+                  }
+                  else {
+                    lambda.updateFunctionConfiguration({
+                      FunctionName,
+                      Environment: {
+                        Variables: {
+                          ...expected,
+                          ...saves,
+                        }
+                      }
+                    },
+                    function _syncd(err) {
+                      if (err) error(err.message)
+                      else ok(FunctionName)
+                      callback()
+                    })
+                  }
                 }
-              }
-            })
-          }, 100) // 100ms == 10 Lambda TPS, same as deploy default
+              })
+            }, 100) // 100ms == 10 Lambda TPS, same as deploy default
+          }
         }
-      }), callback)
+      }), callback))
     }
   })
 }
