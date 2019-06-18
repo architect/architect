@@ -73,10 +73,10 @@
   "dependencies": {
     "@architect/data": "^2.1.0",
     "@architect/parser": "^1.1.7",
-    "@architect/sandbox": "^1.0.6",
-    "@architect/utils": "^1.0.11",
+    "@architect/sandbox": "^1.0.7",
+    "@architect/utils": "^1.0.12",
     "@smallwins/validate": "^4.3.0",
-    "aws-sdk": "^2.475.0",
+    "aws-sdk": "^2.477.0",
     "body-parser": "^1.19.0",
     "chalk": "^2.4.2",
     "clear": "^0.1.0",
@@ -100,7 +100,7 @@
     "shallow-equal": "^1.2.0",
     "strftime": "^0.10.0",
     "uuid": "^3.3.2",
-    "ws": "^7.0.0",
+    "ws": "^7.0.1",
     "zip-dir": "^1.0.2",
     "zipit": "^1.0.2"
   },
