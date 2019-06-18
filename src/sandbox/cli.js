@@ -1,3 +1,3 @@
 #!/usr/bin/env node
-let sandbox = require('./index')
+let sandbox = require('./start')
 sandbox()
