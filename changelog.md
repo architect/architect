@@ -6,13 +6,14 @@ Also see:
 - [Architect Data changelog](https://github.com/architect/arc-data/blob/master/changelog.md)
 ---
 
-## [5.9.5-6] - 2019-06-18
+## [5.9.5-7] - 2019-06-18
 
 ### Changed
 
-- The `sandbox` workflow is now a module, maintained at https://github.com/architect/sandbox
+- The `sandbox` workflow is now its own module!
   - No functionality changes to `sandbox` in this release
-  - A few minor improvements to `sandbox` console messages during startup
+  - A few minor improvements to `sandbox` console messages during startup, and drying up port assignment logic
+  - You can find the `sandbox` module at https://github.com/architect/sandbox
 
 
 ### Fixed
