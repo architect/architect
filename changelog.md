@@ -6,6 +6,21 @@ Also see:
 - [Architect Data changelog](https://github.com/architect/arc-data/blob/master/changelog.md)
 ---
 
+## [5.9.5] - 2019-06-18
+
+### Changed
+
+- The `sandbox` workflow is now a module, maintained at https://github.com/architect/sandbox
+  - No functionality changes to `sandbox` in this release
+  - A few minor improvements to `sandbox` console messages during startup
+
+
+### Fixed
+
+- Some Arc-supported runtimes defined in `.arc-config` files (such as `nodejs8.10`) will no longer cause `sandbox` to crash
+
+---
+
 ## [5.9.4] - 2019-06-15
 
 ### Added
