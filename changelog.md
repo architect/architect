@@ -6,7 +6,7 @@ Also see:
 - [Architect Data changelog](https://github.com/architect/arc-data/blob/master/changelog.md)
 ---
 
-## [5.9.5] - 2019-06-18
+## [5.9.5-6] - 2019-06-18
 
 ### Changed
 
