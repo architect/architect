@@ -6,6 +6,14 @@ Also see:
 - [Architect Data changelog](https://github.com/architect/arc-data/blob/master/changelog.md)
 ---
 
+## [5.9.8] - 2019-06-19
+
+### Changed
+
+- Deployments of static assets now follow symlinks in the `public/` directory
+
+---
+
 ## [5.9.5-7] - 2019-06-18
 
 ### Changed

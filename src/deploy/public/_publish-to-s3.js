@@ -45,7 +45,7 @@ module.exports = function factory(params, callback) {
      * Scan for files in the public directory
      */
     function globFiles(callback) {
-      glob(staticAssets, {dot:true, nodir:true}, callback)
+      glob(staticAssets, {dot:true, nodir:true, follow:true}, callback)
     },
 
     /**

@@ -33,7 +33,7 @@ module.exports = function flags(start) {
                    args.includes('--public') ||
                    args.includes('/public')
 
-    // should we delete static assets not present locally under public/
+    // delete static assets not present locally in public/
     let prune = args.includes('--delete') ||
                 args.includes('--prune')
 
