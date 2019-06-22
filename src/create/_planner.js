@@ -127,16 +127,16 @@ module.exports = function planner(arc) {
   //
   if (arc.hasOwnProperty('ws')) {
     // these are the three default routes that AWS requires
-    let routes = ['$connect', '$disconnect', '$default']
-    Array.prototype.push.apply(routes, arc.ws)
-    routes.forEach(route=> {
+    let defaultRoutes = ['$connect', '$disconnect', '$default']
+    Array.prototype.unshift.apply(arc.ws, defaultRoutes)
+    arc.ws.forEach(route=> {
       plans.push({action:'create-ws-lambda-code', app, arc, name:`ws-${route}`})
     })
     if (!process.env.ARC_LOCAL) {
-      routes.forEach(route=> {
+      arc.ws.forEach(route=> {
         plans.push({action:'create-ws-lambda-deployments', app, arc, name:`ws-${route}`})
       })
-      plans.push({action:'create-ws-router', app, routes})
+      plans.push({action:'create-ws-router', app, routes:arc.ws})
       plans.push({action:'create-ws-router-deployments', app})
     }
   }

@@ -5,6 +5,7 @@ let fs = require('fs')
 let print = require('../_print')
 let exists = require('path-exists').sync
 let install = require('./_install-workflows-and-data')
+let slugify = require('slugify')
 
 // this is annoying; but makes packing into an executable far easier
 let eventsLambda = `let arc = require('@architect/functions')
@@ -154,7 +155,7 @@ module.exports = function _createCode(params, callback) {
     let lambda = `src/${space}/${idx}`
     let pathToPkg = path.join(absolutePath, 'package.json')
     let pathToIndex = path.join(absolutePath, 'index.js')
-    let pkg = JSON.stringify({name:`${app}-${idx}`}, null, 2)
+    let pkg = JSON.stringify({name:slugify(`${app}-${idx}`)}, null, 2)
     let index = codes[space === 'tables'? getType(idx) : space]
 
     // make sure the dir exists
