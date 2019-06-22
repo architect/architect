@@ -15,6 +15,85 @@ Also see:
 
 - `@ws` directive now works correctly with the `npx inventory` command set
 
+## [5.9.8] - 2019-06-19
+
+### Changed
+
+- Deployments of static assets now follow symlinks in the `public/` directory
+
+---
+
+## [5.9.5-7] - 2019-06-18
+
+### Changed
+
+- The `sandbox` workflow is now its own module!
+  - No functionality changes to `sandbox` in this release
+  - A few minor improvements to `sandbox` console messages during startup, and drying up port assignment logic
+  - You can find the `sandbox` module at https://github.com/architect/sandbox
+
+
+### Fixed
+
+- Some Arc-supported runtimes defined in `.arc-config` files (such as `nodejs8.10`) will no longer cause `sandbox` to crash
+
+---
+
+## [5.9.4] - 2019-06-15
+
+### Added
+
+- Added ability to disable Architect managing a given function's environment variables
+  - Add an `@arc` pragma to your function's `.arc-config` file, and pass it the `env false` flag
+
+
+---
+
+## [5.9.3] - 2019-05-29
+
+### Fixed
+
+- Corrects URI encoding when accessing local static assets in _static, fixes #390
+- Warns users of static deployments of files approaching the payload limit of Lambda, fixes #387
+- Fixes static deploy errors of unknown file types
+
+
+---
+
+## [5.9.0 - 5.9.2] - 2019-05-23
+
+### Added
+
+- CloudFormation support! 🚀
+  - `npx package` will export the current `.arc` file to `sam.json` and print further instructions for deploying
+  - Currently only `@http`, `@static` and `@tables` pragmas are supported; you can track the other pragmas dev (or submit a PR!) here at #386
+  - Any env vars in `.arc-env` are automatically applied to the CloudFormation stack
+  - `.arc-config` settings are also fully supported
+  - Unfortunately CF currently has a bug with binary media types which we're tracking here https://github.com/awslabs/serverless-application-model/issues/561
+- Static asset fingerprinting beta!
+  - Add `fingerprinting true` to your `@static` pragma to enable fingerprinting
+  - Add `ignore` followed by a two-space indented list to ignore certain files from `public/`
+  - [More information here](https://arc.codes/reference/static)
+- Added new flag for pruning old static assets: `npx deploy [--static] --prune`
+- Added ability to completely disable shared folder copying into functions
+  - Add an `@arc` pragma to your function's `.arc-config` file, and pass it the `shared false` flag
+- Ruby and Python local runtime support
+  - `.arc-config` with `runtime` of either `ruby2.5` or `python3.7` works on localhost (make sure you have python and ruby installed!)
+
+
+### Fixed
+
+- Hydration (and other things that depend on hydrator operations) should now work more reliably on non-UNIXy machines
+
+
+---
+
+## [5.8.7] - 2019-05-21
+
+### Fixed
+
+- Fixes lack of `console.[warn|error|trace]` output in sandbox console
+
 
 ## [5.8.5 - 5.8.6] - 2019-05-15
 
@@ -40,7 +119,7 @@ Also see:
   - To use these custom routes, the client message must contain an `action` key that is the name of the route
 
 
-### Fixes
+### Fixed
 
 - DynamoDB tables and indexes now enqueue during create; fixes #268
 - Sync queue visibility to function timeout; fixes #204

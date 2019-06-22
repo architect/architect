@@ -74,7 +74,6 @@ function exec(callback) {
 
 // NPM operations
 function npm(pathToCode, args, callback) {
-  // Don't key cwd on leading '/' as that breaks in Windows
   let cwd = pathToCode.startsWith(process.cwd())
     ? pathToCode
     : path.join(process.cwd(), pathToCode)
@@ -84,7 +83,7 @@ function npm(pathToCode, args, callback) {
     : 'npm'
   let options = {cwd, shell:true}
   // Normalize and make relative pathToCode for error messages
-  pathToCode = pathToCode.replace(process.cwd() + '/', '')
+  pathToCode = pathToCode.replace(process.cwd() + path.sep, '')
   let subprocess = spawn(cmd, args, options)
   let stderr = []
   subprocess.stderr.on('data', function data(chunk) {

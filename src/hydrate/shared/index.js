@@ -3,9 +3,11 @@ let chalk = require('chalk')
 let copy = require('./_copy')
 let exists = require('path-exists')
 let glob = require('glob')
+let join = require('path').join
 let npm = require('../providers/npm')
 let parallel = require('run-parallel')
 let _progress = require('../../util/progress')
+let sep = require('path').sep
 let progress
 let cli
 
@@ -37,18 +39,18 @@ module.exports = function shared(params, callback) {
 
   // NPM specific pattern
   // Note: glob uses ** to recurse, not **/*
-  let npmPattern = '/**/package.json'
+  let npmPattern = `${sep}**${sep}package.json`
 
   parallel({
     shared(callback) {
-      let sharedPath = cwd + '/src/shared'
+      let sharedPath = join(cwd, 'src', 'shared')
       let hasShared = exists(sharedPath)
       if (hasShared)
         glob(sharedPath + npmPattern, callback)
       else callback()
     },
     views(callback) {
-      let viewsPath = cwd + '/src/views'
+      let viewsPath = join(cwd, 'src', 'views')
       let hasViews = exists(viewsPath)
       if (hasViews)
         glob(viewsPath + npmPattern, callback)
@@ -71,8 +73,8 @@ module.exports = function shared(params, callback) {
 
       // Report: 'Installing modules in src/shared and src/views'
       let action = (installing ? 'Installing' : 'Updating') + ' dependencies'
-      let shared = all.shared.length > 0 ? 'src/shared' : ''
-      let views = all.views.length > 0 ? 'src/views' : ''
+      let shared = all.shared.length > 0 ? join('src', 'shared') : ''
+      let views = all.views.length > 0 ? join('src', 'views') : ''
       let and = all.shared.length > 0 && all.views.length > 0 ? ' and ' : ''
       let msg = `${action} in ${shared}${and}${views}`
       if (!tick) {
@@ -94,7 +96,7 @@ module.exports = function shared(params, callback) {
           let args = [(installing? 'ci' : 'update'), '--ignore-scripts']
 
           // NPM specific impl: check to see if package-lock exists; if not, do a normal install instead of CI, otherwise npm fails
-          exists(path + '/package-lock.json')
+          exists(join(path, 'package-lock.json'))
             .then(exists => {
               if (installing && !exists) {
                 args[0] = 'install'

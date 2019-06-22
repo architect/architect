@@ -1,12 +1,10 @@
-let db = require('./db')
-let env = require('./env')
-let events = require('./events')
-let http = require('./http')
+let db = require('@architect/sandbox').db
+let events = require('@architect/sandbox').events
+let http = require('@architect/sandbox').http
 let start = require('./start')
 
 module.exports = {
   db,
-  env,
   events,
   http,
   start,

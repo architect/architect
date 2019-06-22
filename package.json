@@ -1,6 +1,6 @@
 {
   "name": "@architect/architect",
-  "version": "5.8.6",
+  "version": "5.9.8",
   "description": "Create, deploy, and maintain next-generation AWS cloud function-based serverless infrastructure with full local, offline workflows, and more.",
   "main": "index",
   "bin": {
@@ -17,6 +17,8 @@
     "arc-logs": "./src/logs/cli.js",
     "arc-version": "./src/version/cli.js",
     "arc-repl": "./src/repl/cli.js",
+    "arc-package": "./src/package/cli.js",
+    "arc-init": "./src/init/cli.js",
     "audit": "./src/audit/cli.js",
     "config": "./src/config/cli.js",
     "create": "./src/create/cli.js",
@@ -30,16 +32,20 @@
     "tags": "./src/tags/cli.js",
     "version": "./src/version/cli.js",
     "sandbox": "./src/sandbox/cli.js",
-    "repl": "./src/repl/cli.js"
+    "repl": "./src/repl/cli.js",
+    "package": "./src/package/cli.js",
+    "init": "./src/init/cli.js"
   },
   "scripts": {
     "lint": "eslint . --fix",
     "test": "npm run lint && npm run test:unit",
-    "test:slow": "npm run test:integration:tables",
+    "test:slow": "npm run test:integration:hydrate",
     "test:integration:scheduled": "NODE_ENV=testing tape test/slow/create/03-scheduled.js | tap-spec",
     "test:integration:config": "NODE_ENV=testing tape test/slow/config/*-test.js | tap-spec",
     "test:integration:queues": "NODE_ENV=testing tape test/slow/create/07-queues.js | tap-spec",
     "test:integration:tables": "NODE_ENV=testing tape test/slow/create/04-tables.js | tap-spec",
+    "test:integration:package": "NODE_ENV=testing tape test/slow/package/package-test.js | tap-spec",
+    "test:integration:hydrate": "NODE_ENV=testing tape test/slow/hydrate/hydrate.js | tap-spec",
     "test:unit": "cross-env NODE_ENV=testing tape 'test/fast/**/*test.js' | tap-spec",
     "test:coverage": "cross-env NODE_ENV=testing nyc tape 'test/**/*test.js' | tap-nyc"
   },
@@ -65,10 +71,12 @@
   "license": "Apache-2.0",
   "homepage": "https://arc.codes",
   "dependencies": {
-    "@architect/data": "^2.0.17",
+    "@architect/data": "^2.1.0",
     "@architect/parser": "^1.1.7",
+    "@architect/sandbox": "^1.0.10",
+    "@architect/utils": "^1.0.12",
     "@smallwins/validate": "^4.3.0",
-    "aws-sdk": "^2.456.0",
+    "aws-sdk": "^2.477.0",
     "body-parser": "^1.19.0",
     "chalk": "^2.4.2",
     "clear": "^0.1.0",
@@ -82,16 +90,18 @@
     "mime-types": "^2.1.24",
     "mkdirp": "^0.5.1",
     "path-exists": "^4.0.0",
+    "path-sort": "^0.1.0",
     "router": "^1.3.3",
     "run-parallel": "^1.1.9",
     "run-series": "^1.1.8",
     "run-waterfall": "^1.1.6",
     "send": "^0.17.1",
-    "shallow-equal": "^1.1.0",
     "slugify": "^1.3.4",
+    "sha": "^3.0.0",
+    "shallow-equal": "^1.2.0",
     "strftime": "^0.10.0",
     "uuid": "^3.3.2",
-    "ws": "^7.0.0",
+    "ws": "^7.0.1",
     "zip-dir": "^1.0.2",
     "zipit": "^1.0.2"
   },
@@ -104,7 +114,7 @@
     "sinon": "^7.3.2",
     "tap-nyc": "^1.0.3",
     "tap-spec": "^5.0.0",
-    "tape": "^4.10.1",
+    "tape": "^4.10.2",
     "tiny-json-http": "^7.1.2"
   }
 }

@@ -1,6 +1,8 @@
 let assert = require('@smallwins/validate/assert')
 let exists = require('path-exists').sync
+let join = require('path').join
 let npm = require('../providers/npm')
+let sep = require('path').sep
 
 module.exports = function install(params, callback) {
 
@@ -9,8 +11,7 @@ module.exports = function install(params, callback) {
     // tick: Function,
   })
 
-  let { pathToCode, tick } = params
-
+  let {pathToCode, tick} = params
   let total = pathToCode.length
   if (tick) tick(`Installing dependencies in ${total} Functions`)
 
@@ -25,40 +26,28 @@ module.exports = function install(params, callback) {
     if (!exists(path)) {
       if (tick) Array(7).fill().map(()=> tick(''))
       callback(Error(`cancel_not_found: ${pathToCode}`))
-    }
-    // TODO impl arcConfig soooooon
-    // let arcConfig = exists(path + '/.arc-config')
-    let package = exists(path + '/package.json')
 
-    if (package) {
-      // Normalize absolute paths
-      if (path.startsWith('src/')) path = process.cwd() + '/' + path
-      // NPM specific impl: ci for package installation
-      let args = ['ci', '--ignore-scripts']
-      queue.push([path, args])
+    }
+    else if (exists(join(path, 'package.json'))) {
+      if (path.startsWith(`src${sep}`))
+        path = join(process.cwd(), path)
+      return [path, ['ci', '--ignore-scripts']]
     }
     else {
-      // Guard against missing package
-      // TODO will need refactor for other package managers
-      errors.push(`Missing package.json in ${path}`)
+      if (tick)
+        Array(7).fill().map(()=> tick(''))
+      return // no deps is ok
     }
-  })
+  }).filter(Boolean)
 
-  // Hydrate!
-  if (errors.length === 0) {
-    npm(queue, err => {
-      if (err) {
-        if (tick) tick('')
-        callback(err)
-      }
-      else {
-        if (tick) tick('')
-        callback()
-      }
+  if (queue.length > 0) {
+    npm(queue, function done(err) {
+      if (tick) tick('')
+      if (err) callback(err)
+      else callback()
     })
   }
   else {
-    if (tick) tick('')
-    callback(errors)
+    callback()
   }
 }

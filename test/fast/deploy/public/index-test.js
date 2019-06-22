@@ -1,59 +1,96 @@
-var test = require('tape')
-var proxyquire = require('proxyquire')
-var mkdir = require('mkdirp')
-var fs = require('fs')
-var sinon = require('sinon')
+let fs = require('fs')
+let mkdir = require('mkdirp')
+let proxyquire = require('proxyquire')
+let sinon = require('sinon')
+let test = require('tape')
 let mkdirStub = sinon.stub(mkdir, 'sync')
-let copyStub = sinon.stub()
+let publishStub = sinon.stub().callsFake(({Bucket, fingerprint, ignore, prune}, callback) => {callback()})
 
-var deployPublic = proxyquire('../../../../src/deploy/public', {
-  './_copy-to-s3': copyStub
-})
+let deployPublic = proxyquire('../../../../src/deploy/public', {'./_publish-to-s3': publishStub})
 
-var base = {
-  appname: ['testapp']
+let arc = {
+  appname: ['testapp'],
+  static: [
+    ['staging', 'stagingbucket'],
+    ['production', 'prodbucket']
+  ]
 }
 
-test('deploy/public should ignore if arc is missing static param', t=> {
+test('Deploy/public should bail if arc is missing @static pragma', t=> {
   t.plan(1)
-  deployPublic({ arc: base, env: '' }, () => {
+  deployPublic({ arc: {appname: ['testapp']}, env: '' }, () => {
     t.ok(!mkdirStub.called, 'mkdir not called')
     t.end()
   })
 })
 
-test('deploy/public should make a public dir if theres a static param', t=> {
+test('Deploy/public should make a public dir if arc specifies @static pragma', t=> {
   t.plan(1)
-  var arc = Object.assign(base, {static:[['staging', 'stagingbucket'], ['production', 'prodbucket']]})
-  let readStub = sinon.stub(fs, 'readdir').callsFake((path, callback) => callback(null, []))
   deployPublic({ arc, env: '' }, () => {
     t.ok(mkdirStub.called, 'mkdir called')
-    readStub.restore()
+    mkdirStub.resetHistory()
     t.end()
   })
 })
 
-test('deploy/public should not invoke copy if public dir is empty', t=> {
-  t.plan(1)
-  var arc = Object.assign(base, {static:[['staging', 'stagingbucket'], ['production', 'prodbucket']]})
-  let readStub = sinon.stub(fs, 'readdir').callsFake((path, callback) => callback(null, []))
+test('Fingerprinting enabled and disabled', t=> {
+  t.plan(3)
   deployPublic({ arc, env: '' }, () => {
-    t.ok(!copyStub.called, 'copy not called')
-    readStub.restore()
+    t.equals(publishStub.args[0][0].fingerprint, false, 'Fingerprinting disabled by default')
+  })
+  publishStub.resetHistory()
+
+  let fingerprintEnabled = JSON.parse(JSON.stringify(arc)) // Deep clone for mutation
+  fingerprintEnabled.static.push(["fingerprint", true])
+  deployPublic({ arc: fingerprintEnabled, env: '' }, () => {
+    t.equals(publishStub.args[0][0].fingerprint, true, 'Fingerprinting explicitly enabled')
+  })
+  publishStub.resetHistory()
+
+  let fingerprintDisabled = JSON.parse(JSON.stringify(arc)) // Deep clone for mutation
+  fingerprintDisabled.static.push(["fingerprint", false])
+  deployPublic({ arc: fingerprintDisabled, env: '' }, () => {
+    // publishStub.resetHistory()
+    t.equals(publishStub.args[0][0].fingerprint, false, 'Fingerprinting explicitly disabled')
     t.end()
   })
+  publishStub.resetHistory()
 })
 
-test('deploy/public should invoke copy with proper bucketname if public dir is not empty', t=> {
-  t.plan(2)
-  copyStub.resetHistory()
-  copyStub.callsFake((bucket, shouldDelete, callback) => callback())
-  var arc = Object.assign(base, {static:[['staging', 'stagingbucket'], ['production', 'prodbucket']]})
-  let readStub = sinon.stub(fs, 'readdir').callsFake((path, callback) => callback(null, ['index.html']))
+
+test('Orphaned file deletion enabled and disabled', t=> {
+  t.plan(3)
   deployPublic({ arc, env: '' }, () => {
-    t.ok(copyStub.called, 'copy called')
-    t.equals(copyStub.args[0][0], 'prodbucket', 'copy was passed proper bucket name parameter')
-    readStub.restore()
+    t.equals(publishStub.args[0][0].prune, false, 'Orphaned file deletion disabled by default')
+  })
+  publishStub.resetHistory()
+
+  let pruneEnabled = JSON.parse(JSON.stringify(arc)) // Deep clone for mutation
+  pruneEnabled.static.push(["prune", true])
+  deployPublic({ arc: pruneEnabled, env: '' }, () => {
+    t.equals(publishStub.args[0][0].prune, true, 'Orphaned file deletion explicitly enabled')
+  })
+  publishStub.resetHistory()
+
+  sinon.resetHistory()
+  let pruneDisabled = JSON.parse(JSON.stringify(arc)) // Deep clone for mutation
+  pruneDisabled.static.push(["prune", false])
+  deployPublic({ arc: pruneDisabled, env: '' }, () => {
+    t.equals(publishStub.args[0][0].prune, false, 'Orphaned file deletion explicitly disabled')
     t.end()
   })
+  publishStub.resetHistory()
+})
+
+test('Deploy/public should invoke publish with proper params and defaults', t=> {
+  t.plan(5)
+  deployPublic({ arc, env: '' }, () => {
+    t.ok(publishStub.called, 'publish called')
+    t.equals(publishStub.args[0][0].Bucket, 'prodbucket', 'Proper bucket name found')
+    t.equals(publishStub.args[0][0].fingerprint, false, 'Fingerprinting default disabled')
+    t.ok(publishStub.args[0][0].ignore, 'No ignored files found')
+    t.equals(publishStub.args[0][0].prune, false, 'Orphan deletion default disabled')
+    t.end()
+  })
+  publishStub.resetHistory()
 })
