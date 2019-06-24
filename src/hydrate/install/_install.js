@@ -17,8 +17,6 @@ module.exports = function install(params, callback) {
 
   // Build out the queue of dependencies that need hydrating
   let queue = []
-  // If any errors at this point, bubble them before calling the package manager
-  let errors = []
 
   pathToCode.forEach(path => {
     // For create: first check to see if this Function exists

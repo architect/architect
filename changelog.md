@@ -1,9 +1,17 @@
- # Architect changelog
+# Architect changelog
 
 ---
 Also see:
 - [Architect Functions changelog](https://github.com/architect/arc-functions/blob/master/changelog.md)
 - [Architect Data changelog](https://github.com/architect/arc-data/blob/master/changelog.md)
+---
+
+## [5.9.10] 2019-06-24
+
+### Fixed
+
+- Fixes `sandbox` hanging on startup without local AWS credentials file, should fix #382, 391
+
 ---
 
 ## [5.9.9] 2019-06-23
