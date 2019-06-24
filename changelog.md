@@ -6,7 +6,7 @@ Also see:
 - [Architect Data changelog](https://github.com/architect/arc-data/blob/master/changelog.md)
 ---
 
-## [5.9.10-12] 2019-06-24
+## [5.9.10-13] 2019-06-24
 
 ### Fixed
 
@@ -14,6 +14,7 @@ Also see:
   - No local AWS credentials file (e.g `~/.aws/credentials`)
   - The local AWS credentials file is present, but is missing the requested profile name
   - Fixes #382, 391
+- Fixed issue with `hydrate` caused by an errant merge
 
 ---
 

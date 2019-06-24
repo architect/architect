@@ -12,19 +12,16 @@ module.exports = function install(params, callback) {
   })
 
   let {pathToCode, tick} = params
+
   let total = pathToCode.length
-  if (tick) tick(`Installing dependencies in ${total} Functions`)
+  if (tick)
+    tick(`Installing dependencies in ${total} Functions`)
 
-  // Build out the queue of dependencies that need hydrating
-  let queue = []
-
-  pathToCode.forEach(path => {
-    // For create: first check to see if this Function exists
-    // If not, throw standard create error
-    if (!exists(path)) {
-      if (tick) Array(7).fill().map(()=> tick(''))
-      callback(Error(`cancel_not_found: ${pathToCode}`))
-
+  let queue = pathToCode.map(function iter(path) {
+    if (exists(join(path, 'package.json')) && !exists(join(path, 'package-lock.json'))) {
+      if (path.startsWith(`src${sep}`))
+        path = join(process.cwd(), path)
+      return [path, ['i', '--ignore-scripts']]
     }
     else if (exists(join(path, 'package.json'))) {
       if (path.startsWith(`src${sep}`))
