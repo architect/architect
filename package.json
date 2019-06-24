@@ -107,7 +107,7 @@
   },
   "devDependencies": {
     "cross-env": "^5.2.0",
-    "eslint": "^6.0.0",
+    "eslint": "^5.16.0",
     "nyc": "^14.1.1",
     "proxyquire": "^2.1.0",
     "rimraf": "^2.6.3",
