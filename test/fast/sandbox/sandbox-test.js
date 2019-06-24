@@ -6,57 +6,56 @@ let sandbox = require('../../../src/sandbox')
 // Test Architect's implementation of @architect/sandbox
 test('sandbox.start', t=> {
   t.plan(2)
-  t.ok(sandbox, 'has sandbox')
-  t.ok(sandbox.start, 'has sandbox.start')
+  t.ok(sandbox, 'Has sandbox')
+  t.ok(sandbox.start, 'Has sandbox.start')
 })
 
 let asyncClose
-test('async sandbox.start test/mock', async t=> {
+test('Async sandbox.start test/mock', async t=> {
   t.plan(1)
   process.chdir(path.join(__dirname, 'mock'))
   asyncClose = await sandbox.start()
-  t.ok(asyncClose, 'started')
+  t.ok(asyncClose, 'Sandbox started (async)')
 })
 
-test('async sandbox.close', async t=> {
+test('Async sandbox.close', async t=> {
   t.plan(1)
   asyncClose()
-  t.ok(true, 'closed')
+  t.ok(true, 'Sandbox closed')
 })
 
 let syncClose
-test('sync sandbox.start test/mock', t=> {
+test('Sync sandbox.start test/mock', t=> {
   t.plan(1)
-  console.time('start')
   sandbox.start({}, function (err, end) {
-    if (err) t.fail('Sandbox startup failure')
+    if (err) t.fail('Sandbox failed (sync)')
     else {
-      console.timeEnd('start')
       syncClose = end
-      t.ok(syncClose, 'started')
+      t.ok(syncClose, 'Sandbox started (sync)')
     }
   })
 })
 
-test('sync sandbox.close', t=> {
+test('Sync sandbox.close', t=> {
   t.plan(1)
   syncClose()
-  t.ok(true, 'closed')
+  t.ok(true, 'Sandbox closed')
 })
 
 test('CLI sandbox', t => {
   t.plan(1)
   let result = spawn('../../../../src/sandbox/cli.js')
-  let output
-  let start = Date.now()
+  let output = ''
   result.stdout.on('data', (data) => {
     output += data
     if (output.includes(`Started HTTP "server"`)) {
+      console.log(output)
       result.kill('SIGINT')
-      t.ok(true, 'CLI started')
+      t.ok(true, 'Sandbox CLI started')
     }
   })
-  if (result.error) {
-    t.fail('CLI failed to start')
-  }
+  result.on('error', err => {
+    console.log('', err)
+    t.fail()
+  })
 })
