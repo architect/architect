@@ -6,6 +6,8 @@ Also see:
 - [Architect Data changelog](https://github.com/architect/arc-data/blob/master/changelog.md)
 ---
 
+## [5.9.9] 2019-06-23
+
 ### Changed
 
 - Projects that use the `@ws` directive in their `.arc` file will need to be cautious about upgrading
@@ -14,6 +16,9 @@ Also see:
 ### Fixes
 
 - `@ws` directive now works correctly with the `npx inventory` command set
+- Fixes `sandbox` wrapper when use as async module, adds `sandbox` test
+
+---
 
 ## [5.9.8] - 2019-06-19
 
