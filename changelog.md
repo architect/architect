@@ -6,11 +6,14 @@ Also see:
 - [Architect Data changelog](https://github.com/architect/arc-data/blob/master/changelog.md)
 ---
 
-## [5.9.10-11] 2019-06-24
+## [5.9.10-12] 2019-06-24
 
 ### Fixed
 
-- Fixes `sandbox` hanging on startup without local AWS credentials file, should fix #382, 391
+- Ensures `sandbox` starts in the cases of:
+  - No local AWS credentials file (e.g `~/.aws/credentials`)
+  - The local AWS credentials file is present, but is missing the requested profile name
+  - Fixes #382, 391
 
 ---
 

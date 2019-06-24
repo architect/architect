@@ -73,7 +73,7 @@
   "dependencies": {
     "@architect/data": "^2.1.0",
     "@architect/parser": "^1.1.7",
-    "@architect/sandbox": "^1.0.12",
+    "@architect/sandbox": "^1.0.13",
     "@architect/utils": "^1.0.12",
     "@smallwins/validate": "^4.3.0",
     "aws-sdk": "^2.477.0",
@@ -107,7 +107,7 @@
   },
   "devDependencies": {
     "cross-env": "^5.2.0",
-    "eslint": "^5.16.0",
+    "eslint": "^6.0.0",
     "nyc": "^14.1.1",
     "proxyquire": "^2.1.0",
     "rimraf": "^2.6.3",
