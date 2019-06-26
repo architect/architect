@@ -6,6 +6,22 @@ Also see:
 - [Architect Data changelog](https://github.com/architect/arc-data/blob/master/changelog.md)
 ---
 
+## [5.9.15] 2019-06-26
+
+### Added
+
+- Auto-refresh! `sandbox` now keeps an eye out for the following changes to your project:
+  - Edits to your Architect project manifest will mount or unmount HTTP routes without having to restart `sandbox`
+  - Changes to `src/shared` and `src/views` will automatically rehydrate your functions' shared code
+  - More to come!
+
+
+### Changed
+
+- Prettied up `sandbox` initialization printing a bit
+
+---
+
 ## [5.9.14] 2019-06-25
 
 ### Added
@@ -13,6 +29,7 @@ Also see:
 - Auto-hydration!
   - Say goodbye to running `npx hydrate` before starting new projects, cloning existing projects, or pulling down new functions
   - On startup, any functions missing dependencies on the local filesystem will now be auto-hydrated
+  - Supported runtimes and dependency manifests: Node + `package.json` (requires npm >= 5.7), Python + `requirements.txt` (calls pip3), and Ruby + Gemfile (calls bundle)
 
 ---
 

@@ -1,10 +1,9 @@
 #!/usr/bin/env node
-let sandbox = require('./start')
+let sandbox = require('@architect/sandbox')
+let ver = require('../../package.json').version
 let options = process.argv
-sandbox({options}, function _done(err) {
-  if (err) {
-    console.log(err)
-    process.exit(1)
-  }
-})
-
+let params = {
+  options,
+  version: `Architect ${ver}`
+}
+sandbox.cli(params)
