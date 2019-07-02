@@ -10,6 +10,11 @@ var getLambda = require('../_get-lambda')
 module.exports = function create(params, callback) {
   // console.log('calling create-ws-lambda-deployments with' ,params)
   let {name} = params
+  let defaultRoutes = ['ws-$connect', 'ws-$disconnect', 'ws-$default']
+  if (defaultRoutes.includes(name)) {
+    name = name.replace('$','')
+    params.name = name
+  }
   let lambda = new aws.Lambda({region: process.env.AWS_REGION})
   lambda.getFunction({
     FunctionName: params.lambda.replace('$', '')
