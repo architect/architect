@@ -73,10 +73,10 @@
   "dependencies": {
     "@architect/data": "^2.1.0",
     "@architect/parser": "^1.1.7",
-    "@architect/sandbox": "^1.2.0",
-    "@architect/utils": "^1.0.12",
+    "@architect/sandbox": "^1.2.1",
+    "@architect/utils": "^1.0.15",
     "@smallwins/validate": "^4.3.0",
-    "aws-sdk": "^2.477.0",
+    "aws-sdk": "^2.488.0",
     "body-parser": "^1.19.0",
     "chalk": "^2.4.2",
     "clear": "^0.1.0",
@@ -114,7 +114,7 @@
     "sinon": "^7.3.2",
     "tap-nyc": "^1.0.3",
     "tap-spec": "^5.0.0",
-    "tape": "^4.10.2",
+    "tape": "^4.11.0",
     "tiny-json-http": "^7.1.2"
   }
 }

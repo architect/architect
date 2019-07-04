@@ -127,7 +127,7 @@ module.exports = function planner(arc) {
   //
   if (arc.hasOwnProperty('ws')) {
     // these are the three default routes that AWS requires
-    let defaultRoutes = ['$connect', '$disconnect', '$default']
+    let defaultRoutes = ['connect', 'disconnect', 'default']
     Array.prototype.unshift.apply(arc.ws, defaultRoutes)
     arc.ws.forEach(route=> {
       plans.push({action:'create-ws-lambda-code', app, arc, name:`ws-${route}`})

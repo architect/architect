@@ -151,7 +151,7 @@ module.exports = function inventory(arc, raw, callback) {
 
   if (arc.ws) {
     // these are the three default routes that AWS requires
-    let defaultRoutes = ['$connect', '$disconnect', '$default']
+    let defaultRoutes = ['connect', 'disconnect', 'default']
     Array.prototype.unshift.apply(arc.ws, defaultRoutes)
     Array.prototype.push.apply(report.lambdas, arc.ws.map(getWsRouteName).reduce((a,b)=>a.concat(b)))
     report.types.ws = arc.ws.map(x=>`ws-${x}`)
