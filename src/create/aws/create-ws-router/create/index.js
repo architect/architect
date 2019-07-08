@@ -42,6 +42,8 @@ module.exports = function create({name, env, routes}, callback) {
       // console.log('create-ws-router createRoutes got', {api, account})
       series(routes.slice(0).map(RouteKey=> {
         return function createRoute(callback) {
+          if (['connect', 'disconnect', 'default'].includes(RouteKey))
+            RouteKey = `$${RouteKey}`
           route({
             api,
             env,
