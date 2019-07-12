@@ -6,6 +6,45 @@ Also see:
 - [Architect Data changelog](https://github.com/architect/arc-data/blob/master/changelog.md)
 ---
 
+## [5.9.19] 2019-07-12
+
+### Added
+
+- Adds PYTHONPATH to `sandbox` Lambda invocation for `/vendor` modules
+
+### Fixed
+
+- Fixes `sandbox` crashing when `get /` and other functions aren't defined in `.arc` or present in the filesystem, but are requested by a client
+- Prevents startup of http server if `@http` isn't defined in `.arc`
+- Improves `sandbox` support in Windows
+
+---
+
+## [5.9.18] 2019-07-12
+
+### Fixed
+
+- Fixes WebSocket provisioning issue
+
+---
+
+## [5.9.17] 2019-07-12
+
+### Changed
+
+- Disables delta resource creation during deployments
+  - This functionality is better served by more reliable and deterministic resource creation via the forthcoming Architect 6 release
+
+---
+
+## [5.9.16] 2019-07-12
+
+### Changed
+
+- Reverts previous breaking change on WebSockets, default directories that get created are now once again `ws-connect`, `ws-default`, and `ws-disconnect`
+
+---
+
 ## [5.9.15] 2019-06-26
 
 ### Added
@@ -49,7 +88,7 @@ Also see:
 
 ### Changed
 
-- Projects that use the `@ws` directive in their `.arc` file will need to be cautious about upgrading
+- Projects that use WebSockets (`@ws`) in their `.arc` file will need to be cautious about upgrading
   - The default directories that get created are now `ws-$connect`, `ws-$default`, and `ws-$disconnect`; it is recommended that you run `npx create` and copy your code from `ws-connect` to `ws-$connect`, `ws-default` to `ws-$default`, and `ws-disconnect` to `ws-$disconnect` and then delete the old directories
 
 ### Fixes
