@@ -1,13 +1,11 @@
 let aws = require('aws-sdk')
 let chalk = require('chalk')
-let exec = require('child_process').exec
 let fs = require('fs')
+let fingerprinter = require('@architect/utils').fingerprint
 let glob = require('glob')
 let mime = require('mime-types')
 let path = require('path')
-let pathExists = require('path-exists').sync
 let series = require('run-series')
-let sha = require('sha')
 let sort = require('path-sort')
 let waterfall = require('run-waterfall')
 
@@ -30,7 +28,7 @@ module.exports = function factory(params, callback) {
   let publicDir = normalizePath(path.join(process.cwd(), 'public'))
   let staticAssets = path.join(publicDir, '/**/*')
   let files
-  let staticManifest = {}
+  let staticManifest
   waterfall([
     /**
      * Notices
@@ -74,54 +72,14 @@ module.exports = function factory(params, callback) {
      * Write (or remove) fingerprinted static asset manifest
      */
     function writeStaticManifest(callback) {
-      if (fingerprint) {
-        // Hash those files
-        let hashFiles = files.map(file => {
-          return (callback) => {
-            sha.get(file, function done(err, hash) {
-              if (err) callback(err)
-              else {
-                hash = hash.substr(0,10)
-                let filename = file.split('.')
-                // This will do weird stuff on multi-ext files (*.tar.gz) ¯\_(ツ)_/¯
-                filename[filename.length - 2] = `${filename[filename.length - 2]}-${hash}`
-                // Target shape: {'foo/bar.jpg': 'foo/bar-6bf1794b4c.jpg'}
-                staticManifest[file.replace(publicDir, '').substr(1)] = filename.join('.').replace(publicDir, '').substr(1)
-                callback()
-              }
-            })
-          }
-        })
-        series(hashFiles, function done(err) {
-          if (err) callback(err)
-          else {
-            // Write out public/static.json
-            // TODO / note: rn this file upload with every build. Perhaps compare data and only upload if changes are detected?
-            fs.writeFile(path.join(publicDir, 'static.json'), JSON.stringify(staticManifest, null, 2), callback)
-          }
-        })
-      }
-      else {
-        if (pathExists(path.join(publicDir, 'static.json'))) {
-          console.log(`${chalk.yellow('Warning')} ${chalk.white(`Found ${publicDir + path.sep}static.json file with fingerprinting disabled, deleting file`)}`)
-          let cmd = 'rm static.json'
-          exec(cmd, {cwd: publicDir}, (err, stdout, stderr) => {
-            if (err) callback(err)
-            else if (stderr) {
-              console.log(`${chalk.yellow('Warning')} ${chalk.gray(`Error removing static.json file, please remove it manually or static asset calls may be broken`)}`)
-              callback()
-            }
-            else callback()
-          })
-        }
-        else callback()
-      }
+      fingerprinter({fingerprint, ignore}, callback)
     },
 
     /**
      * Upload files to S3
      */
-    function uploadFiles(callback) {
+    function uploadFiles(manifest={}, callback) {
+      staticManifest = manifest
       if (fingerprint) {
         // Ensure static.json is uploaded
         files.unshift(path.join(publicDir, 'static.json'))

@@ -2,13 +2,15 @@ let aws = require('aws-sdk')
 let fs = require('fs')
 let path = require('path')
 let proxyquire = require('proxyquire')
-let sha = require('sha')
 let sinon = require('sinon')
 let test = require('tape')
 
+let utils = {
+  fingerprint: sinon.stub().callsFake((params, callback) => callback(null, {}))
+}
 let globStub = sinon.stub().callsFake((path, options, callback) => callback(null, []))
-let shaStub = sinon.stub(sha, 'get').callsFake((file, callback) => callback(null, 'df330f3f12')) // Fake hash
 let publish = proxyquire('../../../../src/deploy/public/_publish-to-s3', {
+  '@architect/utils': utils,
   'glob': globStub
 })
 
@@ -34,15 +36,20 @@ test('Deploy/public should exit if public dir has no files to upload', t=> {
     putObject: putStub,
   })
   publish(params, () => {
+    // Reset env for next test
+    aws.S3.restore()
+
     t.ok(headStub.notCalled, 's3.headObject not called')
     t.ok(putStub.notCalled, 's3.putObject not called')
-    aws.S3.restore()
-    t.end()
   })
 })
 
-test('Deploy/public uploads to S3, generates static.json manifest', t=> {
-  t.plan(7)
+test('Deploy/public uploads to S3, static.json manifest', t=> {
+  /**
+   * Note: prior to moving fingerprinting to @architect/utils, it was tested here
+   * While this test assumes fingerprinting is itself tested and working properly, it does test its effects (such as the presence of caching headers, etc.)
+   */
+  t.plan(4)
   // Globbing
   globStub.resetBehavior()
   globStub.callsFake((filepath, options, callback) => callback(null, [
@@ -50,12 +57,11 @@ test('Deploy/public uploads to S3, generates static.json manifest', t=> {
     path.join(process.cwd(), 'public', 'readme.md'),
     path.join(process.cwd(), 'public', 'styles.css'),
   ]))
-  // Static manifest
-  let manifest
-  let fsStub = sinon.stub(fs, 'writeFile').callsFake((dest, data, callback) => {
-    manifest = data
-    callback()
-  })
+  utils.fingerprint.resetBehavior()
+  utils.fingerprint.callsFake((params, callback) => callback(null, {
+    'index.html': 'index-df330f3f12.html',
+    'styles.css': 'styles-df330f3f12.css'
+  }))
   // S3 operations
   sinon.stub(fs, 'lstatSync').returns({
     mtime: 2
@@ -70,19 +76,15 @@ test('Deploy/public uploads to S3, generates static.json manifest', t=> {
     deleteObjects: sinon.stub().callsFake((params, callback) => callback(null, {Deleted:[]})),
   })
   publish(params, () => {
-    manifest = JSON.parse(manifest)
-    t.ok(shaStub.calledTwice, 'Correct number of files hashed')
-    t.equals(manifest['index.html'], 'index-df330f3f12.html', 'Manifest data parsed correctly')
-    t.ok(fsStub.called, 'static.json manifest written')
+    // Reset env for next test
+    fs.lstatSync.restore()
+    fs.readFileSync.restore()
+    aws.S3.restore()
+
     t.ok(headStub.calledThrice, 'Correct number of s3.headObject reqs made')
     t.ok(putStub.calledThrice, 'Correct number of s3.putObject reqs made')
     t.equals(putStub.args[0][0].CacheControl, 'no-cache, no-store, must-revalidate, max-age=0, s-maxage=0', 'static.json anti-caching headers set')
     t.equals(putStub.args[1][0].CacheControl, 'max-age=315360000', 'Fingerprinted cache-control headers set')
-    fs.writeFile.restore()
-    fs.lstatSync.restore()
-    fs.readFileSync.restore()
-    aws.S3.restore()
-    t.end()
   })
 })
 
@@ -115,23 +117,24 @@ test('Deploy/public should prune files present in the bucket but not in public/'
     deleteObjects: deleteStub,
   })
   publish(params, () => {
-    t.ok(listStub.called, 'S3.listStub called')
-    t.ok(deleteStub.called, 'S3.deleteObjects called')
-    let args = deleteStub.args[0][0]
-    t.equals(args.Delete.Objects[0].Key, 'test.file', 's3.deleteObjects called with proper key name using file name')
-    t.equals(args.Delete.Objects.length, 1, 's3.deleteObjects deleted correct number of files')
-    params.fingerprint = true
-    params.prune = false
+    // Reset env for next test
     fs.writeFile.restore()
     fs.lstatSync.restore()
     fs.readFileSync.restore()
     aws.S3.restore()
-    t.end()
+    params.fingerprint = true
+    params.prune = false
+
+    let args = deleteStub.args[0][0]
+    t.ok(listStub.called, 'S3.listStub called')
+    t.ok(deleteStub.called, 'S3.deleteObjects called')
+    t.equals(args.Delete.Objects[0].Key, 'test.file', 's3.deleteObjects called with proper key name using file name')
+    t.equals(args.Delete.Objects.length, 1, 's3.deleteObjects deleted correct number of files')
   })
 })
 
 test('Deploy/public should prune files present in the bucket but not in public/', t=> {
-  // t.plan(4)
+  t.plan(1)
   // Globbing
   globStub.resetBehavior()
   globStub.callsFake((filepath, options, callback) => callback(null, [
@@ -153,10 +156,11 @@ test('Deploy/public should prune files present in the bucket but not in public/'
     deleteObjects: sinon.stub().callsFake((params, callback) => callback(null, {Deleted:[]})),
   })
   publish(params, () => {
-    t.ok(!putStub.called, 's3.putObject not called')
+    // Reset env for next test
     fs.writeFile.restore()
     fs.lstatSync.restore()
     aws.S3.restore()
-    t.end()
+
+    t.ok(!putStub.called, 's3.putObject not called')
   })
 })
