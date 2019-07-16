@@ -3,7 +3,6 @@ let mkdir = require('mkdirp')
 let proxyquire = require('proxyquire')
 let sinon = require('sinon')
 let test = require('tape')
-let mkdirStub = sinon.stub(mkdir, 'sync')
 let publishStub = sinon.stub().callsFake(({Bucket, fingerprint, ignore, prune}, callback) => {callback()})
 
 let deployPublic = proxyquire('../../../../src/deploy/public', {'./_publish-to-s3': publishStub})
@@ -15,23 +14,6 @@ let arc = {
     ['production', 'prodbucket']
   ]
 }
-
-test('Deploy/public should bail if arc is missing @static pragma', t=> {
-  t.plan(1)
-  deployPublic({ arc: {appname: ['testapp']}, env: '' }, () => {
-    t.ok(!mkdirStub.called, 'mkdir not called')
-    t.end()
-  })
-})
-
-test('Deploy/public should make a public dir if arc specifies @static pragma', t=> {
-  t.plan(1)
-  deployPublic({ arc, env: '' }, () => {
-    t.ok(mkdirStub.called, 'mkdir called')
-    mkdirStub.resetHistory()
-    t.end()
-  })
-})
 
 test('Fingerprinting enabled and disabled', t=> {
   t.plan(3)
