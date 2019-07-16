@@ -6,6 +6,21 @@ Also see:
 - [Architect Data changelog](https://github.com/architect/arc-data/blob/master/changelog.md)
 ---
 
+## [5.9.20] 2019-07-15
+
+### Added
+
+- Expanded support for static asset fingerprinting! If you've enabled fingerprinting (`@static fingerprint true`):
+  - `sandbox` will regenerate your `public/static.json` file on startup
+  - And whenever making any changes to your `public/` dir, `sandbox` auto-refresh will automatically regenerate `public/static.json` and re-hydrate your shared files with the latest version
+
+
+### Fixed
+
+- `sandbox` auto-refresh now detects file deletions from `src/shared` and `src/views`
+
+---
+
 ## [5.9.19] 2019-07-12
 
 ### Added
