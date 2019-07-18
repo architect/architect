@@ -6,10 +6,16 @@ Also see:
 - [Architect Data changelog](https://github.com/architect/arc-data/blob/master/changelog.md)
 ---
 
-## [5.9.21] 2019-07-17
+## [5.9.21-22] 2019-07-17
+
+### Added
+
+- Adds auto-hydration to new functions without restarting `sandbox`
+
 
 ### Fixed
 
+- Fixes issue with auto-hydration on `sandbox` startup
 - Fixes potential issue in static asset deploys in Windows
 
 ---

@@ -73,7 +73,7 @@
   "dependencies": {
     "@architect/data": "^2.1.0",
     "@architect/parser": "^1.1.7",
-    "@architect/sandbox": "^1.2.4",
+    "@architect/sandbox": "^1.2.5",
     "@architect/utils": "^1.2.2",
     "@smallwins/validate": "^4.3.0",
     "aws-sdk": "^2.488.0",
