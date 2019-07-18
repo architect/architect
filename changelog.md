@@ -6,6 +6,14 @@ Also see:
 - [Architect Data changelog](https://github.com/architect/arc-data/blob/master/changelog.md)
 ---
 
+## [5.9.21] 2019-07-17
+
+### Fixed
+
+- Fixes potential issue in static asset deploys in Windows
+
+---
+
 ## [5.9.20] 2019-07-15
 
 ### Added

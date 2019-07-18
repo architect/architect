@@ -29,6 +29,7 @@ test('Deploy/public should exit if public dir has no files to upload', t=> {
   globStub.resetBehavior()
   globStub.callsFake((filepath, options, callback) => callback(null, [path.join(process.cwd(), 'public', 'readme.md')]))
   // S3 operations
+  // eslint-disable-next-line
   let headStub = sinon.stub().callsFake(({Bucket, Key}, callback) => callback(null, params))
   let putStub = sinon.stub().callsFake((params, callback) => callback())
   sinon.stub(aws, 'S3').returns({
@@ -66,6 +67,7 @@ test('Deploy/public uploads to S3, static.json manifest', t=> {
   sinon.stub(fs, 'lstatSync').returns({
     mtime: 2
   })
+  // eslint-disable-next-line
   let headStub = sinon.stub().callsFake(({Bucket, Key}, callback) => callback(null, params))
   let putStub = sinon.stub().callsFake((params, callback) => callback())
   sinon.stub(fs, 'readFileSync')
@@ -100,6 +102,7 @@ test('Deploy/public should prune files present in the bucket but not in public/'
     path.join(process.cwd(), 'public', 'readme.md'),
   ]))
   // Static manifest
+  // eslint-disable-next-line
   let fsStub = sinon.stub(fs, 'writeFile').callsFake((dest, data, callback) => {callback()})
   // S3 operations
   sinon.stub(fs, 'lstatSync').returns({
@@ -141,6 +144,7 @@ test('Deploy/public should prune files present in the bucket but not in public/'
     path.join(process.cwd(), 'public', 'index.html'),
   ]))
   // Static manifest
+  // eslint-disable-next-line
   let fsStub = sinon.stub(fs, 'writeFile').callsFake((dest, data, callback) => {callback()})
   // S3 operations
   sinon.stub(fs, 'lstatSync').returns({

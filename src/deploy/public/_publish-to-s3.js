@@ -25,7 +25,7 @@ function normalizePath(path) {
 module.exports = function factory(params, callback) {
   let {Bucket, fingerprint, ignore, prune} = params
   let s3 = new aws.S3({region: process.env.AWS_REGION})
-  let publicDir = normalizePath(path.join(process.cwd(), 'public'))
+  let publicDir = path.join(process.cwd(), 'public')
   let staticAssets = path.join(publicDir, '/**/*')
   let files
   let staticManifest
@@ -43,7 +43,7 @@ module.exports = function factory(params, callback) {
      * Scan for files in the public directory
      */
     function globFiles(callback) {
-      glob(staticAssets, {dot:true, nodir:true, follow:true}, callback)
+      glob(normalizePath(staticAssets), {dot:true, nodir:true, follow:true}, callback)
     },
 
     /**
@@ -89,7 +89,8 @@ module.exports = function factory(params, callback) {
         return function _maybeUploadFileToS3(callback) {
           // First, let's check to ensure we even need to upload the file
           let stats = fs.lstatSync(file)
-          let Key = file.replace(publicDir, '').substr(1)
+          let Key = file.replace(publicDir, '')
+          if (Key.startsWith(path.sep)) Key = Key.substr(1)
           let big = stats.size >= 5750000
           if (fingerprint && Key !== 'static.json') {
             Key = staticManifest[file.replace(publicDir, '').substr(1)]
