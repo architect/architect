@@ -40,6 +40,7 @@ module.exports = function copyCommon(params, callback) {
       let hasShared = exists(src) || false
       parallel(pathToCode.map(path => {
         return function _copy(callback) {
+          if (path.substr(-1) === sep) path = path.substr(0,path.length-1)
 
           let enableShared = true
           let arcConfig = join(process.cwd(), path, '.arc-config')
@@ -110,6 +111,7 @@ module.exports = function copyCommon(params, callback) {
       else {
         parallel(pathToCode.map(path => {
           return function _copy(callback) {
+            if (path.substr(-1) === sep) path = path.substr(0,path.length-1)
 
             let enableShared = true
             if (sharingDisabledPaths.includes(path)) {

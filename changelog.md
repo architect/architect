@@ -6,6 +6,14 @@ Also see:
 - [Architect Data changelog](https://github.com/architect/arc-data/blob/master/changelog.md)
 ---
 
+## [On master]
+
+### Fixed
+
+- Fixes super obscure bug where certain shared files may not be included in a single function deploy
+
+---
+
 ## [5.9.21-22] 2019-07-17
 
 ### Added
