@@ -6,11 +6,19 @@ Also see:
 - [Architect Data changelog](https://github.com/architect/arc-data/blob/master/changelog.md)
 ---
 
-## [On master]
+## [5.9.23] 2019-07-23
 
 ### Fixed
 
+- Fixed issue preventing Ruby functions from properly executing in `sandbox`
+- Fixed issue prevent Python functions from properly executing in Windows `sandbox`
+- Fix broken characters in Windows `sandbox` console
 - Fixes super obscure bug where certain shared files may not be included in a single function deploy
+
+### Changed
+
+- `sandbox` context now passes an empty object (to be mocked soon!) to all runtimes
+  - This deprecates the legacy AWS implementation of `context` (since retired in production) passed to `sandbox` Node functions
 
 ---
 
