@@ -6,6 +6,14 @@ Also see:
 - [Architect Data changelog](https://github.com/architect/arc-data/blob/master/changelog.md)
 ---
 
+## [5.9.24] 2019-08-05
+
+### Fixed
+
+- Resolves issue where static assets aren't loading from `_static/` in `sandbox`, fixes #416
+
+---
+
 ## [5.9.23] 2019-07-23
 
 ### Fixed
