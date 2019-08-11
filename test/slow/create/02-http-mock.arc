@@ -1,5 +1,0 @@
-@app
-testapp
-
-@http
-get /

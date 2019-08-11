@@ -1,12 +1,22 @@
-Thank you for helping out! ✨
+## Thank you for helping out! ✨
 
-Before submitting a pull request, please make sure the you checked the following:
+### We really appreciate your commitment to improving Architect
 
-- [ ] Forked the repository and created your branch from master
-- [ ] Make sure the tests pass! `npm it` in the repository root
-- [ ] If you've fixed a bug or added code **more** tests are appreciated
-- [ ] If you're adding a new command, removing an old command, or changing how a command works, please update the relevant documentation for the command (under the `doc/` folder)
-- [ ] Summarize your changes in the [changelog](https://github.com/architect/architect/blob/master/changelog.md)
-- [ ] If you haven't already please complete the CLA
+To maintain a high standard of quality in our releases, before merging every pull request we ask that you've completed the following:
 
-Learn more about contributing: https://arc.codes/intro/community
+- [ ] Forked the repo and created your branch from `master`
+- [ ] Made sure tests pass (run `npm it` from the repo root)
+- [ ] Expanded test coverage related to your changes:
+  - [ ] Added and/or updated unit tests (if appropriate)
+  - [ ] Added and/or updated integration tests (if appropriate)
+- [ ] Updated relevant documentation:
+  - [ ] Internal to this repo (e.g. `readme.md`, help docs, inline docs & comments, etc.)
+  - [ ] [Architect docs (arc.codes)](https://github.com/architect/arc.codes)
+- [ ] Summarized your changes in the `changelog.md`
+- [ ] Linked to any related issues, PRs, etc. below that may relate to, consume, or necessitate these changes
+
+Please also be sure to completed the CLA (if you haven't already).
+
+Learn more about [contributing to Architect here](https://arc.codes/intro/community).
+
+Thanks again!
