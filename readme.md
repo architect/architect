@@ -7,6 +7,11 @@
 [![Travis Build Status](https://travis-ci.com/architect/architect.svg?branch=master)](https://travis-ci.com/architect/architect) [![Appveyor Build Status](https://ci.appveyor.com/api/projects/status/400qk0t4p9ptt8tm/branch/master?svg=true)](https://ci.appveyor.com/project/ArchitectCI/architect/branch/master) [![codecov](https://codecov.io/gh/architect/architect/branch/master/graph/badge.svg)](https://codecov.io/gh/architect/architect)
 
 
+## Docs
+
+Full documentation found at: https://arc.codes
+
+
 ## Installation
 
 ### `npm`
@@ -36,13 +41,6 @@ Package and deploy your app (via AWS CloudFormation):
 ```
 arc deploy
 ```
-
-
-### Learn more
-
-Full docs found at https://arc.codes
-
-[Architect changelog here](./changelog.md)
 
 
 ### Founding team
