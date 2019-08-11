@@ -2,8 +2,13 @@
 
 ---
 Also see:
-- [Architect Functions changelog](https://github.com/architect/arc-functions/blob/master/changelog.md)
-- [Architect Data changelog](https://github.com/architect/arc-data/blob/master/changelog.md)
+- [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
+---
+
+## [6.0.0 RC.1]
+
+WIP
+
 ---
 
 ## [5.9.24] 2019-08-05

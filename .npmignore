@@ -4,8 +4,12 @@
 .git
 .gitattributes
 .github
+.nyc_output
 .travis.yml
+appveyor.yml
 changelog.md
+codecov.yaml
 contributing.md
 coverage/
+dist
 test/

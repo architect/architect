@@ -4,52 +4,37 @@
 
 > Create, deploy, and maintain next-generation AWS cloud function-based serverless infrastructure with full local, offline workflows, and more.
 
-[![Build Status](https://travis-ci.com/architect/architect.svg?branch=master)](https://travis-ci.com/architect/architect)
+[![Travis Build Status](https://travis-ci.com/architect/architect.svg?branch=master)](https://travis-ci.com/architect/architect) [![Appveyor Build Status](https://ci.appveyor.com/api/projects/status/xeq752lrapo7g93e/branch/master?svg=true)](https://ci.appveyor.com/project/ArchitectCI/architect/branch/master) [![codecov](https://codecov.io/gh/architect/architect/branch/master/graph/badge.svg)](https://codecov.io/gh/architect/architect)
 
 
-## Quickstart
-No AWS account required!
+## Installation
 
-1. Create a Node project:
+### `npm`
+```
+npm i -g @architect/architect
+```
 
-```bash
+
+### Binary Distributions
+
+Coming soon! If you are interested in helping please let us know! Currently you can generate experimental binaries by cloning this repo and running `npm run build`.
+
+
+## Usage
+
+Run `arc` with no arguments to get help. To create a new app and kick up the local dev server:
+
+```
 mkdir testapp
 cd testapp
-npm init --yes
+arc init
+arc sandbox
 ```
 
-2. Install Architect
+Package and deploy your app (via AWS CloudFormation):
 
-```bash
-npm i @architect/architect
 ```
-
-3. Add an `.arc` file:
-
-```arc
-@app
-testapp
-
-@http
-get /
-```
-
-4. Generate your project code locally:
-
-```bash
-npx create local
-```
-
-5. Fire up the Architect sandbox to preview your work:
-
-```bash
-npx sandbox
-```
-
-To see all commands run:
-
-```bash
-npx help
+arc deploy
 ```
 
 

@@ -1,4 +1,2 @@
-/test/_mock/**
-/src/package*
-/**/test/*
-/coverage/**
+coverage/
+node_modules/

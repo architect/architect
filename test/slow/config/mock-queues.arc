@@ -1,2 +1,0 @@
-@aws
-visability 30
