@@ -2,7 +2,8 @@ let test = require('tape')
 let sinon = require('sinon')
 let deploy = require('@architect/deploy')
 let utils = require('@architect/utils')
-let deployCmd = require('../../src/commands/deploy')
+// FIXME these should move to the architect/deploy repo
+let deployCmd = require('@architect/deploy/cli')
 
 test('deploy command invokes deploy.dirty if specified via options', async t => {
   let opts = ['dirty', '--dirty', '-d']

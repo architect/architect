@@ -1,16 +1,17 @@
 #!/usr/bin/env node
-let env = require('@architect/env')
 let chalk = require('chalk')
-let before = require('./src/before')
-let deploy = require('./src/commands/deploy')
-let help = require('./src/commands/help')
-let hydrate = require('./src/commands/hydrate')
-let init = require('./src/commands/init')
-let logs = require('./src/commands/logs')
-let package = require('./src/commands/package')
+let deploy = require('@architect/deploy/cli')
+let env = require('@architect/env')
+let hydrate = require('@architect/hydrate/cli')
+let init = require('@architect/utils/init')
+let logs = require('@architect/logs/cli')
+let pkg = require('@architect/package/cli')
 let repl = require('@architect/repl')
-let sandbox = require('./src/commands/sandbox')
-let version = require('./src/commands/version')
+let sandbox = require('@architect/sandbox/src/cli/old')
+
+let before = require('./before')
+let help = require('./help')
+let version = require('./version')
 
 let cmds = {
   deploy,
@@ -19,7 +20,7 @@ let cmds = {
   hydrate,
   init,
   logs,
-  package,
+  package: pkg,
   repl,
   sandbox,
   version
