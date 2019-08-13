@@ -29,6 +29,7 @@ environment:
   PYTHON: "C:\\Python36-x64"
   PYTHON_VERSION: "3.6.4"
   PYTHON_ARCH: "64"
+  AWS_REGION: "us-west-1"
 
 # scripts that are called at very beginning, before repo cloning
 init:
