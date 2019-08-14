@@ -7,7 +7,7 @@ let init = require('@architect/utils/init')
 let logs = require('@architect/logs/cli')
 let pkg = require('@architect/package/cli')
 let repl = require('@architect/repl')
-let sandbox = require('@architect/sandbox/src/cli/old')
+let sandbox = require('@architect/sandbox/src/cli/arc')
 
 let before = require('./before')
 let help = require('./help')
