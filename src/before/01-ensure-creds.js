@@ -1,6 +1,5 @@
 let chalk = require('chalk')
-let aws = require('aws-sdk')
-let readArcFile = require('@architect/utils/read-arc')
+let {readArc, initAWS} = require('@architect/utils')
 
 /**
  * ensures the following env vars are present:
@@ -10,10 +9,8 @@ let readArcFile = require('@architect/utils/read-arc')
  */
 module.exports = function ensureCreds() {
 
-  let arc
   try {
-    let parsed = readArcFile()
-    arc = parsed.arc
+    readArc()
   }
   catch(e) {
     if (e.message === 'not_found') {
@@ -32,21 +29,5 @@ module.exports = function ensureCreds() {
   if (!process.env.AWS_REGION)
     process.env.AWS_REGION = 'us-west-2'
 
-  if (arc && arc.aws) {
-    let region = arc.aws.find(e=> e[0] === 'region')
-    let profile = arc.aws.find(e=> e[0] === 'profile')
-
-    if (region)
-      process.env.AWS_REGION = region[1]
-
-    if (profile)
-      process.env.AWS_PROFILE = profile[1]
-
-    // FORCE use AWS_REGION and AWS_PROFILE
-    if (process.env.AWS_PROFILE) {
-      aws.config.credentials = new aws.SharedIniFileCredentials({
-        profile: process.env.AWS_PROFILE
-      })
-    }
-  }
+  initAWS() // Load AWS creds
 }
