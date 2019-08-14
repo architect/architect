@@ -41,7 +41,6 @@
   "author": "Brian LeRoux <b@brian.io>",
   "license": "Apache-2.0",
   "dependencies": {
-    "@architect/data": "^2.1.0",
     "@architect/deploy": "^1.0.20",
     "@architect/env": "^1.0.0",
     "@architect/hydrate": "^1.2.6",
