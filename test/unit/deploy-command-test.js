@@ -1,8 +1,16 @@
 let test = require('tape')
+let deploy = require('@architect/deploy')
+
+test('deploy exists', t => {
+  t.plan(1)
+  t.ok(deploy, 'deploy')
+})
+/**
+ * FIXME these should move to the architect/deploy repo
+ *
 let sinon = require('sinon')
 let deploy = require('@architect/deploy')
 let utils = require('@architect/utils')
-// FIXME these should move to the architect/deploy repo
 let deployCmd = require('@architect/deploy/cli')
 
 test('deploy command invokes deploy.dirty if specified via options', async t => {
@@ -70,4 +78,4 @@ test('deploy command invokes deploy.sam by default', async t => {
     t.fail(e)
   }
   sinon.restore()
-})
+})*/
