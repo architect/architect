@@ -5,9 +5,11 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
-## [6.0.0 RC.1]
+## [6.0.0] 2019-08-20
 
-WIP
+### Changed
+
+- Many things! Updates to this changelog forthcoming shortly. Arc 6.0 is a breaking change, please refer to https://arc.codes and upgrade mindfully!
 
 ---
 
