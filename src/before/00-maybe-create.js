@@ -28,7 +28,7 @@ module.exports = function maybeCreate() {
 ${name}
 
 @aws
-# bucket your-deploy-s3-bucket-name
+bucket your-private-deploy-bucket
 
 @http
 get /
