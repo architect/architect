@@ -26,6 +26,10 @@ let cmds = {
   version
 }
 
+let args = process.argv.slice(2)
+let cmd
+let opts
+
 let red = chalk.bgRed.bold.white
 let yel = chalk.yellow
 let dim = chalk.grey
@@ -39,29 +43,26 @@ let pretty = {
   }
 }
 
-let args = process.argv.slice(2)
-
-before()
-
-;(async function main() {
-  if (args.length === 0) {
-    help(args)
-  }
-  else {
-    let cmd = args.shift()
-    let opts = args.slice(0)
-    if (cmds[cmd]) {
-      try {
+try {
+  before()
+  ;(async function main() {
+    if (args.length === 0) {
+      help(args)
+    }
+    else {
+      cmd = args.shift()
+      opts = args.slice(0)
+      if (cmds[cmd]) {
         await cmds[cmd](opts)
       }
-      catch(e) {
-        pretty.fail(cmd, e)
+      else {
+        pretty.notFound(cmd)
         process.exit(1)
       }
     }
-    else {
-      pretty.notFound(cmd)
-      process.exit(1)
-    }
-  }
-})()
+  })()
+}
+catch(err) {
+  pretty.fail(cmd, err)
+  process.exit(1)
+}
