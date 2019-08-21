@@ -12,7 +12,7 @@ To maintain a high standard of quality in our releases, before merging every pul
 - [ ] Updated relevant documentation:
   - [ ] Internal to this repo (e.g. `readme.md`, help docs, inline docs & comments, etc.)
   - [ ] [Architect docs (arc.codes)](https://github.com/architect/arc.codes)
-- [ ] Summarized your changes in the `changelog.md`
+- [ ] Summarized your changes in `changelog.md`
 - [ ] Linked to any related issues, PRs, etc. below that may relate to, consume, or necessitate these changes
 
 Please also be sure to completed the CLA (if you haven't already).
