@@ -43,11 +43,11 @@
   "dependencies": {
     "@architect/deploy": "^1.1.1",
     "@architect/env": "^1.0.0",
-    "@architect/hydrate": "^1.3.1",
+    "@architect/hydrate": "^1.3.2",
     "@architect/logs": "^1.0.1",
     "@architect/package": "^1.0.37",
     "@architect/repl": "^1.0.1",
-    "@architect/sandbox": "^1.3.6",
+    "@architect/sandbox": "^1.3.7",
     "@architect/utils": "^1.3.2",
     "aws-sdk": "^2.513.0",
     "chalk": "^2.4.2"
