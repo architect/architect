@@ -5,6 +5,15 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
+## [6.0.1] 2019-08-22
+
+### Fixed
+
+- Fixes issue with `arc deploy --static` throwing an unnecessary error after uploading files, fixes #427
+- Fixes minor copy issue in `arc deploy` reporting the incorrect static asset folder when there are no files to deploy
+
+---
+
 ## [6.0.0] 2019-08-20
 
 ### Changed
