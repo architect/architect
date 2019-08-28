@@ -27,11 +27,14 @@ module.exports = function maybeCreate() {
     let arcFile = `@app
 ${name}
 
-@aws
-bucket your-private-deploy-bucket
-
 @http
 get /
+
+# Uncomment the following lines to deploy to AWS!
+# @aws
+# profile default
+# region us-west-1
+# bucket your-private-deploy-bucket
 `
 
     let pathToArc = path.join(process.cwd(), '.arc')
