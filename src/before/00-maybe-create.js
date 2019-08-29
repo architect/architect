@@ -46,7 +46,10 @@ get /
                  fs.existsSync(pathToJSON) ||
                  fs.existsSync(pathToYAML) ||
                  fs.existsSync(pathToApp)
-    if (!exists)
+    if (!exists) {
+      // TODO pass params between 'before' fns so we don't have to set an env var
+      process.env.INITIALIZED = true
       fs.writeFileSync(pathToArc, arcFile)
+    }
   }
 }
