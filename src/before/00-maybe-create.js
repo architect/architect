@@ -30,7 +30,7 @@ ${name}
 @http
 get /
 
-# Uncomment the following lines to deploy to AWS!
+## Uncomment the following lines to deploy to AWS!
 # @aws
 # profile default
 # region us-west-1

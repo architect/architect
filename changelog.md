@@ -5,6 +5,43 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
+## [6.0.5] 2019-08-28
+
+### Added
+
+- Added initialization confirmation messages
+
+
+### Changed
+
+- Improved boilerplate project files written during initialization
+- Updated boilerplate .arc file initialized
+- Patched vendored proxy bundle to 3.3.7
+- Updated deps
+
+---
+
+## [6.0.4] 2019-08-27
+
+### Changed
+
+- Updated deps
+
+---
+
+## [6.0.3] 2019-08-24
+
+### Fixed
+
+- Internal error handling change
+
+
+### Changed
+
+- Updated deps
+
+---
+
 ## [6.0.1 - 6.0.2] 2019-08-22
 
 ### Fixed
