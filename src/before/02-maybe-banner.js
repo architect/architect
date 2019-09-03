@@ -12,6 +12,6 @@ module.exports = function maybeBanner() {
     }
   }
   catch(e) {
-    null
+    console.log(e)
   }
 }

@@ -30,11 +30,10 @@ ${name}
 @http
 get /
 
-## Uncomment the following lines to deploy to AWS!
+# Uncomment the following lines to deploy
 # @aws
-# profile default
 # region us-west-1
-# bucket your-private-deploy-bucket
+# bucket deploy-bucket-name-in-us-west-1
 `
 
     let pathToArc = path.join(process.cwd(), '.arc')

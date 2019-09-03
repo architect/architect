@@ -29,10 +29,12 @@ let cmds = {
 let red = chalk.bgRed.bold.white
 let yel = chalk.yellow
 let dim = chalk.grey
+
 let pretty = {
   fail(cmd, err) {
-    console.log(red(`${cmd} failed!`), yel(err.message))
-    console.log(dim(err.stack))
+    console.log(red(`${cmd} failed!`), err && err.message? yel(err.message) : '')
+    if (err && err.message)
+      console.log(dim(err.stack))
   },
   notFound(cmd) {
     console.log(dim(`Sorry, ${chalk.green.bold('arc ' +cmd)} command not found!`))
