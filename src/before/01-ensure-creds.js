@@ -22,7 +22,7 @@ module.exports = function ensureCreds() {
   }
 
   // always ensure NODE_ENV
-  if (!process.env.hasOwnProperty('NODE_ENV'))
+  if (!process.env.NODE_ENV)
     process.env.NODE_ENV = 'testing'
 
   // always ensure AWS_REGION

@@ -5,6 +5,63 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
+## [6.0.10] 2019-09-11
+
+### Changed
+
+- Running `hydrate` now properly inventories its update operations, avoiding superfluous work there as well
+- Results returned by `hydrate` are now symmetrical with what's printed
+- `@http` functions are now provisioned with the `ARC_HTTP` env var, which is set to `aws_proxy`
+
+
+### Fixed
+
+- Fixed `env` to ensure env vars were populated out of the correct region
+- `sandbox.close` will no longer throw an error if project doesn't use `@http` or `@ws`
+- Fixed reliability of `hydrate` and other Architect operations printing in CI containers and other non-TTY environments
+
+---
+
+## [6.0.9] 2019-09-09
+
+### Changed
+
+- Running `hydrate` now properly inventories its install operations, avoiding superfluous work
+
+
+### Fixed
+
+- Fixed issue where `sandbox` would hang if POST requests were sent without a body
+- Fixed `logs` to ensure log data is read out of the correct region
+- Fixed S3 permissions to enable direct asset uploading
+
+---
+
+## [6.0.8] 2019-09-06
+
+### Fixed
+
+- Fixes case where user-defined region may not be respected
+- Fixes provisioning `@scheduled` functions
+
+---
+
+## [6.0.7] 2019-09-05
+
+### Changed
+
+- Add clearer bucket region instructions during init
+
+---
+
+## [6.0.6] 2019-08-30
+
+### Changed
+
+- Internal change; improve error handling states
+
+---
+
 ## [6.0.5] 2019-08-28
 
 ### Added
