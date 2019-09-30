@@ -5,7 +5,7 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
-## [6.0.11] 2019-09-29
+## [6.0.11 - 6.0.12] 2019-09-29
 
 ### Added
 
@@ -42,7 +42,6 @@ Also see:
 
 - Fixes correct inventory paths for `src/ws/*`, which should in turn fix WebSocket function hydration, thanks @mikemaccana!
 - When auto-hydrating functions upon startup, `sandbox` no longer hydrates `src/views` and `src/shared` with each function
-- Fixed WebSocket function hydration
 - Fixed issue where `hydrate`'s shared file copying may have leaked across Lambda executions in rare circumstances
 - Fixed undefined message in `hydrate` init
 - Improved `hydrate` error bubbling
