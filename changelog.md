@@ -5,6 +5,56 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
+## [6.0.11] 2019-09-29
+
+### Added
+
+- `sandbox` Auto-hydration received a bunch of nice upgrades:
+  - Auto-hydration now detects changes to the state of your installed Node dependencies, and rehydrates if necessary; for example:
+    - You're working on a project, and a teammate updates a dependency in `get /foo` from version `1.0.0` to `1.1.0`
+    - Upon your next git pull, `sandbox` will detect the dependency update in `get /foo` and automatically install version `1.1.0` for you
+  - Auto-hydration now has a rate limit of one change every 500ms to prevent recursive or aggressive file updates
+  - Auto-hydration now has `@static folder` support
+  - Auto-hydration now only hydrates the shared files necessary
+    - For example: if you change a file in `src/views`, it will only update your `@views` functions, and not attempt to rehydrate all your project's functions with `src/shared`
+  - Events now have a timestamp and improved formatting
+- Beta: `sandbox` init script support!
+  - `sandbox` will now run the init script of your choosing upon startup after all subsystems have started up:
+    - `scripts/sandbox-startup.js` - a CommonJS module, receives your parsed Arc project as a parameter, supports async/await
+    - `scripts/sandbox-startup.py` - a Python script
+    - `scripts/sandbox-startup.rb` - a Ruby script
+- Startup auto-hydration now hydrates `src/views` and `src/shared`
+- Added support for `@static folder` to static asset `fingerprint`ing
+
+
+### Changed
+
+- Improvements to the conditions under which the HTTP server starts, shuts down, and restarts; fixes `sandbox` #65
+- Improved `sandbox` async error copy (displayed when execution does not complete)
+- Proxied requests in `sandbox` now sends a proper `req.resource`, which can resolve some SPA bugs, esp when used with newer Arc Functions
+- `sandbox` now respects and errors on invalid response params for proper Architect 6 compatibility; fixes `sandbox` #49
+- Updates `sandbox` to Dynalite to `3.0.0`, thanks @mhart!
+- Better 404 / file missing handling in `sandbox` when using `http.proxy` (or loading assets without `@http get /` specified)
+- `hydrate --update` now properly inventories its update operations, avoiding superfluous work
+
+
+### Fixed
+
+- Fixes correct inventory paths for `src/ws/*`, which should in turn fix WebSocket function hydration, thanks @mikemaccana!
+- When auto-hydrating functions upon startup, `sandbox` no longer hydrates `src/views` and `src/shared` with each function
+- Fixed WebSocket function hydration
+- Fixed issue where `hydrate`'s shared file copying may have leaked across Lambda executions in rare circumstances
+- Fixed undefined message in `hydrate` init
+- Improved `hydrate` error bubbling
+- Formatting and line breaks in `hydrate` printer return should now more closely (or exactly) match console output
+- Fixed issue where in certain circumstances `get /` wouldn't reload `sandbox` after a change to the project manifest
+- Minor fix where if you specified a `SESSION_TABLE_NAME` env var outside of `.arc-env`, `sandbox` won't clobber it
+- Fixed caching headers for various `sandbox` error states (async, timeout, etc.) to ensure your browser won't accidentally cache an error response
+- Fixes issue where binary assets delivered via `sandbox` / root may not be properly encoded
+- Fixes empty mock `context` object encoding
+
+---
+
 ## [6.0.10] 2019-09-11
 
 ### Changed
