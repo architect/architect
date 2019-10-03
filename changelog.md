@@ -5,6 +5,20 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
+## [6.0.13] 2019-10-02
+
+### Fixed
+
+- Fixed issue where with `@static fingerprint true` enabled, the `static.json` file would not be copied into deployed functions' shared dirs; thanks @dawnerd + @jgallen23!
+- Removed unnecessary second-order dependency, which should lighten up the Architect install size a bit
+
+
+### Changed
+
+- Updated dependencies
+
+---
+
 ## [6.0.11 - 6.0.12] 2019-09-29
 
 ### Added
