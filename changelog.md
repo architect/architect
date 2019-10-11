@@ -5,6 +5,33 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
+## [On branch]
+
+### Added
+
+- Added support for `@static fingerprint true` in root spa / proxy requests
+  - This enables Architect projects to deliver fully fingerprinted static assets while also ensuring that each file is appropriately cached by clients and network infra
+  - Also includes support for build-free calls between your fingerprinted static assets
+    - Example: in `public/index.html`, use the following syntax to automatically replace the local / human-friendly filename reference to the deployed fingerprinted filename:
+    - `${arc.static('image.png')}` will be automatically replaced by `image-a1c3e5.png`
+    - Or `${STATIC('image.png')}` (which is the same thing, but shoutier)
+    - Note: although those look like JS template literal placeholders, they're intended to live inside non-executed, static files within `public/` (or `@static folder foo`)
+
+
+### Changed
+
+- Updated dependencies
+- Ensures html / json are published to S3 with anti-cache headers
+
+
+### Fixed
+
+- Restores static asset pruning (`arc deploy --prune` or `arc deploy --static --prune`)
+- Fixed issue that may prevent `repl` from working in more recent versions
+- Add anti-caching headers to `sandbox` 404 response
+
+---
+
 ## [6.0.13] 2019-10-02
 
 ### Fixed
