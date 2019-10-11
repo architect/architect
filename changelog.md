@@ -5,7 +5,7 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
-## [On branch]
+## [6.0.14] 2019-10-11
 
 ### Added
 
@@ -27,8 +27,10 @@ Also see:
 ### Fixed
 
 - Restores static asset pruning (`arc deploy --prune` or `arc deploy --static --prune`)
+- Fixes issues with parsing certain properties in `arc.json`, thanks @mikemaccana!
 - Fixed issue that may prevent `repl` from working in more recent versions
 - Add anti-caching headers to `sandbox` 404 response
+- Fixes root spa / proxy requests when Architect and/or Sandbox are globally installed; resolves #92 /ht @grahamb
 
 ---
 
