@@ -43,7 +43,7 @@
   "dependencies": {
     "@architect/deploy": "1.2.4",
     "@architect/env": "1.0.2",
-    "@architect/hydrate": "1.4.8",
+    "@architect/hydrate": "1.4.9",
     "@architect/logs": "1.0.4",
     "@architect/package": "1.0.47",
     "@architect/repl": "1.0.3",
