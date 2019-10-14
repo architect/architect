@@ -5,6 +5,25 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
+## [6.0.15] 2019-10-14
+
+### Changed
+
+- Legacy WebSockets paths on the filesystem are now formally deprecated
+  - Your default three WebSockets paths should be: `src/ws/default`, `src/ws/connect`, `src/ws/disconnect`
+  - If you're using legacy WebSockets paths (either `src/ws/ws-default` or `src/ws/ws-$default`), simply remove `ws-[$]` and you should be all set!
+
+
+### Fixed
+
+- Fixed issue when emitting to WebSockets with Arc Functions (`arc.ws.send`); resolves #48, thanks @andybee + @bvkimball!
+- Fixed issue where `sandbox` may not have correctly resolved some custom WebSocket actions
+- Fixed HTTP request with `body` and no `Content-Type` header; resolves #102, thanks @andybee!
+- Fixed issue where killed subprocesses would not trigger timeouts; resolves #30, /ht @mikemaccana
+- Fixed issue where functions with legacy runtimes may not have been fully hydrated
+
+---
+
 ## [6.0.14] 2019-10-11
 
 ### Added
