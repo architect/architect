@@ -5,7 +5,7 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
-## [6.0.15] 2019-10-15
+## [6.0.15 - 6.0.16] 2019-10-15
 
 ### Changed
 
