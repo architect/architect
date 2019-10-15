@@ -5,6 +5,24 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
+## [6.0.15] 2019-10-15
+
+### Changed
+
+- Updated dependencies
+
+
+### Fixed
+
+- Fixes deployment issue if `get /` is not specified in `@http`; resolves @package#27, /ht @grahamb and @jeffreyfate!
+
+
+### Changed
+
+- Improves error states for missing static configs, 404s, etc. when using `@http` and/or `@static` with `arc.http.proxy` or without defining `get /`
+
+---
+
 ## [6.0.15] 2019-10-14
 
 ### Changed
