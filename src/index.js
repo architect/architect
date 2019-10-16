@@ -13,6 +13,9 @@ let before = require('./before')
 let help = require('./help')
 let version = require('./version')
 
+let update = require('update-notifier')
+let _pkg = require('../package.json')
+
 let cmds = {
   deploy,
   env,
@@ -46,6 +49,10 @@ let args = process.argv.slice(2)
 before()
 
 ;(async function main() {
+  // Run update check first
+  let boxenOpts = {padding: 1, margin: 1, align: 'center', borderColor: 'green', borderStyle: 'round', dimBorder: true}
+  update({pkg: _pkg, shouldNotifyInNpmScript: true}).notify({boxenOpts})
+
   if (args.length === 0) {
     help(args)
   }
