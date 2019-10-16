@@ -51,7 +51,7 @@ before()
 ;(async function main() {
   // Run update check first
   let boxenOpts = {padding: 1, margin: 1, align: 'center', borderColor: 'green', borderStyle: 'round', dimBorder: true}
-  update({pkg: _pkg}).notify({boxenOpts})
+  update({pkg: _pkg, shouldNotifyInNpmScript: true}).notify({boxenOpts})
 
   if (args.length === 0) {
     help(args)
