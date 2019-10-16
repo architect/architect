@@ -5,7 +5,12 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
-## [6.0.15 - 6.0.16] 2019-10-15
+## [6.0.15 - 6.0.17] 2019-10-15
+
+### Added
+
+- Added update notifier to help ensure folks are running the (hopefully) least buggy, most stable, most secure version of Architect
+
 
 ### Changed
 
