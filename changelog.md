@@ -5,6 +5,23 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
+## [6.0.19] 2019-10-17
+
+### Fixed
+
+- Fixes failed deploys if file type is known by common mime-type database; resolves #56, thanks @mikemaccana!
+- Fixes paths for deployment of assets on Windows; resolves #58, thanks @mikemaccana!
+
+---
+
+## [6.0.18] 2019-10-15
+
+### Added
+
+- Infrequently prints version update notifications to CLI
+
+---
+
 ## [6.0.15 - 6.0.17] 2019-10-15
 
 ### Added
