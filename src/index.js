@@ -72,7 +72,7 @@ async function run () {
   if (args.length === 0 || args[0] === 'help') {
     help(args)
   }
-  else if (args[0] === 'create') {
+  else if (args[0] === 'create' || args[0] === 'version') {
     run()
   }
   else {
