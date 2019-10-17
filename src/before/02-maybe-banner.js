@@ -7,8 +7,8 @@ module.exports = function maybeBanner() {
     utils.readArc()
     utils.banner({version})
     if (process.env.INITIALIZED) {
-      let update = utils.updater('Init')
-      update.done('Created new .arc file')
+      let update = utils.updater('Create')
+      update.done('Created Architect project manifest (.arc)')
     }
   }
   catch(e) {

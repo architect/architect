@@ -8,7 +8,7 @@ let helps = {
   help: `${G('arc [command] <options>')}
 
 ${chalk.grey.bold('Usage')}
-  ${g('arc', G('init'), '<name>')} ${d('........................... initialize a project')}
+  ${g('arc', G('create'), '[name]')} ${d('......................... create a new project')}
   ${g('arc', G('sandbox'))} ${d('............................... work locally')}
   ${g('arc', G('repl'))} ${d('.................................. repl into dynamodb')}
   ${g('arc', G('package'))} ${d('............................... export sam.json')}
@@ -18,7 +18,7 @@ ${chalk.grey.bold('Usage')}
   ${g('arc', G('version'))} ${d('............................... get the current version')}
 `,
 
-  init: `${G('arc init')}
+  create: `${G('arc create')}
 ${d('generate local code based on .arc (inc  .arc if none exists)')}`,
 
   package: `${G('arc package')}
@@ -27,7 +27,7 @@ generate sam.json based on .arc`,
   deploy: `${G('arc deploy')} ${g('[options]')}
 
 ${d('Deploy with', D('AWS SAM'), 'to AppNameStaging stack')}
- 
+
 ${D('Options')}
   ${g(`-p${d(',')}`, `--production${d(',')}`, 'production')} ${d('... deploys to AppNameProduction')}
   ${g(`-d${d(',')}`, `--dirty${d(',')}`, 'dirty')} ${d('............. *staging only* dirty deploy function code/config')}
@@ -49,10 +49,10 @@ module.exports = function help(opts) {
   if (opts.length === 0) {
     console.log(helps.help)
   }
-  else if (helps[opts[0]]) {
-    console.log(helps[opts[0]])
+  else if (opts[1] && helps[opts[1]]) {
+    console.log(helps[opts[1]])
   }
   else {
-    console.log(`sorry, no help found for: ${opts[0]}`)
+    console.log(`Sorry, no help found for: ${opts[1]}`)
   }
 }

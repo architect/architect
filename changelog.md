@@ -5,6 +5,21 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
+## [On branch]
+
+### Added
+
+- Integrates new `@architect/create` module for bootstrapping projects and initializing project files
+- Added ability to specify project name and install path, e.g. `arc create ./foo` creates a dir named `foo` in your current dir, and creates a new Arc project named `foo` in there
+
+
+### Fixed
+
+- Fixes and `arc help <command>` command
+- Runtime flag now works for project creation: `runtime`, `--runtime`, or `-r` + `node`, `js`, `python`, `py`, `ruby`, `rb` initializes with Node, Python, or Ruby
+
+---
+
 ## [6.0.19] 2019-10-17
 
 ### Fixed
