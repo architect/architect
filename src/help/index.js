@@ -8,7 +8,7 @@ let helps = {
   help: `${G('arc [command] <options>')}
 
 ${chalk.grey.bold('Usage')}
-  ${g('arc', G('create'), '[name]')} ${d('......................... create a new project')}
+  ${g('arc', G('init'), '[name or path]')} ${d('................... initialize project files')}
   ${g('arc', G('sandbox'))} ${d('............................... work locally')}
   ${g('arc', G('repl'))} ${d('.................................. repl into dynamodb')}
   ${g('arc', G('package'))} ${d('............................... export sam.json')}
@@ -18,8 +18,8 @@ ${chalk.grey.bold('Usage')}
   ${g('arc', G('version'))} ${d('............................... get the current version')}
 `,
 
-  create: `${G('arc create')}
-${d('generate local code based on .arc (inc  .arc if none exists)')}`,
+  init: `${G('arc init')}
+${d('generate project and project files based on .arc (including .arc if none exists)')}`,
 
   package: `${G('arc package')}
 generate sam.json based on .arc`,
@@ -44,6 +44,8 @@ start a local web server on 3333`,
   version: `${G('arc version')}
 get the current version`
 }
+
+helps.create = helps.init
 
 module.exports = function help(opts) {
   if (opts.length === 0) {

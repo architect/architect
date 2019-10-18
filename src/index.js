@@ -18,7 +18,7 @@ let _pkg = require('../package.json')
 
 let cmds = {
   create,
-  init: create, // Backwards compat
+  init: create,
   deploy,
   env,
   help,
