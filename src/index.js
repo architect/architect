@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 let chalk = require('chalk')
+let create = require('@architect/create/cli')
 let deploy = require('@architect/deploy/cli')
 let env = require('@architect/env')
 let hydrate = require('@architect/hydrate/cli')
-let init = require('@architect/utils/init')
 let logs = require('@architect/logs/cli')
 let pkg = require('@architect/package/cli')
 let repl = require('@architect/repl')
@@ -17,11 +17,11 @@ let update = require('update-notifier')
 let _pkg = require('../package.json')
 
 let cmds = {
+  create,
   deploy,
   env,
   help,
   hydrate,
-  init,
   logs,
   package: pkg,
   repl,
@@ -46,31 +46,36 @@ let pretty = {
 
 let args = process.argv.slice(2)
 
-before()
+async function run ({cmd, opts}) {
+  try {
+    await cmds[cmd](opts)
+  }
+  catch(err) {
+    pretty.fail(cmd, err)
+    process.exit(1)
+  }
+}
 
-;(async function main() {
+(async function main () {
   // Run update check first
   let boxenOpts = {padding: 1, margin: 1, align: 'center', borderColor: 'green', borderStyle: 'round', dimBorder: true}
   update({pkg: _pkg, shouldNotifyInNpmScript: true}).notify({boxenOpts})
 
-  if (args.length === 0) {
-    help(args)
+  let cmd = args.shift()
+  let opts = args.slice(0)
+
+  if (cmd && !cmds[cmd]) {
+    pretty.notFound(cmd)
+    process.exit(1)
+  }
+  else if (!cmd || cmd === 'help') {
+    help(opts)
+  }
+  else if (cmd === 'create' || cmd === 'version') {
+    run({cmd, opts})
   }
   else {
-    let cmd = args.shift()
-    let opts = args.slice(0)
-    if (cmds[cmd]) {
-      try {
-        await cmds[cmd](opts)
-      }
-      catch(e) {
-        pretty.fail(cmd, e)
-        process.exit(1)
-      }
-    }
-    else {
-      pretty.notFound(cmd)
-      process.exit(1)
-    }
+    before() // Only run preflight ops on existing projects
+    run({cmd, opts})
   }
 })()
