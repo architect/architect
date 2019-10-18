@@ -49,10 +49,10 @@ module.exports = function help(opts) {
   if (opts.length === 0) {
     console.log(helps.help)
   }
-  else if (opts[1] && helps[opts[1]]) {
-    console.log(helps[opts[1]])
+  else if (opts[0] && helps[opts[0]]) {
+    console.log(helps[opts[0]])
   }
   else {
-    console.log(`Sorry, no help found for: ${opts[1]}`)
+    console.log(`Sorry, no help found for: ${opts[0]}`)
   }
 }

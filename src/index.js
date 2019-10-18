@@ -46,20 +46,12 @@ let pretty = {
 
 let args = process.argv.slice(2)
 
-async function run () {
-  let cmd = args.shift()
-  let opts = args.slice(0)
-  if (cmds[cmd]) {
-    try {
-      await cmds[cmd](opts)
-    }
-    catch(e) {
-      pretty.fail(cmd, e)
-      process.exit(1)
-    }
+async function run ({cmd, opts}) {
+  try {
+    await cmds[cmd](opts)
   }
-  else {
-    pretty.notFound(cmd)
+  catch(err) {
+    pretty.fail(cmd, err)
     process.exit(1)
   }
 }
@@ -69,14 +61,21 @@ async function run () {
   let boxenOpts = {padding: 1, margin: 1, align: 'center', borderColor: 'green', borderStyle: 'round', dimBorder: true}
   update({pkg: _pkg, shouldNotifyInNpmScript: true}).notify({boxenOpts})
 
-  if (args.length === 0 || args[0] === 'help') {
-    help(args)
+  let cmd = args.shift()
+  let opts = args.slice(0)
+
+  if (cmd && !cmds[cmd]) {
+    pretty.notFound(cmd)
+    process.exit(1)
   }
-  else if (args[0] === 'create' || args[0] === 'version') {
-    run()
+  else if (!cmd || cmd === 'help') {
+    help(opts)
+  }
+  else if (cmd === 'create' || cmd === 'version') {
+    run({cmd, opts})
   }
   else {
     before() // Only run preflight ops on existing projects
-    run()
+    run({cmd, opts})
   }
 })()
