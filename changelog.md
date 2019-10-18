@@ -5,12 +5,17 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
-## [On branch]
+## [On master]
 
 ### Added
 
 - Integrates new `@architect/create` module for bootstrapping projects and initializing project files
 - Added ability to specify project name and install path, e.g. `arc create ./foo` creates a dir named `foo` in your current dir, and creates a new Arc project named `foo` in there
+
+
+### Changed
+
+- Updated dependencies (which are also now using `@architect/create`)
 
 
 ### Fixed
