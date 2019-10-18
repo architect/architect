@@ -18,6 +18,7 @@ let _pkg = require('../package.json')
 
 let cmds = {
   create,
+  init: create, // Backwards compat
   deploy,
   env,
   help,
@@ -57,7 +58,7 @@ async function run ({cmd, opts}) {
 }
 
 (async function main () {
-  // Run update check first
+  // Check for updates in a non-blocking background process
   let boxenOpts = {padding: 1, margin: 1, align: 'center', borderColor: 'green', borderStyle: 'round', dimBorder: true}
   update({pkg: _pkg, shouldNotifyInNpmScript: true}).notify({boxenOpts})
 
@@ -71,11 +72,18 @@ async function run ({cmd, opts}) {
   else if (!cmd || cmd === 'help') {
     help(opts)
   }
-  else if (cmd === 'create' || cmd === 'version') {
+  else if (cmd === 'create' || cmd === 'init' || cmd === 'version') {
     run({cmd, opts})
   }
   else {
-    before() // Only run preflight ops on existing projects
+    // Only run preflight ops on workflows related to existing projects
+    try {
+      before()
+    }
+    catch(err) {
+      pretty.fail(cmd, err)
+      process.exit(1)
+    }
     run({cmd, opts})
   }
 })()
