@@ -45,8 +45,6 @@ let pretty = {
   }
 }
 
-let args = process.argv.slice(2)
-
 async function run ({cmd, opts}) {
   try {
     await cmds[cmd](opts)
@@ -57,7 +55,10 @@ async function run ({cmd, opts}) {
   }
 }
 
-(async function main () {
+async function main (args) {
+  // Mainly here for testing
+  args = args || process.argv.slice(2)
+
   // Check for updates in a non-blocking background process
   let boxenOpts = {padding: 1, margin: 1, align: 'center', borderColor: 'green', borderStyle: 'round', dimBorder: true}
   update({pkg: _pkg, shouldNotifyInNpmScript: true}).notify({boxenOpts})
@@ -86,4 +87,13 @@ async function run ({cmd, opts}) {
     }
     run({cmd, opts})
   }
-})()
+}
+
+module.exports = main
+
+// allow direct invoke
+if (require.main === module) {
+  (async function () {
+    await main()
+  })()
+}
