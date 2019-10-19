@@ -16,7 +16,7 @@ module.exports = function ensureCreds() {
     if (e.message === 'not_found') {
   console.log(chalk.grey('.------------------------------.'))
   console.log(chalk.grey('|'), chalk.bold.yellow('Warning'), chalk.yellow('.arc file not found!'), chalk.grey('|'))
-  console.log(chalk.grey('|'), chalk.grey('Generate by running'), chalk.bold.green('arc create'), chalk.grey('|'))
+  console.log(chalk.grey('|'), chalk.grey('Generate by running'), chalk.bold.green('arc init'), chalk.grey('|'))
   console.log(chalk.grey('\'------------------------------\''))
     }
   }
