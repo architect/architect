@@ -31,7 +31,7 @@ Also see:
 
 ### Fixed
 
-- Fixes failed deploys if file type is known by common mime-type database; resolves #56, thanks @mikemaccana!
+- Fixes failed deploys if file type is unknown by common mime-type database; resolves #56, thanks @mikemaccana!
 - Fixes paths for deployment of assets on Windows; resolves #58, thanks @mikemaccana!
 
 ---
