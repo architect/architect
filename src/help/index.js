@@ -15,6 +15,7 @@ ${chalk.grey.bold('Usage')}
   ${g('arc', G('deploy'), '[dirty|static|production]')} ${d('...... deploy with CFN')}
   ${g('arc', G('logs'), 'path/to/code', '[production|nuke]')} ${d('... work with logs')}
   ${g('arc', G('help'), '<command>')} ${d('........................ get help')}
+  ${g('arc', G('version'))} ${d('............................... get the current version')}
   ${g('arc', G('env'))} ${d('................................... work with environment variables')}
 `,
 
