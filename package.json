@@ -13,7 +13,8 @@
     "lint": "eslint . --fix",
     "coverage": "nyc --reporter=lcov --reporter=text-summary npm run test:unit",
     "build": "pkg index.js && npm run tidy",
-    "tidy": "rm -rf dist && mkdir dist && mv index-linux dist/arc-linux && mv index-macos dist/arc && mv index-win.exe dist/arc.exe"
+    "tidy": "rm -rf dist && mkdir dist && mv index-linux dist/arc-linux && mv index-macos dist/arc && mv index-win.exe dist/arc.exe",
+    "rc": "npm version prerelease --preid RC"
   },
   "repository": {
     "type": "git",
