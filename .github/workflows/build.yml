@@ -1,22 +1,23 @@
 name: Node CI
 
-on: [push, pull_request]
+# Push tests pushes; PR tests merges; create tests tags (and releases)
+on: [push, pull_request, create]
 
 jobs:
-  build:
-    name: test
-    runs-on: ubuntu-latest
 
+  # Test the build
+  build:
+    # Setup
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [8.x, 10.x, 12.x]
         os: [windows-latest, ubuntu-latest, macOS-latest]
 
+    # Go
     steps:
     - uses: actions/checkout@v1
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v1
+    - uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
 
@@ -28,3 +29,55 @@ jobs:
 
     - name: Test
       run: npm test
+
+  # ----- Only git tag testing + package publishing beyond this point ----- #
+
+  # Publish to package registries
+  publish:
+    # Setup
+    needs: build
+    if: github.event_name == 'create' && startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+
+    # Go
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: https://registry.npmjs.org/
+
+      - name: Install
+        run: npm ci
+
+      # Publish to npm
+      - name: Publish @RC to npm
+        if: contains(github.ref, 'RC')
+        run: npm publish --tag RC
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish @latest to npm
+        if: contains(github.ref, 'RC') == false #'!contains()'' doesn't work lol
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      # Set up Node again, this time using GitHub as the publish target
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: https://npm.pkg.github.com/
+
+      # Publish to GitHub
+      - name: Publish @RC to GitHub
+        if: contains(github.ref, 'RC')
+        run: npm publish --tag RC
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish @latest to GitHub
+        if: contains(github.ref, 'RC') == false #'!contains()'' doesn't work lol
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
