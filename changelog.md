@@ -5,6 +5,18 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
+## [6.0.20] 2019-11-5
+
+### Changed
+
+- Updated CLI documentation to reflect current functionality of `arc env`.
+
+### Added
+
+- Integrates new `@architect/create` module for bootstrapping projects and initializing project files
+- Added ability to specify project name and install path, e.g. `arc init ./foo` creates a dir named `foo` in your current dir, and creates a new Arc project named `foo` in there
+
+
 ## [6.0.20] 2019-10-19
 
 ### Added
