@@ -16,6 +16,7 @@ ${chalk.grey.bold('Usage')}
   ${g('arc', G('logs'), 'path/to/code', '[production|nuke]')} ${d('... work with logs')}
   ${g('arc', G('help'), '<command>')} ${d('........................ get help')}
   ${g('arc', G('version'))} ${d('............................... get the current version')}
+  ${g('arc', G('env'))} ${d('................................... work with environment variables')}
 `,
 
   init: `${G('arc init')}
@@ -42,7 +43,14 @@ start a repl based on .arc`,
 start a local web server on 3333`,
 
   version: `${G('arc version')}
-get the current version`
+get the current version`,
+
+  env: `${G('arc env')}
+Read and write environment variables. Sensitive configuration data, such as API keys, needs to happen outside of the codebase in revision control and you can use this tool to ensure an entire team and the deployment targets are in sync.
+${g(`arc env`)} ${d('..............................................................displays environment variables for the current .arc')}
+${g(`arc env [testing|staging|production] [VARIABLE_NAME] [value]`)} ${d('.........assigns a value to the environment variable')}
+${g(`arc env [testing|staging|production] remove [VARIABLE_NAME]`)} ${d('..........removes environment variable from environment')}
+`
 }
 
 helps.create = helps.init
