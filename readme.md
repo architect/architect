@@ -4,7 +4,7 @@
 
 > Create, deploy, and maintain next-generation AWS cloud function-based serverless infrastructure with full local, offline workflows, and more.
 
-[![GitHub CI status](https://github.com/architect/TKTK/workflows/Node%20CI/badge.svg)](https://github.com/architect/TKTK/actions?query=workflow%3A%22Node+CI%22)
+[![GitHub CI status](https://github.com/architect/architect/workflows/Node%20CI/badge.svg)](https://github.com/architect/architect/actions?query=workflow%3A%22Node+CI%22)
 <!-- [![codecov](https://codecov.io/gh/architect/architect/branch/master/graph/badge.svg)](https://codecov.io/gh/architect/architect) -->
 
 
