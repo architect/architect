@@ -16,8 +16,11 @@ jobs:
 
     # Go
     steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-node@v1
+    - name: Check out repo
+      uses: actions/checkout@v1
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
 
@@ -41,10 +44,13 @@ jobs:
 
     # Go
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - name: Check out repo
+        uses: actions/checkout@v1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
         with:
-          node-version: 12
+          node-version: 10
           registry-url: https://registry.npmjs.org/
 
       - name: Install
@@ -66,7 +72,7 @@ jobs:
       # Set up Node again, this time using GitHub as the publish target
       - uses: actions/setup-node@v1
         with:
-          node-version: 12
+          node-version: 10
           registry-url: https://npm.pkg.github.com/
 
       # Publish to GitHub
