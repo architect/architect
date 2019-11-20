@@ -5,19 +5,51 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
-## [6.0.20] 2019-11-5
-
-### Changed
-
-- Updated CLI documentation to reflect current functionality of `arc env`.
+## [6.0.23] 2019-11-19
 
 ### Added
 
-- Integrates new `@architect/create` module for bootstrapping projects and initializing project files
-- Added ability to specify project name and install path, e.g. `arc init ./foo` creates a dir named `foo` in your current dir, and creates a new Arc project named `foo` in there
+- Added support for `nodejs12.x`, `python3.8`, and `java11` runtimes
 
 
-## [6.0.20] 2019-10-19
+### Changed
+
+- Updated dependencies
+
+
+### Fixed
+
+- Fixed printing of unnecessary ANSI escape characters in CI environments (`CI` env, or not TTY output)
+
+---
+
+## [6.0.21] 2019-11-19
+
+### Fixed
+
+- Adds `ArcWebSocketPolicy` to the generated IAM Role
+- Adds `ARC_WSS_URL` environment variable to all Lambdas if `@ws` is defined
+- Fix `.arc-config` properties: `layers` and `policies`
+  - Adding one layer or policy per line: `layers my:arn:here` or `policies my:arn:here`
+  - Adding ARNs as a list (two spaces indented below `layers` or `policies`)
+  - eg:
+
+```arc
+@aws
+layers
+  my:arn:here
+  my:other:arn:here
+```
+
+### Removed
+
+- Generated CloudFormation template output value `WSS` is now a plain URL without `wss://` or `https://` protocol, without the `/staging` and `/production` path part, and the suffix `@connections` (which was removed by AWS from the `ApiGatewayManagementApi`)
+- Removed `ArcRoleReflection` policy from the generated IAM Role
+- Removed `PYTHONPATH` unless a Lambda function explicitly has a Python runtime
+
+---
+
+## [6.0.20] 2019-11-5
 
 ### Added
 
@@ -28,6 +60,7 @@ Also see:
 ### Changed
 
 - Updated dependencies (which are also now using `@architect/create`)
+- Updated CLI documentation to reflect current functionality of `arc env`
 
 
 ### Fixed
