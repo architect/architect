@@ -1,12 +1,10 @@
 .DS_Store
 .eslintignore
 .eslintrc.js
-.git
+.git/
 .gitattributes
-.github
+.github/
 .nyc_output
-.travis.yml
-appveyor.yml
 changelog.md
 codecov.yaml
 contributing.md
