@@ -5,6 +5,30 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
+## [6.0.25] 2019-12-02
+
+### Changed
+
+- Now prints WebSockets URLs upon deployment, thanks @jessehattabaugh!
+
+
+### Fixed
+
+- Fixes regression related `staging` and `production` WebSockets names and paths, thanks @jessehattabaugh!
+  - WebSockets APIs named `${appname}Websocket` are now named `${appname}Websocket${stage}` (like `@http` APIs)
+  - `production` WebSockets paths now correctly reflect the production stage (e.g. `longawsurl.com/production`)
+  - If you're using the `ARC_WSS_URL` env var, be sure to also update `@architect/functions`
+
+---
+
+## [6.0.24] 2019-12-02
+
+### Added
+
+- Adds `CAPABILITY_AUTO_EXPAND` for nested stack deployments; fixes #436, thanks @jgallen23!
+
+---
+
 ## [6.0.23] 2019-11-19
 
 ### Added
