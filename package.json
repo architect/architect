@@ -45,7 +45,7 @@
     "@architect/create": "1.0.5",
     "@architect/deploy": "1.2.13",
     "@architect/env": "1.0.4",
-    "@architect/hydrate": "1.4.10",
+    "@architect/hydrate": "1.4.11",
     "@architect/logs": "1.0.6",
     "@architect/package": "1.0.54",
     "@architect/repl": "1.0.6",
