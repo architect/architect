@@ -5,6 +5,19 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
+## [6.0.26] 2019-12-13
+
+### Added
+
+- Sandbox now passes full request params from WebSocket clients on `connect` and `disconnect`
+  - Now in addition to `request.requestContext.connectionId`, you'll have `request.headers`, and `request.queryStringParameters` (if present)
+  - Sandbox now only passes `request.body` to WebSocket functions that receive `message`s (instead of adding an empty `body` object to all requests)
+- Added proper emulation of API Gateway v2's WebSocket connection authorization
+  - Returning an object containing `statusCode` 2xx allows a WebSocket client to connect
+  - Returning any other status code will hang up on the request
+
+---
+
 ## [6.0.25] 2019-12-02
 
 ### Changed
