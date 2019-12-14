@@ -30,10 +30,12 @@ generate sam.json based on .arc`,
 ${d('Deploy with', D('AWS SAM'), 'to AppNameStaging stack')}
 
 ${D('Options')}
-  ${g(`-p${d(',')}`, `--production${d(',')}`, 'production')} ${d('... deploys to AppNameProduction')}
+  ${g(`-p${d(',')}`, `--production${d(',')}`, 'production')} ${d('... set env to production')}
   ${g(`-d${d(',')}`, `--dirty${d(',')}`, 'dirty')} ${d('............. *staging only* dirty deploy function code/config')}
   ${g(`-s${d(',')}`, `--static${d(',')}`, 'static')} ${d('........... dirty deploys /public to s3 bucket')}
   ${g(`-v${d(',')}`, `--verbose${d(',')}`, 'verbose')} ${d('......... prints all output to console')}
+  ${g(`-n${d(',')}`, `--name${d(',')}`, 'name')} ${d('............... append to stack name')}
+  ${g(`-t${d(',')}`, `--tags${d(',')}`, 'tags')} ${d('............... add key=value tags to stack')}
 `,
 
   repl: `${G('arc repl')}
