@@ -1,9 +1,9 @@
 let {bootstrap} = require('@architect/create')
-let ensureCreds = require('./01-env')
-let maybeBanner = require('./02-banner')
+let basicEnv = require('./01-env')
+let banner = require('./02-banner')
 
-module.exports = function before() {
-  bootstrap()   // Maybe create .arc
-  ensureCreds() // Loads essential env vars (NODE_ENV, AWS_REGION, etc.)
-  maybeBanner() // Print banner + initialize AWS credentials
+module.exports = function before(cmd) {
+  bootstrap() // Maybe create new project files
+  basicEnv()  // Load essential env vars (NODE_ENV, AWS_REGION, etc.)
+  banner(cmd) // Print banner + initialize AWS credentials
 }

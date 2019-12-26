@@ -1,11 +1,16 @@
 let utils = require('@architect/utils')
 let ver = require('../../package.json').version
 
-module.exports = function maybeBanner() {
-  let version = `Architect ${ver}`
+module.exports = function banner(cmd) {
   try {
-    utils.readArc()
-    utils.banner({version})
+    // Commands specified below musthave valid credetials to operate
+    let needsValidCreds = cmd == 'deploy' ||
+                          cmd == 'env' ||
+                          cmd == 'logs'
+    utils.banner({
+      needsValidCreds,
+      version: `Architect ${ver}`
+    })
     if (process.env.INITIALIZED) {
       let update = utils.updater('Create')
       update.done('Created Architect project manifest (.arc)')

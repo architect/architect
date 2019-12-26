@@ -79,7 +79,7 @@ async function main (args) {
   else {
     // Only run preflight ops on workflows related to existing projects
     try {
-      before()
+      before(cmd)
     }
     catch(err) {
       pretty.fail(cmd, err)
