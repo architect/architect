@@ -5,6 +5,47 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
+## [6.0.29]
+
+### Added
+
+- AWS credentials can now be loaded via env vars (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`), which enables AWS STS and tools such as [AWS Vault](https://github.com/99designs/aws-vault)
+  - Thus, Architect no longer requires a `~/.aws/credentials` file to run
+  - Also added AWS session token support via setting `AWS_SESSION_TOKEN` env var
+  - Fixes `utils` #26; thanks @ryan-roemer!
+
+### Fixed
+
+- Credentials are now properly backfilled with dummy values for various workflows
+  - This ensures certain specific workflows (such as local Sandbox usage with `@tables`) won't crash or stall without a valid `~/aws.credentials` file present
+
+---
+
+## [6.0.28]
+
+FIXME
+
+---
+
+## [6.0.27]
+
+FIXME
+
+---
+
+## [6.0.26] 2019-12-13
+
+### Added
+
+- Sandbox now passes full request params from WebSocket clients on `connect` and `disconnect`
+  - Now in addition to `request.requestContext.connectionId`, you'll have `request.headers`, and `request.queryStringParameters` (if present)
+  - Sandbox now only passes `request.body` to WebSocket functions that receive `message`s (instead of adding an empty `body` object to all requests)
+- Added proper emulation of API Gateway v2's WebSocket connection authorization
+  - Returning an object containing `statusCode` 2xx allows a WebSocket client to connect
+  - Returning any other status code will hang up on the request
+
+---
+
 ## [6.0.25] 2019-12-02
 
 ### Changed
