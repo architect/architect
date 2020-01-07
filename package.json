@@ -50,7 +50,7 @@
     "@architect/package": "^1.0.55",
     "@architect/repl": "1.0.6",
     "@architect/sandbox": "^1.5.0",
-    "@architect/utils": "1.4.2",
+    "@architect/utils": "1.4.4",
     "aws-sdk": "^2.594.0",
     "chalk": "3.0.0",
     "update-notifier": "3.0.1"
