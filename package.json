@@ -53,7 +53,7 @@
     "@architect/utils": "1.4.4",
     "aws-sdk": "^2.594.0",
     "chalk": "3.0.0",
-    "update-notifier": "3.0.1"
+    "update-notifier": "4.0.0"
   },
   "devDependencies": {
     "codecov": "^3.6.1",
