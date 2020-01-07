@@ -1,14 +1,13 @@
 let chalk = require('chalk')
-let {readArc, initAWS} = require('@architect/utils')
+let {readArc} = require('@architect/utils')
 
 /**
- * ensures the following env vars are present:
+ * Ensures the following env vars are present:
  *
  * - NODE_ENV (default 'testing')
  * - AWS_REGION (default us-west-2)
  */
-module.exports = function ensureCreds() {
-
+module.exports = function ensureEnv() {
   try {
     readArc()
   }
@@ -28,6 +27,4 @@ module.exports = function ensureCreds() {
   // always ensure AWS_REGION
   if (!process.env.AWS_REGION)
     process.env.AWS_REGION = 'us-west-2'
-
-  initAWS() // Load AWS creds
 }
