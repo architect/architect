@@ -5,19 +5,28 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
-## [6.0.29]
+## [6.0.29] 2020-01-07
 
 ### Added
 
 - AWS credentials can now be loaded via env vars (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`), which enables AWS STS and tools such as [AWS Vault](https://github.com/99designs/aws-vault)
   - Thus, Architect no longer requires a `~/.aws/credentials` file to run
+  - Also allows local creds file to be overriden by env vars by specifying `ARC_AWS_CREDS=env`
   - Also added AWS session token support via setting `AWS_SESSION_TOKEN` env var
   - Fixes `utils` #26; thanks @ryan-roemer!
+- Enabled AWS `credential_process` usage via improved credential handling; fixes #582 thanks @defionscode!
+
 
 ### Fixed
 
 - Credentials are now properly backfilled with dummy values for various workflows
   - This ensures certain specific workflows (such as local Sandbox usage with `@tables`) won't crash or stall without a valid `~/aws.credentials` file present
+- Fixed Sandbox errors related to missing `aws-sdk` dependency
+
+
+### Updated
+
+- Updated dependencies
 
 ---
 
