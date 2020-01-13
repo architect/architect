@@ -5,6 +5,23 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
+## [6.1.0] 2020-01-13
+
+### Added
+
+- Finally: Architect now automatically creates a deployment bucket if one is not specified!
+  - If you already have a deployment bucket specified, nothing changes; Architect will continue using that
+  - If a deployment bucket was automatically created in a prior deployment and now no longer exists (or access to it is no longer available), a new bucket will be created and your app's configuration will be updated
+  - This also means the `@aws` pragma is no longer stricly necessary to deploy to AWS with Architect; you can now work completely from a `~/.aws/credentials` file or env vars
+
+
+### Fixed
+
+- Allow reading and destroying logs from `ws` paths; fixes @architect#538 + @logs#98, ht @jessehattabaugh, thanks @austinkelleher!
+  - Additionally fixes destroying from paths that include `000`
+
+---
+
 ## [6.0.29] 2020-01-07
 
 ### Added
