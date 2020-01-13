@@ -12,7 +12,7 @@ Also see:
 - Finally: Architect now automatically creates a deployment bucket if one is not specified!
   - If you already have a deployment bucket specified, nothing changes; Architect will continue using that
   - If a deployment bucket was automatically created in a prior deployment and now no longer exists (or access to it is no longer available), a new bucket will be created and your app's configuration will be updated
-  - This also means the `@aws` pragma is no longer stricly necessary to deploy to AWS with Architect; you can now work completely from a `~/.aws/credentials` file or env vars
+  - This also means the `@aws` pragma is no longer strictly necessary to deploy to AWS with Architect; you can now work completely from a `~/.aws/credentials` file or env vars
 
 
 ### Fixed
