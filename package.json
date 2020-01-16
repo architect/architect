@@ -51,7 +51,7 @@
     "@architect/repl": "1.0.7",
     "@architect/sandbox": "1.5.4",
     "@architect/utils": "1.4.4",
-    "aws-sdk": "2.603.0",
+    "aws-sdk": "2.604.0",
     "chalk": "3.0.0",
     "update-notifier": "4.0.0"
   },
