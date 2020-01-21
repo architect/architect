@@ -5,6 +5,35 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
+## [6.1.3] 2020-01-21
+
+### Fixed
+
+- Fixes issue with hydration of shared code in functions using `nodejs12.x`; thanks @bardbachmann!
+
+
+### Updated
+
+- Update dependencies
+
+---
+
+## [6.1.2] 2020-01-20
+
+### Added
+
+- A `PointInTimeRecovery` attribute may now be added to tables defined in `.arc` for DynamoDB point-in-time recovery support; thanks @defionscode!
+
+---
+
+## [6.1.1] 2020-01-18
+
+### Added
+
+- An `encrypt` attribute may now be added tables defined in `.arc` for DynamoDB encryption support using customer or AWS managed KMS keys; thanks @defionscode!
+
+---
+
 ## [6.1.0] 2020-01-13
 
 ### Added
