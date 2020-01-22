@@ -5,6 +5,31 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
+## [6.1.4] 2020-01-22
+
+### Added
+
+- Added `ARC_WSS_URL` env var on Sandbox startup (matches the environment variable behavior of Architect 6.0.25); fixed #225
+
+
+### Changed
+
+- Updated default Lambda runtime to match AWS's default: `nodejs12.x` (formerly `nodejs10.x`)
+  - This means that upon your next deploy, any Lambdas that do not have a runtime specified will automatically be updated to `nodejs12.x`
+  - If you rely on the default runtime selection and would prefer to retain Node.js 10, you can either:
+    - Add `runtime nodejs10.x` to the `@aws` pragma of your Architect project manifest (`.arc`)
+    - Add a `.arc-config` file to the root of any individual functions you'd like to continue using `nodejs10.x` and add the same `@aws` pragma config specified above
+    - Read more here: https://arc.codes/reference/arc-config/runtime
+    - Quick example:
+```
+# .arc || src/http/get-index/index.js
+@aws
+runtime nodejs10.x
+```
+- Updated dependencies
+
+---
+
 ## [6.1.3] 2020-01-21
 
 ### Fixed
