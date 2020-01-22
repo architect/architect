@@ -49,6 +49,8 @@ jobs:
         type: ${{ job.status }}
         job_name: '*Build*'
         url: ${{ secrets.SLACK_WEBHOOK }}
+        commit: true
+        token: ${{ secrets.GITHUB_TOKEN }}
 
   # ----- Only git tag testing + package publishing beyond this point ----- #
 
@@ -113,3 +115,5 @@ jobs:
           type: ${{ job.status }}
           job_name: '*Publish*'
           url: ${{ secrets.SLACK_WEBHOOK }}
+          commit: true
+          token: ${{ secrets.GITHUB_TOKEN }}
