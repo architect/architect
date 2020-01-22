@@ -14,7 +14,7 @@ Also see:
 
 ### Changed
 
-- Updated default Lambda runtime to match AWS's default: `nodejs12.x` (formerly `nodejs10.x`)
+- Updated default Lambda runtime to match AWS's default: `nodejs12.x` (formerly `nodejs10.x`); fixed #609
   - This means that upon your next deploy, any Lambdas that do not have a runtime specified will automatically be updated to `nodejs12.x`
   - If you rely on the default runtime selection and would prefer to retain Node.js 10, you can either:
     - Add `runtime nodejs10.x` to the `@aws` pragma of your Architect project manifest (`.arc`)
