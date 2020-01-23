@@ -5,6 +5,14 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
+## [6.1.5] 2020-01-23
+
+### Fixed
+
+- Fixed local WebSocket port in `ARC_WSS_URL` in Sandbox
+
+---
+
 ## [6.1.4] 2020-01-22
 
 ### Added
