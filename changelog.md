@@ -5,6 +5,18 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
+## [6.1.6] 2020-01-24
+
+### Added
+
+- `@queues` are FIFO by default now; you can opt-out with `.arc-config` `fifo false`
+- `arc.queues.publish` will now accept a `groupID` parameter for ordering within a FIFO queue
+- read more about queues! https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues.html 
+
+### Fixed
+
+- Queues will sync VisibilityTimeout to the Lambda timeout
+
 ## [6.1.5] 2020-01-23
 
 ### Fixed
