@@ -42,7 +42,7 @@
   "author": "Brian LeRoux <b@brian.io>",
   "license": "Apache-2.0",
   "dependencies": {
-    "@architect/create": "1.0.12",
+    "@architect/create": "1.0.13",
     "@architect/deploy": "1.4.5",
     "@architect/env": "1.0.5",
     "@architect/hydrate": "1.4.15",
