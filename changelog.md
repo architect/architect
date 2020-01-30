@@ -5,17 +5,39 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
-## [6.1.7] 2020-01-24
+## [6.1.8] 2020-01-29
+
+### Added
+
+- Added `--static` flag to init to create a basic static asset app (instead of one with a `@http get /` function)
+  - Example: `arc init --static ./myapp` or `npm init @architect --static ./myapp`
+
+
+### Fixed
+
+- Fixed Sandbox issue with secondary index (`@indexes`) naming schemas first introduced with Architect 6; fixed #45, thanks @eshikerya & @konsumer
+
+
+### Changed
+
+- The default `.arc` file generated in new projects no longer includes a boilerplate for `@aws bucket`
+- Updated dependencies
+
+---
+
+## [6.1.6 - 6.1.7] 2020-01-24
 
 ### Added
 
 - `@queues` are FIFO by default now; you can opt-out with `.arc-config` `fifo false`
 - `arc.queues.publish` will now accept a `groupID` parameter for ordering within a FIFO queue
-- read more about queues! https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues.html 
+- read more about queues! https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues.html
 
 ### Fixed
 
 - Queues will sync VisibilityTimeout to the Lambda timeout
+
+---
 
 ## [6.1.5] 2020-01-23
 
