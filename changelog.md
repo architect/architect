@@ -5,6 +5,32 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
+## [6.1.9] 2020-02-03
+
+### Added
+
+- Better support for quiet mode in Sandbox:
+  - Via params: `sandbox.start({quiet: true})`
+  - Via env vars: `ARC_QUIET` (or legacy `QUIET`)
+  - Fixes #621; thanks @konsumer!
+- Adds discrete `sandbox.end([callback])` method for shutting down the Sandbox in test environments
+  - This method takes an optional callback or returns a promise
+- Sandbox now sets the `ARC_CLOUDFORMATION` env var used by Architect Functions and other libs
+  - This only occurs when running Sandbox against live infra (specifically: `NODE_ENV` = `staging` || `production`),
+
+
+### Changed
+
+- When called as module, `sandbox.end` now calls an optional callback or returns a promise; fixes #622, thanks @konsumer!
+- Sandbox now only starts the `@events` + `@queues` bus and `@tables` DB when called for by the Architect project manifest
+
+
+### Fixed
+
+- Improved logging for WebSocket invocations to be less confusing about potential non-error states when message action not found; fixes @sandbox#228
+
+---
+
 ## [6.1.8] 2020-01-29
 
 ### Added
