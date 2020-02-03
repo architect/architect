@@ -59,6 +59,9 @@ async function main (args) {
   // Mainly here for testing
   args = args || process.argv.slice(2)
 
+  // Set quietude
+  process.env.ARC_QUIET = process.env.QUIET || args.some(a => a.includes('-quiet')) ? true : ''
+
   // Check for updates in a non-blocking background process
   let boxenOpts = {padding: 1, margin: 1, align: 'center', borderColor: 'green', borderStyle: 'round', dimBorder: true}
   update({pkg: _pkg, shouldNotifyInNpmScript: true}).notify({boxenOpts})
