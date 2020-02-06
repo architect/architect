@@ -29,6 +29,7 @@ Also see:
 
 ### Fixed
 
+- Fixed Sandbox issue where DynamoDB (and other `aws-sdk`) calls may time out if a `~/.aws/credentials` file is not present
 - Fixed issue with shared code hydration in `python3.8`; fixes #650, thanks @rbuckingham!
 - Added support for `deno` in `utils.getRuntime`
 
