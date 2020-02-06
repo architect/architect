@@ -44,7 +44,7 @@
   "dependencies": {
     "@architect/create": "1.0.14",
     "@architect/deploy": "1.5.0",
-    "@architect/env": "1.0.5",
+    "@architect/env": "1.0.6",
     "@architect/hydrate": "1.4.17",
     "@architect/logs": "1.0.8",
     "@architect/package": "1.2.4",
