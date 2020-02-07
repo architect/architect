@@ -1,6 +1,6 @@
 {
   "name": "@architect/architect",
-  "version": "6.1.9",
+  "version": "6.2.0-RC.2",
   "description": "Create, deploy, and maintain next-generation AWS cloud function-based serverless infrastructure with full local, offline workflows, and more.",
   "main": "src/index.js",
   "bin": {
@@ -42,7 +42,7 @@
   "author": "Brian LeRoux <b@brian.io>",
   "license": "Apache-2.0",
   "dependencies": {
-    "@architect/create": "1.0.14",
+    "@architect/create": "1.0.15",
     "@architect/deploy": "1.5.0",
     "@architect/env": "1.0.6",
     "@architect/hydrate": "1.4.17",

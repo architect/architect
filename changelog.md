@@ -5,6 +5,36 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
+## [6.2.0] 2020-02-04
+
+### Added
+
+- Added support for running multiple Sandboxes at the same time; fixes #635
+  - No more conflicting events and ports when running multiple simultaneous local Architect projects
+  - Also, you can now manually configure your `@events` port with `ARC_EVENTS_PORT`, and `@tables` port with `ARC_TABLES_PORT`
+  - Note: while unlikely, if you already manually specify your Sandbox's port, this may be a breaking change to your local workflow in two circumstances:
+    - 1) You use Architect Functions; to fix, upgrade to Functions `3.6` or later
+    - 2) You hardcode an `@events` client to port `3334` or DynamoDB client to port `5000`; you should now read the ports from `ARC_EVENTS_PORT` and `ARC_TABLES_PORT`
+    - This change is **NOT breaking to any live AWS / production infra**
+- Deploy dry-run flag: `deploy --dry-run`; fixes #649
+  - Test your `@macros`, function hydration, CloudFormation / SAM template files, and other deployment-related operations without actually building any live infra
+  - Dry-run mode runs through all deploy operations necessary to generate your app's CloudFormation / SAM template files
+  - **Heads up:** the AWS CLI requires a live, active S3 bucket to generate your app's templates; however no **live infra will be created** from these templates
+
+
+### Changed
+
+- Update dependencies
+
+
+### Fixed
+
+- Fixed Sandbox issue where DynamoDB (and other `aws-sdk`) calls may time out if a `~/.aws/credentials` file is not present
+- Fixed issue with shared code hydration in `python3.8`; fixes #650, thanks @rbuckingham!
+- Added support for `deno` in `utils.getRuntime`
+
+---
+
 ## [6.1.9] 2020-02-03
 
 ### Added
