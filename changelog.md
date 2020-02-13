@@ -5,6 +5,21 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
+## [6.2.1] 2020-02-13
+
+### Changed
+
+- Sandbox now ensures `NODE_ENV` is one of `testing`, `staging`, or `production` (defaulting to `testing`)
+
+### Fixed
+
+- Fixed issue in Sandbox where pulling changes down with git (or Mercurial) would not trigger filesystem changes (e.g. auto-hydration, etc.); fixes #673
+- Removed validation from setting your app's environment variables (e.g. `arc env testing FOO bar`), use whatever you like! Fixes #669, thanks @rbuckingham!
+- Fixed issue within Architect Functions that caused issues in certain test harnesses that automatically set `NODE_ENV`
+- Fixed issue that may cause Sandbox to stall when called via the Architect CLI
+
+---
+
 ## [6.2.0] 2020-02-04
 
 ### Added
