@@ -11,6 +11,7 @@ Also see:
 
 - Fixed issue in Sandbox where pulling changes down with git (or Mercurial) would not trigger filesystem changes (e.g. auto-hydration, etc.); fixes #673
 - Removes validation from environment variable values, use whatever you like! Fixes #669, thanks @rbuckingham!
+- Fixed issue that caused Architect Functions to cause issues in certain test harnesses that may automatically set `NODE_ENV`
 - Fixed issue that caused Sandbox to stall when called via the Architect CLI
 
 ---
