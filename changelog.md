@@ -5,6 +5,16 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
+## [6.2.1] 2020-02-13
+
+### Fixed
+
+- Fixed issue in Sandbox where pulling changes down with git (or Mercurial) would not trigger filesystem changes (e.g. auto-hydration, etc.); fixes #673
+- Removes validation from environment variable values, use whatever you like! Fixes #669, thanks @rbuckingham!
+- Fixed issue that caused Sandbox to stall when called via the Architect CLI
+
+---
+
 ## [6.2.0] 2020-02-04
 
 ### Added
