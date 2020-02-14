@@ -12,8 +12,6 @@
     "test:integration": "tape test/integration/*-test.js | tap-spec",
     "lint": "eslint . --fix",
     "coverage": "nyc --reporter=lcov --reporter=text-summary npm run test:unit",
-    "build": "pkg index.js && npm run tidy",
-    "tidy": "rm -rf dist && mkdir dist && mv index-linux dist/arc-linux && mv index-macos dist/arc && mv index-win.exe dist/arc.exe",
     "rc": "npm version prerelease --preid RC"
   },
   "repository": {
@@ -47,7 +45,7 @@
     "@architect/env": "1.0.7",
     "@architect/hydrate": "1.4.17",
     "@architect/logs": "1.0.8",
-    "@architect/package": "1.2.5",
+    "@architect/package": "1.2.7",
     "@architect/repl": "1.0.11",
     "@architect/sandbox": "1.7.1",
     "@architect/utils": "1.4.7",
@@ -59,7 +57,6 @@
     "codecov": "^3.6.5",
     "eslint": "^6.8.0",
     "nyc": "^15.0.0",
-    "pkg": "^4.4.3",
     "proxyquire": "^2.1.3",
     "sinon": "^8.1.1",
     "tap-spec": "^5.0.0",
