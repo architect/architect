@@ -5,11 +5,13 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
-## [6.2.1] 2020-02-13
+## [6.2.1 - 6.2.3] 2020-02-13
 
 ### Changed
 
 - Sandbox now ensures `NODE_ENV` is one of `testing`, `staging`, or `production` (defaulting to `testing`)
+- Fix bad SQS in CloudFormation
+- Updates deps
 
 ### Fixed
 
