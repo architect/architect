@@ -5,6 +5,20 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
+## [6.2.4] 2020-02-29
+
+### Added
+
+- Added mocking of AWS's `multiValueHeaders` into Sandbox requests
+- Also added mocking of the headers AWS drops from requests
+
+
+### Fixed
+
+- Fixes differences in Sandbox between AWS's inconsistent header casing and our existing lowcase-normalized header casing; fixes #698
+
+---
+
 ## [6.2.1 - 6.2.3] 2020-02-13
 
 ### Changed
