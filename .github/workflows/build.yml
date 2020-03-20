@@ -73,7 +73,7 @@ jobs:
           registry-url: https://registry.npmjs.org/
 
       - name: Install
-        run: npm ci
+        run: npm i
 
       # Publish to npm
       - name: Publish @RC to npm
