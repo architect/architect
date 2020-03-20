@@ -45,7 +45,7 @@
     "@architect/env": "1.0.8",
     "@architect/hydrate": "1.4.19",
     "@architect/logs": "1.0.8",
-    "@architect/package": "1.2.7",
+    "@architect/package": "1.2.9",
     "@architect/repl": "1.0.12",
     "@architect/sandbox": "1.7.3",
     "@architect/utils": "1.5.0",
