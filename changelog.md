@@ -5,6 +5,23 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
+## [6.2.5] 2020-03-19
+
+### Changed
+
+- Architect now falls back to a very basic default project if an Architect project manifest file is not found in the root of the working directory
+- Requests in Sandbox that include query string arrays like `?ids=1&ids=2&ids=3&ids=4` are now consistent with API Gateway's request `multiValueQueryStringParameters` property; thanks @defionscode!
+- Deploy now ensures dependency hydration occurs before macros in the deploy process, enabling macros to mutate dependencies and shared files during a deploy
+  - A nice example macro to use is `@architect/arc-macro-node-prune`, which tidies up all the junk in your functions' `node_modules` directory
+- Minor improvements to auto-generated boilerplate function files
+
+
+### Fixed
+- `.arc-env` env vars now support a wider variety of special characters (such as `+`, `@`, `#`, etc.) if quoted, e.g. `FOO "sp#ci@lch+rs"`; fixes #638
+- Fixed Architect project manifest syntax errors and error reporting
+
+---
+
 ## [6.2.4] 2020-02-29
 
 ### Added
