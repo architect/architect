@@ -5,6 +5,30 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
+
+## [6.3.0] 2020-03-24
+
+### Added
+
+- Added early support for deploying API Gateway HTTP APIs (currently only via [Macro](https://github.com/architect/arc-macro-http-api))
+- Lambda's payload size limits are now respected and mocked in Sandbox; payloads exceeding 6MB will fail to execute, as they would in AWS
+
+
+### Changed
+
+- If `@http` is defined, a static bucket will now be automatically be created
+  - `@http` makes `@static` implicit; `@static` still serves to configure static asset hosting
+  - If you don't use `@http` you can still use `@static` to independently create and configure static asset hosting
+- Updated `http-proxy` to support API Gateway HTTP APIs (say that three times fast)
+
+
+### Fixed
+
+- Fixed Sandbox issue where HTTP requests with large body payloads error with E2BIG; fixes #639, /ht @dawnerd
+
+---
+
+
 ## [6.2.5] 2020-03-19
 
 ### Changed
