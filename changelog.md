@@ -25,6 +25,7 @@ Also see:
 ### Fixed
 
 - Fixed Sandbox issue where HTTP requests with large body payloads error with E2BIG; fixes #639, /ht @dawnerd
+- Update architect/package to fix bug with static mocks
 
 ---
 
