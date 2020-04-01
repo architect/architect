@@ -5,6 +5,21 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
+## [6.3.2] 2020-03-31
+
+
+### Added
+
+- Adds Sandbox warning for out of bounds dependency loads
+  - This helps to ensure that potential side effects of running Node.js locally – such as the `require` algorithm traversing the filesystem outside the boundaries of the function in question – are less likely to be discovered after deploying to live AWS infra
+
+
+### Fixed
+
+- Updated the call that starts Sandbox to ensure it initiates the filesystem watcher
+
+---
+
 
 ## [6.3.0 - 6.3.1] 2020-03-24
 
