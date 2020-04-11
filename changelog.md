@@ -5,8 +5,17 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
-## [6.3.2] 2020-03-31
+## [6.3.4] 2020-04-10
 
+### Fixed
+
+- Sandbox (and other workflows) should now restore the terminal cursor more reliably when quit
+- Sandbox now preserves leading / trailing whitespace in console logs
+- Fixed issue where `.arc-config` files with an `@aws timeout` value of exactly `900` (15 minutes) would not be respected in Sandbox
+
+---
+
+## [6.3.3] 2020-03-31
 
 ### Added
 
@@ -20,6 +29,13 @@ Also see:
 
 ---
 
+## [6.3.2] 2020-04-10
+
+### Fixed
+
+- Fixed bug with static mocks in Package
+
+---
 
 ## [6.3.0 - 6.3.1] 2020-03-24
 
@@ -40,7 +56,6 @@ Also see:
 ### Fixed
 
 - Fixed Sandbox issue where HTTP requests with large body payloads error with E2BIG; fixes #639, /ht @dawnerd
-- Update architect/package to fix bug with static mocks
 
 ---
 
