@@ -12,6 +12,7 @@ let sandbox = require('@architect/sandbox/src/cli/arc')
 let before = require('./before')
 let help = require('./help')
 let version = require('./version')
+let pauser = require('@architect/deploy/src/utils/pause-sandbox')
 
 let update = require('update-notifier')
 let _pkg = require('../package.json')
@@ -50,6 +51,8 @@ async function run ({cmd, opts}) {
     await cmds[cmd](opts)
   }
   catch(err) {
+    // Unpause the Sandbox watcher
+    pauser.unpause()
     pretty.fail(cmd, err)
     process.exit(1)
   }

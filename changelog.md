@@ -5,6 +5,35 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
+## [6.3.5] 2020-04-18
+
+### Added
+
+- Added Sandbox watcher pausing
+  - The presence of `_pause-architect-sandbox-watcher` in your operating system's `$TMP` directory (usually `/tmp` or `c:\windows\temp`) will temporarily pause the Sandbox watcher
+  - This means Sandbox can remain open during deploys and neither `arc sandbox` or `arc deploy` should interfere with the other's dependency hyration
+  - This is also useful when combined with tools like `lint-staged` to ensure automated file stashing within `src/shared` and `src/views` doesn't result in hydration failures
+  - Sandbox cleans up this file on startup, jic
+- Allow Architect's CDN checks / processes to be disabled
+  - You can now configure and manage your own CDNS via Macros; fixes #750, thanks @jgallen23!
+  - Syntax: `@cdn false` || `@cdn disable` || `@cdn disabled`
+
+
+### Changed
+
+- Improved Sandbox's missing dependency warnings to provide better instructions on how to install a missing dependency if the function in question does not already have a `package.json` file; /ht @exalted
+
+
+### Fixed
+
+- Fixed issue where explicit (or empty) returns in functions would provide a red herring error
+- When a non-existent `@events` Lambda is invoked, Sandbox will now gracefully fail
+- Updated dependency status checker, fixes false positive rehyhdration of packages installed by archive or git repo
+- Fixed issue where custom named deployments (`deploy --name`) wouldn't work with `static`; fixes #759, thanks @jgallen23!
+- Fixed issue where deploying static assets may deploy to the wrong bucket if additional buckets are defined in Macros; fixes #750, thanks @clintjhill + @jgallen23!
+
+---
+
 ## [6.3.4] 2020-04-10
 
 ### Fixed
