@@ -15,7 +15,7 @@ Also see:
   - This is also useful when combined with tools like `lint-staged` to ensure automated file stashing within `src/shared` and `src/views` doesn't result in hydration failures
   - Sandbox cleans up this file on startup, jic
 - Allow Architect's CDN checks / processes to be disabled
-  - You can now configure and manage your own CDNS via Macros; fixes #750, thanks @jgallen23!
+  - This means you can now configure and manage your own CDNs entirely via Macros; fixes #750, thanks @jgallen23!
   - Syntax: `@cdn false` || `@cdn disable` || `@cdn disabled`
 
 
