@@ -5,6 +5,22 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
+## [6.4.0] 2020-04-22
+
+### Added
+
+- Adds Yarn support to Sandbox and Hydrate!
+- Adds Sandbox support for `multiValueHeaders` in response object; fixes #764, thanks @andybee!
+
+
+### Fixed
+
+- Fixed an issue where `multiValueHeaders` may conflict with `headers` values for `Content-Type`; thanks @andybee!
+- Fixed an issue where errors weren't being handled if the database port conflicted on startup; thanks @exalted!
+- Custom `@aws` WebSocket routes will now have their dependencies correctly hydrated, thanks @mawdesley!
+
+---
+
 ## [6.3.5] 2020-04-18
 
 ### Added
@@ -128,6 +144,7 @@ Also see:
 - Fix bad SQS in CloudFormation
 - Updates deps
 
+
 ### Fixed
 
 - Fixed issue in Sandbox where pulling changes down with git (or Mercurial) would not trigger filesystem changes (e.g. auto-hydration, etc.); fixes #673
@@ -219,7 +236,7 @@ Also see:
 
 - `@queues` are FIFO by default now; you can opt-out with `.arc-config` `fifo false`
 - `arc.queues.publish` will now accept a `groupID` parameter for ordering within a FIFO queue
-- read more about queues! https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues.html
+- Read more about queues! https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues.html
 
 ### Fixed
 
