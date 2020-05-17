@@ -27,6 +27,7 @@ Also see:
 - Adds Sandbox support for `multiValueHeaders` in response object; fixes #764, thanks @andybee!
 - Added support for arbitrary static asset config mapping
   - Pass proxy `config.assets` a `static.json`-like static asset object
+- Added support for configuring `ruby2.7` and `dotnetcore3.1` runtimes
 
 
 ### Changed
