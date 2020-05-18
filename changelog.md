@@ -5,6 +5,46 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
+## [6.4.0] 2020-05-17
+
+### Added
+
+- Deploy can now deploy directly deploy single functions or groups of functions to Lambda by providing a path; examples:
+  - `arc deploy src` will dirty deploy all of `./src`
+  - `arc deploy src/http` will dirty deploy all of `./src/http`
+  - `arc deploy src/events/foo` will dirty deploy `./src/events/foo`
+  - As a reminder: direct deployments should be considered temporary / for testing only, and will be overwritten by any deployments coming in from a proper full deploy operation
+  - Fixes #625, shout out to @filmaj for this awesome feature! 🔥
+- Adds Yarn support to Sandbox and Hydrate
+- Improved default caching behavior for static assets; fixes #273
+  - Any assets that don't have `cache-control` explicitly set will now default to using `ETag` in order to improve the reliability of cache invalidation
+  - HTML & JSON responses still default to anti-caching headers
+- Added path peeking (aka pretty URLs); fixes #269
+  - URLs delivered via `proxy` no longer require a trailing slash!
+  - Example: to load `/foo/index.html`, you used to have to request `/foo/`
+  - Now, if `/foo` is requested, `proxy` will automatically try peeking into `/foo` to see if it contains `/foo/index.html` – if not, it'll 404 as expected
+- Added ETag support to Sandbox static asset serving
+- Adds Sandbox support for `multiValueHeaders` in response object; fixes #764, thanks @andybee!
+- Added support for arbitrary static asset config mapping
+  - Pass proxy `config.assets` a `static.json`-like static asset object
+- Added support for configuring `ruby2.7` and `dotnetcore3.1` runtimes
+
+
+### Changed
+
+- If creating a FIFO queue, set `ContentBasedDeduplication` to be enabled by default; thanks @filmaj!
+
+
+### Fixed
+
+- Fixed an issue where `multiValueHeaders` may conflict with `headers` values for `Content-Type`; thanks @andybee!
+- Fixed an issue where errors weren't being handled if the database port conflicted on startup; thanks @exalted!
+- Custom `@aws` WebSocket routes will now have their dependencies correctly hydrated, thanks @mawdesley!
+- Fixed Sandbox error `ERR_FEATURE_UNAVAILABLE_ON_PLATFORM` in Node.js 14; fixes #780, ht @stegosource
+- Fixed issue where `404` responses delivered from `@static` may be inadvertently cached by CDNs
+
+---
+
 ## [6.3.5] 2020-04-18
 
 ### Added
@@ -128,6 +168,7 @@ Also see:
 - Fix bad SQS in CloudFormation
 - Updates deps
 
+
 ### Fixed
 
 - Fixed issue in Sandbox where pulling changes down with git (or Mercurial) would not trigger filesystem changes (e.g. auto-hydration, etc.); fixes #673
@@ -219,7 +260,7 @@ Also see:
 
 - `@queues` are FIFO by default now; you can opt-out with `.arc-config` `fifo false`
 - `arc.queues.publish` will now accept a `groupID` parameter for ordering within a FIFO queue
-- read more about queues! https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues.html
+- Read more about queues! https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues.html
 
 ### Fixed
 
