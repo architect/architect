@@ -5,6 +5,19 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
+## [6.4.1] 2020-06-09
+
+### Added
+
+- Added layer region validation (instead of letting CloudFormation fail without a helpful error)
+
+
+### Fixed
+
+- Fixed `@aws` configuration in root project manifest and `.arc-config`, especially pertaining to the use of `layer` or `layers`; fixes #852, ht @jessrosenfield!
+
+---
+
 ## [6.4.0] 2020-05-17
 
 ### Added

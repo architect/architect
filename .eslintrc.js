@@ -24,4 +24,4 @@ module.exports = {
     // style specific
     'no-trailing-spaces': 'error'
   }
-}                      
+}
