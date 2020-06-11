@@ -5,6 +5,42 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
+## [6.5.0] 2020-06-11
+
+### Added
+
+- Rewrite of static asset S3 publishing
+- Adds support for `@static fingerprint external`
+  - Use this with an existing frontend framework that handles its own fingerprinting
+  - This setting ensures `static.json` won't be generated, but that files delivered will get long-lived caching headers
+- Added the ability to prefix static deploy paths with `@static prefix whatever`
+- Added more comprehensive support for static asset pruning, including ability to prune from a full deploy (e.g. `arc deploy --prune`)
+- Respect `@static spa` setting in root proxy (i.e. `@http` without `get /`)
+- Default root proxy now coldstarts faster by removing any globally defined layers
+- Added layer region validation (instead of letting CloudFormation fail without a helpful error)
+
+
+### Changed
+
+- Sandbox support for Deno updated for `1.0.5`
+  - Entry now looks for `index.{js,ts,tsx}` and `mod.{js,ts,tsx}`
+  - Sandbox now forces reload every Deno invocation
+
+
+### Fixed
+
+- Web socket `connectionId` was getting overwritten by concurrent client connections
+  - Sending a message to a `connectionId` before it has connected should emit a `GoneException`
+  - h/t @andybee for helping track this down!
+- Fixed `@aws` configuration in root project manifest and `.arc-config`, especially pertaining to the use of `layer` or `layers`; fixes #852, ht @jessrosenfield!
+- Fixed file pruning for projects with `@static folder` specified
+- Now checks to ensure `@static folder` exists, and errors if not found
+- Fixes `@static fingerprint ignore` with more recent versions of Architect Parser
+- Fix exit condition of fingerprinter when no files are found
+- Fixes `@static fingerprint ignore` with more recent versions of Architect Parser
+
+---
+
 ## [6.4.1] 2020-06-09
 
 ### Added
