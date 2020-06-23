@@ -1,5 +1,5 @@
 let test = require('tape')
-let {join} = require('path')
+let { join } = require('path')
 let package = require('../../../package.json')
 
 let deps = Object.keys(package.dependencies)

@@ -5,6 +5,60 @@ Also see:
 - [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
 ---
 
+## [6.5.0] 2020-06-11
+
+### Added
+
+- Adds `arc destroy` command: destroy your Architect projects with Architect
+  - Run `arc destroy --name your-app-name` to destroy apps without static assets or database tables
+  - Run `arc destroy --name your-app-name --force` to force-destroy apps with static assets and/or database tables (resulting in permanent data destruction, if you did not back them up)
+  - Fixes #430 (finally!)
+- Rewrite of static asset S3 publishing
+- Adds support for `@static fingerprint external`
+  - Use this with an existing frontend framework that handles its own fingerprinting
+  - This setting ensures `static.json` won't be generated, but that files delivered will get long-lived caching headers
+- Added the ability to prefix static deploy paths with `@static prefix whatever`
+- Added more comprehensive support for static asset pruning, including ability to prune from a full deploy (e.g. `arc deploy --prune`)
+- Respect `@static spa` setting in root proxy (i.e. `@http` without `get /`); fixes #816
+- Default root proxy now coldstarts faster by removing any globally defined layers
+- Added layer region validation (instead of letting CloudFormation fail without a helpful error)
+- Added Sandbox support for `@static spa true|false`
+
+
+### Changed
+
+- Default Architect project manifest filename is now `app.arc` (changed from `.arc`)
+  - All existing projects are unaffected by this change, and will always support `.arc`
+  - Fixes #805
+- Sandbox header casing now matches API Gateway (read: everything is lower-cased); fixes #793
+- Sandbox support for Deno updated for `1.0.5`+
+  - Entry now looks for `index.{js,ts,tsx}` and `mod.{js,ts,tsx}`
+  - Sandbox now forces reload every Deno invocation
+- Internal change: implemented new code standard with `@architect/eslint-config`
+
+
+### Fixed
+
+- Sandbox response headers are now remapped (and in some cases dropped) per observed behavior in API Gateway
+  - Worth noting, this follows *actually observed* API Gateway behavior; what's published in their docs (link below) has been known to differ from reality
+  - https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-known-issues.html
+  - Fixes #879; /ht @andybee
+- Fixed duplicate generation of table attribute definitions, fixes #828; thanks @filmaj! /ht @exalted
+- Sandbox's WebSocket `connectionId` was getting overwritten by concurrent client connections
+  - Sending a message to a `connectionId` before it has connected should emit a `GoneException`
+  - Fixes #818; ht @andybee for helping track this down!
+- Fixed `@aws` configuration in root project manifest and `.arc-config`, especially pertaining to the use of `layer` or `layers`; fixes #852, ht @jessrosenfield!
+- Fixed file pruning for projects with `@static folder` specified
+- Sandbox now checks to ensure `@static folder` exists, and errors if not found
+- Fixed `@static fingerprint ignore` with more recent versions of Architect Parser
+- Fixed Sandbox proxy lookup to custom 404 pages
+- Fixed incorrect filename in proxy 404 error message
+- Fixed exit condition of fingerprinter when no files are found
+- Fixed `@static fingerprint ignore` with more recent versions of Architect Parser
+- Fixed unsetting `@tables encrypt` setting locally; fixes #785, thanks @filmaj! /ht @m-butler
+
+---
+
 ## [6.4.1] 2020-06-09
 
 ### Added
