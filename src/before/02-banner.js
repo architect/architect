@@ -1,7 +1,7 @@
 let utils = require('@architect/utils')
 let ver = require('../../package.json').version
 
-module.exports = function banner(cmd) {
+module.exports = function banner (cmd) {
   try {
     // Commands specified below musthave valid credetials to operate
     let needsValidCreds = cmd == 'deploy' ||
@@ -16,7 +16,7 @@ module.exports = function banner(cmd) {
       update.done('Created Architect project manifest (.arc)')
     }
   }
-  catch(e) {
+  catch (e) {
     console.log(e)
   }
 }

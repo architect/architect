@@ -1,5 +1,5 @@
 let chalk = require('chalk')
-let {version} = require('../package.json')
+let { version } = require('../package.json')
 let path = require('path')
 
 module.exports = function printVersion () {

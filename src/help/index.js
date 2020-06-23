@@ -57,7 +57,7 @@ ${g(`arc env remove [testing|staging|production] [VARIABLE_NAME]`)} ${d('.......
 
 helps.create = helps.init
 
-module.exports = function help(opts) {
+module.exports = function help (opts) {
   if (opts.length === 0) {
     console.log(helps.help)
   }
