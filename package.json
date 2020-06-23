@@ -8,8 +8,8 @@
   },
   "scripts": {
     "test": "npm run lint && npm run test:integration && npm run coverage",
-    "test:unit": "tape test/unit/*-test.js test/unit/**/*-test.js test/unit/**/**/*-test.js| tap-spec",
-    "test:integration": "tape test/integration/*-test.js | tap-spec",
+    "test:unit": "tape 'test/unit/**/*-test.js' | tap-spec",
+    "test:integration": "tape 'test/integration/**/*-test.js' | tap-spec",
     "lint": "eslint . --fix",
     "coverage": "nyc --reporter=lcov --reporter=text-summary npm run test:unit",
     "rc": "npm version prerelease --preid RC"
