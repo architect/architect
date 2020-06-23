@@ -22,8 +22,11 @@ let repl = require('@architect/repl')
 let sandbox = require('@architect/sandbox')
 let sandboxCLI = require('@architect/sandbox/src/cli/arc')
 
+let destroy = require('@architect/destroy')
+let destroyCLI = require('@architect/destroy/src/cli')
+
 test('Core Architect packages and necessary CLI interfaces are present', t => {
-  t.plan(14)
+  t.plan(16)
   t.ok(create, 'create found')
   t.ok(createCLI, 'create CLI found')
   t.ok(deploy, 'deploy found')
@@ -38,4 +41,6 @@ test('Core Architect packages and necessary CLI interfaces are present', t => {
   t.ok(repl, 'repl found')
   t.ok(sandbox, 'sandbox found')
   t.ok(sandboxCLI, 'sandbox CLI found')
+  t.ok(destroy, 'destroy found')
+  t.ok(destroyCLI, 'destroy CLI found')
 })

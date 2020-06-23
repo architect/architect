@@ -20,6 +20,7 @@ let arc = proxyquire('../../../src', {
   '@architect/package/cli': returner.bind({}, 'package'),
   '@architect/repl': returner.bind({}, 'repl'),
   '@architect/sandbox/src/cli/arc': returner.bind({}, 'sandbox'),
+  '@architect/destroy/src/cli': returner.bind({}, 'destroy'),
   './before': beforer.bind({}, './before'),
   './help': returner.bind({}, './help'),
   './version': returner.bind({}, './version'),
@@ -47,7 +48,7 @@ test('Help (and defaults)', t => {
 })
 
 test('Commands', t => {
-  t.plan(57)
+  t.plan(63)
   arc([ 'create' ])
   t.equal(returned.cmd, 'create', 'Ran create')
   t.equal(returned.opts.length, 0, 'No options passed')
@@ -156,6 +157,18 @@ test('Commands', t => {
   arc([ 'sandbox', '--port' ])
   t.equal(returned.cmd, 'sandbox', 'Ran sandbox')
   t.equal(returned.opts.length, 1, `Options passed: ${returned.opts[0]}`)
+  t.ok(befored, 'Ran preflight ops')
+  reset()
+
+  arc([ 'destroy' ])
+  t.equal(returned.cmd, 'destroy', 'Ran destroy')
+  t.equal(returned.opts.length, 0, 'No options passed')
+  t.ok(befored, 'Ran preflight ops')
+  reset()
+
+  arc([ 'destroy', '--name', 'my-app' ])
+  t.equal(returned.cmd, 'destroy', 'Ran destroy')
+  t.equal(returned.opts.length, 2, `Options passed: ${returned.opts[0]} ${returned.opts[1]}`)
   t.ok(befored, 'Ran preflight ops')
   reset()
 })
