@@ -10,13 +10,14 @@ let helps = {
 ${chalk.grey.bold('Usage')}
   ${g('arc', G('init'), '[name or path]')} ${d('................... initialize project files')}
   ${g('arc', G('sandbox'))} ${d('............................... work locally')}
-  ${g('arc', G('repl'))} ${d('.................................. repl into dynamodb')}
+  ${g('arc', G('repl'))} ${d('.................................. REPL into DynamoDB')}
   ${g('arc', G('package'))} ${d('............................... export sam.json')}
   ${g('arc', G('deploy'), '[dirty|static|production]')} ${d('...... deploy with CFN')}
   ${g('arc', G('logs'), 'path/to/code', '[production|nuke]')} ${d('... work with logs')}
   ${g('arc', G('help'), '<command>')} ${d('........................ get help')}
   ${g('arc', G('version'))} ${d('............................... get the current version')}
   ${g('arc', G('env'))} ${d('................................... work with environment variables')}
+  ${g('arc', G('destroy'))} ${d('............................... destroy your current project')}
 `,
 
   init: `${G('arc init')}
@@ -32,7 +33,7 @@ ${d('Deploy with', D('AWS SAM'), 'to AppNameStaging stack')}
 ${D('Options')}
   ${g(`-p${d(',')}`, `--production${d(',')}`, 'production')} ${d('... set env to production')}
   ${g(`-d${d(',')}`, `--dirty${d(',')}`, 'dirty')} ${d('............. *staging only* dirty deploy function code/config')}
-  ${g(`-s${d(',')}`, `--static${d(',')}`, 'static')} ${d('........... dirty deploys /public to s3 bucket')}
+  ${g(`-s${d(',')}`, `--static${d(',')}`, 'static')} ${d('........... dirty deploys /public to S3 bucket')}
   ${g(`-v${d(',')}`, `--verbose${d(',')}`, 'verbose')} ${d('......... prints all output to console')}
   ${g(`-n${d(',')}`, `--name${d(',')}`, 'name')} ${d('............... append to stack name')}
   ${g(`-t${d(',')}`, `--tags${d(',')}`, 'tags')} ${d('............... add key=value tags to stack')}
@@ -52,7 +53,17 @@ Read and write environment variables. Sensitive configuration data, such as API 
 ${g(`arc env`)} ${d('..............................................................displays environment variables for the current .arc')}
 ${g(`arc env [testing|staging|production] [VARIABLE_NAME] [value]`)} ${d('.........assigns a value to the environment variable')}
 ${g(`arc env remove [testing|staging|production] [VARIABLE_NAME]`)} ${d('..........removes environment variable from environment')}
-`
+`,
+
+  destroy: `${G('arc destroy')}
+destroy your current project
+
+${D('Options')}
+${g(`--name`)} ${d('......... name of your app (required)')}
+${g(`--force`)} ${d('........ destroy an app that has database tables and/or static assets')}
+${g(`--production`)} ${d('... destroy the production stage of your app')}
+`,
+
 }
 
 helps.create = helps.init
