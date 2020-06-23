@@ -27,6 +27,9 @@ Also see:
 
 ### Changed
 
+- Default Architect project manifest filename is now `app.arc` (changed from `.arc`)
+  - All existing projects are unaffected by this change, and will always support `.arc`
+  - Fixes #805
 - Sandbox header casing now matches API Gateway (read: everything is lower-cased); fixes #793
 - Sandbox support for Deno updated for `1.0.5`+
   - Entry now looks for `index.{js,ts,tsx}` and `mod.{js,ts,tsx}`
