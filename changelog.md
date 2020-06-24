@@ -1,11 +1,18 @@
 # Architect changelog
 
----
-Also see:
-- [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
+> Also see: [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
+
 ---
 
-## [6.5.0] 2020-06-11
+## [6.5.1] 2020-06-24
+
+### Added
+
+- Added experimental Sandbox support for manually opting into [AWS's Java-based local DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.DownloadingAndRunning.html); thanks @m-butler!
+
+---
+
+## [6.5.0] 2020-06-23
 
 ### Added
 
