@@ -44,7 +44,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@architect/create": "1.1.0",
-    "@architect/deploy": "1.8.1",
+    "@architect/deploy": "1.8.2",
     "@architect/destroy": "1.0.2",
     "@architect/env": "1.0.10",
     "@architect/hydrate": "1.5.0",

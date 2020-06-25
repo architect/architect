@@ -4,6 +4,14 @@
 
 ---
 
+## [6.5.2] 2020-06-25
+
+### Changed
+
+- Static asset deployments now rely on MD5 hashes for static asset diffing, and not filesystem `mtime`; fixes #890
+
+---
+
 ## [6.5.1] 2020-06-24
 
 ### Added
