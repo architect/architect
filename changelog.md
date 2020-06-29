@@ -4,6 +4,23 @@
 
 ---
 
+## [6.6.0]
+
+### Added
+
+- `HTTP` APIs are the new default when provisioning API Gateway resources
+  - This only impacts Architect `@http`, which was formerly provisioned as `REST` APIs
+  - Added backwards compatibility for `REST` APIs with `arc deploy --apigateway rest` or `@aws apigateway rest`
+  - More info: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api.html
+  - Fixes #838
+
+
+### Changed
+
+- Removed experimental support for `@http` static mocks
+
+---
+
 ## [6.5.2] 2020-06-25
 
 ### Changed
