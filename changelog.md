@@ -17,7 +17,7 @@
 
 ### Fixed
 
-- Fixed static asset deploy path issue; fixes #915, ht gyan!
+- Fixed static asset deploy path issue; fixes #915, ht @gykapur!
 - Fixed `.arc-env` encoding of env vars with Architect-reserved characters
 
 ---
