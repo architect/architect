@@ -59,7 +59,7 @@
   },
   "devDependencies": {
     "@architect/eslint-config": "0.0.1",
-    "codecov": "3.7.0",
+    "codecov": "3.7.1",
     "eslint": "7.4.0",
     "nyc": "15.1.0",
     "proxyquire": "^2.1.3",
