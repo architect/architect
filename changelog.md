@@ -9,8 +9,15 @@
 ### Added
 
 - `HTTP` APIs are the new default when provisioning API Gateway resources
+  - Existing projects with API Gateway `REST` APIs will remain unchanged and can continue to deploy safely
+  - New apps will default to using `HTTP` APIs (but can be configured as `REST` APIs)
+  - API type configuration:
+    - Valid settings: `http` (default), `httpv2` (aliased to `http`), `httpv1`, and `rest`
+    - `http` + `httpv2` uses the latest API Gateway payload format; or manually specify the v1.0 payload format with `httpv1`
+      - Apply in CLI with `--apigateway http[v1|v2]`, or in project manifest with `@aws apigateway http[v1|v2]`
+    - Backwards compatibility for `REST` APIs is retained with `rest` setting
+      - Apply in CLI with `--apigateway rest`, or in project manifest with `@aws apigateway rest`
   - This only impacts Architect `@http`, which was formerly provisioned as `REST` APIs
-  - Added backwards compatibility for `REST` APIs with `arc deploy --apigateway rest` or `@aws apigateway rest`
   - More info: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api.html
   - Fixes #838
 
