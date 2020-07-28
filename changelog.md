@@ -21,6 +21,39 @@
 
 ---
 
+## [6.5.4] 2020-07-15
+
+### Added
+
+- Added (exprimental) support for manual rehydration while running:
+  - Press `shift` + `H` to rehydrate all shared files
+  - Press `shift` + `S` to rehydrate src/shared
+  - Press `shift` + `V` to rehydrate src/views
+  - Fixes #902, ht @andybee!
+
+
+### Fixed
+
+- Fixed static asset deploy path issue; fixes #915, ht @gykapur!
+- Fixed `.arc-env` encoding of env vars with Architect-reserved characters
+
+---
+
+## [6.5.3] 2020-07-01
+
+### Changed
+
+- Apps now ensure least privilege HTTP methods on `/_static/*`, allowing only `GET`
+
+
+### Fixed
+
+- Improves compatibility with production REST API behavior for non-get requests to root; fixes #900 /ht @andybee
+- Fixed API Gateway issue that adds an extra stage called `Stage`
+- Corrected internal configuration for static proxy
+
+---
+
 ## [6.5.2] 2020-06-25
 
 ### Changed
