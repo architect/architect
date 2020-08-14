@@ -49,7 +49,7 @@
     "@architect/env": "1.0.12",
     "@architect/hydrate": "1.5.0",
     "@architect/logs": "1.0.11",
-    "@architect/package": "2.0.0-RC.0",
+    "@architect/package": "2.0.0-RC.1",
     "@architect/repl": "1.0.14",
     "@architect/sandbox": "2.0.0-RC.1",
     "@architect/utils": "1.5.11",
