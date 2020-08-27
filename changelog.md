@@ -4,6 +4,14 @@
 
 ---
 
+## [6.5.5] 2020-08-27
+
+### Fixed
+
+- Fixed `process.stdin.setRawMode is not a function` error that may occur in certain circumstances when running Sandbox; thanks @kristoferjoseph!
+
+---
+
 ## [6.5.4] 2020-07-15
 
 ### Added
