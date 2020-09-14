@@ -51,7 +51,7 @@
     "@architect/logs": "1.0.11",
     "@architect/package": "1.3.8",
     "@architect/repl": "1.0.14",
-    "@architect/sandbox": "1.13.1",
+    "@architect/sandbox": "1.13.2",
     "@architect/utils": "1.5.11",
     "aws-sdk": "2.644.0",
     "chalk": "4.1.0",
