@@ -4,6 +4,22 @@
 
 ---
 
+## [6.6.6] 2020-09-14
+
+Sorry, the dark lord demanded that bump to `6.6.6` for the final Arc 6-series release!
+
+### Added
+
+- Added explicit `statusCode` parameters to all responses for forward compatibility with API Gateway HTTP APIs
+
+
+### Fixed
+
+- Un-break Lambda invocation if an list (example: multiple `layers`) is present in `.arc-config`
+- Fixed Deno issues on Windows (and added Deno to CI + integration tests), /ht @petruki
+
+---
+
 ## [6.5.5] 2020-08-27
 
 ### Fixed
