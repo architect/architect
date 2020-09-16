@@ -4,6 +4,72 @@
 
 ---
 
+## [7.0.0] 2020-09-17
+
+Hooray, Architect 7 (Chupacabra) is here, and `HTTP` APIs are now the default when provisioning new API Gateway resources! ✨
+
+tldr – if you have an existing Architect 6 project:
+- **You can continue to safely deploy that project with Architect 7 (Chupacabra)**
+- No breaking infrastructure changes will be applied by Architect 7 unless manually and explicitly opting in
+- However, it is possible **Sandbox may be broken for your local workflows and testing**
+  - If so, you'll need to **add a new setting API type setting** – [see the upgrade guide](https://arc.codes/guides/upgrade#architect-7-breaking-changes)
+
+Please see the full [Architect 6 → 7 upgrade guide](https://arc.codes/guides/upgrade) for detailed information.
+
+
+### Added
+
+- `HTTP` APIs are the new default when provisioning API Gateway resources
+  - Existing projects with API Gateway `REST` APIs will remain unchanged and can continue to deploy safely
+  - New apps will default to using `HTTP` APIs (but can be configured as `REST` APIs)
+  - API type configuration:
+    - Valid settings: `http` (default), `httpv2` (aliased to `http`), `httpv1`, and `rest`
+    - `http` + `httpv2` uses the latest API Gateway payload format
+      - If you'd like to use `HTTP` APIs with code authored for an existing `REST` API project, manually specify the v1.0 payload format with `httpv1`
+        - Note: **this is a partially destructive change**, as it would result in new API Gateway URLs being generated, and your old URLs being deactivated. If not accounted for, this may result in downtime
+      - Apply in `deploy` CLI with `--apigateway http[v1|v2]|rest`, or in project manifest with `@aws apigateway http[v1|v2]|rest`
+    - Backwards compatibility for `REST` APIs is retained with `rest` setting
+      - Apply in CLI with `--apigateway rest`, or in project manifest with `@aws apigateway rest`
+  - This only impacts Architect `@http`, which was formerly provisioned as `REST` APIs
+  - More info: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api.html
+  - Fixes #838
+- API Gateway `HTTP` APIs as the new default API type in Sandbox **may be a breaking change for local workflows with existing projects**
+  - If so, per above, make sure you set to `REST` mode with `ARC_API_TYPE=rest` or add that configuration to your project manifest
+  - Existing projects with API Gateway `REST` APIs will remain unchanged and will continue to deploy safely, even though Sandbox now defaults to `HTTP`
+- Added unified service interface and nascent API for Sandbox modules
+- Sandbox itself and its various service modules (`http`, `events`, and `tables`) now have a consistent API to improve using Sandbox in your test suites
+  - All Sandbox module methods now accept an options object, and can either return a Promise (e.g. can be used in async/await), or accept an optional callback
+  - Additionally, all Sandbox module methods now properly set their own environment variables, hydrate any necessary dependencies, and handle any other necessary service startup routines
+  - `sandbox.start()` and `.end()` start and end all Sandbox services:
+    - `sandbox.start(options[, callback]) → [Promise]`
+    - `sandbox.end([callback]) → [Promise]`
+  - `http.start()` and `.end()` starts and ends just the HTTP / WebSocket service:
+    - `http.start(options[, callback]) → [Promise]`
+    - `http.end([callback]) → [Promise]`
+  - `events.start()` and `.end()` starts and ends just the event bus service:
+    - `events.start(options[, callback]) → [Promise]`
+    - `events.end([callback]) → [Promise]`
+  - `tables.start()` and `.end()` starts and ends just the local DynamoDB service:
+    - `tables.start(options[, callback]) → [Promise]`
+    - `tables.end([callback]) → [Promise]`
+
+### Changed
+
+- Removed experimental support for `@http` static mocks
+- Several seldom used and largely undocumented Sandbox module APIs have breaking changes:
+  - `sandbox.start()` no longer returns a function to shut down, and should now be shut down directly with `sandbox.end()`
+  - `sandbox.db()` is now `sandbox.tables()`
+  - `http.close()` is now `http.end()`
+  - `events.start()` & `tables.start()` no longer return server objects to be invoked with `.close()`, and should now be shut down directly with `events.end()` and `tables.end()`
+
+
+### Fixed
+
+- Fixed issue where Lambda timeouts were only respected if >3 seconds; now >=1 second is valid
+- Refactored Arc v6 response support for multiValueHeaders to better accommodate use cases where headers & multiValueHeaders are not in conflict with each other
+
+---
+
 ## [6.6.6] 2020-09-14
 
 Sorry, the dark lord demanded that we bump to `6.6.6` for the final Arc 6-series release!
