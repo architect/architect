@@ -68,6 +68,29 @@ Please see the full [Architect 6 → 7 upgrade guide](https://arc.codes/guides/u
 - Fixed issue where Lambda timeouts were only respected if >3 seconds; now >=1 second is valid
 - Refactored Arc v6 response support for multiValueHeaders to better accommodate use cases where headers & multiValueHeaders are not in conflict with each other
 
+---
+
+## [6.6.6] 2020-09-14
+
+Sorry, the dark lord demanded that we bump to `6.6.6` for the final Arc 6-series release!
+
+### Added
+
+- Added explicit `statusCode` parameters to all boilerplate code responses for forward compatibility with API Gateway HTTP APIs
+
+
+### Fixed
+
+- Un-break Lambda invocation if a list (example: multiple items under `layers`) is present in a Lambda's `.arc-config` file
+- Fixed Deno issues on Windows (and added Deno to CI + integration tests), /ht @petruki
+
+---
+
+## [6.5.5] 2020-08-27
+
+### Fixed
+
+- Fixed `process.stdin.setRawMode is not a function` error that may occur in certain circumstances when running Sandbox; thanks @kristoferjoseph!
 
 ---
 
