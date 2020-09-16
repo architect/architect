@@ -4,7 +4,18 @@
 
 ---
 
-## [6.6.0]
+## [7.0.0] 2020-09-17
+
+Hooray, Architect 7 (Chupacabra) is here, and `HTTP` APIs are now the default when provisioning new API Gateway resources! ✨
+
+tldr – if you have an existing Architect 6 project:
+- **You can continue to safely deploy that project with Architect 7 (Chupacabra)**
+- No breaking infrastructure changes will be applied by Architect 7 unless manually and explicitly opting in
+- However, it is possible **Sandbox may be broken for your local workflows and testing**
+  - If so, you'll need to **add a new setting API type setting** – [see the upgrade guide](https://arc.codes/guides/upgrade#architect-7-breaking-changes)
+
+Please see the full [Architect 6 → 7 upgrade guide](https://arc.codes/guides/upgrade) for detailed information.
+
 
 ### Added
 
@@ -15,7 +26,7 @@
     - Valid settings: `http` (default), `httpv2` (aliased to `http`), `httpv1`, and `rest`
     - `http` + `httpv2` uses the latest API Gateway payload format
       - If you'd like to use `HTTP` APIs with code authored for an existing `REST` API project, manually specify the v1.0 payload format with `httpv1`
-        - Note: **doing this would be a partially destructive change if performed on an existing project**, as it would result in new API Gateway GUID URLs being generated, and your old URLs being deactivated
+        - Note: **this is a partially destructive change**, as it would result in new API Gateway URLs being generated, and your old URLs being deactivated. If not accounted for, this may result in downtime
       - Apply in `deploy` CLI with `--apigateway http[v1|v2]|rest`, or in project manifest with `@aws apigateway http[v1|v2]|rest`
     - Backwards compatibility for `REST` APIs is retained with `rest` setting
       - Apply in CLI with `--apigateway rest`, or in project manifest with `@aws apigateway rest`
@@ -45,7 +56,7 @@
 ### Changed
 
 - Removed experimental support for `@http` static mocks
-- A number of seldom used and largely undocumented Sandbox module APIs have a number of breaking changes:
+- Several seldom used and largely undocumented Sandbox module APIs have breaking changes:
   - `sandbox.start()` no longer returns a function to shut down, and should now be shut down directly with `sandbox.end()`
   - `sandbox.db()` is now `sandbox.tables()`
   - `http.close()` is now `http.end()`
