@@ -4,7 +4,7 @@
 
 ---
 
-## [7.0.0] 2020-09-17
+## [7.0.0 - 7.0.1] 2020-09-17
 
 Hooray, Architect 7 (Chupacabra) is here, and `HTTP` APIs are now the default when provisioning new API Gateway resources! ✨
 
@@ -67,6 +67,7 @@ Please see the full [Architect 6 → 7 upgrade guide](https://arc.codes/guides/u
 
 - Fixed issue where Lambda timeouts were only respected if >3 seconds; now >=1 second is valid
 - Refactored Arc v6 response support for multiValueHeaders to better accommodate use cases where headers & multiValueHeaders are not in conflict with each other
+- Fixed issue where in certain circumstances legacy (`REST`) APIs could be provisioned without `/_static`
 
 ---
 
