@@ -4,6 +4,19 @@
 
 ---
 
+## [7.0.4] 2020-09-29
+
+### Changed
+
+- Updated dependencies
+
+
+### Fixed
+
+- Fix remaining `.arc` file references to `app.arc` when performing `npm arc init`
+
+---
+
 ## [7.0.3] 2020-09-21
 
 ### Fixed
