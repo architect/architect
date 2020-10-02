@@ -8,11 +8,15 @@
 
 ### Added
 
-- Add support for `@http` catchall syntax (e.g. `get /api/*`)
+- Added support for `@http` catchall syntax (e.g. `get /api/*`)
   - The catchall syntax allows you to greedily capture requests anywhere beneath path part(s) specified
   - Compare to parameters, which only catch requests at one path level (e.g. `get /api/:call` can't catch get requests to `/api/category/items/item`)
   - Note: this is currently only supported for `HTTP` APIs, and is not currently supported in Architect for legacy `REST` APIs
   - Fixes #969
+- Added support for `@http` `head` + `options` methods
+  - Fixes #760 (even though it was already closed but so what)
+- Added support for `@http` `any` method syntax (e.g. `any /path`)
+- Added support for `@proxy`
 
 ---
 
