@@ -51,7 +51,7 @@
     "@architect/logs": "1.0.11",
     "@architect/package": "2.0.0",
     "@architect/repl": "1.0.14",
-    "@architect/sandbox": "2.0.1",
+    "@architect/sandbox": "2.0.3",
     "@architect/utils": "1.5.11",
     "aws-sdk": "2.644.0",
     "chalk": "4.1.0",
@@ -59,7 +59,7 @@
   },
   "devDependencies": {
     "@architect/eslint-config": "0.0.1",
-    "codecov": "3.7.2",
+    "codecov": "3.8.0",
     "eslint": "7.10.0",
     "nyc": "15.1.0",
     "proxyquire": "^2.1.3",
