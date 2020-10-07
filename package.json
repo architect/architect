@@ -50,7 +50,6 @@
     "@architect/hydrate": "1.5.1-RC.0",
     "@architect/logs": "1.0.11",
     "@architect/package": "2.1.0-RC.2",
-    "@architect/repl": "1.0.14",
     "@architect/sandbox": "2.1.0-RC.2",
     "@architect/utils": "1.5.12-RC.0",
     "aws-sdk": "2.644.0",

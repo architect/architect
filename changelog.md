@@ -18,6 +18,11 @@
 - Added support for `@http` `any` method syntax (e.g. `any /path`)
 - Added support for `@proxy`
 
+
+### Changed
+
+- Removed support for `arc repl` – a quite old and not broadly used local workflow querying DynamoDB
+
 ---
 
 ## [7.0.6] 2020-10-06

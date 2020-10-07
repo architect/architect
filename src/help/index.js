@@ -10,7 +10,6 @@ let helps = {
 ${chalk.grey.bold('Usage')}
   ${g('arc', G('init'), '[name or path]')} ${d('................... initialize project files')}
   ${g('arc', G('sandbox'))} ${d('............................... work locally')}
-  ${g('arc', G('repl'))} ${d('.................................. REPL into DynamoDB')}
   ${g('arc', G('package'))} ${d('............................... export sam.json')}
   ${g('arc', G('deploy'), '[dirty|static|production]')} ${d('...... deploy with CFN')}
   ${g('arc', G('logs'), 'path/to/code', '[production|nuke]')} ${d('... work with logs')}
@@ -38,9 +37,6 @@ ${D('Options')}
   ${g(`-n${d(',')}`, `--name${d(',')}`, 'name')} ${d('............... append to stack name')}
   ${g(`-t${d(',')}`, `--tags${d(',')}`, 'tags')} ${d('............... add key=value tags to stack')}
 `,
-
-  repl: `${G('arc repl')}
-start a repl based on .arc`,
 
   sandbox: `${G('arc sandbox')}
 start a local web server on 3333`,

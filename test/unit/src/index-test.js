@@ -18,7 +18,6 @@ let arc = proxyquire('../../../src', {
   '@architect/hydrate/cli': returner.bind({}, 'hydrate'),
   '@architect/logs/cli': returner.bind({}, 'logs'),
   '@architect/package/cli': returner.bind({}, 'package'),
-  '@architect/repl': returner.bind({}, 'repl'),
   '@architect/sandbox/src/cli/arc': returner.bind({}, 'sandbox'),
   '@architect/destroy/src/cli': returner.bind({}, 'destroy'),
   './before': beforer.bind({}, './before'),
@@ -40,7 +39,7 @@ test('Help (and defaults)', t => {
   t.equal(returned.opts.length, 0, 'No options passed')
   t.notOk(befored, 'Did not run preflight ops')
 
-  arc([ 'help', 'repl' ])
+  arc([ 'help', 'sandbox' ])
   t.equal(returned.cmd, './help', 'Requesting help with a command succeeds')
   t.equal(returned.opts.length, 1, `Options passed: ${returned.opts[0]}`)
   t.notOk(befored, 'Did not run preflight ops')
@@ -48,7 +47,7 @@ test('Help (and defaults)', t => {
 })
 
 test('Commands', t => {
-  t.plan(63)
+  t.plan(57)
   arc([ 'create' ])
   t.equal(returned.cmd, 'create', 'Ran create')
   t.equal(returned.opts.length, 0, 'No options passed')
@@ -131,19 +130,6 @@ test('Commands', t => {
   // At this time package does not take CLI args
   arc([ 'package', '--something' ])
   t.equal(returned.cmd, 'package', 'Ran package')
-  t.equal(returned.opts.length, 1, `Options passed: ${returned.opts[0]}`)
-  t.ok(befored, 'Ran preflight ops')
-  reset()
-
-  arc([ 'repl' ])
-  t.equal(returned.cmd, 'repl', 'Ran repl')
-  t.equal(returned.opts.length, 0, 'No options passed')
-  t.ok(befored, 'Ran preflight ops')
-  reset()
-
-  // At this time repl does not take CLI args
-  arc([ 'repl', '--something' ])
-  t.equal(returned.cmd, 'repl', 'Ran repl')
   t.equal(returned.opts.length, 1, `Options passed: ${returned.opts[0]}`)
   t.ok(befored, 'Ran preflight ops')
   reset()
