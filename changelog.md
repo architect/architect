@@ -4,7 +4,7 @@
 
 ---
 
-## [7.1.0] 2020-09-30
+## [8.0.0] 2020-09-30
 
 ### Added
 
@@ -17,6 +17,19 @@
   - Fixes #760 (even though it was already closed but so what)
 - Added support for `@http` `any` method syntax (e.g. `any /path`)
 - Added support for `@proxy`
+
+---
+
+## [7.0.6] 2020-10-06
+
+### Changed
+
+- Removed Sandbox startup notice regarding Sandbox defaulting to `HTTP` API emulation mode
+
+
+### Fixed
+
+- Fixed regression when using a non-Sandbox DynamoDB instance via the `ARC_DB_EXTERNAL` env var, thanks @herschel666 & @m-butler!
 
 ---
 
