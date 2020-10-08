@@ -21,6 +21,8 @@
 
 ### Changed
 
+- Breaking change: with the addition of `@http` `any` and `*`, default `get /` greedy catchall is now deprecated
+  - To restore that behavior, either move your `get /` route to `any /*`, or just define a new `any /*` route
 - Removed support for `arc repl` – a quite old and not broadly used local workflow querying DynamoDB
 
 ---
