@@ -17,6 +17,7 @@
   - Fixes #760 (even though it was already closed but so what)
 - Added support for `@http` `any` method syntax (e.g. `any /path`)
 - Added support for `@proxy`
+- Added basic `requestContext` to `REST` API requests
 
 
 ### Changed
