@@ -4,6 +4,14 @@
 
 ---
 
+## [7.0.7] 2020-10-08
+
+### Fixed
+
+- Fixed issue where projects with `@ws` fail to start up in Sandbox, thanks @grncdr!
+
+---
+
 ## [7.0.6] 2020-10-06
 
 ### Changed
