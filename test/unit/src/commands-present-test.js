@@ -17,8 +17,6 @@ let logsCLI = require('@architect/logs/cli')
 let pkg = require('@architect/package')
 let pkgCLI = require('@architect/package/cli')
 
-let repl = require('@architect/repl')
-
 let sandbox = require('@architect/sandbox')
 let sandboxCLI = require('@architect/sandbox/src/cli/arc')
 
@@ -26,7 +24,7 @@ let destroy = require('@architect/destroy')
 let destroyCLI = require('@architect/destroy/src/cli')
 
 test('Core Architect packages and necessary CLI interfaces are present', t => {
-  t.plan(16)
+  t.plan(15)
   t.ok(create, 'create found')
   t.ok(createCLI, 'create CLI found')
   t.ok(deploy, 'deploy found')
@@ -38,7 +36,6 @@ test('Core Architect packages and necessary CLI interfaces are present', t => {
   t.ok(logsCLI, 'logs CLI found')
   t.ok(pkg, 'pkg found')
   t.ok(pkgCLI, 'pkg CLI found')
-  t.ok(repl, 'repl found')
   t.ok(sandbox, 'sandbox found')
   t.ok(sandboxCLI, 'sandbox CLI found')
   t.ok(destroy, 'destroy found')

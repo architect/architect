@@ -4,6 +4,30 @@
 
 ---
 
+## [8.0.0] 2020-10-08
+
+### Added
+
+- Added support for `@http` catchall syntax (e.g. `get /api/*`)
+  - The catchall syntax allows you to greedily capture requests anywhere beneath path part(s) specified
+  - Compare to parameters, which only catch requests at one path level (e.g. `get /api/:call` can't catch get requests to `/api/category/items/item`)
+  - Note: this is currently only supported for `HTTP` APIs, and is not currently supported in Architect for legacy `REST` APIs
+  - Fixes #969
+- Added support for `@http` `head` + `options` methods
+  - Fixes #760 (even though it was already closed but so what)
+- Added support for `@http` `any` method syntax (e.g. `any /path`)
+- Added support for `@proxy`
+- Added basic `requestContext` to `REST` API requests
+
+
+### Changed
+
+- Breaking change: with the addition of `@http` `any` and `*`, default `get /` greedy catchall is now deprecated
+  - To restore that behavior, either move your `get /` route to `any /*`, or just define a new `any /*` route
+- Removed support for `arc repl` – a quite old and not broadly used local workflow querying DynamoDB
+
+---
+
 ## [7.0.7] 2020-10-08
 
 ### Fixed

@@ -6,7 +6,6 @@ let env = require('@architect/env')
 let hydrate = require('@architect/hydrate/cli')
 let logs = require('@architect/logs/cli')
 let pkg = require('@architect/package/cli')
-let repl = require('@architect/repl')
 let sandbox = require('@architect/sandbox/src/cli/arc')
 let destroy = require('@architect/destroy/src/cli')
 
@@ -27,7 +26,6 @@ let cmds = {
   hydrate,
   logs,
   package: pkg,
-  repl,
   sandbox,
   destroy,
   version
