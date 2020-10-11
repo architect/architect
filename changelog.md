@@ -4,6 +4,15 @@
 
 ---
 
+## [8.0.1] 2020-10-10
+
+### Fixed
+
+- Improved reliability of deploying static assets in Windows
+- Fixed static asset deployments with fingerprinting enabled in Windows, fixes #782
+
+---
+
 ## [8.0.0] 2020-10-08
 
 ### Added
