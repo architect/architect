@@ -29,20 +29,20 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@architect/create": "1.2.0",
-    "@architect/deploy": "2.0.0",
+    "@architect/deploy": "2.0.1",
     "@architect/destroy": "1.0.2",
     "@architect/env": "1.0.12",
     "@architect/hydrate": "1.5.1",
     "@architect/logs": "1.0.11",
     "@architect/package": "3.0.0",
     "@architect/sandbox": "3.0.3",
-    "@architect/utils": "1.5.12",
+    "@architect/utils": "1.5.13",
     "aws-sdk": "2.644.0",
     "chalk": "4.1.0",
     "update-notifier": "5.0.0"
   },
   "devDependencies": {
-    "@architect/eslint-config": "0.0.1",
+    "@architect/eslint-config": "1.0.0",
     "codecov": "3.8.0",
     "cross-env": "7.0.2",
     "eslint": "7.11.0",
