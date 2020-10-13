@@ -4,6 +4,17 @@
 
 ---
 
+## [8.0.2] 2020-10-13
+
+### Fixed
+
+- Sandbox now responds to requests to root with only `/:param` defined in `HTTP` APIs, fixes #981
+- Improved root handling + ASAP fallthrough behavior in Sandbox
+- Fixed obscure false negative for adding Arc Static Asset Proxy when `@http` contains a route that looks like `get /:hey/there`
+- Fixed parsing of duplicate query string params in Sandbox deprecated (Arc v5) mode
+
+---
+
 ## [8.0.1] 2020-10-10
 
 ### Fixed
