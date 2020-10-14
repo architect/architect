@@ -4,7 +4,7 @@
 
 ---
 
-## [8.0.2] 2020-10-13
+## [8.0.2 - 8.0.3] 2020-10-13
 
 ### Fixed
 
@@ -12,6 +12,10 @@
 - Improved root handling + ASAP fallthrough behavior in Sandbox
 - Fixed obscure false negative for adding Arc Static Asset Proxy when `@http` contains a route that looks like `get /:hey/there`
 - Fixed parsing of duplicate query string params in Sandbox deprecated (Arc v5) mode
+- Fixed Sandbox shutdown errors when using an external local DB, thanks @herschel666!
+- Fixed Sandbox issue where default region may prevent connections to external local DB, thanks @exalted!
+- Fixed Sandbox issue where WebSocket send events may fail in `HTTP` mode, thanks @grncdr!
+- Fixed Sandbox issue where paths with a param and catchall (e.g. `/:item/*`) had malformed request payloads, fixes #983
 
 ---
 
