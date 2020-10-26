@@ -4,6 +4,22 @@
 
 ---
 
+## [8.2.0] 2020-10-26
+
+### Added
+
+- Added support for CloudFormation's new 500 resource limit! This makes us very happy! You can now ship much larger Architect projects.
+
+
+### Changed
+
+- Removed check for >200 CloudFormation resources, and Package's related `nested` CloudFormation code path
+  - This obscure CloudFormation generation path was not supported or maintained, and was intended for testing / internal use only
+  - If for whatever reason you did rely on this previous implementation **you should not upgrade to 8.2.0**
+  - Related, removed internal `.toSAM` and `.toCFN` methods in Package
+
+---
+
 ## [8.1.0] 2020-10-15
 
 ### Added
