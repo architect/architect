@@ -4,6 +4,14 @@
 
 ---
 
+## [8.2.1] 2020-10-27
+
+### Fixed
+
+- Fixed issue where API Gateway `HTTP` routes using `any` would not respect using Lambda payload format v1.0 (and would fall back to v2.0 mode)
+
+---
+
 ## [8.2.0] 2020-10-26
 
 ### Added
