@@ -39,7 +39,7 @@
     "@architect/utils": "1.5.13",
     "aws-sdk": "2.644.0",
     "chalk": "4.1.0",
-    "update-notifier": "5.0.0"
+    "update-notifier": "5.0.1"
   },
   "devDependencies": {
     "@architect/eslint-config": "1.0.0",
