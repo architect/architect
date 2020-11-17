@@ -4,7 +4,7 @@ let create = require('@architect/create')
 let createCLI = require('@architect/create/cli')
 
 let deploy = require('@architect/deploy')
-let deployCLI = require('@architect/deploy/cli')
+let deployCLI = require('@architect/deploy/src/cli')
 
 let env = require('@architect/env')
 

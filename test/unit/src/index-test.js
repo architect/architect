@@ -13,7 +13,7 @@ let reset = () => {
 
 let arc = proxyquire('../../../src', {
   '@architect/create/cli': returner.bind({}, 'create'),
-  '@architect/deploy/cli': returner.bind({}, 'deploy'),
+  '@architect/deploy/src/cli': returner.bind({}, 'deploy'),
   '@architect/env': returner.bind({}, 'env'),
   '@architect/hydrate/cli': returner.bind({}, 'hydrate'),
   '@architect/logs/cli': returner.bind({}, 'logs'),

@@ -4,6 +4,53 @@
 
 ---
 
+## [8.3.0] 2020-11-16
+
+### Added
+
+- Added support for custom file paths in all function types
+- Added support for new local preferences (`preferences.arc` or `prefs.arc`) file
+  - Add Sandbox preferences with `@sandbox`
+    - `create false` disables the local filesystem creator
+  - Example:
+```arc
+@sandbox
+create false # disables automatic function creation
+
+startup
+  echo 'Hi there!'
+  npm run test
+  node some/arbitrary/script.js
+```
+- Added Sandbox `.env` support; thanks @wesbos!
+- Added support for direct deploys of multiple functions from a single source dir (with custom file paths)
+- Added support for direct deploys to production Lambdas
+- Added support for ensuring environment variables are updated during direct deploys
+
+### Changed
+
+- Breaking change on the Sandbox startup init script beta: existing startup scripts have replaced by startup preferences (`@sandbox startup`, see above)
+  - `scripts/sandbox-startup.[js|py|rb]` must now be executable and callable from a shell via startup preferences (e.g. `node scripts/sandbox-startup.js`)
+- Implemented Inventory (`@architect/inventory`)
+- Removed legacy (and I do mean *legacy*) auto-initialization of `arc-sessions` table from Arc <5
+  - Still initializing `{appname}-{env}-arc-sesssions` tables, though
+- An inventory object is now passed as the 4th parameter to Macros; please note that this is (for now) considered internal-only and may change in the future
+
+
+### Fixed
+
+- When using Yarn, detect local vs global installs, and prefer local installs where found (via `npx` call)
+- `updater` errors now include stack traces
+- Fixed static deployments on apps with enough CloudFormation resources to paginate; fixes #996, thanks @samirrayani!
+  - Also fixed direct deployments on apps with enough CloudFormation resources to paginate
+  - Also fixed logs calls on apps with enough CloudFormation resources to paginate; thanks @tobytailor + @filmaj!
+- Fixed case where explicitly defining `@cdn false` does not disable the CDN; fixes #968
+- Fixed bug where Deploy would crash instead of bubbling a CloudFormation error
+- Fixed non-exiting CLI process when an error occurs
+- Fixed wonky order of env population message printing in Sandbox
+
+---
+
 ## [8.2.1] 2020-10-27
 
 ### Fixed
