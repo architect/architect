@@ -35,6 +35,16 @@ testing
   - Added support for `.env`
   - Only prints the environment whose variables were changed (making it easier to see what happend in projects with lots of env vars)
   - Exit gracefully instead of erroring when removing an env var that doesn't exist
+- Added support for custom default templates, thanks @Ankcorn!
+  - Add per-pragma custom templates via the Arc preferences file, example:
+```arc
+@create
+templates
+  http path/to/template/http.js
+  events path/to/template/events.py
+```
+- Added missing Lambda handler error in Sandbox, and made ever so slightly nicer the error message presentation
+- Added support for `ARC_ENV` default env var
 
 
 ### Changed
@@ -50,6 +60,11 @@ testing
   - Whether Sandbox found any env vars for the current environment
   - Whether Sandbox is using any live AWS infra (via prefs or `ARC_LOCAL`)
 - Deprecated Env writing to `.arc-env` file
+- Sandbox and Deploy no longer creates missing Lambda resources by default; to reenable that, add to your preferences file:
+```arc
+@create
+autocreate true
+```
 
 
 ### Fixed
@@ -63,6 +78,7 @@ testing
 - Fixed bug where Deploy would crash instead of bubbling a CloudFormation error
 - Fixed non-exiting CLI process when an error occurs
 - Fixed wonky order of env population message printing in Sandbox
+- Fixed Hydrate creating empty folders with `node_modules` / `vendor` dir when auto-creation is disabled and a Lambda folder isn't found
 
 ---
 
