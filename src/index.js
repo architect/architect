@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 let chalk = require('chalk')
+let _inventory = require('@architect/inventory')
 let create = require('@architect/create/cli')
 let deploy = require('@architect/deploy/src/cli')
 let env = require('@architect/env')
@@ -47,7 +48,10 @@ let pretty = {
 }
 
 async function run ({ cmd, opts }) {
+  let runBefore = ![ 'create', 'init', 'version' ].includes(cmd)
   try {
+    let inventory = await _inventory({})
+    if (runBefore) before({ cmd, inventory })
     await cmds[cmd](opts)
   }
   catch (err) {
@@ -79,18 +83,7 @@ async function main (args) {
   else if (!cmd || cmd === 'help') {
     help(opts)
   }
-  else if (cmd === 'create' || cmd === 'init' || cmd === 'version') {
-    await run({ cmd, opts })
-  }
   else {
-    // Only run preflight ops on workflows related to existing projects
-    try {
-      before(cmd)
-    }
-    catch (err) {
-      pretty.fail(cmd, err)
-      process.exit(1)
-    }
     await run({ cmd, opts })
   }
 }

@@ -45,6 +45,7 @@ templates
 ```
 - Added missing Lambda handler error in Sandbox, and made ever so slightly nicer the error message presentation
 - Added support for `ARC_ENV` default env var
+- Added ability to define JSON-formatted Architect manifest in `package.json` (via `arc` or `architect` param)
 
 
 ### Changed
@@ -79,6 +80,7 @@ autocreate true
 - Fixed non-exiting CLI process when an error occurs
 - Fixed wonky order of env population message printing in Sandbox
 - Fixed Hydrate creating empty folders with `node_modules` / `vendor` dir when auto-creation is disabled and a Lambda folder isn't found
+- Fixed issue where Logs wouldn't get log data from DynamoDB streams Lambdas; thanks @filmaj!
 
 ---
 
