@@ -4,6 +4,14 @@
 
 ---
 
+## [8.3.1] 2020-11-25
+
+### Fixed
+
+- Fixes env var population when Deploy is run via CLI, thanks @herschel666!
+
+---
+
 ## [8.3.0] 2020-11-16
 
 ### Added
@@ -59,7 +67,7 @@ templates
   - Whether Sandbox found any env vars for the current environment
   - Whether Sandbox is using any live AWS infra (via prefs or `ARC_LOCAL`)
 - Deprecated Env writing to `.arc-env` file
-- Sandbox and Deploy no longer creates missing Lambda resources by default; to reenable that, add to your preferences file:
+- Sandbox and Deploy no longer create missing Lambda resources by default; to reenable that, add to your preferences file:
 ```arc
 @create
 autocreate true
