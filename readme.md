@@ -15,19 +15,21 @@ Full documentation found at: https://arc.codes
 
 ## Installation
 
-Open your terminal:
+Open your terminal and install `arc` globally:
 
 ```bash
 npm i -g @architect/architect
 ```
 
-Check Architect version:
+Check the version:
 
 ```bash
 arc version
 ```
 
-Run `arc` with no arguments to get help. To create a new app:
+> Protip: run `arc` with no arguments to get help
+
+Create a new app:
 
 ```bash
 mkdir testapp
@@ -35,13 +37,12 @@ cd testapp
 arc init
 ```
 
-Kick up the dev server:
+Kick up the local dev server:
 
 ```bash
 arc sandbox
 ```
 > `Cmd / Ctrl + c` exits the sandbox
-
 
 Deploy to `staging`:
 
@@ -49,13 +50,13 @@ Deploy to `staging`:
 arc deploy
 ```
 
-Deploy to `production`:
+Ship to `production`:
 
 ```bash
 arc deploy production
 ```
 
-Eject to AWS SAM flavoured CloudFormation:
+Eject to AWS SAM flavored CloudFormation:
 
 ```
 arc package
