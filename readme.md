@@ -15,34 +15,51 @@ Full documentation found at: https://arc.codes
 
 ## Installation
 
-### `npm`
-```
+Open your terminal:
+
+```bash
 npm i -g @architect/architect
 ```
 
+Check Architect version:
 
-### Binary Distributions
-
-Coming soon! If you are interested in helping please let us know! Currently you can generate experimental binaries by cloning this repo and running `npm run build`.
-
-
-## Usage
-
-Run `arc` with no arguments to get help. To create a new app and kick up the local dev server:
-
+```bash
+arc version
 ```
+
+Run `arc` with no arguments to get help. To create a new app:
+
+```bash
 mkdir testapp
 cd testapp
 arc init
+```
+
+Kick up the dev server:
+
+```bash
 arc sandbox
 ```
+> `Cmd / Ctrl + c` exits the sandbox
 
-Package and deploy your app (via AWS CloudFormation):
 
-```
+Deploy to `staging`:
+
+```bash
 arc deploy
 ```
 
+Deploy to `production`:
+
+```bash
+arc deploy production
+```
+
+Eject to AWS SAM flavoured CloudFormation:
+
+```
+arc package
+```
 
 ### Founding team
 
