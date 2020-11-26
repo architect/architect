@@ -4,11 +4,14 @@
 
 ---
 
-## [8.3.1] 2020-11-25
+## [8.3.1 - 8.3.2] 2020-11-25
 
 ### Fixed
 
 - Fixes env var population when Deploy is run via CLI, thanks @herschel666!
+- Fixed double banner print when being called from `@architect/architect`
+- Fixed direct deploys when project does not have an explicit @http root handler, thanks @filmaj!
+- Fixed WebSocket API failure related to AWS bug; fixes #1015, thanks @filmaj!
 
 ---
 
