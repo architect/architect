@@ -4,7 +4,7 @@
 
 > Build ultra scalable database backed web apps on AWS serverless infrastructure with full local, offline workflows, and more.
 
-[![GitHub CI status](https://github.com/architect/architect/workflows/Node%20CI/badge.svg)](https://github.com/architect/architect/actions?query=workflow%3A%22Node+CI%22) [![Join Architect Slack](https://img.shields.io/badge/Slack-join!-blue?style=flat&logo=slack)](https://join.slack.com/t/architecture-as-text/shared_invite/MjE2MzU4Nzg0NTY1LTE1MDA2NzgyMzYtODE2NzRkOGRmYw)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![GitHub CI status](https://github.com/architect/architect/workflows/Node%20CI/badge.svg)](https://github.com/architect/architect/actions?query=workflow%3A%22Node+CI%22) [![npm version](https://badge.fury.io/js/%40architect%2Farchitect.svg)](https://badge.fury.io/js/%40architect%2Farchitect) [![Join Architect Slack](https://img.shields.io/badge/Slack-join!-blue?style=flat&logo=slack)](https://join.slack.com/t/architecture-as-text/shared_invite/MjE2MzU4Nzg0NTY1LTE1MDA2NzgyMzYtODE2NzRkOGRmYw) 
 <!-- [![codecov](https://codecov.io/gh/architect/architect/branch/master/graph/badge.svg)](https://codecov.io/gh/architect/architect) -->
 
 
