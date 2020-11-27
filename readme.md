@@ -1,9 +1,8 @@
-[<img src="https://s3-us-west-2.amazonaws.com/arc.codes/architect-logo-500b@2x.png" width=500>](https://www.npmjs.com/package/@architect/architect)
+<p align=center><a href=https://www.npmjs.com/package/@architect/architect><img src="https://s3-us-west-2.amazonaws.com/arc.codes/architect-logo-500b@2x.png" width=500></a></p>
+
+<p align=center><a href="https://github.com/architect/architect/actions?query=workflow%3A%22Node+CI%22"><img src=https://github.com/architect/architect/workflows/Node%20CI/badge.svg alt="GitHub CI status"></a> <a href="https://badge.fury.io/js/%40architect%2Farchitect"><img alt="npm version" src="https://badge.fury.io/js/%40architect%2Farchitect.svg"></a> <a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="Apache-2.0 License"></a> <a href="https://join.slack.com/t/architecture-as-text/shared_invite/MjE2MzU4Nzg0NTY1LTE1MDA2NzgyMzYtODE2NzRkOGRmYw"><img alt="Join Architect Slack" src="https://img.shields.io/badge/Slack-join!-blue?style=flat&logo=slack"></a></p>
 
 > Build ultra scalable database backed web apps on AWS serverless infrastructure with full local, offline workflows, and more. Full documentation found at: https://arc.codes
-
-[![GitHub CI status](https://github.com/architect/architect/workflows/Node%20CI/badge.svg)](https://github.com/architect/architect/actions?query=workflow%3A%22Node+CI%22) [![npm version](https://badge.fury.io/js/%40architect%2Farchitect.svg)](https://badge.fury.io/js/%40architect%2Farchitect) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Join Architect Slack](https://img.shields.io/badge/Slack-join!-blue?style=flat&logo=slack)](https://join.slack.com/t/architecture-as-text/shared_invite/MjE2MzU4Nzg0NTY1LTE1MDA2NzgyMzYtODE2NzRkOGRmYw) 
-<!-- [![codecov](https://codecov.io/gh/architect/architect/branch/master/graph/badge.svg)](https://codecov.io/gh/architect/architect) -->
 
 ## Installation
 
