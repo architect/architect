@@ -4,6 +4,14 @@
 
 ---
 
+## [8.3.4] 2020-11-29
+
+### Fixed
+
+- Fixed bug where `NODE_ENV` would not be updated to `production` if `production` environment had no userland env vars; thanks @barryf!
+
+---
+
 ## [8.3.3] 2020-11-28
 
 ### Changed
