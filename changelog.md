@@ -4,6 +4,22 @@
 
 ---
 
+## [8.3.3] 2020-11-28
+
+### Changed
+
+- Internal change: moved ASAP + fingerprinting from Package into Deploy (finally)
+
+
+### Fixed
+
+- Fixed `fingerprint` check that could cause false negative fingerprinting
+- Improved reliability of direct deploys; thanks @filmaj!
+- Gracefully fail when Sandbox startup script does not supply sufficient arguments; partially fixes #1019, thanks @filmaj!
+- Fixed Logs queries on Lambdas with custome file paths; fixes #1020, thanks @filmaj!
+
+---
+
 ## [8.3.1 - 8.3.2] 2020-11-25
 
 ### Fixed
