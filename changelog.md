@@ -4,6 +4,14 @@
 
 ---
 
+## [8.3.5] 2020-11-30
+
+### Fixed
+
+- Fixed broken `@tables stream` documentation link in Create (which will be added back in later!), thanks @filmaj!
+
+---
+
 ## [8.3.4] 2020-11-29
 
 ### Fixed
