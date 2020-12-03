@@ -4,6 +4,30 @@
 
 ---
 
+## [-] 2020-12-03
+
+
+### Added
+
+- Added support for new `@shared` pragma with selective shared code, uh, sharing
+- Added support for custom shared + views file paths
+- Added global preferences lookup (`~/.preferences.arc` + `~/.prefs.arc`, etc.) and global / local preference merging
+- Added Create support for custom templates in paths outside the project directory (e.g. `~/tmpl/http.js`, `../../tmpl/http.js`)
+
+
+### Changed
+
+- Removed occasional unnecessary printing of static asset deploy status
+
+
+### Fixed
+
+- Fixed obscure circumstance where moving or deleting a symlinked shared or views folder can crash hydration
+  - Shared file copier now always deletes destination file dirs before writing instead of checking existence (which may result in false negatives for existence
+- Fixed potential for empty files to be written to disk during Create initialization should a custom template not be found
+
+---
+
 ## [8.3.5] 2020-11-30
 
 ### Fixed
