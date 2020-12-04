@@ -4,15 +4,16 @@
 
 ---
 
-## [-] 2020-12-03
+## [8.3.6] 2020-12-03
 
 
 ### Added
 
 - Added support for new `@shared` pragma with selective shared code, uh, sharing
 - Added support for custom shared + views file paths
-- Added global preferences lookup (`~/.preferences.arc` + `~/.prefs.arc`, etc.) and global / local preference merging
-- Added Create support for custom templates in paths outside the project directory (e.g. `~/tmpl/http.js`, `../../tmpl/http.js`)
+- Added global preferences lookup (`~/.preferences.arc` + `~/.prefs.arc`, etc.) and global / local preference merging; thanks @andybee + @exalted!
+- Added Create support for custom templates in paths outside the project directory (e.g. `~/tmpl/http.js`, `../../tmpl/http.js`); thanks @andybee!
+- Added response payload size validation; `@http` Lambdas with >6MB responses will now fail gracefully; thanks @andybee!
 
 
 ### Changed
