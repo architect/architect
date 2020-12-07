@@ -4,6 +4,31 @@
 
 ---
 
+## [-]
+
+### Added
+
+- Added support for automated dependency management
+  - Simply add all your packages' dependencies to your root `package.json`
+  - During deployment, Architect now inspects your Lambda's `*.js` files and automatically works out which Node.js dependencies to install
+  - Like many tools (such as bundlers), Architect's automated dependency management relies on static analysis, so if you dynamically generate your `require()` arguments, this will not work
+    - Your solution in this case is to simply add any necessary `package.json` files to your Lambdas, as has always been possible
+
+
+### Changed
+
+- Deploy artifact cleaner now makes a best effort run after every deployment, whether or not it succeeded
+- Sandbox out of bounds dependency warnings are now updated and limited to take into account automated dependency management
+- Partially styled Sandbox error views
+
+
+### Fixed
+
+- Added missing dependency hydration step to direct deploys
+- Fixed Sandbox formatting in unknown `@http` userland error state
+
+---
+
 ## [8.3.6] 2020-12-03
 
 
