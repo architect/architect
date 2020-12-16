@@ -29,6 +29,14 @@
 
 ---
 
+## [8.3.7] 2020-12-09
+
+### Fixed
+
+- Fixed inaccurate `HTTP` API payload or legacy (`REST`) fallback in certain circumstances
+
+---
+
 ## [8.3.6] 2020-12-03
 
 
