@@ -32,10 +32,10 @@
     "@architect/deploy": "2.3.0-RC.2",
     "@architect/destroy": "1.0.4",
     "@architect/env": "1.1.1",
-    "@architect/hydrate": "1.9.0-RC.3",
+    "@architect/hydrate": "1.9.0-RC.4",
     "@architect/logs": "2.0.1",
     "@architect/package": "6.0.1",
-    "@architect/sandbox": "3.3.1-RC.0",
+    "@architect/sandbox": "3.3.1-RC.2",
     "aws-sdk": "2.712.0",
     "chalk": "4.1.0",
     "update-notifier": "5.0.1"

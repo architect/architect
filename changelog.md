@@ -4,7 +4,7 @@
 
 ---
 
-## [-]
+## [8.4.0]
 
 ### Added
 
@@ -26,6 +26,10 @@
 
 - Added missing dependency hydration step to direct deploys
 - Fixed Sandbox formatting in unknown `@http` userland error state
+- Fixed Hydrate `npm` + `yarn` calls potentially installing developer dependencies in Lambdas; fixes #1034, thanks @BenoitAverty!
+- Fixed alternative handler file checks when using Deno; fixes #1022
+- Fixed middleware handling `ARC_SANDBOX_ENABLE_CORS`; thanks @neilhoff!
+- Fixes serving bare `@static` (i.e. S3-only with no `@http`) apps; fixes #1031, thanks @dam!
 
 ---
 
