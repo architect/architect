@@ -4,7 +4,7 @@
 
 ---
 
-## [8.4.0 - 8.4.1] 2020-12-19
+## [8.4.0 - 8.4.2] 2020-12-19
 
 ### Added
 
@@ -37,6 +37,7 @@
 - Fixed middleware handling `ARC_SANDBOX_ENABLE_CORS`; thanks @neilhoff!
 - Fixed serving bare `@static` (i.e. S3-only with no `@http`) apps; fixes #1031, thanks @dam!
 - Fixed issue where longer `@scheduled` function names would fail to deploy due to funky SAM transform behavior; thanks @gmartins, fixes #1038
+- Fixed issue where `@http any /*` could clobber the ability to send `@ws` messages locally; fixes #1039, thanks @mikemaccana!
 
 ---
 
