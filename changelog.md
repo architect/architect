@@ -10,9 +10,12 @@
 
 - Added support for automated dependency management (aka Lambda treeshaking)
   - Simply add all your various Lambdas' dependencies to your root `package.json`
-  - During deployment, Architect now inspects each Lambda's `*.js` files and works out which Node.js dependencies are needed by each Lambda
-  - Like many tools (such as bundlers), Architect's automated dependency management relies on static analysis of your code, so if you dynamically generate your `require()` arguments, Lambda treeshaking will not work
+  - During deployment, Architect now inspects each Lambda's `*.js` files (as well as your `shared` and `views` directories) and works out which Node.js dependencies are needed to run
+  - Like many tools (such as bundlers), Architect's automated dependency management relies on static analysis of your code
+    - As such, if you dynamically generate your `require()` arguments, Lambda treeshaking will not work
     - Your solution in this case is to simply add any necessary `package.json` files to your Lambdas, as has always been possible
+  - Currently, Lambda treeshaking is only available for CommonJS dependencies
+    - Future support will be added for ES Modules when Lambda adds support for Node.js 14+
   - Existing Lambdas that have their own `package.json` files will continue to work as they always have
     - To let Architect take over, remove your `package.json` files, and make sure the appropriate dependencies are installed in root
 
