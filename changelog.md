@@ -8,23 +8,26 @@
 
 ### Added
 
-- Added support for automated dependency management
+- Added support for automated dependency management (aka Lambda treeshaking)
   - Simply add all your various Lambdas' dependencies to your root `package.json`
-  - During deployment, Architect now inspects each Lambda's `*.js` files and work out which Node.js dependencies to install
-  - Like many tools (such as bundlers), Architect's automated dependency management relies on static analysis, so if you dynamically generate your `require()` arguments, this will not work
+  - During deployment, Architect now inspects each Lambda's `*.js` files and works out which Node.js dependencies are needed by each Lambda
+  - Like many tools (such as bundlers), Architect's automated dependency management relies on static analysis of your code, so if you dynamically generate your `require()` arguments, Lambda treeshaking will not work
     - Your solution in this case is to simply add any necessary `package.json` files to your Lambdas, as has always been possible
+  - Existing Lambdas that have their own `package.json` files will continue to work as they always have
+    - To let Architect take over, remove your `package.json` files, and make sure the appropriate dependencies are installed in root
 
 
 ### Changed
 
-- Deploy artifact cleaner now makes a best effort run after every deployment, whether or not it succeeded
-- Sandbox out of bounds dependency warnings are now updated and limited to take into account automated dependency management
+- Sandbox out of bounds dependency warnings are now updated and limited to take into account Lambda treeshaking
 - De-uglified various Sandbox error views
+- Deploy artifact cleaner now makes a best effort run after every deployment, whether or not it succeeded
 
 
 ### Fixed
 
 - Added missing dependency hydration step to direct deploys
+- Fixed inability to deploy static asset-only apps; thanks @thedersen!
 - Fixed Sandbox formatting in unknown `@http` userland error state
 - Fixed Hydrate `npm` + `yarn` calls potentially installing developer dependencies in Lambdas; fixes #1034, thanks @BenoitAverty!
 - Fixed alternative handler file checks when using Deno; fixes #1022
