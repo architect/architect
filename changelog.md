@@ -4,7 +4,7 @@
 
 ---
 
-## [8.4.0] 2020-12-19
+## [8.4.0 - 8.4.1] 2020-12-19
 
 ### Added
 
@@ -35,7 +35,8 @@
 - Fixed Hydrate `npm` + `yarn` calls potentially installing developer dependencies in Lambdas; fixes #1034, thanks @BenoitAverty!
 - Fixed alternative handler file checks when using Deno; fixes #1022
 - Fixed middleware handling `ARC_SANDBOX_ENABLE_CORS`; thanks @neilhoff!
-- Fixes serving bare `@static` (i.e. S3-only with no `@http`) apps; fixes #1031, thanks @dam!
+- Fixed serving bare `@static` (i.e. S3-only with no `@http`) apps; fixes #1031, thanks @dam!
+- Fixed issue where longer `@scheduled` function names would fail to deploy due to funky SAM transform behavior; thanks @gmartins, fixes #1038
 
 ---
 
