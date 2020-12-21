@@ -4,6 +4,15 @@
 
 ---
 
+## [8.4.3] 2020-12-21
+
+### Fixed
+
+- Fixed regression where `@scheduled` functions may not fire; fixes #1040, thanks @alexbepple!
+- Fixed issue where the static bucket URL in the CloudFormation Output was wrong for newer AWS regions; thanks @thedersen!
+
+---
+
 ## [8.4.0 - 8.4.2] 2020-12-19
 
 ### Added
