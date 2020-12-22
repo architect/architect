@@ -4,7 +4,11 @@
 
 ---
 
-## [8.4.3] 2020-12-21
+## [8.4.3 - 8.4.4] 2020-12-21
+
+### Added
+
+- Added Lambda code payload size report for full deploys
 
 ### Fixed
 
