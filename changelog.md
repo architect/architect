@@ -4,6 +4,17 @@
 
 ---
 
+## [-]
+
+### Added
+
+- Added new Env prompts:
+  - Create a local preferences file if one does not already exist
+  - Add or update a `.gitignore` file (if project dir is a git repo)
+  - Fixes #1033; thanks @rbethel!
+
+---
+
 ## [8.4.3 - 8.4.4] 2020-12-21
 
 ### Added
