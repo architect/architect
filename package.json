@@ -44,7 +44,7 @@
     "@architect/eslint-config": "1.0.0",
     "codecov": "3.8.1",
     "cross-env": "7.0.3",
-    "eslint": "7.16.0",
+    "eslint": "7.17.0",
     "nyc": "15.1.0",
     "proxyquire": "^2.1.3",
     "tap-spec": "^5.0.0",
