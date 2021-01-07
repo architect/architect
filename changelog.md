@@ -8,10 +8,22 @@
 
 ### Added
 
+- Added `@sandbox-startup` preferences support, fixes #1032; thanks @rbethel!
 - Added new Env prompts:
   - Create a local preferences file if one does not already exist
   - Add or update a `.gitignore` file (if project dir is a git repo)
   - Fixes #1033; thanks @rbethel!
+
+### Changed
+
+- Deprecated the wonky and sometimes broken `@sandbox startup` setting (in favor of the above `@sandbox-startup` pragma)
+- Passing options object to Sandbox service methods is now, uh, optional (e.g. `sandbox.http.start()`)
+
+
+### Fixed
+
+- Fixed false positive dependency warnings when Lambda treeshaking encounters a `shared` or `views` directory with its own package.json file and dependencies; thanks @exalted
+- Fixed optional log suppression on a couple startup prints; fixes #1045, thanks @mikemaccana!
 
 ---
 
