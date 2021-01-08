@@ -4,11 +4,12 @@
 
 ---
 
-## [-]
+## [8.4.5] 2021-01-07
 
 ### Added
 
 - Added `@sandbox-startup` preferences support, fixes #1032; thanks @rbethel!
+- Added ability for `@static` buckets (otherwise enabled by default) to be disabled with `@static false`
 - Added new Env prompts:
   - Create a local preferences file if one does not already exist
   - Add or update a `.gitignore` file (if project dir is a git repo)
@@ -24,6 +25,7 @@
 
 - Fixed false positive dependency warnings when Lambda treeshaking encounters a `shared` or `views` directory with its own package.json file and dependencies; thanks @exalted
 - Fixed optional log suppression on a couple startup prints; fixes #1045, thanks @mikemaccana!
+- Fixed typo in Deploy error log statement for missing macros
 
 ---
 
