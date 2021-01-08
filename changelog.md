@@ -18,12 +18,12 @@
 ### Changed
 
 - Deprecated the wonky and sometimes broken `@sandbox startup` setting (in favor of the above `@sandbox-startup` pragma)
-- Passing options object to Sandbox service methods is now, uh, optional (e.g. `sandbox.http.start()`)
+- Passing options object to Sandbox service methods is now, uh, optional (e.g. `sandbox.http.start()`); thanks @exalted!
 
 
 ### Fixed
 
-- Fixed false positive dependency warnings when Lambda treeshaking encounters a `shared` or `views` directory with its own package.json file and dependencies; thanks @exalted
+- Fixed false positive dependency warnings when Lambda treeshaking encounters a `shared` or `views` directory with its own package.json file and dependencies; thanks @exalted!
 - Fixed optional log suppression on a couple startup prints; fixes #1045, thanks @mikemaccana!
 - Fixed typo in Deploy error log statement for missing macros
 
