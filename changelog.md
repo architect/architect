@@ -4,6 +4,15 @@
 
 ---
 
+## [8.4.6] 2021-01-18
+
+### Fixed
+
+- Fixed crash in Windows on invalid regexp, fixes #1052, thanks @kevin4dhd!
+- Fixed minor typo in Sandbox's inaccessible dependency warning; thanks @jeremyw!
+
+---
+
 ## [8.4.5] 2021-01-07
 
 ### Added
