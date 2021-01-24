@@ -4,6 +4,14 @@
 
 ---
 
+## [8.4.7] 2021-01-26
+
+### Fixed
+
+- Updated `arc help` text based on latest flags and information, added help text for `logs`
+
+---
+
 ## [8.4.6] 2021-01-18
 
 ### Fixed
