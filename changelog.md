@@ -6,6 +6,10 @@
 
 ## [8.4.7] 2021-01-26
 
+### Added
+
+- New `--no-hydrate` flag to `arc deploy` in case you want arc to skip installing / managing dependencies within functions before a deploy.
+
 ### Fixed
 
 - Updated `arc help` text based on latest flags and information, added help text for `logs`

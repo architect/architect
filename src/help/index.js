@@ -49,6 +49,7 @@ ${D('Options')}
   ${g(`-n${d(',')}`, `--name${d(',')}`, 'name')} ${d(`........................ append to Stack name, i.e. ${D('--name CI')} results in a Stack name of ${D('AppNameStagingCI')}`)}
   ${g(`-t${d(',')}`, `--tags${d(',')}`, 'tags')} ${d('........................ add key=value tags to Stack')}
   ${g(`--prune${d(',')}`, 'prune')} ${d('.......................... delete orphaned static files from the static S3 bucket; files that are not present in the local @static directory (by default in /public) will be removed')}
+  ${g('--no-hydrate')} ${d('............................ skip hydrating functions before deploy; arc will not try to install dependencies in each of your function directories')}
 `,
 
   sandbox: `${G('arc sandbox')} ${g('[options]')}
