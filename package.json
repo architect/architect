@@ -38,7 +38,7 @@
     "@architect/sandbox": "3.3.5",
     "aws-sdk": "2.712.0",
     "chalk": "4.1.0",
-    "update-notifier": "5.0.1"
+    "update-notifier": "5.1.0"
   },
   "devDependencies": {
     "@architect/eslint-config": "1.0.0",
