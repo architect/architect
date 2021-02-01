@@ -4,15 +4,29 @@
 
 ---
 
+## [8.4.8] 2021-02-01
+
+### Added
+
+- Added environment's `PYTHONPATH` (if present) to Sandbox Lambda executions, thanks @scoates!
+
+---
+
 ## [8.4.7] 2021-01-26
 
 ### Added
 
 - New `--no-hydrate` flag to `arc deploy` in case you want arc to skip installing / managing dependencies within functions before a deploy.
+- Added `installRoot` param to `@architect/hydrate` API for explicitly enabling root dependencies to be installed`
+- Added `npx` bin for standalone CLI usage of Hydrate (`npx arc-hydrate`)
+
 
 ### Fixed
 
 - Updated `arc help` text based on latest flags and information, added help text for `logs`
+- Fixed `--autoinstall` flag not being detected when running `arc hydrate`
+- Fixed Hydrate cleanup on machines that globally disable `package-lock.json`
+- Fixed printing correct number of functions to hydrate when Lambda treeshaking is involved
 
 ---
 
