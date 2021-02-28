@@ -4,6 +4,14 @@
 
 ---
 
+## [8.4.9] 2021-02-28
+
+### Added
+
+- `arc destroy` now removes CloudWatch Log Groups, `arc env`-added environment variables and the S3 deployment bucket when run, in addition to removing the CloudFormation Stack.
+
+---
+
 ## [8.4.8] 2021-02-01
 
 ### Added
@@ -17,7 +25,7 @@
 ### Added
 
 - New `--no-hydrate` flag to `arc deploy` in case you want arc to skip installing / managing dependencies within functions before a deploy.
-- Added `installRoot` param to `@architect/hydrate` API for explicitly enabling root dependencies to be installed`
+- Added `installRoot` param to `@architect/hydrate` API for explicitly enabling root dependencies to be installed
 - Added `npx` bin for standalone CLI usage of Hydrate (`npx arc-hydrate`)
 
 

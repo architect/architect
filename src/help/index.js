@@ -82,12 +82,12 @@ ${g(`arc env`)} ${d('...........................................................
 `,
 
   destroy: `${G('arc destroy')}
-Destroy your current project's CloudFormation Stack. Removes all resources associated with your arc app. Unless --production is specified, this command will destroy your staging Stack.
+Destroy your current project's CloudFormation Stack. Deletes all resources associated with your arc app (including environment variables, CloudWatch Logs and deployment bucket). Unless --production is specified, this command will destroy your staging Stack.
 
 ${D('Options')}
   ${g(`--name`)} ${d('......... name of your app (required)')}
-  ${g(`--force`)} ${d('........ destroy an app that has database tables and/or static assets. Note: if the static S3 bucket is not empty, this command will fail.')}
-  ${g(`--production`)} ${d('... destroy the production Stack of your app')}
+  ${g(`--force`)} ${d('........ destroy an app that has database tables and/or static assets')}
+  ${g(`--production`)} ${d('... destroy the production version of your app')}
 `,
 
   logs: `${G('arc logs [options] <path/to/function>')}
