@@ -4,6 +4,19 @@
 
 ---
 
+## [8.4.10] 2021-03-02
+
+### Added
+
+- Added support for `name` property in `@indexes` pragma to allow for explicit naming of Global Secondary Indexes; thanks @anatomic!
+- Gracefully handle file watcher limit when using `arc sandbox`; thanks @mawdesley!
+
+### Fixed
+
+- Gracefully return an HTTP 400 response if malformed JSON is passed to to the `@events` bus server when using `arc sandbox`.
+
+---
+
 ## [8.4.9] 2021-02-28
 
 ### Added
