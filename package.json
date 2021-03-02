@@ -34,8 +34,8 @@
     "@architect/env": "1.2.0",
     "@architect/hydrate": "1.9.5",
     "@architect/logs": "2.0.1",
-    "@architect/package": "6.0.4",
-    "@architect/sandbox": "3.3.6",
+    "@architect/package": "6.1.0",
+    "@architect/sandbox": "3.3.7",
     "aws-sdk": "2.712.0",
     "chalk": "4.1.0",
     "update-notifier": "5.1.0"
