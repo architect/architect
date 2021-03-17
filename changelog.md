@@ -4,6 +4,19 @@
 
 ---
 
+## [8.4.11] 2021-03-17
+
+### Added
+
+- Added rough, early internal service discovery endpoint for upcoming neat things
+
+
+### Fixed
+
+- Fixed `arc init` file creation in projects that use Architect within `package.json`
+
+---
+
 ## [8.4.10] 2021-03-02
 
 ### Added
