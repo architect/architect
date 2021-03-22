@@ -4,6 +4,17 @@
 
 ---
 
+## [8.5.0] 2021-03-22
+
+### Added
+
+- Added initial (beta!) support for `@plugins`, fully extensible arc project
+    lifecycle interface. Check out [the plugin
+    docs](https://arc.codes/docs/en/guides/extend/plugins) for more
+    details.
+
+---
+
 ## [8.4.11] 2021-03-17
 
 ### Added
