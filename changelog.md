@@ -4,6 +4,15 @@
 
 ---
 
+## [8.5.2] 2021-03-24
+
+### Fixed
+
+- Fixed deployments for legacy REST APIs that do not have a root handler defined; fixes [#1089](https://github.com/architect/architect/issues/1089)
+- Error gracefully when new verbose route format is used with legacy REST APIs
+
+---
+
 ## [8.5.1] 2021-03-22
 
 ### Fixed
