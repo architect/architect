@@ -4,6 +4,14 @@
 
 ---
 
+## [8.5.3] 2021-03-25
+
+### Fixed
+
+- Fixed project structure and basic file creation when initializing a fresh new project; fixes [#1078](https://github.com/architect/architect/issues/1078)
+
+---
+
 ## [8.5.2] 2021-03-24
 
 ### Fixed
