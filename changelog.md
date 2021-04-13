@@ -4,6 +4,15 @@
 
 ---
 
+## [8.5.4] 2021-04-12
+
+### Fixed
+
+- Fixed hydration of `src/shared` folder to plugin-generated Lambda functions; fixes [#1116](https://github.com/architect/architect/issues/1116)
+- Fixed error during `arc destroy` if either `@static` or deployment S3 bucket no longer exists (could happen during a previous `arc destroy` incomplete execution or crash); bucket removal during `destroy` is now idempotent
+
+---
+
 ## [8.5.3] 2021-03-25
 
 ### Fixed
