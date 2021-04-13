@@ -30,9 +30,9 @@
   "dependencies": {
     "@architect/create": "1.4.1",
     "@architect/deploy": "2.5.1",
-    "@architect/destroy": "1.1.0",
+    "@architect/destroy": "1.1.1",
     "@architect/env": "1.2.0",
-    "@architect/hydrate": "1.9.6",
+    "@architect/hydrate": "1.9.7",
     "@architect/logs": "2.1.0",
     "@architect/package": "6.2.0",
     "@architect/sandbox": "3.4.1",
