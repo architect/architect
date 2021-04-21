@@ -4,11 +4,19 @@
 
 ---
 
+## [8.5.6] 2021-04-21
+
+### Fixed
+
+- Fixed hydration of `src/shared` error if multiple lambdas were aliased to a single source location, fixes [#1124](https://github.com/architect/architect/issues/1124)
+
+---
+
 ## [8.5.5] 2021-04-19
 
 ### Fixed
 
-- Sandbox now supports named `@indexes` (via the `name` parameter), fixes [#1122](https://github.com/architect/architect/issues/1099)
+- Sandbox now supports named `@indexes` (via the `name` parameter), fixes [#1122](https://github.com/architect/architect/issues/1122)
 
 ---
 
