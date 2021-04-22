@@ -4,6 +4,14 @@
 
 ---
 
+## [8.5.7] 2021-04-22
+
+### Fixed
+
+- Fixed bug where if macros created a copy of the CloudFormation JSON being mutated, that could result in some CloudFormation compilation steps to be ignored; fixes [#1127](https://github.com/architect/architect/issues/1127)
+
+---
+
 ## [8.5.6] 2021-04-21
 
 ### Fixed
