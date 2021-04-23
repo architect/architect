@@ -4,6 +4,14 @@
 
 ---
 
+## [8.5.8] 2021-04-23
+
+### Fixed
+
+- Fixed bug introduced in 8.5.7 with switch to async task processing in deploy; fixes [#421](https://github.com/architect/functions/issues/1127)
+
+---
+
 ## [8.5.7] 2021-04-22
 
 ### Fixed
