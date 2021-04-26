@@ -9,6 +9,7 @@
 ### Fixed
 
 - Fixed `views` not hydrating in projects that don't use `shared`; fixes [#1133](https://github.com/architect/architect/issues/1133)
+- Fixed bug where plugin-generated Lambdas would not have proper built-in production environment variables assigned when running a production deploy; fixes [#1134](https://github.com/architect/architect/issues/1134)
 
 ---
 
