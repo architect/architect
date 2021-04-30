@@ -4,6 +4,22 @@
 
 ---
 
+## [8.5.10] 2021-04-30
+
+### Added
+
+- Added support for destroying custom stage names (aka stack names), fixes #1055; thanks @filmaj + @ryanbethel!
+  - CLI: `arc destroy --app yourappname --name thecustomstackname`
+- Added `--now` CLI flag in case you just like really need to destroy stuff right. now.
+
+
+### Changed
+
+- Should now use `--app` to specify the app to destroy (as opposed to the `--name` CLI flag, which is now used for custom stack names)
+  - However, if you don't do this, nothing will be broken; and, of course, `--app` and `--name` can now be used together
+
+---
+
 ## [8.5.9] 2021-04-26
 
 ### Fixed

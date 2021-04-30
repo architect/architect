@@ -30,7 +30,7 @@
   "dependencies": {
     "@architect/create": "1.4.1",
     "@architect/deploy": "2.5.4",
-    "@architect/destroy": "1.1.1",
+    "@architect/destroy": "1.2.0",
     "@architect/env": "1.2.0",
     "@architect/hydrate": "1.9.9",
     "@architect/logs": "2.1.0",
