@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@architect/eslint-config": "1.0.0",
-    "codecov": "3.8.1",
+    "codecov": "3.8.2",
     "cross-env": "7.0.3",
     "eslint": "7.25.0",
     "nyc": "15.1.0",
