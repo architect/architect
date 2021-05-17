@@ -4,6 +4,14 @@
 
 ---
 
+## [8.5.12] 2021-05-17
+
+### Fixed
+
+- Fixed issue where Hydrate might get a bit overly aggressive and remove root dependencies during Lambda treeshaking; thanks @ryanbethel!
+
+---
+
 ## [8.5.11] 2021-05-11
 
 ### Fixed
