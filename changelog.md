@@ -4,6 +4,28 @@
 
 ---
 
+## [8.5.13] 2021-05-19
+
+### Added
+
+- Added new CLI flags for improved logging – these are rolling out first to Sandbox, and will be introduced into other workflows over the coming weeks
+  - `--quiet` (`-q`, `quiet`) - suppresses logging
+  - `--verbose` (`v`, `verbose`) - additional Sandbox data related to your userland environment and invocations
+  - `--debug` (`d`, `debug`) - debug Sandbox internals (handy for Sandbox development)
+
+
+### Changed
+
+- Cleaned up Sandbox output when triggering `@events` and `@queues` Lambdae
+
+
+### Fixed
+
+- Improved file watcher error logging and handling in Sandbox
+- Fixed `@static spa` setting in Sandbox; thanks @timmak!
+
+---
+
 ## [8.5.12] 2021-05-17
 
 ### Fixed
