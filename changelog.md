@@ -4,6 +4,16 @@
 
 ---
 
+## [8.6.0] 2021-05-24
+
+### Added
+
+- Added `@plugins` support for runtime service discovery via use of `variables`
+    plugin interface method. Please see the [`@plugins documentation`](https://arc.codes/docs/en/guides/extend/plugins) for more
+    details.
+
+---
+
 ## [8.5.13] 2021-05-19
 
 ### Added
