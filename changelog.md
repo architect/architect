@@ -4,6 +4,23 @@
 
 ---
 
+## [8.6.1] 2021-06-13
+
+### Changed
+
+- Updated `destroy` from 1.2.2 to 1.2.4, which improves its behaviour:
+  - Detection of application resources which require use of the `--force` flag
+      to destroy (i.e. DynamoDB tables or S3 buckets) is done sooner, which
+      should reduce the time it takes `destroy` to bail and tell you to use the flag
+  - Fixed bug where `destroy` would fail if the application's CloudFormation Stack was already deleted
+  - `destroy` will now exit with a non-zero code if any errors occurred during its execution
+  - `destroy` will now detect if an application's CloudFormation Stack's status
+      becomes `DELETE_FAILED`, and if detected, it will report this as well as
+      the reason for it and exit with a non-zero code (previously in this
+      situation, it would instead time out after ~3 minutes)
+
+---
+
 ## [8.6.0] 2021-05-24
 
 ### Added
