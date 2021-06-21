@@ -4,14 +4,13 @@
 
 ---
 
-
 ## [8.7.0] 2021-06-17
 
 ### Added
 
 - Added comprehensive Architect project validation
   - Accelerates development by catches more potential errors before deploying to AWS (and blowing up in CloudFormation, where errors can be difficult to extract)
-  - Now also reports multiple project errors instead of just the first errors It finds
+  - Now also reports multiple project errors instead of just the first error it finds
 - Add support for `@tables` `pitr` option, start phasing out `PointInTimeRecovery` option (which is still supported for a while); fixes #1155
 - Added `cwd` API param to Sandbox + Hydrate, making it easier to run those modules against one or many mock project directories in tests
 
