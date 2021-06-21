@@ -4,6 +4,36 @@
 
 ---
 
+
+## [8.7.0] 2021-06-17
+
+### Added
+
+- Added comprehensive Architect project validation
+  - Accelerates development by catches more potential errors before deploying to AWS (and blowing up in CloudFormation, where errors can be difficult to extract)
+  - Now also reports multiple project errors instead of just the first errors It finds
+- Add support for `@tables` `pitr` option, start phasing out `PointInTimeRecovery` option (which is still supported for a while); fixes #1155
+- Added `cwd` API param to Sandbox + Hydrate, making it easier to run those modules against one or many mock project directories in tests
+
+
+### Changed
+
+- Stopped making unnecessary Inventory calls during Sandbox / services startup, Sandbox now starts 10-25% faster most of the time!
+- Updated `aws-sdk` to `2.880.0`
+- Updated dependencies
+
+
+### Fixed
+
+- Fixed a bunch of very smol bugs
+- Fixed issue where Sandbox CLI might take a long time to reload local routes (or not reload them at all) due to [issues related to Node.js stalling while closing its http server](https://github.com/nodejs/node/issues/2642)
+- Fixed issue that could cause `sandbox.http.end()` and `sandbox.events.end()` to hang during tests
+- Fixed issue where `@architect/functions` `arc.static()` method may not work if using `@static fingerprint true`, but aren't using `src/shared` or `@static src some-dir`; fixes #1170, thanks @tejaswihidoc!
+- Ensure plugin `invokeFunction` has all necessary params, fixes #1162
+
+---
+
+
 ## [8.6.1] 2021-06-13
 
 ### Changed
