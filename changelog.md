@@ -4,6 +4,14 @@
 
 ---
 
+## [8.7.1] 2021-06-22
+
+### Added
+
+- `destroy` now supports a `--no-timeout` flag; the process will block until all application resources are removed (by default, `destroy` times out after 150 seconds regardless of the state of application deletion)
+
+---
+
 ## [8.7.0] 2021-06-17
 
 ### Added
