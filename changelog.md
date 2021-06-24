@@ -4,6 +4,14 @@
 
 ---
 
+## [8.7.2] 2021-06-23
+
+### Fixed
+
+- Fix Sandbox not terminating handler invocation processes properly if run within Lambda due to Lambda not having *nix `ps`
+
+---
+
 ## [8.7.1] 2021-06-22
 
 ### Added
