@@ -4,6 +4,14 @@
 
 ---
 
+## [8.7.4] 2021-06-30
+
+### Added
+
+- Added more detailed `context` in Sandbox for WebSocket (`@ws`) requests, thanks @reconbot!
+
+---
+
 ## [8.7.3] 2021-06-29
 
 ### Added
