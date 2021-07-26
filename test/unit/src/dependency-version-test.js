@@ -19,7 +19,7 @@ test('All primary dependencies must be version locked', t => {
   })
 })
 
-test('All secondary dependencies of owned libraries must be semver ~', t => {
+test('All secondary dependencies of owned libraries must be semver ~ or pinned', t => {
   let plan = 0
   for (let dep of deps) {
     if (dep.startsWith('@architect/')) ++plan
@@ -32,9 +32,10 @@ test('All secondary dependencies of owned libraries must be semver ~', t => {
       let subDeps = Object.keys(pkg.dependencies)
       subDeps.forEach(dep => {
         let ver = pkg.dependencies[dep]
-        let valid = ver.startsWith('~')
+        let valid = ver.startsWith('~') ||
+                    ver.match(/^\d/)
         if (!valid)
-          t.fail(`${pkg.name} must have ${dep} set to ~ in package.json: ${ver}`)
+          t.fail(`${pkg.name} must have ${dep} set to ~ (or pinned) in package.json: ${ver}`)
       })
       t.pass(`${dep}'s owned subdependency versions are ok: ~`)
     }
