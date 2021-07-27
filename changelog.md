@@ -10,9 +10,10 @@
 
 - The default runtime is now `nodejs14.x` – if your existing functions do not specify a runtime, they will be automatically and seamlessly upgraded from `nodejs10.x` or `nodejs12.x` to `nodejs14.x`.
 - Breaking change: removed support for Node.js 10.x (now EOL, and no longer available to created in AWS Lambda)
-- Breaking change: removed various legacy / deprecated Architect 5 (and lower) code paths
 - Breaking change: in `arc destroy` the `--name` flag can no longer be used in place of `--app` to destroy apps; `--app` must now be used to destroy apps, while `--name` may only be used to destroy stacks
 - Breaking change: removed support for deprecated `--nuke` flag in `arc destroy`
+- Removed various legacy / deprecated Architect 5 (and lower) code paths
+  - This may be a breaking change for the use of individual Architect modules, but Architect itself has no breaking changes related to this code removal
 
 ---
 
