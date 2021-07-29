@@ -15,7 +15,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [ 12.x, 14.x, 16.x ]
+        node-version: [ 14.x, 16.x ]
         os: [ windows-latest, ubuntu-latest, macOS-latest ]
 
     # Go
@@ -48,7 +48,7 @@ jobs:
     - name: Notify
       uses: homoluctus/slatify@master
       # Only fire alert once
-      if: github.ref == 'refs/heads/master' && failure() && matrix.node-version == '12.x' && matrix.os == 'ubuntu-latest'
+      if: github.ref == 'refs/heads/master' && failure() && matrix.node-version == '14.x' && matrix.os == 'ubuntu-latest'
       with:
         type: ${{ job.status }}
         job_name: '*Build*'
@@ -73,7 +73,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: 12
+          node-version: 14
           registry-url: https://registry.npmjs.org/
 
       - name: Install
@@ -96,7 +96,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: 12
+          node-version: 14
           registry-url: https://npm.pkg.github.com/
 
       # Publish to GitHub
