@@ -36,7 +36,7 @@
     "@architect/logs": "3.0.1",
     "@architect/package": "7.0.1",
     "@architect/sandbox": "4.0.1",
-    "aws-sdk": "2.880.0",
+    "aws-sdk": "2.958.0",
     "chalk": "4.1.2",
     "update-notifier": "5.1.0"
   },
