@@ -4,6 +4,24 @@
 
 ---
 
+## [9.0.1] 2021-09-05
+
+### Changed
+
+- Updated Sandbox to `ws@8.0.0`
+- Improved Sandbox invocation behavior for JS functions where non-async handlers returning a Promise should not fail, thanks @reconbot!
+
+
+### Fixed
+
+- Fixed Sandbox CLI when parsing larger port numbers (e.g. `--port 33333`); fixes #1023, thanks @filmaj + LumaKernel!
+- Fixed inconsistent Sandbox error reporting, thanks @reconbot!
+- Fixed issue where specified policies would not be adopted by Lambdas so long as the default role remained intact; fixes #1212
+- Fixed issue where multiple layers or policies specified in a single line would lose all but the first
+- Disable filesystem watching of node_modules and .git by default; fixes #1213
+
+---
+
 ## [9.0.0] 2021-07-26
 
 ### Changed
