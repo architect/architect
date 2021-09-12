@@ -59,7 +59,9 @@ arc deploy production
 ## Add Architect syntax to your text editor
 
 – **[VS Code](https://marketplace.visualstudio.com/items?itemName=architect.architect)**
+
 – **[Sublime Text](https://github.com/architect/sublime-package)**
+
 – **[Atom](https://atom.io/packages/language-architect)**
 
 
