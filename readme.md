@@ -4,6 +4,7 @@
 
 > Build ultra scalable database backed web apps on AWS serverless infrastructure with full local, offline workflows, and more. Full documentation found at: https://arc.codes
 
+
 ## Installation
 
 Open your terminal to install `arc` globally:
@@ -19,6 +20,7 @@ arc version
 ```
 
 > Protip: run `arc` with no arguments to get help
+
 
 ## Work locally
 
@@ -37,6 +39,7 @@ arc sandbox
 ```
 > `Cmd / Ctrl + c` exits the sandbox
 
+
 ## Deploy to AWS
 
 Deploy the `staging` stack:
@@ -52,13 +55,18 @@ Ship to a `production` stack:
 arc deploy production
 ```
 
-Or eject to CloudFormation and deploy with the AWS SAM CLI:
 
-```
-arc package
-sam package --template-file sam.json --output-template-file out.yaml --s3-bucket mybukkit
-sam deploy --template-file out.yaml --stack-name MyStack --s3-bucket mybukkit --capabilities CAPABILITY_IAM
-```
+## Add Architect syntax to your text editor
+
+– **[VS Code](https://marketplace.visualstudio.com/items?itemName=architect.architect)**
+– **[Sublime Text](https://github.com/architect/sublime-package)**
+– **[Atom](https://atom.io/packages/language-architect)**
+
+
+## Learn more
+
+Head to https://arc.codes to learn more!
+
 
 ---
 

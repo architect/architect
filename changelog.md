@@ -4,7 +4,18 @@
 
 ---
 
-## [9.0.1] 2021-09-05
+## [9.0.1] 2021-09-11
+
+### New Architect syntaxes for your favorite text editor!
+
+We just released new Architect syntax definitions for three popular text editors:
+
+– **VS Code** - https://marketplace.visualstudio.com/items?itemName=architect.architect
+– **Sublime Text** - still awaiting approval in Sublime [Package Control](https://github.com/wbond/package_control_channel/pull/8363)
+  – Manual install (for short-term testing): https://github.com/architect/sublime-package
+– **Atom** - https://atom.io/packages/language-architect
+– Contribute to the [core Arc syntax definition here](https://github.com/architect/syntaxes)
+
 
 ### Changed
 
