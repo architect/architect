@@ -10,6 +10,7 @@
 
 - Updated Sandbox to `ws@8.0.0`
 - Improved Sandbox invocation behavior for JS functions where non-async handlers returning a Promise should not fail, thanks @reconbot!
+- Improved WebSocket behavior when responding with !`200`; messages now respond with an error message instead of failing silently, thanks @reconbot!
 
 
 ### Fixed
@@ -18,7 +19,9 @@
 - Fixed inconsistent Sandbox error reporting, thanks @reconbot!
 - Fixed issue where specified policies would not be adopted by Lambdas so long as the default role remained intact; fixes #1212
 - Fixed issue where multiple layers or policies specified in a single line would lose all but the first
-- Disable filesystem watching of node_modules and .git by default; fixes #1213
+- Disable filesystem watching of `node_modules` and `.git` by default; fixes #1213
+- Fixed WebSocket disconnect firing when Sandbox shuts down, thanks @reconbot!
+- Fixed issue where changing `@static fingerprint` setting may not update `cache-control` headers in static assets; fixes #1108, thanks @ryanflorence!
 
 ---
 

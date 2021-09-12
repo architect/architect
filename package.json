@@ -29,13 +29,13 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@architect/create": "2.0.1",
-    "@architect/deploy": "3.0.3-RC.0",
+    "@architect/deploy": "3.0.3",
     "@architect/destroy": "2.0.1",
     "@architect/env": "2.0.2",
     "@architect/hydrate": "2.0.2",
     "@architect/logs": "3.0.1",
-    "@architect/package": "7.0.2-RC.0",
-    "@architect/sandbox": "4.0.2-RC.0",
+    "@architect/package": "7.0.2",
+    "@architect/sandbox": "4.0.2",
     "aws-sdk": "2.880.0",
     "chalk": "4.1.2",
     "update-notifier": "5.1.0"
