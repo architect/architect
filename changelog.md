@@ -4,6 +4,14 @@
 
 ---
 
+## [9.0.2] 2021-09-15
+
+### Changed
+
+- Internal: Updated Architect Parser to v5
+
+---
+
 ## [9.0.1] 2021-09-11
 
 ### New Architect syntaxes for your favorite text editor!
