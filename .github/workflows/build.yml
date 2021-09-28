@@ -45,16 +45,15 @@ jobs:
       env:
         CI: true
 
-    # - name: Notify
-    #   uses: homoluctus/slatify@master
-    #   # Only fire alert once
-    #   if: github.ref == 'refs/heads/master' && failure() && matrix.node-version == '14.x' && matrix.os == 'ubuntu-latest'
-    #   with:
-    #     type: ${{ job.status }}
-    #     job_name: '*Build*'
-    #     url: ${{ secrets.SLACK_WEBHOOK }}
-    #     commit: true
-    #     token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Notify
+      uses: sarisia/actions-status-discord@v1
+      # Only fire alert once
+      if: github.ref == 'refs/heads/main' && failure() && matrix.node-version == '14.x' && matrix.os == 'ubuntu-latest'
+      with:
+        webhook: ${{ secrets.DISCORD_WEBHOOK }}
+        title: "build and test"
+        color: 0x222222
+        username: GitHub Actions
 
   # ----- Only git tag testing + package publishing beyond this point ----- #
 
@@ -112,12 +111,11 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # - name: Notify
-      #   uses: homoluctus/slatify@master
-      #   if: always()
-      #   with:
-      #     type: ${{ job.status }}
-      #     job_name: '*Publish*'
-      #     url: ${{ secrets.SLACK_WEBHOOK }}
-      #     commit: true
-      #     token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Notify
+        uses: sarisia/actions-status-discord@v1
+        if: always()
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          title: "npm publish"
+          color: 0x222222
+          username: GitHub Actions
