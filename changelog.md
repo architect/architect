@@ -4,6 +4,36 @@
 
 ---
 
+## [9.0.3] 2021-09-28
+
+### Changed
+
+- Sandbox route list now shows automatic static asset delivery at the root as mounting the public folder
+- Projects that don't define root handlers will now load static assets from the root much, *much* faster in Sandbox!
+- Internal: Sandbox refactor to remove use of environment variables for passing data or config to various internals services, most notably the Lambda execution environment; fixes #1222
+  - Lambda executions' env vars are now completely pure and clean, having no extraneous host system env vars
+  - Sandbox no longer mutates env vars (with the exception of `ARC_ENV` and `NODE_ENV` if unset or altered by preferences, such as `@sandbox useAWS`)
+  - Clean up any non-essential reliance tests may have on env vars previously populated by Sandbox
+  - Refactor tests to also stop mutating env vars, and to better clean up after themselves
+- Added better support for `ARC_ENV` (instead of relying on / using `NODE_ENV`), helpful for improving reliability when running alongside certain other libraries that mutate `NODE_ENV`
+- Removed internal `ARC_HTTP` env var (partly used for Arc v5 backwards compat, which is no longer supported)
+
+
+### Added
+
+- Sandbox API now accepts a `apigateway` option, in addition to `@aws apigateway` and `ARC_API_TYPE` env var
+  - As before, valid options include: `http` (default if not passed), `httpv1`, `rest`
+- Sandbox can now be shipped as a binary (should anyone want to do so)
+  - Added a new GitHub Actions workflow to per-platform build binary versions (via `pkg`) and run integration tests
+
+
+### Fixed
+
+- Fixed Sandbox local symlinking issue introduced in 4.0.2
+- Fixed faulty error code path during shared file copying in Hydrate
+
+---
+
 ## [9.0.2] 2021-09-15
 
 ### Changed
