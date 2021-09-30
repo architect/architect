@@ -4,6 +4,14 @@
 
 ---
 
+## [9.0.4] 2021-09-30
+
+### Fixed
+
+- Fixed manual usage of ASAP in Sandbox by restoring `ARC_SANDBOX_PATH_TO_STATIC` in Lambda env vars; fixes #1231, thanks @andybee!
+
+---
+
 ## [9.0.3] 2021-09-28
 
 ### Changed
