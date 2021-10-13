@@ -29,6 +29,7 @@
 
 - Restored `ARC_INTERNAL` env var in Lambda invocations for Arc Functions
 - Restored userland env vars to `@sandbox-startup` scripts; thanks @reconbot!
+- Fixed case where `@ws` with no `@http` or `@static` would fail to start up; fixes #1234, thanks @reconbot!
 
 ---
 
