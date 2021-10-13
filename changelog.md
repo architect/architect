@@ -4,6 +4,34 @@
 
 ---
 
+## [9.2.0] 2021-10-12
+
+### Added
+
+- Added latest-runtime version pinning
+  - Example: if you always want your app to run the latest Lambda version of Python, instead of specifying `python3.9` (and changing it every time a new version of Python is released), instead simply specify `python` or `py`
+  - Valid shortcuts: Node.js: `node`, `nodejs`, `node.js`; Python: `python`, `py`; Ruby: `ruby`, `rb`; Java: `java`; Go: `go`, `golang`; .NET: `dotnet`, `.net`; and custom runtimes: `custom`
+- Added runtime validation
+- Added Lambda context object with the following properties:
+  - `awsRequestId` (Node.js), `aws_request_id` (Python / Ruby) - random GUID string, does not emulate AWS UUID4 request IDs
+  - `functionName` (Node.js), `function_name` (Python / Ruby) - identifiable function name string prefixed by `sandbox-`; does not use live production AWS CFN GUIDs
+  - `functionVersion` (Node.js), `function_version` (Python / Ruby) - will always be `$LATEST`
+  - `invokedFunctionArn` (Node.js), `invoked_function_arn` (Python / Ruby) - always `sandbox`
+  - `memoryLimitInMB` (Node.js), `memory_limit_in_mb` (Python / Ruby) - your Lambda's configured memory amount
+
+
+### Changed
+
+- Updated dependencies
+
+
+### Fixed
+
+- Restored `ARC_INTERNAL` env var in Lambda invocations for Arc Functions
+- Restored userland env vars to `@sandbox-startup` scripts; thanks @reconbot!
+
+---
+
 ## [9.0.4 - 9.1.0] 2021-09-30
 
 ### Added
