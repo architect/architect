@@ -10,7 +10,7 @@ let pkg = require('@architect/package/cli')
 let sandbox = require('@architect/sandbox/src/cli/arc')
 let destroy = require('@architect/destroy/src/cli')
 
-let before = require('./before')
+let startup = require('./startup')
 let help = require('./help')
 let version = require('./version')
 let pauser = require('@architect/deploy/src/utils/pause-sandbox')
@@ -48,10 +48,11 @@ let pretty = {
 }
 
 async function run ({ cmd, opts }) {
-  let runBefore = ![ 'create', 'init', 'version' ].includes(cmd)
   try {
+    startup.env()
     let inventory = await _inventory({})
-    if (runBefore) before({ cmd, inventory })
+    let printBanner = ![ 'create', 'init', 'version' ].includes(cmd)
+    if (printBanner) startup.banner({ cmd, inventory })
     await cmds[cmd](opts)
   }
   catch (err) {

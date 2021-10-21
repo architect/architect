@@ -28,14 +28,14 @@
   "author": "Brian LeRoux <b@brian.io>",
   "license": "Apache-2.0",
   "dependencies": {
-    "@architect/create": "2.0.2",
-    "@architect/deploy": "3.0.5",
+    "@architect/create": "3.0.0-RC.1",
+    "@architect/deploy": "3.0.6-RC.0",
     "@architect/destroy": "2.0.2",
     "@architect/env": "2.0.5",
     "@architect/hydrate": "2.0.4",
     "@architect/logs": "3.0.2",
     "@architect/package": "7.1.1",
-    "@architect/sandbox": "4.2.1",
+    "@architect/sandbox": "4.2.2-RC.0",
     "aws-sdk": "2.880.0",
     "chalk": "4.1.2",
     "update-notifier": "5.1.0"
