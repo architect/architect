@@ -18,10 +18,14 @@
   - `functionVersion` (Node.js), `function_version` (Python / Ruby) - will always be `$LATEST`
   - `invokedFunctionArn` (Node.js), `invoked_function_arn` (Python / Ruby) - always `sandbox`
   - `memoryLimitInMB` (Node.js), `memory_limit_in_mb` (Python / Ruby) - your Lambda's configured memory amount
+- `ARC_ENV` is now always set by any Architect runs
+- Added ability to specify a project name in `arc create` with `-n` or `--name` parameter
+- Added real file paths to (and significantly tidied up) boilerplate HTTP functions created by `arc create`
 
 
 ### Changed
 
+- Arc Create now only write config files (`/path/to/function/config.arc`) if necessary
 - Updated dependencies
 
 
@@ -30,6 +34,7 @@
 - Restored `ARC_INTERNAL` env var in Lambda invocations for Arc Functions
 - Restored userland env vars to `@sandbox-startup` scripts; thanks @reconbot!
 - Fixed case where `@ws` with no `@http` or `@static` would fail to start up; fixes #1234, thanks @reconbot!
+- Fixed but where `arc create` might inadvertently attempt to install Architect
 
 ---
 
