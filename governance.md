@@ -4,36 +4,42 @@
 
 Architect governance describes the various roles and their responsibilities, how we make decisions, and how to find us.
 
+
 ## Roles & their responsibilities
 
-- Contributor - open source community member; there is so much more to open source than code. filing a bug is probably one of the most valuable ways you can contribute. writing a blog post is contributing. helping out others online or even just chilling in Discord is contributing. we value our community and recognize all forms of contribution.
-- Maintainer - can commit and cut a release of an Architect repository
-- Core Maintainer - can release architect/architect primary project
-- Arbiter - a Core Maintainer with final authority for Architect project decision making; rotating annually on the first of January.
+- **Contributor** - Open source community member; there is so much more to open source than code. Filing a bug is probably one of the most valuable ways you can contribute. Writing a blog post is contributing. Helping out others online or even just chilling in Discord is contributing. We value our community and recognize all forms of contribution.
+- **Maintainer** - Can commit and cut a release of an Architect project & repository
+- **Core Maintainer** - Responsible for longer-term vision & high-level technical decision-making; can release core `@architect/architect` project
+- **Arbiter** - Core Maintainer with tie-breaking authority for Architect project decision-making; role rotates annually on Jan 1.
+
 
 ## Who we are
 
 ### Core
 
-- Ryan Block, Arbiter
+- Ryan Block, Arbiter (2022)
 - Brian LeRoux
 - Fil Maj
 
-### Maintainers
 
+### Maintainers
 
 - Kristofer Joseph
 - Ryan Bethel
 - Taylor Beseda
-- Simon MacDonald 
+- Simon MacDonald
+
 
 ## How we make decisions
 
-The Architect project Maintainers use rough consensus to make decisions. We have an overarching goal for the project to be stable, which is to say retaining backwards compatibility as a primary responsibility. Getting started should always remain frictionless and, hopefully, fun. Upgrading and day-to-day rote maintenance should be entirely opt-in and non-destructive. 
+The Architect project Maintainers & Core Maintainers use rough consensus to make decisions. We have an overarching goal for the project to be stable, prioritizing backwards compatibility as a primary responsibility.
+
+Getting started should always remain frictionless and, hopefully, fun. Upgrading and day-to-day rote maintenance should be entirely opt-in and non-destructive.
+
 
 ## Find us
 
-We’re here to help and Architect needs your help too! 
+We’re here to help and Architect needs your help too!
 
 - [Github Issues](https://github.com/architect/architect/issues)
 - [Github Discussions](https://github.com/architect/architect/discussions)
