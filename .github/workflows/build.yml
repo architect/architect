@@ -37,6 +37,11 @@ jobs:
         VER=`node --version`; echo "Node ver:   $VER"
         VER=`npm --version`; echo "npm ver:    $VER"
 
+    # Remove this once npm 8.1.1+ is available in Node 16
+    - name: Upgrade npm
+      if: matrix.node-version == '16.x'
+      run: npm i -g npm@latest
+
     - name: Install
       run: npm install
 
