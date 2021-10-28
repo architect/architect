@@ -7,6 +7,8 @@
 
 ## Installation
 
+Make sure you have at least node version 14 installed.
+
 Open your terminal to install `arc` globally:
 
 ```bash
