@@ -4,7 +4,15 @@
 
 ---
 
-## [9.2.0] 2021-10-12
+## [9.2.1] 2021-10-28
+
+### Fixed
+
+- Fixed `arc init` alias creating directories called `init`
+
+---
+
+## [9.2.0] 2021-10-26
 
 ### Added
 
