@@ -4,6 +4,14 @@
 
 ---
 
+## [9.2.2] 2021-11-02
+
+### Changed
+
+- Added warnings for macOS Monterey port conflicts on 5000 and 7000
+
+---
+
 ## [9.2.1] 2021-10-28
 
 ### Fixed
