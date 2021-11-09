@@ -5,6 +5,22 @@
 > Build ultra scalable database backed web apps on AWS serverless infrastructure with full local, offline workflows, and more. Full documentation found at: https://arc.codes
 
 
+## Requirements
+
+- **Platforms:** Linux, macOS, Windows
+- **Architect runtime:** Node.js 14+
+- **Function runtimes & package managers:**
+  - Node.js (optional): [supported versions](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)
+    - [`npm`](https://www.npmjs.com/) (optional): 6+
+    - [`yarn`](https://yarnpkg.com/) (optional): 1+
+  - Python (optional): [supported versions](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)
+    - [`pip3`](https://pip.pypa.io/en/stable/) (optional)
+  - Ruby (optional): [supported versions](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)
+    - [`bundle`](https://bundler.io/) (optional)
+- **Additional function runtimes:**
+  - Java, .NET, Golang, Lambda runtime layers (optional): [supported versions](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)
+
+
 ## Installation
 
 Open your terminal to install `arc` globally:
