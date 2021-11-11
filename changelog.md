@@ -4,6 +4,27 @@
 
 ---
 
+## [9.3.0] 2021-11-11
+
+### Added
+
+- Sandbox now immediately streams Lambda logs to the console instead of printing everything all at once upon completion of execution; thanks @andybee!
+- Added runtime mismatch warnings in Sandbox
+  - Example: Sandbox will warn if your `get /foo` Lambda is configured for Python 3.9 and your local machine uses Python 3.8
+  - Setting `runtimeCheck` to `error` in the Sandbox API options will ensure automated tests fail if runtimes are not properly matched
+- Added `runStartupCommands` setting to Sandbox API options
+  - Defaults to `true`; setting `false` disables `prefs.arc @sandbox-startup` commands, which may be useful for local testing; thanks @reconbot!
+- Added `env` option to Sandbox API options allowing programmatic control (add, replace, delete) of Lambda environment variables during automated testing, thanks @actsone8!
+- Added API Gateway Management API service mock to Sandbox for managing WebSocket connections via `aws-sdk` calls; big thanks to @reconbot!
+
+
+### Changed
+
+- Sandbox will only ever print a given dependency issue one time, instead of upon each invocation
+- Removed support for bare `port` Sandbox CLI flag (e.g. `arc sandbox port 12345`); Sandbox now requires either `-p` or `--port` for setting the port from the CLI
+
+---
+
 ## [9.2.2] 2021-11-02
 
 ### Changed
