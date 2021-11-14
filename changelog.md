@@ -8,12 +8,12 @@
 
 ### Added
 
-- Added internal `ARC_SANDBOX` env var for Sandbox metadata in Lambda invocations
+- Added internal `ARC_SANDBOX` env var for Sandbox metadata in Lambda invocations; fixes #1269, thanks @reconbot!
 
 
 ### Fixed
 
-- Fixed upcasing all userland Sandbox environment variables
+- Fixed upcasing all userland Sandbox environment variables; fixes #1270, thanks @reconbot!
 - Removed extraneous internal `__ARC*` environment variables from Sandbox Lambda invocation
 
 ---
