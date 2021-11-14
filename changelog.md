@@ -4,6 +4,20 @@
 
 ---
 
+## [9.3.1] 2021-11-13
+
+### Added
+
+- Added internal `ARC_SANDBOX` env var for Sandbox metadata in Lambda invocations
+
+
+### Fixed
+
+- Fixed upcasing all userland Sandbox environment variables
+- Removed extraneous internal `__ARC*` environment variables from Sandbox Lambda invocation
+
+---
+
 ## [9.3.0] 2021-11-11
 
 ### Added
