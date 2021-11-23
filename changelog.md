@@ -4,6 +4,15 @@
 
 ---
 
+## [9.4.1] 2021-11-23
+
+### Fixed
+
+- Fixed HTTP route sorting; however you've organized your `@http` pragma, Sandbox should now behave much more like API Gateway; fixes #977
+- Fixed overly strict path parameter validation; allow `_`, `.`, `-`; thanks @jkarsrud!
+
+---
+
 ## [9.4.0] 2021-11-16
 
 ### Added
