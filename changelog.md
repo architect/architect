@@ -4,6 +4,14 @@
 
 ---
 
+## [9.4.2] 2021-12-01
+
+### Added
+
+- Added `lambdaSrc` propery (mapped from `lambda.src`) to `ARC_SANDBOX` context env var
+
+---
+
 ## [9.4.1] 2021-11-23
 
 ### Fixed
