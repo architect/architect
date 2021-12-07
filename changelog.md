@@ -1,6 +1,6 @@
 # Architect changelog
 
-> Also see: [Architect Functions changelog](https://github.com/architect/functions/blob/master/changelog.md)
+> Also see: [Architect Functions changelog](https://github.com/architect/functions/blob/main/_changelog.md)
 
 ---
 
