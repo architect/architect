@@ -13,7 +13,7 @@ ${chalk.grey.bold('Usage')}
   ${g('arc', G('sandbox'))} ${d('............................... start a local arc development server')}
   ${g('arc', G('package'))} ${d('............................... export sam.json')}
   ${g('arc', G('deploy'), '[dirty|static|production]')} ${d('...... deploy to AWS')}
-  ${g('arc', G('logs'), 'path/to/code', '[production|nuke]')} ${d('... manage function logs')}
+  ${g('arc', G('logs'), 'path/to/fn', '[production|destroy]')} ${d('.. manage function logs')}
   ${g('arc', G('help'), '<command>')} ${d('........................ get help')}
   ${g('arc', G('version'))} ${d('............................... get the current version')}
   ${g('arc', G('env'))} ${d('................................... work with environment variables')}
