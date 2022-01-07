@@ -4,6 +4,20 @@
 
 ---
 
+## [9.5.0] 2022-01-07
+
+### Added
+
+- Added support for Node.js 14 ESM in Lambda!
+
+
+### Fixed
+
+- Properly invoke Ruby with required keyword params; partial fix for #1291
+- Fixed incorrect `arc logs` help
+
+---
+
 ## [9.4.2] 2021-12-01
 
 ### Added
