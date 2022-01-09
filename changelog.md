@@ -4,6 +4,14 @@
 
 ---
 
+## [9.5.1] 2022-01-09
+
+### Fixed
+
+- Fixed Lambda treeshaking detection of CJS/ESM when strings `import` and `require` are present in the AST
+
+---
+
 ## [9.5.0] 2022-01-07
 
 ### Added
