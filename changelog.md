@@ -4,11 +4,12 @@
 
 ---
 
-## [9.5.3] 2022-01-11
+## [9.5.3 - 9.5.4] 2022-01-11
 
 ### Fixed
 
 - Fixed potential false tree shaking errors in ESM files that make use of `require()` (e.g. via `import { createRequire } from 'module'`)
+- Fixed bug where multi-tenant Lambdas would error on Sandbox startup; thanks @andybee!
 
 ---
 
