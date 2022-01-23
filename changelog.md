@@ -4,6 +4,16 @@
 
 ---
 
+## [10.0.0] unreleased
+
+### Changed
+
+- Migrate static bucket permissions from per-object ACLs to a bucket policy so
+  that users can customize the static bucket permissions using macros.
+  - See: https://github.com/architect/package/pull/148, https://github.com/architect/deploy/pull/350
+
+---
+
 ## [9.5.3 - 9.5.4] 2022-01-11
 
 ### Fixed
