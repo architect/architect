@@ -24,7 +24,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Set up Node.js
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
 
@@ -36,11 +36,6 @@ jobs:
         echo "SHA:        ${{ github.sha }}"
         VER=`node --version`; echo "Node ver:   $VER"
         VER=`npm --version`; echo "npm ver:    $VER"
-
-    # Remove this once npm 8.1.1+ is available in Node 16
-    - name: Upgrade npm
-      if: matrix.node-version == '16.x'
-      run: npm i -g npm@latest
 
     - name: Install
       run: npm install
@@ -75,7 +70,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
@@ -95,26 +90,6 @@ jobs:
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      # Set up Node again, this time using GitHub as the publish target
-      - name: Set up Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: 14
-          registry-url: https://npm.pkg.github.com/
-
-      # Publish to GitHub
-      - name: Publish @RC to GitHub
-        if: contains(github.ref, 'RC')
-        run: npm publish --tag RC
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Publish @latest to GitHub
-        if: contains(github.ref, 'RC') == false #'!contains()'' doesn't work lol
-        run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Notify
         uses: sarisia/actions-status-discord@v1
