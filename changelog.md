@@ -4,7 +4,82 @@
 
 ---
 
-## [10.0.0] 🔜!
+## [10.0.0]
+
+### Added
+
+- Architect 10 plugin API support! Some highlights:
+  - `plugins.set.runtimes` - custom runtime support (still in beta)
+  - `plugins.set.env` - add environment variables to all Lambdas
+  - `plugins.set.events|http|scheduled|tables-streams|ws` - generate or drop-in Lambdas into Architect pragmas
+  - `plugins.set.customLambdas` - generate or drop in unique Lambdas with custom event sources
+  - `plugins.sandbox.watcher` - Sandbox file watcher API
+    - Added ability to disable Sandbox watcher with `watcher` (boolean) in API option
+  - `plugins.deploy.start` - mutate CloudFormation mutation and perform other arbitrary pre-deploy operations
+  - `plugins.deploy.services` - add to Architect service discovery and custom Lambda config data
+- Added `inv|get.plugins` tree + methods
+  - What used to be `plugins` in the plugins beta is now `customLambdas` (see next item)
+- Added low-level support for `build` destinations to runtime plugins that register type `transpiled` or `compiled`
+- Added `handlerModuleSystem` property for `nodejs14.x` Lambdas, with a value of `cjs` or `esm` based on Lambda + Node.js conventions
+  - Added `handlerFile` detection for `nodejs14.x` + `deno` Lambdas
+    - This will detect the correct handler file on the filesystem, and fall back to a default handler file if none are found (e.g. `index.js` in `nodejs14.x`)
+- Added Inventory `deployStage` property, enabling Architect to be aware of an intended deploy stage, and act accordingly
+  - This property may change, consider it in beta!
+- Added built-in support for reading `.env` files when enumerating local env var preferences in Inventory
+- Added ability to directly invoke all Architect subcommands from the CLI without using `@architect/architect`
+- Added Sandbox port configuration via `prefs.arc`
+  - The precedence order is now `prefs.arc` > `port` API option or `--port` CLI flag > environment variables
+  - Also added `ARC_HTTP_PORT` env var for configuring the HTTP port (in addition to `PORT`)
+- Added automatic Sandbox port selection for configuring internal service ports
+  - (Probably) never again will your multiple simultaneous Sandbox instances conflict with each other!
+  - HTTP port selection still defaults to `3333` and will halt Sandbox from starting if it conflicts (since it's presumably what you're expecting to see in your browser)
+  - Any manually specified port conflicts will also halt Sandbox from starting
+- Added `deploy --eject` option (functionally the same as `--dry-run`)
+
+
+### Changed
+
+- Breaking change: bare CLI arguments (e.g. `hydrate update`) as aliases to flags are no longer used, please use CLI flags (e.g. `hydrate --update` or `hydrate -u`)
+- Breaking change: Architect no longer automatically populates, relies on, or makes direct use of `NODE_ENV`, `ARC_CLOUDFORMATION`, `ARC_HTTP`, or `ARC_SANDBOX_PATH_TO_STATIC` env vars. `@architect/asap` v5+ now requires Architect v10 / Sandbox v5 or later.
+  - Older versions of Node.js Architect libraries such as `@architect/functions` made use of these env vars, so it is wise to upgrade them at this time
+  - Also be sure to consult the Architect [upgrade guide](https://arc.codes/docs/en/about/upgrade-guide)
+- Breaking change: removed `toml` support (e.g. `arc.toml`)
+- Breaking change: changed Inventory `_project.src`, added `_project.cwd`, making both the pair significantly more literal and descriptive
+  - `_project.src` is now the default source tree folder (eg `$cwd/src`)
+  - `_project.cwd` refers to the current working directory of the project
+- Breaking change: Inventory `_project.env` is now by default an object populated by three properties: `local`, `plugins`, and `aws`, reflecting the env vars found for each environment
+- Breaking change: AWS region prioritizes a region passed via param over `AWS_REGION` env var; this should realistically have little or no effect in practice
+- Breaking change: legacy `@tables-streams` folders (`src/tables/...` and `src/streams/...`) are now deprecated
+  - Existing functions can be simply moved to `src/tables-streams/{name}` (or use a custom `src` property)
+- Breaking change: renamed Inventory `lambda.handlerFunction` to `lambda.handlerMethod`
+- Breaking change: prioritize `mod.ts|js` handlers in Deno Lambdas (per Deno's guidelines)
+  - Related, default `arc create` provisioned handler file for Deno is also now `mod.ts`
+- Breaking change: passing Sandbox env vars in with the `env` API option no longer merges those env vars with any found in `.env` or `prefs.arc`
+  - The new env var precedence is `env` option > `.env` > `prefs.arc`
+- Breaking change: removed support for legacy `.arc-env` env files
+  - Architect deprecated writing to `.arc-env` in late 2020; Sandbox will no longer read and use it for local environment variables
+  - If you are still using a `.arc-env` file, please consider `prefs.arc` or `.env` for your local env vars
+- Breaking change: removed `ARC_SANDBOX_ENABLE_CORS` env var option from Sandbox
+  - Architect has supported `options` requests since version 8; that is the preferred approach to handling CORS
+- Breaking change: consolidated `env` module API into single method
+- Internal change: made Inventory responsible for handling env vars loaded from `.env` files
+- Internal change: made Inventory responsible for figuring out `nodejs14.x` handler module systems and file names
+- Internal change: stopped optimistically populating default `arc-sessions` + `data` tables in Sandbox
+  - This was a quirky holdover behavior from early Architect that differed Sandbox from live AWS behavior
+- Internal change: various AWS calls that used to rely on `AWS_REGION` now rely on Inventory region
+- Prefer `ARC_SESSION_TABLE_NAME` to `SESSION_TABLE_NAME` env var for Architect's built-in sessions management
+  - All non-namespaced names will continue to be supported until at least Architect 11; we suggest changing them over to the namespaced equivalents as soon as is convenient
+- Performance memory and performance improvements in Inventory
+- Lambda treeshaking (currently for Node.js) is now the default when being run from CLI
+- Stop publishing to the GitHub Package registry
+- Updated `aws-sdk` to `2.1001.0`
+- Updated dependencies
+
+
+### Fixed
+
+- Fixed issue where Lambdas configured with `@arc shared false` would still get shared code
+- Fixed basic env var validation in `arc env`
 
 ---
 

@@ -3,12 +3,11 @@ let chalk = require('chalk')
 let _inventory = require('@architect/inventory')
 let create = require('@architect/create/cli')
 let deploy = require('@architect/deploy/src/cli')
-let env = require('@architect/env')
-let hydrate = require('@architect/hydrate/cli')
-let logs = require('@architect/logs/cli')
-let pkg = require('@architect/package/cli')
-let sandbox = require('@architect/sandbox/src/cli/arc')
 let destroy = require('@architect/destroy/src/cli')
+let env = require('@architect/env/cli')
+let hydrate = require('@architect/hydrate/cli')
+let logs =    require('@architect/logs/cli')
+let sandbox = require('@architect/sandbox/src/cli/arc')
 
 let startup = require('./startup')
 let help = require('./help')
@@ -22,14 +21,13 @@ let cmds = {
   create,
   init: create,
   deploy,
-  env,
-  help,
-  hydrate,
-  logs,
-  package: pkg,
-  sandbox,
   destroy,
-  version
+  env,
+  hydrate,
+  help,
+  logs,
+  sandbox,
+  version,
 }
 
 let red = chalk.bgRed.bold.white
@@ -44,22 +42,6 @@ let pretty = {
   },
   notFound (cmd) {
     console.log(dim(`Sorry, ${chalk.green.bold('arc ' + cmd)} command not found!`))
-  }
-}
-
-async function run ({ cmd, opts }) {
-  try {
-    startup.env()
-    let inventory = await _inventory({})
-    let printBanner = ![ 'create', 'init', 'version' ].includes(cmd)
-    if (printBanner) startup.banner({ cmd, inventory })
-    await cmds[cmd](opts)
-  }
-  catch (err) {
-    // Unpause the Sandbox watcher
-    pauser.unpause()
-    pretty.fail(cmd, err)
-    process.exit(1)
   }
 }
 
@@ -85,7 +67,19 @@ async function main (args) {
     help(opts)
   }
   else {
-    await run({ cmd, opts })
+    try {
+      startup.env()
+      let inventory = await _inventory({})
+      let printBanner = ![ 'create', 'init', 'version' ].includes(cmd)
+      if (printBanner) startup.banner({ cmd, inventory })
+      await cmds[cmd]({ inventory })
+    }
+    catch (err) {
+      // Unpause the Sandbox watcher
+      pauser.unpause()
+      pretty.fail(cmd, err)
+      process.exit(1)
+    }
   }
 }
 
