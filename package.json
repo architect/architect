@@ -28,27 +28,26 @@
   "author": "Brian LeRoux <b@brian.io>",
   "license": "Apache-2.0",
   "dependencies": {
-    "@architect/create": "3.1.1",
-    "@architect/deploy": "4.0.0-RC.0",
-    "@architect/destroy": "2.0.3",
-    "@architect/env": "2.0.6",
-    "@architect/hydrate": "3.0.0-RC.0",
-    "@architect/inventory": "3.0.0-RC.3",
-    "@architect/logs": "3.0.3",
-    "@architect/package": "8.0.0-RC.0",
-    "@architect/sandbox": "5.0.0-RC.0",
-    "aws-sdk": "2.880.0",
+    "@architect/create": "3.2.0-RC.2",
+    "@architect/deploy": "4.0.0-RC.3",
+    "@architect/destroy": "3.0.0-RC.0",
+    "@architect/env": "3.0.0-RC.1",
+    "@architect/hydrate": "3.0.0-RC.4",
+    "@architect/inventory": "3.0.0-RC.6",
+    "@architect/logs": "4.0.0-RC.1",
+    "@architect/sandbox": "5.0.0-RC.6",
+    "aws-sdk": "2.1001.0",
     "chalk": "4.1.2",
     "update-notifier": "5.1.0"
   },
   "devDependencies": {
     "@architect/eslint-config": "~2.0.1",
     "cross-env": "~7.0.3",
-    "eslint": "~8.6.0",
+    "eslint": "~8.7.0",
     "nyc": "~15.1.0",
     "proxyquire": "~2.1.3",
     "tap-spec": "~5.0.0",
-    "tape": "~5.4.0"
+    "tape": "~5.5.0"
   },
   "keywords": [
     "amazon",
