@@ -35,7 +35,7 @@
     "@architect/hydrate": "3.0.0-RC.4",
     "@architect/inventory": "3.0.0-RC.7",
     "@architect/logs": "4.0.0-RC.1",
-    "@architect/sandbox": "5.0.0-RC.7",
+    "@architect/sandbox": "5.0.0-RC.8",
     "aws-sdk": "2.1001.0",
     "chalk": "4.1.2",
     "update-notifier": "5.1.0"
