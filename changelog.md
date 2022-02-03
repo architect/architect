@@ -35,6 +35,8 @@
   - HTTP port selection still defaults to `3333` and will halt Sandbox from starting if it conflicts (since it's presumably what you're expecting to see in your browser)
   - Any manually specified port conflicts will also halt Sandbox from starting
 - Added `deploy --eject` option (functionally the same as `--dry-run`)
+- Added Architect + userland env vars to Sandbox startup scripts (in addition to being present for `plugins.sandbox.start|end`)
+- Sandbox watcher now restarts the Sandbox on preference file changes to ensure port changes and env vars are immediately available
 
 
 ### Changed
@@ -49,6 +51,7 @@
   - `_project.cwd` refers to the current working directory of the project
 - Breaking change: Inventory `_project.env` is now by default an object populated by three properties: `local`, `plugins`, and `aws`, reflecting the env vars found for each environment
 - Breaking change: AWS region prioritizes a region passed via param over `AWS_REGION` env var; this should realistically have little or no effect in practice
+- Breaking change: `@indexes` is now fully deprecated; simply change the pragma name to `@tables-indexes`, no other changes are required
 - Breaking change: legacy `@tables-streams` folders (`src/tables/...` and `src/streams/...`) are now deprecated
   - Existing functions can be simply moved to `src/tables-streams/{name}` (or use a custom `src` property)
 - Breaking change: renamed Inventory `lambda.handlerFunction` to `lambda.handlerMethod`
