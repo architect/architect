@@ -9,14 +9,18 @@
 ### Added
 
 - Architect 10 plugin API support! Some highlights:
-  - `plugins.set.runtimes` - custom runtime support (still in beta)
   - `plugins.set.env` - add environment variables to all Lambdas
   - `plugins.set.events|http|scheduled|tables-streams|ws` - generate or drop-in Lambdas into Architect pragmas
   - `plugins.set.customLambdas` - generate or drop in unique Lambdas with custom event sources
+  - `plugins.set.runtimes` - custom runtime support (still in beta)
+  - `plugins.sandbox.start` - perofrm arbitrary operations on Sandbox startup
   - `plugins.sandbox.watcher` - Sandbox file watcher API
     - Added ability to disable Sandbox watcher with `watcher` (boolean) in API option
+  - `plugins.sandbox.end` - perofrm arbitrary operations on Sandbox shutdown
   - `plugins.deploy.start` - mutate CloudFormation mutation and perform other arbitrary pre-deploy operations
   - `plugins.deploy.services` - add to Architect service discovery and custom Lambda config data
+  - `plugins.deploy.target` - deploy Architect projects to targets other than AWS CloudFormation
+  - `plugins.deploy.end` - perform arbitrary post-deploy operations
 - Added `inv|get.plugins` tree + methods
   - What used to be `plugins` in the plugins beta is now `customLambdas` (see next item)
 - Added low-level support for `build` destinations to runtime plugins that register type `transpiled` or `compiled`

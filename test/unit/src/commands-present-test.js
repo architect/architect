@@ -1,7 +1,7 @@
 let test = require('tape')
 
 let create = require('@architect/create')
-let createCLI = require('@architect/create/cli')
+let createCLI = require('@architect/create/src/cli')
 
 let deploy = require('@architect/deploy')
 let deployCLI = require('@architect/deploy/src/cli')
