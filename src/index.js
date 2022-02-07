@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 let chalk = require('chalk')
 let _inventory = require('@architect/inventory')
-let create = require('@architect/create/cli')
+let create = require('@architect/create/src/cli')
 let deploy = require('@architect/deploy/src/cli')
 let destroy = require('@architect/destroy/src/cli')
 let env = require('@architect/env/cli')
