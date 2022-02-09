@@ -75,9 +75,6 @@ jobs:
           node-version: 14
           registry-url: https://registry.npmjs.org/
 
-      - name: Install
-        run: npm i
-
       # Publish to npm
       - name: Publish @RC to npm
         if: contains(github.ref, 'RC')
