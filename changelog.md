@@ -21,6 +21,9 @@
   - `plugins.deploy.services` - add to Architect service discovery and custom Lambda config data
   - `plugins.deploy.target` - deploy Architect projects to targets other than AWS CloudFormation
   - `plugins.deploy.end` - perform arbitrary post-deploy operations
+- Added Sandbox live reload support!
+  - Add `@sandbox livereload true` to your preferences to enable
+  - Your browser will automatically refresh any time a `get` or `any` HTTP handler changes, or when any file in `src/shared`, `src/views`, or `public` changes
 - Added `inv|get.plugins` tree + methods
   - What used to be `plugins` in the plugins beta is now `customLambdas` (see next item)
 - Added low-level support for `build` destinations to runtime plugins that register type `transpiled` or `compiled`
