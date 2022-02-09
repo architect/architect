@@ -33,9 +33,9 @@
     "@architect/destroy": "3.0.0-RC.0",
     "@architect/env": "3.0.0-RC.1",
     "@architect/hydrate": "3.0.0-RC.5",
-    "@architect/inventory": "3.0.0-RC.9",
+    "@architect/inventory": "3.0.0-RC.10",
     "@architect/logs": "4.0.0-RC.1",
-    "@architect/sandbox": "5.0.0-RC.10",
+    "@architect/sandbox": "5.0.0-RC.11",
     "aws-sdk": "2.1001.0",
     "chalk": "4.1.2",
     "update-notifier": "5.1.0"
