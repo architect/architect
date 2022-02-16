@@ -81,6 +81,8 @@
   - All non-namespaced names will continue to be supported until at least Architect 11; we suggest changing them over to the namespaced equivalents as soon as is convenient
 - Performance memory and performance improvements in Inventory
 - Lambda treeshaking (currently for Node.js) is now the default when being run from CLI
+- Migrate static bucket permissions from per-object ACLs to a bucket policy so users can customize the static bucket permissions using plugins
+  - See: https://github.com/architect/package/pull/148, https://github.com/architect/deploy/pull/350
 - Stop publishing to the GitHub Package registry
 - Updated `aws-sdk` to `2.1001.0`
 - Updated dependencies
