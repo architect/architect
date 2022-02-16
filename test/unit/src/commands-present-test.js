@@ -9,10 +9,10 @@ let deployCLI = require('@architect/deploy/src/cli')
 let env = require('@architect/env')
 
 let hydrate = require('@architect/hydrate')
-let hydrateCLI = require('@architect/hydrate/cli')
+let hydrateCLI = require('@architect/hydrate/src/cli')
 
 let logs = require('@architect/logs')
-let logsCLI = require('@architect/logs/cli')
+let logsCLI = require('@architect/logs/src/cli')
 
 let sandbox = require('@architect/sandbox')
 let sandboxCLI = require('@architect/sandbox/src/cli/arc')
