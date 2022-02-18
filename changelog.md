@@ -77,12 +77,14 @@
 - Internal change: stopped optimistically populating default `arc-sessions` + `data` tables in Sandbox
   - This was a quirky holdover behavior from early Architect that differed Sandbox from live AWS behavior
 - Internal change: various AWS calls that used to rely on `AWS_REGION` now rely on Inventory region
+- Internal change: refactored deployment operation order to ensure plugins run earlier and can accomplish more during deployment
 - Prefer `ARC_SESSION_TABLE_NAME` to `SESSION_TABLE_NAME` env var for Architect's built-in sessions management
   - All non-namespaced names will continue to be supported until at least Architect 11; we suggest changing them over to the namespaced equivalents as soon as is convenient
 - Performance memory and performance improvements in Inventory
 - Lambda treeshaking (currently for Node.js) is now the default when being run from CLI
 - Migrate static bucket permissions from per-object ACLs to a bucket policy so users can customize the static bucket permissions using plugins
   - See: https://github.com/architect/package/pull/148, https://github.com/architect/deploy/pull/350
+- Traverse folders that start with `.` looking for Lambda package files to hydrate
 - Stop publishing to the GitHub Package registry
 - Updated `aws-sdk` to `2.1001.0`
 - Updated dependencies
