@@ -44,6 +44,7 @@
 - Added `deploy --eject` option (functionally the same as `--dry-run`)
 - Added Architect + userland env vars to Sandbox startup scripts (in addition to being present for `plugins.sandbox.start|end`)
 - Sandbox watcher now restarts the Sandbox on preference file changes to ensure port changes and env vars are immediately available
+- Add ability to automatically publish static assets to S3 if `fingerprint` is set to `true` or `external`, `prune` is disabled (which it is by default), and the app has a bucket; fixes #1312, thanks @gopeter!
 
 
 ### Changed
