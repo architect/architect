@@ -4,7 +4,7 @@
 
 ---
 
-## [10.0.0]
+## [10.0.0 - 10.0.1] 2022-02-22
 
 ### Added
 
@@ -95,6 +95,7 @@
 
 - Fixed issue where Lambdas configured with `@arc shared false` would still get shared code
 - Fixed basic env var validation in `arc env`
+- Fixed live reload behavior in Firefox where Firefox would reload the wrong path, preventing links from being accessed
 
 ---
 
