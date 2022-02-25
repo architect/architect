@@ -4,6 +4,22 @@
 
 ---
 
+## [10.0.2] 2022-02-24
+
+### Added
+
+- Enable `@architect/functions` to retrieve port configuration via Sandbox when run as a bare module and not within a Lambda
+- In addition to the existing `@sandbox-startup` preferences pragma, now run startup commands via `@sandbox-start` preferences pragma
+  - It's the same, just semantically a bit closer to `plugins.sandbox.start`
+
+
+### Fixed
+
+- Fixed missing `ARC_SANDBOX` env var `version` property in `sandbox.start` plugins + `@sandbox-startup` scripts
+- Fixed error reporting in `arc destroy` when run via `arc` (and not as standalone `npx arc-destroy`)
+
+---
+
 ## [10.0.0 - 10.0.1] 2022-02-22
 
 ### Added
