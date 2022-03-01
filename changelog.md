@@ -4,6 +4,23 @@
 
 ---
 
+## [10.0.3] 2022-03-01
+
+### Added
+
+- Added support for Sandbox SSM emulation of `ssm.getParameter()` (in addition to `ssm.getParametersByPath()`)
+- Hardened Sandbox SSM emulation to have tighter query behavior, output valid errors, etc.
+- Added `ARC_STACK_NAME` env var to fix missing stack name data; fixes #1322, thanks @Lugana707, @pgte
+
+
+### Fixed
+
+- Fixed Sandbox responding to all SSM requests indiscriminately
+  - Sandbox now only fulfills requests for the app that it's running (or for `@architect/functions` running as a bare module)
+- Fix issue where Create would attempt (and fail) to write static assets when not needed
+
+---
+
 ## [10.0.2] 2022-02-24
 
 ### Added
