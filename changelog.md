@@ -4,6 +4,15 @@
 
 ---
 
+## [10.0.4] 2022-03-02
+
+### Fixed
+
+- Fixed Init writing boilerplate files for custom runtimes (currently based on the `baseRuntime`); thanks @johncantrell97!
+- Fixed incorrect banner version printing when running Init locally, and not globally
+
+---
+
 ## [10.0.3] 2022-03-01
 
 ### Added
