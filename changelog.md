@@ -4,6 +4,15 @@
 
 ---
 
+## [10.0.5] 2022-03-03
+
+### Fixed
+
+- Fixed sandbox not detecting Lambda function return when process does not exit automatically; fixes #1319, thanks @mawdesley!
+- Fixed regression where S3 IAM policy could prevent `@architect/asap` from properly peeking into a directory to look for a default index.html file; thanks @TillaTheHun0!
+
+---
+
 ## [10.0.4] 2022-03-02
 
 ### Fixed
