@@ -4,6 +4,14 @@
 
 ---
 
+## [next] 2022-03-07
+
+### Changed
+
+- Upgraded Deno from 0.24.x to 1.19.1
+
+---
+
 ## [10.0.5] 2022-03-03
 
 ### Fixed
