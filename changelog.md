@@ -4,11 +4,22 @@
 
 ---
 
-## [next] 2022-03-07
+## [10.1.0] 2022-03-07
+
+### Added
+
+- Added support for Sandbox `@tables` seed data via `sandbox-seed.js[on]` (or custom) file
+
 
 ### Changed
 
 - Upgraded Deno from 0.24.x to 1.19.1
+
+
+### Fixed
+
+- Added `arc` property to Sandbox plugin API calls, which should have been there
+- Froze `inventory` property in Sandbox plugin API calls
 
 ---
 
