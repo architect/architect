@@ -4,6 +4,15 @@
 
 ---
 
+## [10.2.0] 2022-03-24
+
+### Added
+
+- Added support for configuring Lambda's ephemeral storage feature
+  - To your project manifest (eg `app.arc`) or individual `config.arc` files' `@aws` pragma, add the setting `storage {number between 512 - 10240}`
+
+---
+
 ## [10.1.0] 2022-03-07
 
 ### Added
