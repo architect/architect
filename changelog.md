@@ -4,6 +4,15 @@
 
 ---
 
+## [10.2.2] 2022-04-08
+
+### Fixed
+
+- Added static asset sorting on deployment to publish `index.htm[l]` files last; fixes #1335
+  - Also: `index.htm[l]` files with deeper sub-paths should publish earlier, with the root HTML file publishing last
+
+---
+
 ## [10.2.1] 2022-03-31
 
 ### Changed
