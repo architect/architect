@@ -29,7 +29,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@architect/create": "4.0.3",
-    "@architect/deploy": "4.0.7",
+    "@architect/deploy": "4.1.0-RC.0",
     "@architect/destroy": "3.0.2",
     "@architect/env": "3.0.1",
     "@architect/hydrate": "3.0.2",
