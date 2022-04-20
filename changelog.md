@@ -10,6 +10,12 @@
 
 - Added brotli compression for static asset publishing
 
+
+### Fixed
+
+- Fail loudly when AWS-SDK finds a credentials file without default profile; thanks @stuartlangridge!
+- Fixed Sandbox possibly hanging when it fails to start up in tests
+
 ---
 
 ## [10.2.2] 2022-04-08
