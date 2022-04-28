@@ -4,6 +4,25 @@
 
 ---
 
+## [10.3.1] 2022-04-28
+
+### Added
+
+- Relaxed `@tables` IAM permissions; Lambdas can now do far more with DynamoDB out of the box
+
+
+### Changed
+
+- Use https, not http, for API Gateway proxy to static bucket; thanks @lpsinger!
+
+
+### Fixed
+
+- Sandbox servers will now only listen to the loopback interface and will not listen for inbound connections from the network; thanks @lpsinger!
+- Reduced excess CloudFormation statements for `@tables`; thanks @frankleng!
+
+---
+
 ## [10.3.0] 2022-04-09
 
 ### Added
