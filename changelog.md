@@ -18,7 +18,7 @@
 
 ### Fixed
 
-- Sandbox servers will now only listen to the loopback interface and will not listen for inbound connections from the network; thanks @lpsinger!
+- Sandbox now only listens to the loopback interface and will not listen for inbound connections from the network; thanks @lpsinger!
 - Reduced excess CloudFormation statements for `@tables`; thanks @frankleng!
 
 ---
