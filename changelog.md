@@ -4,6 +4,14 @@
 
 ---
 
+## [10.3.2] 2022-04-29
+
+### Fixed
+
+- Fixed a CloudFormation syntax error that was introduced in 8.1.1; fixes #1340, thanks @lpsinger!
+
+---
+
 ## [10.3.1] 2022-04-28
 
 ### Added
