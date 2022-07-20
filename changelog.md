@@ -4,6 +4,21 @@
 
 ---
 
+## [10.3.4] 2022-07-19
+
+### Added
+
+- Added a host flag (`-h, --host`) to specify the address Sandbox listens on
+
+
+### Fixed
+
+- Fixed Sandbox race condition where execution happening too fast may result in false `null` API Gateway responses
+- Fixed Sandbox live reload when in use with `@architect/functions` brotli compression; fixes `@architect/functions` #525
+- Fixed issue where an environment variable could not be set with a number value; fixes #1353
+
+---
+
 ## [10.3.3] 2022-05-11
 
 ### Changed
