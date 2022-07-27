@@ -4,6 +4,27 @@
 
 ---
 
+## [10.4.0] 2022-07-26
+
+### Added
+
+- Added support for new setter plugin APIs, specifically: `@proxy`, `@shared`, `@static`, `@tables`, `@tables-indexes`, `@views`
+
+
+### Changed
+
+- `@tables` and `@tables-indexes` can now accept lower case key types (e.g. `*string` instead of `*String`)
+- `@tables` and `@tables-indexes` can also accept `*` and `**` as a shortcut for string-type primary and sort keys
+
+
+### Fixed
+
+- Fixed issue where Lambdas created by setter plugins that returned arrays did not have their `plugin` and `type` properties set
+- Fixed issue where an absolute path in `@shared|views` `src` would incorrectly resolve
+- Fixed issue where `@views` might incorrectly return a validation error when only HTTP setter plugins are used to define `@http` routes
+
+---
+
 ## [10.3.4] 2022-07-19
 
 ### Added
