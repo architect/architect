@@ -9,17 +9,23 @@
 ### Added
 
 - Added support for new setter plugin APIs, specifically: `@proxy`, `@shared`, `@static`, `@tables`, `@tables-indexes`, `@views`
+- Added new `@static` setting: `compression`; fixes #1341
 
 
 ### Changed
 
+- Lambdas defined in the userland Architect project manifest now override conflicting Lambdas returned by plugins (instead of throwing validation errors); fixes #1352
+  - Plugin developers can now use a `required` flag to enforce a validation error should their plugin conflict with userland Lambdas
 - `@tables` and `@tables-indexes` can now accept lower case key types (e.g. `*string` instead of `*String`)
 - `@tables` and `@tables-indexes` can also accept `*` and `**` as a shortcut for string-type primary and sort keys
+- Changed plugin function property tags from `plugin|type` to `_plugin|_type` to indicate internal property namespacing
+- Added `@static` pragma validation
+- Fixed obscure case where `@static` `ignore` setting might only use the first list item
 
 
 ### Fixed
 
-- Fixed issue where Lambdas created by setter plugins that returned arrays did not have their `plugin` and `type` properties set
+- Fixed issue where Lambdas created by plugins that returned arrays did not have their `plugin` and `type` properties set
 - Fixed issue where an absolute path in `@shared|views` `src` would incorrectly resolve
 - Fixed issue where `@views` might incorrectly return a validation error when only HTTP setter plugins are used to define `@http` routes
 
