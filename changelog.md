@@ -9,7 +9,8 @@
 ### Added
 
 - Added support for new setter plugin APIs, specifically: `@proxy`, `@shared`, `@static`, `@tables`, `@tables-indexes`, `@views`
-- Added new `@static` setting: `compression`; fixes #1341
+- Added new `@static` setting: `compression`; fixes #1341, thanks @zaxuhe!
+- Added support for Node.js 16's `node:` builtin module syntax, which is now ignored by Hydrate's autoinstaller; fixes #1358
 
 
 ### Changed
@@ -28,6 +29,8 @@
 - Fixed issue where Lambdas created by plugins that returned arrays did not have their `plugin` and `type` properties set
 - Fixed issue where an absolute path in `@shared|views` `src` would incorrectly resolve
 - Fixed issue where `@views` might incorrectly return a validation error when only HTTP setter plugins are used to define `@http` routes
+- Fixed issue where destroying an environment with >9 env vars would fail; fixes #1351, thanks @pgte!
+- Fixed issue where additional S3 deploy buckets may be created if app name contains an underscore; fixes #1363, thanks @DocLM!
 
 ---
 
