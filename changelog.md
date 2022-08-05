@@ -4,6 +4,14 @@
 
 ---
 
+## [10.4.1] 2022-08-05
+
+### Fixed
+
+- Fixed not firing deploy.start plugins / macros during deployment; fixes #1364, thanks @mawdesley!
+
+---
+
 ## [10.4.0] 2022-07-26
 
 ### Added
