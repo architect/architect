@@ -4,6 +4,21 @@
 
 ---
 
+## [10.4.2] 2022-08-12
+
+### Changed
+
+- By default, when a `set.shared|views` plugin sets a `src` path, if it is not present on the filesystem, Architect will now fall back to default paths (e.g. `src/shared|views`)
+  - `set.shared|views` plugins now accept a `required` flag to enforce a validation error should a `src` path conflict with the project manifest (or not be found on the filesystem)
+
+
+### Fixed
+
+- Fixed an obscure internal reference passing bug in `set.proxy|shared|static|views` plugins
+- Handle obscure case in Hydrate where lingering broken symlinks would not be properly removed by the shared file copier
+
+---
+
 ## [10.4.1] 2022-08-05
 
 ### Fixed

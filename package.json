@@ -32,7 +32,7 @@
     "@architect/deploy": "4.2.1",
     "@architect/destroy": "3.0.4",
     "@architect/env": "3.0.4",
-    "@architect/hydrate": "3.0.4",
+    "@architect/hydrate": "3.0.5",
     "@architect/logs": "4.0.3",
     "@architect/sandbox": "5.3.2",
     "aws-sdk": "2.1001.0",
