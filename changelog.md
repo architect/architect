@@ -4,6 +4,26 @@
 
 ---
 
+## [10.5.0] 2022-08-30
+
+### Added
+
+- Added experimental `hydrate.copy` API for copying in files and folders to Lambda dependency directories (`./path/to/lambda/node_modules/` or `./path/to/lambda/vendor`)
+  - Read more here: https://arc.codes/docs/en/guides/plugins/hydrate
+  - Feedback here: https://github.com/architect/architect/issues/1369
+
+
+### Changed
+
+- Chill out Sandbox startup logging, moving more verbose information into `--verbose|-v` flag
+
+
+### Fixed
+
+- Deleting a named stack (`arc destroy --name foo ...`) no longer deletes staging environment variables; fixes #1368, thanks @Xiphe!
+
+---
+
 ## [10.4.2] 2022-08-12
 
 ### Changed
