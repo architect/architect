@@ -4,7 +4,7 @@
 
 ---
 
-## [10.5.0 - 10.5.1] 2022-08-30
+## [10.5.0 - 10.5.2] 2022-08-30
 
 ### Added
 
@@ -22,6 +22,7 @@
 
 - Deleting a named stack (`arc destroy --name foo ...`) no longer deletes staging environment variables; fixes #1368, thanks @Xiphe!
 - Fixed issue where `hydrate.shared()` erroneously destroys the `@architect/functions` module; thanks @idy!
+- Fixed issue where Hydrate's autoinstaller would fail to parse `require` or `import` within for/of statements; fixes #1370
 
 ---
 
