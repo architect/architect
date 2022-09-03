@@ -7,11 +7,12 @@ let deps = Object.keys(package.dependencies)
 test('All primary dependencies must be version locked', t => {
   t.plan(deps.length)
   deps.forEach(dep => {
+    let utilityDep = dep === '@architect/inventory' || dep === '@architect/utils'
     let ver = package.dependencies[dep]
-    let valid = !ver.startsWith('~') &&
-                !ver.startsWith('^') &&
-                !ver.toLowerCase().includes('x') &&
-                !ver.includes('*')
+    let noWildcard = !ver.toLowerCase().includes('x') && !ver.includes('*')
+    let valid = utilityDep
+      ? noWildcard && ver.startsWith('~')
+      : noWildcard && !ver.startsWith('~') && !ver.startsWith('^')
     if (valid)
       t.pass(`${dep} version is ok: ${ver}`)
     else

@@ -4,6 +4,14 @@
 
 ---
 
+## [10.5.3] 2022-09-02
+
+### Fixed
+
+- Added `@architect/inventory` + `@architect/utils` as dependencies to help reduce issues with Yarn workspaces; helps fix #1356
+
+---
+
 ## [10.5.0 - 10.5.2] 2022-08-30
 
 ### Added
