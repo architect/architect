@@ -31,7 +31,7 @@
     "@architect/create": "4.0.5",
     "@architect/deploy": "4.2.2",
     "@architect/destroy": "3.0.5",
-    "@architect/env": "3.0.4",
+    "@architect/env": "3.0.5",
     "@architect/hydrate": "3.1.2",
     "@architect/inventory": "~3.2.2",
     "@architect/logs": "4.0.3",
