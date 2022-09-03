@@ -8,7 +8,7 @@
 
 ### Fixed
 
-- Added `@architect/inventory` + `@architect/utils` as dependencies to help reduce issues with Yarn workspaces; helps fix #1356
+- Added `@architect/inventory` + `@architect/utils` as dependencies and fixed `@architect/env` deps to help reduce issues with Yarn workspaces; helps fix #1356
 
 ---
 
