@@ -14,7 +14,7 @@ let help = require('./help')
 let version = require('./version')
 let pauser = require('@architect/deploy/src/utils/pause-sandbox')
 
-let update = require('update-notifier')
+let update = require('update-notifier-cjs')
 let _pkg = require('../package.json')
 
 let cmds = {

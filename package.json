@@ -28,18 +28,18 @@
   "author": "Brian LeRoux <b@brian.io>",
   "license": "Apache-2.0",
   "dependencies": {
-    "@architect/create": "4.0.5",
-    "@architect/deploy": "4.2.2",
-    "@architect/destroy": "3.0.5",
-    "@architect/env": "3.0.5",
-    "@architect/hydrate": "3.1.2",
-    "@architect/inventory": "~3.2.2",
-    "@architect/logs": "4.0.3",
-    "@architect/sandbox": "5.3.3",
+    "@architect/create": "4.1.1",
+    "@architect/deploy": "4.2.3",
+    "@architect/destroy": "3.0.7",
+    "@architect/env": "3.0.6",
+    "@architect/hydrate": "3.1.3",
+    "@architect/inventory": "~3.3.0",
+    "@architect/logs": "4.0.4",
+    "@architect/sandbox": "5.3.4",
     "@architect/utils": "~3.1.2",
-    "aws-sdk": "2.1001.0",
+    "aws-sdk": "2.1055.0",
     "chalk": "4.1.2",
-    "update-notifier": "5.1.0"
+    "update-notifier-cjs": "5.1.4"
   },
   "devDependencies": {
     "@architect/eslint-config": "~2.0.1",
