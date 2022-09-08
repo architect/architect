@@ -4,6 +4,28 @@
 
 ---
 
+## [10.6.0] 2022-09-07
+
+### Added
+
+- Added support for initializing ESM handlers in Node 14+ Lambdas when running `arc create` (or when running Sandbox or Deploy with the `@create autocreate true` setting)
+  - CJS handlers can still be written either via the `@aws runtime nodejs12.x` setting, or the `pref[erence]s.arc` `@create template` setting
+
+
+### Changed
+
+- When initializing a new project via `arc create` (usually with `npm create @architect`), only install Architect if the folder's `package.json` file doesn't already have it in (dev) deps
+- `arc create` now only creates handler files when the actual file is missing, not just when the folder is absent
+- Updated `aws-sdk` to 2.1055.0
+- Updated dependencies
+
+
+### Fixed
+
+- Fixed npm warning about subdependency `got` CVE-2022-33987
+
+---
+
 ## [10.5.3] 2022-09-02
 
 ### Fixed

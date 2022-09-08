@@ -25,7 +25,7 @@ let arc = proxyquire('../../../src', {
   './startup': startup,
   './help': returner.bind({}, './help'),
   './version': returner.bind({}, './version'),
-  'update-notifier': () => ({ notify: () => {} })
+  'update-notifier-cjs': () => ({ notify: () => {} })
 })
 
 
