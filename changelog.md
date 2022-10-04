@@ -4,6 +4,16 @@
 
 ---
 
+## [10.7.0] 2022-10-04
+
+### Added
+
+- Added `provisionedConcurrency` project manifest option to configure AWS Lambda provisioned concurrency
+  - For more information, see: https://docs.aws.amazon.com/lambda/latest/dg/provisioned-concurrency.html
+  - Thanks, @lpsinger!
+
+---
+
 ## [10.6.0] 2022-09-07
 
 ### Added
