@@ -4,6 +4,19 @@
 
 ---
 
+## [10.7.1] 2022-10-13
+
+### Fixed
+
+- Deploy respects `--no-hydration` with `--direct`; fixes #1348, thanks @tbeseda, @ThatOneBro!
+- Fixed corner case where Lambda treeshaking could install a potentially out of date dependency if found in the project's developer dependencies tree, even if as a transient dependency of another package in `package-lock.json`
+  - Per npm semantics, Architect assumes business logic that needs a specific version will use `dependencies`
+  - If for whatever reason your Architect app's business logic depends on a specific dependency version, and that version is only found in `devDependencies`, you must specify that version in `dependencies`
+- Fixed `arc create` failures for Lambdas created by `set.customLambdas`; fixes #1382, thanks @
+buffpojken!
+
+---
+
 ## [10.7.0] 2022-10-04
 
 ### Added
