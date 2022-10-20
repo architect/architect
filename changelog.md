@@ -4,6 +4,15 @@
 
 ---
 
+## [unreleased] 2022-10-19
+
+### Fixed
+
+- Fixed issue where `@static spa true` setting wouldn't be respected when the root handler is not explicitly defined; thanks @oliverturner!
+- Fix issue where `set.http` plugins would not have `config.views` respected if set to `false`
+
+---
+
 ## [10.7.1] 2022-10-13
 
 ### Fixed
