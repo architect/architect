@@ -4,12 +4,13 @@
 
 ---
 
-## [unreleased] 2022-10-19
+## [10.7.2] 2022-10-19
 
 ### Fixed
 
 - Fixed issue where `@static spa true` setting wouldn't be respected when the root handler is not explicitly defined; thanks @oliverturner!
-- Fix issue where `set.http` plugins would not have `config.views` respected if set to `false`
+- Fixed issue where `set.http` plugins would not have `config.views` respected if set to `false`
+- Fixed missing support for legacy `@static staging|production` setting
 
 ---
 
