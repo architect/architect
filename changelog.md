@@ -6,6 +6,11 @@
 
 ## [10.7.2] 2022-10-19
 
+### Added
+
+- Added support for automatically re-publishing static assets when compression setting changes
+
+
 ### Fixed
 
 - Fixed issue where `@static spa true` setting wouldn't be respected when the root handler is not explicitly defined; thanks @oliverturner!
