@@ -4,10 +4,17 @@
 
 ---
 
-## [unreleased] 2022-11-15
+## [10.7.3] 2022-11-15
+
+### Changed
+
+- Changed `hydrate.copy` API to copy files into all Lambdas, not just those with shared code enabled
+
 
 ### Fixed
 
+- Fixed issue where `hydrate.copy` plugins breaking on projects that disabled or aren't using shared code; thanks @tbeseda!
+- Ensure Sandbox CLI interface can be called with `quiet` option
 - Fixed issue where projects with plugins that define >1 transpiled (read: `runtime typescript`) Lambdas would all build to the same directory; thanks @Scorsi!
 - Fixed issue where plugins may not be found if attempted to be loaded from a subfolder in a monorepo; thanks @Scorsi!
 
