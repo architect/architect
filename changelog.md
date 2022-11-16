@@ -4,6 +4,15 @@
 
 ---
 
+## [unreleased] 2022-11-15
+
+### Fixed
+
+- Fixed issue where projects with plugins that define >1 transpiled (read: `runtime typescript`) Lambdas would all build to the same directory; thanks @Scorsi!
+- Fixed issue where plugins may not be found if attempted to be loaded from a subfolder in a monorepo; thanks @Scorsi!
+
+---
+
 ## [10.7.2] 2022-10-19
 
 ### Added
