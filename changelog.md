@@ -4,6 +4,35 @@
 
 ---
 
+## [10.8.0] 2022-11-16
+
+### Added
+
+- Added support for Lambda's new `nodejs18.x` runtime, and AWS SDK v3 (`@aws-sdk/*`)
+  - `@architect/functions` + `@architect/asap` now also have full support for SDK v3
+  - If your Lambdas make use of `@architect/functions` (and you otherwise do not directly rely on AWS SDK calls), you are now fully forward-compatible with `nodejs18.x`
+    - Your upgrade path is installing `@architect/functions` >= 5.3
+  - However, if your Lambdas do NOT make use of `@architect/functions`, before opting into Lambda `nodejs18.x` + SDK v3 we strongly advise you read: https://arc.codes/aws-sdk-versions
+  - To opt in, simply change your `@aws runtime` setting to `nodejs18.x` (learn more at http://arc.codes/docs/en/reference/project-manifest/aws#runtime)
+- Added Node.js 18.x to test coverage
+
+
+### Changed
+
+- `nodejs16.x` (which still uses SDK v2) is now the default Node.js runtime, bumped from `nodejs14.x`
+  - Because 18.x only includes SDK v3, this is a breaking change, and will remain an opt-in until a future major release of Architect
+- In order to paper over breaking changes in AWS SDK v2 to v3, `@architect/functions` + `@architect/asap` inspect the running Node.js version to follow different code paths to corresponding SDK versions; if your test / CI environment is not using the same Node.js version as your production environment, this may result in unexpected testing issues
+  - For example: your CI environment runs Node.js 18.x, but your Lambda uses `@architect/functions` >= 5.3 and is configured to use 16.x; some methods deep within the SDK may differ, and your tests may break
+  - Unless you are making use of `arc.tables()._db` + `arc.tables()._doc`, we think this scenario is pretty unlikely. That said, this is unfortunately not something Architect can control for or prevent, and ultimately falls to AWS to resolve for developers
+  - We can only **strongly advise your CI and production environments use the same version of Node.js**
+
+
+### Fixed
+
+- Fixed issue where Sandbox, running via Node.js 18.x, may fail to respond to local requests from the same host in Node.js <= 16.x
+
+---
+
 ## [10.7.3] 2022-11-15
 
 ### Changed
