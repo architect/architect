@@ -4,10 +4,11 @@
 
 ---
 
-## [10.8.1] 2022-12-05
+## [10.8.1 - 10.8.2] 2022-12-05
 
 ### Fixed
 
+- Fixed `hydrate.copy` API bug where files are copied to `vendor`, not `node_modules`, for `typescript` Lambdas
 - Fixed `hydrate.copy` API bug where Lambda build dir is not used
 
 ---

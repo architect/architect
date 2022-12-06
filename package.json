@@ -32,7 +32,7 @@
     "@architect/deploy": "4.2.7",
     "@architect/destroy": "3.0.8",
     "@architect/env": "3.0.7",
-    "@architect/hydrate": "3.1.7",
+    "@architect/hydrate": "3.1.8",
     "@architect/inventory": "~3.3.4",
     "@architect/logs": "4.0.5",
     "@architect/sandbox": "5.4.1",
