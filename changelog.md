@@ -4,6 +4,22 @@
 
 ---
 
+## [10.8.3] 2023-01-06
+
+### Added
+
+- `set.static` plugins now merge `ignore` patterns with userland `ignore` settings (if present)
+- Deploy now respects `ignore` patterns when pruning files that may only be in S3 and not on the local filesystem
+  - Example use case: upon completion of deployment, you have a separate process for publishing an artifact to your app's static asset bucket; adding that artifact's name, folder name, etc. to `@static ignore` will now ensure it will not be destroyed with `@static prune` enabled
+
+
+### Fixed
+
+- Fixed invalid S3 data returns in `nodejs18.x` with AWS SDK v3
+- Fixed `hydrate.copy` crashing when copying to multi-tenant Lambdae
+
+---
+
 ## [10.8.1 - 10.8.2] 2022-12-05
 
 ### Fixed
