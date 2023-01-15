@@ -4,6 +4,24 @@
 
 ---
 
+## [10.8.4] 2023-01-15
+
+### Added
+
+- Add a bit of Architect-specific metadata to Lambdas in CloudFormation
+
+
+### Changed
+
+- Updated dependencies
+
+
+### Fixed
+
+- Fix direct deploy to `@tables-streams` Lambdae
+
+---
+
 ## [10.8.3] 2023-01-06
 
 ### Added
