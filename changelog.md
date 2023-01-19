@@ -4,6 +4,21 @@
 
 ---
 
+## [10.9.0] 2023-01-18
+
+### Added
+
+- Added support for plugins authored as ES modules, while retaining support for plugins authored as CommonJS modules
+  - Caveat: due to limitations in an external dependency, ESM plugins do not yet support `node:*` imports (see: https://github.com/standard-things/esm/issues/904). This can also be worked around by omitting `node:` for the time being
+  - For example: instead of `import fs from 'node:fs'`, use `import fs from 'fs'`
+
+
+### Changed
+
+- Updated dependencies
+
+---
+
 ## [10.8.4] 2023-01-15
 
 ### Added
