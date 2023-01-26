@@ -4,6 +4,15 @@
 
 ---
 
+## [10.9.2] 2023-01-26
+
+### Added
+
+- Added plugin ES module support for ES2020+ syntax, `node:*` imports, etc.; fixes #1401, thanks @lpsinger!
+- Added support for loading ESM plugins via `package.json` `"type": "module"`, respecting `main`, etc.
+
+---
+
 ## [10.9.0 - 10.9.1] 2023-01-18
 
 ### Added
