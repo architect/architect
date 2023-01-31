@@ -4,6 +4,15 @@
 
 ---
 
+## [10.9.3] 2023-01-31
+
+### Added
+
+- Deploy now automatically destroys deployment artifacts more than 1 week old; fixes #1399, thanks @alexbepple!
+- Added support for destroying more than 1,000 old static assets per deployment with `prune` enabled
+
+---
+
 ## [10.9.2] 2023-01-26
 
 ### Added
