@@ -4,6 +4,16 @@
 
 ---
 
+## [10.10.0] 2023-02-01
+
+### Added
+
+- Sandbox livereload is now enabled by default
+  - Any browsers connected to Sandbox will automatically refresh any time a `get` or `any` HTTP handler changes, or when any file in `src/shared`, `src/views`, or `public` changes
+  - Add `@sandbox livereload false` to your preferences to disable
+
+---
+
 ## [10.9.3] 2023-01-31
 
 ### Added
