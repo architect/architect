@@ -4,6 +4,22 @@
 
 ---
 
+## [10.10.1] 2023-02-07
+
+### Added
+
+- Allow ctrl+d keypress to quit Sandbox
+- Add additional metadata to ASAP Lambdas in CloudFormation
+
+
+### Fixed
+
+- Fixed issue where an `index.mjs` handler in the project root would not be properly detected if a `package.json` file is present (which it almost certainly would be)
+- Fixed issue where Sandbox watcher would lose a specified port setting; fixes #1395
+- Made hydrating Lambda handlers in the project root slightly less wonky (even possibly destructive); partially improves #1405
+
+---
+
 ## [10.10.0] 2023-02-01
 
 ### Added
