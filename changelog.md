@@ -4,6 +4,28 @@
 
 ---
 
+## [10.11.0] 2023-03-30
+
+### Added
+
+- Added `pnpm` support; Hydrate will use pnpm if a `pnpm-lock.yaml` file is present, or if the `--pnpm` CLI flag is present; thanks @nicksrandall!
+  - Oh, also: added `--pnpm` + `--yarn` flags to Hydrate
+
+
+### Changed
+
+- Retired `nodejs12.x` runtime (deprecated in Lambda 2023-03-31)
+- Improved deployment of static assets prior to deploying app changes
+
+
+### Fixed
+
+- Fixed case where static assets would be pruned prior to deploying app changes, which could leave the app in a broken state during deployment, or if the deployment otherwise fails; fixes #1416
+- Fixed static asset fingerprinting in Windows
+- Fixed Deploy typo; thanks @lpsinger!
+
+---
+
 ## [10.10.3] 2023-03-09
 
 ### Changed

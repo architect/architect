@@ -16,7 +16,7 @@ test('All primary dependencies must be version locked', t => {
     if (valid)
       t.pass(`${dep} version is ok: ${ver}`)
     else
-      t.fail(`${dep} must be version-locked in package.json: ${ver}`)
+      t.fail(`${dep} must ${utilityDep ? 'not ' : ''}be version-locked in package.json: ${ver}`)
   })
 })
 
