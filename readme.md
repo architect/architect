@@ -87,7 +87,7 @@ arc deploy production
 
 – **[Sublime Text](https://github.com/architect/sublime-package)**
 
-– **[Atom](https://atom.io/packages/language-architect)**
+– **[Vim](https://github.com/architect/vim-plugin)**
 
 
 ## Learn more
