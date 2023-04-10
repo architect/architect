@@ -82,6 +82,8 @@ arc deploy production
 
 – **[Atom](https://atom.io/packages/language-architect)**
 
+– **[Vim](https://github.com/architect/vim-plugin)**
+
 
 ## Learn more
 
