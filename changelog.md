@@ -4,11 +4,12 @@
 
 ---
 
-## [10.11.1] 2023-04-13
+## [10.11.1 - 10.11.2] 2023-04-13
 
 ### Fixed
 
 - Fixed public bucket permissions impacted by AWS's 2023-04 S3 security changes; thanks @brianleroux!
+- Fix subfolders on static asset deployments in Windows; fixes #1420, thanks @r2dliu!
 
 ---
 
