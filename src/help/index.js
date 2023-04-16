@@ -58,7 +58,7 @@ ${D('Options')}
 ${D('Keyboard Shortcuts')}
 ${d('Sandbox registers a few keyboard shortcuts you may invoke to help with local development (note: they are all capital letters!):')}
   ${g('S')} ${d('..... re-hydrates (installs dependencies) `src/shared` and copies or symlinks it into all function code')}
-  ${g('S')} ${d('..... re-hydrates (installs dependencies) `src/views` and copies or symlinks it into all function code')}
+  ${g('V')} ${d('..... re-hydrates (installs dependencies) `src/views` and copies or symlinks it into all function code')}
   ${g('H')} ${d('..... re-hydrates (installs dependencies) both `src/shared` and `src/views` and copies or symlinks both into all function code')}
 `,
 
