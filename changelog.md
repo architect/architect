@@ -20,11 +20,13 @@
 ### Changed
 
 - Internal Sandbox change: dramatically simplified Lambda execution lifecycle
+- Unpinned `aws-sdk` + `@aws-sdk/*` from Lambda-specific version to enable SSO and resolve (unrelated) npm vulnerability warnings; fixes #1424
 
 
 ### Fixed
 
 - When running Create (`arc create`, `arc init`), ensure transpiled and compiled handlers aren't (re)created when they haven't yet been compiled
+- Fixed possible issue running Create when no Lambdas are present
 
 ---
 
