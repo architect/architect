@@ -4,6 +4,32 @@
 
 ---
 
+## [10.12.0] 2023-04-10
+
+### Added
+
+- At last: Architect now has first-class support for compiled languages and runtimes, such as Rust, Go, and Java
+  - This also includes new official Architect plugins for:
+    - [Rust](https://github.com/architect/plugin-rust)
+    - [Go](https://github.com/architect/plugin-go)
+  - Sandbox now supports the Lambda runtime API (available during Lambda execution via `AWS_LAMBDA_RUNTIME_API` env var)
+- Added support for new `create` plugin API
+  - Namely: `create.register`, `create.handlers`
+
+
+### Changed
+
+- Internal Sandbox change: dramatically simplified Lambda execution lifecycle
+- Unpinned `aws-sdk` + `@aws-sdk/*` from Lambda-specific version to enable SSO and resolve (unrelated) npm vulnerability warnings; fixes #1424
+
+
+### Fixed
+
+- When running Create (`arc create`, `arc init`), ensure transpiled and compiled handlers aren't (re)created when they haven't yet been compiled
+- Fixed possible issue running Create when no Lambdas are present
+
+---
+
 ## [10.11.1 - 10.11.2] 2023-04-13
 
 ### Fixed
