@@ -4,6 +4,14 @@
 
 ---
 
+## [10.12.3] 2023-04-29
+
+### Fixed
+
+- Fixed issue where Sandbox may not properly parse certain unicode data in very large Lambda response payloads
+
+---
+
 ## [10.12.2] 2023-04-28
 
 ### Changed
