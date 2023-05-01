@@ -4,6 +4,14 @@
 
 ---
 
+## [10.12.4] 2023-05-01
+
+### Changed
+
+- Additional Sandbox hardening for large request payloads via the runtime API
+
+---
+
 ## [10.12.3] 2023-04-29
 
 ### Fixed
