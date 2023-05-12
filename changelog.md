@@ -4,6 +4,14 @@
 
 ---
 
+## [10.12.5] 2023-05-12
+
+### Added
+
+- Add `getRemainingTimeInMillis()` method to Node.js Lambda context; fixes #1427
+
+---
+
 ## [10.12.4] 2023-05-01
 
 ### Changed
