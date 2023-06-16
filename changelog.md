@@ -4,6 +4,19 @@
 
 ---
 
+## [10.12.6] 2023-06-15
+
+### Changed
+
+- Added some additional binary media types to ASAP
+
+
+### Fixed
+
+- Fixed subtle `@http` sorting issue where path params may be prioritized over paths with static URL parts in the same position
+
+---
+
 ## [10.12.5] 2023-05-12
 
 ### Added
