@@ -4,6 +4,15 @@
 
 ---
 
+## [10.12.7] 2023-06-21
+
+### Fixed
+
+- Fixed resource creation with `@create autocreate true` in projects with multi-tenant Lambdae; fixes #1432, thanks @andybee!
+- Added additional multi-tenant Lambdae checks throughout Architect
+
+---
+
 ## [10.12.6] 2023-06-15
 
 ### Changed
