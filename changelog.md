@@ -4,6 +4,19 @@
 
 ---
 
+## [10.13.0] 2023-06-27
+
+### Added
+
+- Added additional `@http` HTTP API request data
+  - `requestContext` properties: `http.protocol` + `http.sourceIp` + `http.userAgent`
+  - Headers: `user-agent` + `x-forwarded-for` + `x-forwarded-port` + `x-forwarded-proto`
+- Added additional `@http` REST API request data
+  - `requestContext` properties: `protocol` + `identity.sourceIp` + `identity.userAgent`
+  - Headers: `User-Agent` + `X-Forwarded-For` + `X-Forwarded-Port` + `X-Forwarded-Proto`
+
+---
+
 ## [10.12.7] 2023-06-21
 
 ### Fixed
