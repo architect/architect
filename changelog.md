@@ -4,6 +4,22 @@
 
 ---
 
+## [10.13.2] 2023-07-19
+
+### Changed
+
+- Allow lowcase `ttl` `@tables` property type
+
+
+### Fixed
+
+- Fixed ability to configure `ARC_SESSION_TABLE_NAME` env var in Sandbox via `.env`, `pref[erence]s.arc`, etc.
+- Added `@aws-sdk/node-http-helper` to Sandbox which is required by `@architect/functions` when interacting with DynamoDB from a Node 18 process
+- Fixed issue using absolute paths in `hydrate.copy` plugins
+- Fixed Python `@ws` default templates and increased Python indentation
+
+---
+
 ## [10.13.0 - 10.13.1] 2023-06-27
 
 ### Added
