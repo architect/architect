@@ -35,7 +35,7 @@
     "@architect/hydrate": "3.2.3",
     "@architect/inventory": "3.5.7",
     "@architect/logs": "4.0.9",
-    "@architect/sandbox": "5.7.3",
+    "@architect/sandbox": "5.7.4",
     "@architect/utils": "~3.1.9",
     "@aws-sdk/client-apigatewaymanagementapi": "^3.319.0",
     "@aws-sdk/client-dynamodb": "^3.319.0",
