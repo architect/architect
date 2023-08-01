@@ -4,6 +4,17 @@
 
 ---
 
+## [10.14.0] 2023-08-01
+
+### Added
+
+- Added initial support for Python Lambda treeshaking
+  - This supports global options passed in a root `requirements.txt` file (example: `--extra-index-url https://test.pypi.org/simple/`), but does not yet support dependencies versioned at root, or shared or views dependencies
+  - All project dependencies must be installed on the system prior to deployment
+  - Python Lambda treeshaking also requires the `pipdeptree` package to be available from shell; ensure you've run `pip3 install pipdeptree` prior to use
+
+---
+
 ## [10.13.3] 2023-07-20
 
 ### Fixed
