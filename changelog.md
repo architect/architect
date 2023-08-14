@@ -6,12 +6,42 @@
 
 ## [10.14.0] 2023-08-01
 
+Architect <3 Python! This release is all about the snek!
+
+
 ### Added
 
 - Added initial support for Python Lambda treeshaking
+  - No more `requirements.txt` necessary in your Python Lambdas, Architect now handles dependency installations automatically upon deployment
+  - Docs: https://arc.codes/docs/en/guides/developer-experience/dependency-management#python
   - This supports global options passed in a root `requirements.txt` file (example: `--extra-index-url https://test.pypi.org/simple/`), but does not yet support dependencies versioned at root, or shared or views dependencies
   - All project dependencies must be installed on the system prior to deployment
   - Python Lambda treeshaking also requires the `pipdeptree` package to be available from shell; ensure you've run `pip3 install pipdeptree` prior to use
+- Added better support for DynamoDB backed sessions in both Node.js and Python helper libraries
+  - See the sessions guide: https://arc.codes/docs/en/guides/frontend/sessions
+- Major new release of Arc's Python helper library: `architect-functions`
+  - Package: https://pypi.org/project/architect-functions/
+  - Changelog: https://github.com/architect/functions-python/blob/main/changelog.md)
+- Major new release of Arc's Node.js helper library: `@architect/functions`
+  - Package: [(https://pypi.org/project/architect-functions/)](https://www.npmjs.com/package/@architect/functions)
+  - Changelog: https://github.com/architect/functions/blob/main/_changelog.md)
+- Added support for additional Python + Ruby Lambda handler filenames, including:
+  - Python: `lambda.py`, `handler.py` (and legacy `index.py`)
+  - Ruby: `lambda.rb`, `handler.rb` (and legacy `index.rb`)
+- Added fonts to binary mime types in Architect's default `@http` root handling (`@architect/asap`); thanks @sjorsrijsdam!
+
+
+### Changed
+
+- Architect is no longer supporting its very out-of-date Ruby runtime package (https://rubygems.org/gems/architect-functions)
+  - Please refer to the runtime support doc: https://arc.codes/docs/en/get-started/runtime-support
+
+
+### Fixed
+
+- Fixed issue where certain arrays in JSON / YAML project manifests (`arc.json`, `arc.yaml`) could be unnecessarily nested; fixes #1436, thanks @sbernardello!
+- Fixed Python `@ws` default Lambda templates and increased Python template indentation in because Python
+- Improve error handling during possible `@tables` port conflicts on startup; partially fixes #1441, thanks @jlipps!
 
 ---
 
