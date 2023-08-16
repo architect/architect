@@ -24,7 +24,7 @@ Architect <3 Python! This release is all about the snek!
   - Changelog: https://github.com/architect/functions-python/blob/main/changelog.md)
 - Major new release of Arc's Node.js helper library: `@architect/functions`
   - Package: [(https://pypi.org/project/architect-functions/)](https://www.npmjs.com/package/@architect/functions)
-  - Changelog: https://github.com/architect/functions/blob/main/_changelog.md)
+  - Changelog: https://github.com/architect/functions/blob/main/_changelog.md#700-2023-07-10)
 - Added support for additional Python + Ruby Lambda handler filenames, including:
   - Python: `lambda.py`, `handler.py` (and legacy `index.py`)
   - Ruby: `lambda.rb`, `handler.rb` (and legacy `index.rb`)

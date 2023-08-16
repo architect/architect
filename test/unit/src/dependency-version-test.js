@@ -14,9 +14,11 @@ test('All primary dependencies must be version locked', t => {
     if (ver.toLowerCase().includes('x') || ver.includes('*')) {
       t.fail(`${dep} has invalid version in package.json: ${ver}`)
     }
-    else if ((utilityDeps.includes(dep) && ver.startsWith('~')) ||
-             (isAWS(dep) && ver.startsWith('^'))) {
-      t.pass(`${dep} version is ok: ${ver}`)
+    else if (utilityDeps.includes(dep)) {
+      t.ok(ver.startsWith('~'), `${dep} version is ok: ${ver}`)
+    }
+    else if (isAWS(dep)) {
+      t.ok(ver.startsWith('^'), `${dep} version is ok: ${ver}`)
     }
     else if (ver.match(startsWithNumber)) {
       t.pass(`${dep} version is ok: ${ver}`)
