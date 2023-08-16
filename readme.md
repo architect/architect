@@ -30,18 +30,18 @@
 
 ## Installation
 
-Make sure you have at least node version 14 installed.
+Make sure you have at least Node.js version 14 installed.
 
-Open your terminal to install `arc` globally:
+Open your terminal to install `arc`:
 
 ```bash
-npm i -g @architect/architect
+npm i @architect/architect --save-dev
 ```
 
 Check the version:
 
 ```bash
-arc version
+npx arc version
 ```
 
 > Protip: run `arc` with no arguments to get help
@@ -54,13 +54,13 @@ Create a new app:
 ```bash
 mkdir testapp
 cd testapp
-arc init
+npx arc init
 ```
 
 Kick up the local dev server:
 
 ```bash
-arc sandbox
+npx arc sandbox
 ```
 > `Cmd / Ctrl + c` exits the sandbox
 
@@ -70,14 +70,14 @@ arc sandbox
 Deploy the `staging` stack:
 
 ```bash
-arc deploy
+npx arc deploy
 ```
 > Protip: create additional `staging` stacks with `--name`
 
 Ship to a `production` stack:
 
 ```bash
-arc deploy production
+npx arc deploy --production
 ```
 
 
