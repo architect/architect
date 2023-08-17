@@ -21,13 +21,15 @@ Architect <3 Python! This release is all about the snek!
   - See the sessions guide: https://arc.codes/docs/en/guides/frontend/sessions
 - Major new release of Arc's Python helper library: `architect-functions`
   - Package: https://pypi.org/project/architect-functions/
-  - Changelog: https://github.com/architect/functions-python/blob/main/changelog.md)
+  - Changelog: https://github.com/architect/functions-python/blob/main/changelog.md
 - Major new release of Arc's Node.js helper library: `@architect/functions`
-  - Package: [(https://pypi.org/project/architect-functions/)](https://www.npmjs.com/package/@architect/functions)
-  - Changelog: https://github.com/architect/functions/blob/main/_changelog.md#700-2023-07-10)
+  - Package: https://www.npmjs.com/package/@architect/functions
+  - Changelog: https://github.com/architect/functions/blob/main/_changelog.md#700-2023-07-10
 - Added support for additional Python + Ruby Lambda handler filenames, including:
   - Python: `lambda.py`, `handler.py` (and legacy `index.py`)
   - Ruby: `lambda.rb`, `handler.rb` (and legacy `index.rb`)
+- Sandbox now cleans up per-Lambda vendor dirs (`node_modules`, `vendor`) upon startup; fixes #1426
+  - This can be disabled with `@sandbox delete-vendor false` preference or using the `--disable-delete-vendor` flag
 - Added fonts to binary mime types in Architect's default `@http` root handling (`@architect/asap`); thanks @sjorsrijsdam!
 
 
@@ -42,6 +44,7 @@ Architect <3 Python! This release is all about the snek!
 - Fixed issue where certain arrays in JSON / YAML project manifests (`arc.json`, `arc.yaml`) could be unnecessarily nested; fixes #1436, thanks @sbernardello!
 - Fixed Python `@ws` default Lambda templates and increased Python template indentation in because Python
 - Improve error handling during possible `@tables` port conflicts on startup; partially fixes #1441, thanks @jlipps!
+- Fixed issue where `ARC_SESSION_TABLE_NAME` could only be configured by setting the `SESSION_TABLE_NAME` env var
 
 ---
 
