@@ -4,6 +4,14 @@
 
 ---
 
+## [10.14.1] 2023-08-22
+
+### Changed
+
+- Use CloudFormation `--debug` when in `arc deploy --verbose` mode; thanks @frankleng!
+
+---
+
 ## [10.14.0] 2023-08-01
 
 Architect <3 Python! This release is all about the snek!
