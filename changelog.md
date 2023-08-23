@@ -9,6 +9,7 @@
 ### Changed
 
 - Use CloudFormation `--debug` when in `arc deploy --verbose` mode; thanks @frankleng!
+- Upgraded Deno from 1.18.x to 1.36.2
 
 ---
 
