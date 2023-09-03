@@ -4,6 +4,20 @@
 
 ---
 
+## [10.14.2] 2023-09-03
+
+### Added
+
+- Added error bubbling for the Sandbox plugin `invoke()` method; fixes #1447
+- Added `@static prefix` setting support; fixes #1450
+
+
+### Changed
+
+- Hydrate will optimistically import `importlib_metadata` during Python treeshaking in case it's already installed in the system
+
+---
+
 ## [10.14.1] 2023-08-22
 
 ### Changed
