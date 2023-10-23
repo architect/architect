@@ -4,6 +4,22 @@
 
 ---
 
+## [10.15.0] 2023-10-23
+
+### Added
+
+- Added ability to ignore dependencies during hydration (`@arc ignoreDependencies` list in `config.arc`); thanks @andybee!
+- Minor improvements to Sandbox `@WS` API emulation
+- Added improvements to help output when port is in use; thanks @remysharp!
+
+
+### Fixed
+
+- Fixed hydration of platform-specific binary deps (namely: Python); fixes #1457
+- Fixed pnpm / Yarn commands when globally installed
+
+---
+
 ## [10.14.2] 2023-09-03
 
 ### Added
