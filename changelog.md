@@ -4,6 +4,14 @@
 
 ---
 
+## [10.15.1] 2023-10-24
+
+### Fixed
+
+- Fixed issue where qemu/emulator port conflicts were not detected with our open port tester; fixes 1441
+
+---
+
 ## [10.15.0] 2023-10-23
 
 ### Added
