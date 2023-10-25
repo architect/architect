@@ -4,6 +4,16 @@
 
 ---
 
+## [10.16.0] 2023-10-24
+
+### Added
+
+- Added Lambda coldstart simulator to Sandbox
+  - Enable coldstart simulation mode via `@sandbox coldstart true` setting in `prefs.arc`
+  - Note: Windows users must install [`du`](https://learn.microsoft.com/en-us/sysinternals/downloads/du)
+
+---
+
 ## [10.15.1] 2023-10-24
 
 ### Fixed
