@@ -4,6 +4,14 @@
 
 ---
 
+## [10.16.1] 2023-10-24
+
+### Fixed
+
+- `env` command help uses correct `--env`, `--add`, and `--remove` flags
+
+---
+
 ## [10.16.0] 2023-10-24
 
 ### Added
