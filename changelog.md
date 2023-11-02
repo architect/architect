@@ -4,6 +4,14 @@
 
 ---
 
+## [10.16.1] 2023-11-02
+
+### Changed
+
+- When running `logs`, if no Lambda is specified, default to `@http` root handler (if possible)
+
+---
+
 ## [10.16.0] 2023-10-31
 
 ### Added
