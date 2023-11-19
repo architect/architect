@@ -4,6 +4,20 @@
 
 ---
 
+## [10.16.2] 2023-11-19
+
+### Added
+
+- Added support for `nodejs20.x`
+- Added additional dependency ignoring property case: `@arc ignoreDependencies` or `ignoredDependencies` can now be used; `ignoreDependencies` is preferred
+
+
+### Fixed
+
+- Sandbox now refreshes connected livereload clients on all changes to `public/`
+
+---
+
 ## [10.16.1] 2023-11-02
 
 ### Changed
