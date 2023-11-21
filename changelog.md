@@ -4,6 +4,21 @@
 
 ---
 
+## [10.16.3] 2023-11-20
+
+### Changed
+
+- Updated `aws-sdk` to `2.1374.0` per latest Lambda runtime versions
+- Updated `@aws-sdk/*` versions
+
+
+### Fixed
+
+- Ensure `ARC_STATIC_SPA=true` (env var, or `@static spa true`) enables SPA; thanks @busticated!
+- Ensure `X-Forwarded-Port` header is always a string; thanks @lpsinger!
+
+---
+
 ## [10.16.2] 2023-11-19
 
 ### Added
