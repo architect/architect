@@ -828,6 +828,10 @@ buffpojken!
 - Breaking change: Inventory `_project.env` is now by default an object populated by three properties: `local`, `plugins`, and `aws`, reflecting the env vars found for each environment
 - Breaking change: AWS region prioritizes a region passed via param over `AWS_REGION` env var; this should realistically have little or no effect in practice
 - Breaking change: `@indexes` is now fully deprecated; simply change the pragma name to `@tables-indexes`, no other changes are required
+- Breaking change: moved legacy API Gateway REST API provisioning to `@architect/plugin-rest-api` plugin; to continue deploying REST APIs with Architect:
+  - Install `@architect/plugin-rest-api` to your project's dependencies
+  - Add `@plugins architect/plugin-rest-api` and `@aws apigateway rest` to your project manifest
+  - Fixes #1297
 - Breaking change: legacy `@tables-streams` folders (`src/tables/...` and `src/streams/...`) are now deprecated
   - Existing functions can be simply moved to `src/tables-streams/{name}` (or use a custom `src` property)
 - Breaking change: renamed Inventory `lambda.handlerFunction` to `lambda.handlerMethod`
