@@ -1,7 +1,4 @@
 #!/usr/bin/env node
-// eslint-disable-next-line
-try { require('aws-sdk/lib/maintenance_mode_message').suppress = true }
-catch { /* Noop */ }
 let chalk = require('chalk')
 let _inventory = require('@architect/inventory')
 let create = require('@architect/create/src/cli')
