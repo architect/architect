@@ -33,10 +33,10 @@
     "@architect/destroy": "4.0.0-RC.3",
     "@architect/env": "4.0.0-RC.1",
     "@architect/hydrate": "4.0.0-RC.1",
-    "@architect/inventory": "4.0.0-RC.2",
+    "@architect/inventory": "~4.0.0-RC.2",
     "@architect/logs": "5.0.0-RC.2",
     "@architect/sandbox": "6.0.0-RC.1",
-    "@architect/utils": "4.0.0-RC.3",
+    "@architect/utils": "~4.0.0-RC.3",
     "chalk": "4.1.2",
     "update-notifier-cjs": "5.1.6"
   },

@@ -4,6 +4,41 @@
 
 ---
 
+## [11.0.0] 2024-01-24
+
+Architect 11 is now fully based on [`aws-lite`](https://aws-lite.org), and no longer makes use of the AWS SDK or CLI. This dramatically decreases installation time, while massively increasing speed in all AWS operations. Read more about this change at https://arc.codes.
+
+
+### Added
+
+- Added experimental `--fast` flag, which ships project to AWS without waiting around to determine if the deployment completed successfully. Use with care!
+
+
+### Changed
+
+- Architect no longer requires or makes use of the AWS SDK and AWS CLI
+  - As such, installation, setup, and deployments are all significantly faster
+- Breaking change: Sandbox no longer includes `aws-sdk` + `@aws-sdk/*` as dependencies
+  - Projects that rely on the AWS SDK should install those dependencies to their project directly
+  - Consult the [Architect upgrade guide](https://arc.codes/docs/en/about/upgrade-guide) for more information
+- Breaking change: `nodejs20.x` and `python3.12` are now the default Node.js and Python Lambda runtimes, respectively
+  - The Node.js version is not itself a breaking change, however the version of AWS SDK available to your code will change from v2 to v3 – this is entirely an AWS decision, which we are managing as best we can (by way of offering [`aws-lite`](https://aws-lite.org) as an alternative)
+  - For folks who need to continue using AWS SDK v2, simply set `@aws runtime nodejs16.x` in your project manifest
+  - However, be warned: `nodejs16.x` (and AWS SDK v2 in Lambda) are scheduled for deprecation in a few months
+  - Consult the [Architect upgrade guide](https://arc.codes/docs/en/about/upgrade-guide) for more information
+- Breaking change: removed support for Node.js 14.x (now EOL, and no longer available to created in AWS Lambda)
+- Deploy no longer writes `sam.json` + `sam.yaml` files upon each deploy
+  - However, if you do want to see the `sam.json` being deployed, use the `--dry-run` or `--debug|-d` CLI flags
+- Added Node.js 20.x to test matrix
+
+
+### Fixed
+
+- Fixed issue where `ignoreDependencies` would not work if only a single dependency was ignored; thanks @andybee!
+- Fixed issues surrounding correctly toggling `@cdn` (experimental + undocumented) as enabled or disabled
+
+---
+
 ## [10.16.3] 2023-11-20
 
 ### Changed
