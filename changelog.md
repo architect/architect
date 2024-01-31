@@ -12,6 +12,10 @@ Architect 11 is now fully based on [`aws-lite`](https://aws-lite.org), and no lo
 ### Added
 
 - Added experimental `--fast` flag, which ships project to AWS without waiting around to determine if the deployment completed successfully. Use with care!
+- Improved cross-platform deployment of native modules to `arm64` Lambda (the new default in Architect 11)
+  - This means any non-`arm64` and/or non-Linux machine will now best-effort deploy to `arm64` Linux; users are highly encouraged to validate application functionality that relies on native modules
+  - This is accomplished by adding the npm `--cpu` + `--os` flags, supported by npm v10.1+ – this version of npm is bundled with Node.js 18.19+ or 20.7+
+  - If you are using pnpm, Yarn, or a version of npm < v10.1, you must continue to deploy Lambdas to `arm64` as before
 
 
 ### Changed
@@ -26,6 +30,8 @@ Architect 11 is now fully based on [`aws-lite`](https://aws-lite.org), and no lo
   - For folks who need to continue using AWS SDK v2, simply set `@aws runtime nodejs16.x` in your project manifest
   - However, be warned: `nodejs16.x` (and AWS SDK v2 in Lambda) are scheduled for deprecation in a few months
   - Consult the [Architect upgrade guide](https://arc.codes/docs/en/about/upgrade-guide) for more information
+- Breaking change: `arm64` is now the default Lambda architecture
+  - This change only impacts anyone who uses native modules or Lambda layers with binaries
 - Breaking change: removed support for Node.js 14.x (now EOL, and no longer available to created in AWS Lambda)
 - Deploy no longer writes `sam.json` + `sam.yaml` files upon each deploy
   - However, if you do want to see the `sam.json` being deployed, use the `--dry-run` or `--debug|-d` CLI flags
