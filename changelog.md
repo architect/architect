@@ -31,8 +31,9 @@ Architect 11 is now fully based on [`aws-lite`](https://aws-lite.org), and no lo
   - However, be warned: `nodejs16.x` (and AWS SDK v2 in Lambda) are scheduled for deprecation in a few months
   - Consult the [Architect upgrade guide](https://arc.codes/docs/en/about/upgrade-guide) for more information
 - Breaking change: `arm64` is now the default Lambda architecture
-  - This change only impacts anyone who uses native modules or Lambda layers with binaries
+  - This change only impacts projects that utilize native modules or Lambda layers with binaries; projects that make use of regular Node.js packages will not be impacted by this change
 - Breaking change: removed support for Node.js 14.x (now EOL, and no longer available to created in AWS Lambda)
+- Architect no longer requires the AWS CLI, nor Python. So if you'd like to remove either or both, feel free!
 - Deploy no longer writes `sam.json` + `sam.yaml` files upon each deploy
   - However, if you do want to see the `sam.json` being deployed, use the `--dry-run` or `--debug|-d` CLI flags
 - Added Node.js 20.x to test matrix
@@ -42,6 +43,9 @@ Architect 11 is now fully based on [`aws-lite`](https://aws-lite.org), and no lo
 
 - Fixed issue where `ignoreDependencies` would not work if only a single dependency was ignored; thanks @andybee!
 - Fixed issues surrounding correctly toggling `@cdn` (experimental + undocumented) as enabled or disabled
+- Potentially breaking fix: resolved mismatch between `RouteSelectionExpression` in deployed Architect apps vs. locally in Sandbox
+  - The `RouteSelectionExpression` is now `$request.body.action`, meaning WebSocket code running locally can now be the same as production code, like so: `ws.send(JSON.stringify({ action: 'custom-endpoint', ... }))`
+  - This fixes #768; thanks @mawdesley + @MartinRamm!
 
 ---
 
