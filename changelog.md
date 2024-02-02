@@ -36,6 +36,7 @@ Architect 11 is now fully based on [`aws-lite`](https://aws-lite.org), and no lo
 - Architect no longer requires the AWS CLI, nor Python. So if you'd like to remove either or both, feel free!
 - Deploy no longer writes `sam.json` + `sam.yaml` files upon each deploy
   - However, if you do want to see the `sam.json` being deployed, use the `--dry-run` or `--debug|-d` CLI flags
+- AWS Lambda no longer supports Go-specific runtimes; as such, `go` and `golang` runtime aliases are no longer available
 - Added Node.js 20.x to test matrix
 
 
