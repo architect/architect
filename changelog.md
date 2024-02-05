@@ -6,7 +6,7 @@
 
 ## [11.0.0] 2024-01-24
 
-Architect 11 is now fully based on [`aws-lite`](https://aws-lite.org), and no longer makes use of the AWS SDK or CLI. This dramatically decreases installation time, while massively increasing speed in all AWS operations. Read more about this change at https://arc.codes.
+Architect 11 (Cadborosaurus) is now fully based on [`aws-lite`](https://aws-lite.org), and no longer makes use of the AWS SDK or CLI. This dramatically decreases installation time, while massively increasing speed in all AWS operations. Read more about this change at https://arc.codes.
 
 
 ### Added
@@ -47,6 +47,8 @@ Architect 11 is now fully based on [`aws-lite`](https://aws-lite.org), and no lo
 - Potentially breaking fix: resolved mismatch between `RouteSelectionExpression` in deployed Architect apps vs. locally in Sandbox
   - The `RouteSelectionExpression` is now `$request.body.action`, meaning WebSocket code running locally can now be the same as production code, like so: `ws.send(JSON.stringify({ action: 'custom-endpoint', ... }))`
   - This fixes #768; thanks @mawdesley + @MartinRamm!
+- Fixed issue where treeshaking runs against Lambdas with explicit dependency manifests in cases where those Lambdas were themselves plugins installed as dependencies
+- Fixed format of `@sandbox-start` pragma in preferences (which is preferred to `@sandbox-startup`)
 
 ---
 
