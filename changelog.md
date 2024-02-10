@@ -4,6 +4,14 @@
 
 ---
 
+## [11.0.4] 2024-02-10
+
+### Fixed
+
+- Fixed issue where an unflattened dependency tree in node_modules could result in Node.js issuing a `MaxListenersExceededWarning`
+
+---
+
 ## [11.0.0 - 11.0.3] 2024-02-05
 
 Architect 11 (Cadborosaurus) is now fully based on [`aws-lite`](https://aws-lite.org), and no longer makes use of the AWS SDK or CLI. This dramatically decreases installation time, while massively increasing speed in all AWS operations. Read more about this change at https://arc.codes.

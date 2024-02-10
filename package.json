@@ -36,7 +36,7 @@
     "@architect/inventory": "~4.0.3",
     "@architect/logs": "5.0.2",
     "@architect/sandbox": "6.0.2",
-    "@architect/utils": "~4.0.2",
+    "@architect/utils": "~4.0.3",
     "chalk": "4.1.2",
     "update-notifier-cjs": "5.1.6"
   },
