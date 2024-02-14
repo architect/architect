@@ -1,7 +1,7 @@
 {
   "name": "@architect/architect",
   "homepage": "https://arc.codes",
-  "version": "11.0.4",
+  "version": "11.0.5",
   "description": "Create, deploy, and maintain next-generation AWS cloud function-based serverless infrastructure with full local, offline workflows, and more.",
   "main": "src/index.js",
   "bin": {
