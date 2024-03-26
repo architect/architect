@@ -4,6 +4,21 @@
 
 ---
 
+## [11.0.6] 2024-03-25
+
+### Changed
+
+- Updated dependencies
+
+
+### Fixed
+
+- Fixed order of preference for bucket name resolution so passed `bucket` param can override the `ARC_STATIC_BUCKET` env var; thanks @andybee!
+- Fixed intermittent issues publishing static assets to S3
+- Fixed error destroying an app that did not deploy correctly the first time
+
+---
+
 ## [11.0.5] 2024-02-13
 
 ### Fixed

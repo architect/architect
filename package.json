@@ -28,26 +28,26 @@
   "author": "Brian LeRoux <b@brian.io>",
   "license": "Apache-2.0",
   "dependencies": {
-    "@architect/create": "5.0.1",
-    "@architect/deploy": "5.0.3",
-    "@architect/destroy": "4.0.2",
-    "@architect/env": "4.0.2",
-    "@architect/hydrate": "4.0.2",
-    "@architect/inventory": "~4.0.3",
-    "@architect/logs": "5.0.2",
-    "@architect/sandbox": "6.0.2",
-    "@architect/utils": "~4.0.3",
+    "@architect/create": "5.0.2",
+    "@architect/deploy": "5.0.5",
+    "@architect/destroy": "4.0.4",
+    "@architect/env": "4.0.3",
+    "@architect/hydrate": "4.0.3",
+    "@architect/inventory": "~4.0.4",
+    "@architect/logs": "5.0.3",
+    "@architect/sandbox": "6.0.3",
+    "@architect/utils": "~4.0.4",
     "chalk": "4.1.2",
     "update-notifier-cjs": "5.1.6"
   },
   "devDependencies": {
     "@architect/eslint-config": "~2.1.2",
     "cross-env": "~7.0.3",
-    "eslint": "~8.56.0",
+    "eslint": "~8.57.0",
     "nyc": "~15.1.0",
     "proxyquire": "~2.1.3",
     "tap-arc": "~1.2.2",
-    "tape": "~5.7.4"
+    "tape": "~5.7.5"
   },
   "keywords": [
     "amazon",
