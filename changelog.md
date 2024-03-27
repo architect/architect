@@ -8,7 +8,7 @@
 
 ### Fixed
 
-- `env` command help uses correct `--env`, `--add`, and `--remove` flags
+- `env` command help uses correct `--env`, `--add`, and `--remove` flags; thanks @busticated!
 
 ---
 
