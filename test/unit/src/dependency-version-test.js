@@ -2,7 +2,7 @@ let test = require('tape')
 let { join } = require('path')
 let package = require('../../../package.json')
 let utilityDeps = [ '@architect/inventory', '@architect/utils' ]
-let isAWS = dep => dep === 'aws-sdk' || dep.startsWith('@aws-sdk/')
+let isAwsLite = dep => dep.startsWith('@aws-lite/')
 
 let startsWithNumber = /^\d/
 let deps = Object.keys(package.dependencies)
@@ -17,7 +17,7 @@ test('All primary dependencies must be version locked', t => {
     else if (utilityDeps.includes(dep)) {
       t.ok(ver.startsWith('~'), `${dep} version is ok: ${ver}`)
     }
-    else if (isAWS(dep)) {
+    else if (isAwsLite(dep)) {
       t.ok(ver.startsWith('^'), `${dep} version is ok: ${ver}`)
     }
     else if (ver.match(startsWithNumber)) {
@@ -42,7 +42,7 @@ test('All secondary dependencies of owned libraries must be semver ~ or pinned',
       let subDeps = Object.keys(pkg.dependencies)
       subDeps.forEach(dep => {
         let ver = pkg.dependencies[dep]
-        let valid = isAWS(dep)
+        let valid = isAwsLite(dep)
           ? ver.startsWith('^')
           : ver.startsWith('~') || ver.match(startsWithNumber)
         if (!valid) {

@@ -39,7 +39,7 @@ Deploy with ${b('AWS SAM')} to a CloudFormation Stack name of the form AppNameEn
 
 ${D('Options')}
   ${g(`-p${d(',')}`, `--production${d(',')}`)} ${d(`............ set environment to production, i.e. ${D('--production')} results in a Stack name of ${D('AppNameProduction')}`)}
-  ${g(`-d${d(',')}`, `--direct${d(',')}`, '<path/to/function>')} ${d('... directly deploy only function code and config by uploading and overwriting; optionally specify a path to one or more functions to only deploy the specified functions')}
+  ${g(`--direct${d(',')}`, '<path/to/function>')} ${d('... directly deploy only function code and config by uploading and overwriting; optionally specify a path to one or more functions to only deploy the specified functions')}
   ${g(`-s${d(',')}`, `--static${d(',')}`)} ${d('.................... upload static assets (by default in /public) to the static S3 bucket')}
   ${g(`-v${d(',')}`, `--verbose${d(',')}`)} ${d('.................. prints all output to console')}
   ${g(`-n${d(',')}`, `--name${d(',')}`)} ${d(`........................ append to Stack name, i.e. ${D('--name CI')} results in a Stack name of ${D('AppNameStagingCI')}`)}

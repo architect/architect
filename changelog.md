@@ -4,7 +4,7 @@
 
 ---
 
-## [10.16.1] 2023-10-24
+## [11.0.7] 2024-03-26
 
 ### Fixed
 
@@ -12,13 +12,130 @@
 
 ---
 
-## [10.16.0] 2023-10-24
+## [11.0.6] 2024-03-25
+
+### Changed
+
+- Updated dependencies
+
+
+### Fixed
+
+- Fixed order of preference for bucket name resolution so passed `bucket` param can override the `ARC_STATIC_BUCKET` env var; thanks @andybee!
+- Fixed intermittent issues publishing static assets to S3
+- Fixed error destroying an app that did not deploy correctly the first time
+
+---
+
+## [11.0.5] 2024-02-13
+
+### Fixed
+
+- Fixed issue where entirely custom Lambda-based projects may error when trying to print the project's URL(s) after deploying
+
+---
+
+## [11.0.4] 2024-02-10
+
+### Fixed
+
+- Fixed issue where an unflattened dependency tree in node_modules could result in Node.js issuing a `MaxListenersExceededWarning`
+
+---
+
+## [11.0.0 - 11.0.3] 2024-02-05
+
+Architect 11 (Cadborosaurus) is now fully based on [`aws-lite`](https://aws-lite.org), and no longer makes use of the AWS SDK or CLI. This dramatically decreases installation time, while massively increasing speed in all AWS operations. Read more about this change at https://arc.codes.
+
+
+### Added
+
+- Added experimental `--fast` flag, which ships project to AWS without waiting around to determine if the deployment completed successfully. Use with care!
+- Improved cross-platform deployment of native modules to `arm64` Lambda (the new default in Architect 11)
+  - This means any non-`arm64` and/or non-Linux machine will now best-effort deploy to `arm64` Linux; users are highly encouraged to validate application functionality that relies on native modules
+  - This is accomplished by adding the npm `--cpu` + `--os` flags, supported by npm v10.1+ – this version of npm is bundled with Node.js 18.19+ or 20.7+
+  - If you are using pnpm, Yarn, or a version of npm < v10.1, you must continue to deploy Lambdas to `arm64` as before
+
+
+### Changed
+
+- Architect no longer requires or makes use of the AWS SDK and AWS CLI
+  - As such, installation, setup, and deployments are all significantly faster
+- Breaking change: Sandbox no longer includes `aws-sdk` + `@aws-sdk/*` as dependencies
+  - Projects that rely on the AWS SDK should install those dependencies to their project directly
+  - Consult the [Architect upgrade guide](https://arc.codes/docs/en/about/upgrade-guide) for more information
+- Breaking change: `nodejs20.x` and `python3.12` are now the default Node.js and Python Lambda runtimes, respectively
+  - The Node.js version is not itself a breaking change, however the version of AWS SDK available to your code will change from v2 to v3 – this is entirely an AWS decision, which we are managing as best we can (by way of offering [`aws-lite`](https://aws-lite.org) as an alternative)
+  - For folks who need to continue using AWS SDK v2, simply set `@aws runtime nodejs16.x` in your project manifest
+  - However, be warned: `nodejs16.x` (and AWS SDK v2 in Lambda) are scheduled for deprecation in a few months
+  - Consult the [Architect upgrade guide](https://arc.codes/docs/en/about/upgrade-guide) for more information
+- Breaking change: `arm64` is now the default Lambda architecture
+  - This change only impacts projects that utilize native modules or Lambda layers with binaries; projects that make use of regular Node.js packages will not be impacted by this change
+- Breaking change: removed support for Node.js 14.x (now EOL, and no longer available to created in AWS Lambda)
+- Architect no longer requires the AWS CLI, nor Python. So if you'd like to remove either or both, feel free!
+- Deploy no longer writes `sam.json` + `sam.yaml` files upon each deploy
+  - However, if you do want to see the `sam.json` being deployed, use the `--dry-run` or `--debug|-d` CLI flags
+- AWS Lambda no longer supports Go-specific runtimes; as such, `go` and `golang` runtime aliases are no longer available
+- Added Node.js 20.x to test matrix
+
+
+### Fixed
+
+- Fixed issue where `ignoreDependencies` would not work if only a single dependency was ignored; thanks @andybee!
+- Fixed issues surrounding correctly toggling `@cdn` (experimental + undocumented) as enabled or disabled
+- Potentially breaking fix: resolved mismatch between `RouteSelectionExpression` in deployed Architect apps vs. locally in Sandbox
+  - The `RouteSelectionExpression` is now `$request.body.action`, meaning WebSocket code running locally can now be the same as production code, like so: `ws.send(JSON.stringify({ action: 'custom-endpoint', ... }))`
+  - This fixes #768; thanks @mawdesley + @MartinRamm!
+- Fixed issue where treeshaking runs against Lambdas with explicit dependency manifests in cases where those Lambdas were themselves plugins installed as dependencies
+- Fixed format of `@sandbox-start` pragma in preferences (which is preferred to `@sandbox-startup`)
+
+---
+
+## [10.16.3] 2023-11-20
+
+### Changed
+
+- Updated `aws-sdk` to `2.1374.0` per latest Lambda runtime versions
+- Updated `@aws-sdk/*` versions
+
+
+### Fixed
+
+- Ensure `ARC_STATIC_SPA=true` (env var, or `@static spa true`) enables SPA; thanks @busticated!
+- Ensure `X-Forwarded-Port` header is always a string; thanks @lpsinger!
+
+---
+
+## [10.16.2] 2023-11-19
+
+### Added
+
+- Added support for `nodejs20.x`
+- Added additional dependency ignoring property case: `@arc ignoreDependencies` or `ignoredDependencies` can now be used; `ignoreDependencies` is preferred
+
+
+### Fixed
+
+- Sandbox now refreshes connected livereload clients on all changes to `public/`
+
+---
+
+## [10.16.1] 2023-11-02
+
+### Changed
+
+- When running `logs`, if no Lambda is specified, default to `@http` root handler (if possible)
+
+---
+
+## [10.16.0] 2023-10-31
 
 ### Added
 
 - Added Lambda coldstart simulator to Sandbox
   - Enable coldstart simulation mode via `@sandbox coldstart true` setting in `prefs.arc`
   - Note: Windows users must install [`du`](https://learn.microsoft.com/en-us/sysinternals/downloads/du)
+- Added ability to ignore Lambdas during dependency treeshaking via setting `@arc hydrate false` in `config.arc`; thanks @lpsinger!
 
 ---
 
@@ -798,6 +915,10 @@ buffpojken!
 - Breaking change: Inventory `_project.env` is now by default an object populated by three properties: `local`, `plugins`, and `aws`, reflecting the env vars found for each environment
 - Breaking change: AWS region prioritizes a region passed via param over `AWS_REGION` env var; this should realistically have little or no effect in practice
 - Breaking change: `@indexes` is now fully deprecated; simply change the pragma name to `@tables-indexes`, no other changes are required
+- Breaking change: moved legacy API Gateway REST API provisioning to `@architect/plugin-rest-api` plugin; to continue deploying REST APIs with Architect:
+  - Install `@architect/plugin-rest-api` to your project's dependencies
+  - Add `@plugins architect/plugin-rest-api` and `@aws apigateway rest` to your project manifest
+  - Fixes #1297
 - Breaking change: legacy `@tables-streams` folders (`src/tables/...` and `src/streams/...`) are now deprecated
   - Existing functions can be simply moved to `src/tables-streams/{name}` (or use a custom `src` property)
 - Breaking change: renamed Inventory `lambda.handlerFunction` to `lambda.handlerMethod`
