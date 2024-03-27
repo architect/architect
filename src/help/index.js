@@ -65,14 +65,14 @@ ${d('Sandbox registers a few keyboard shortcuts you may invoke to help with loca
   version: `${G('arc version')}
 Print the current version.`,
 
-  env: `${G('arc env [[add|remove] --environment <testing|staging|prduction> VARIABLE_NAME variable_value]')}
+  env: `${G('arc env [[--add|--remove] --env <testing|staging|prduction> VARIABLE_NAME variable_value]')}
 Read and write environment variables. Sensitive configuration data, such as API keys, needs to happen outside of revision control and you can use this tool to ensure an entire team and the deployment targets are in sync.
 Any environment variables written using this command will be available to functions at runtime. ${b('The \'testing\' environment is for local execution using `arc sandbox`')}.
 By default, environment variables will be written to the preferences.arc file. However, if a .env file exists in the project root, variables will be written there instead.
 
 ${D('Options')}
 ${g(`arc env`)} ${d('..................................................................... displays all environment variables for the current app.arc and writes them to prefs.arc or .env')}
-  ${g(`arc env [-e [testing|staging|production]]`)} ${d('........................................ displays all environment variables for the specified environment')}
+  ${g(`arc env [-e|--env [testing|staging|production]]`)} ${d('........................................ displays all environment variables for the specified environment')}
   ${g(`arc env <-a|--add> -e <testing|staging|production> VARIABLE_NAME variable_value`)} ${d('................ assigns a value to the specified variable name in the specified environment')}
   ${g(`arc env <-r|--remove> -e <testing|staging|production> VARIABLE_NAME`)} ${d('... removes the specified variable from the specified environment')}
 `,

@@ -4,6 +4,14 @@
 
 ---
 
+## [11.0.7] 2024-03-26
+
+### Fixed
+
+- `env` command help uses correct `--env`, `--add`, and `--remove` flags
+
+---
+
 ## [11.0.6] 2024-03-25
 
 ### Changed
