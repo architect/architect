@@ -4,6 +4,15 @@
 
 ---
 
+## [11.0.9] 2024-04-08
+
+### Fixed
+
+- Fixed Lambda treeshaking of default `get /*` ASAP handler; thanks @filmaj!
+- Improved detection of local vs global Yarn and pnpm when installing dependencies
+
+---
+
 ## [11.0.8] 2024-03-27
 
 ### Fixed
