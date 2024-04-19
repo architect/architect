@@ -42,7 +42,7 @@ let pretty = {
   },
   notFound (cmd) {
     console.log(dim(`Sorry, ${chalk.green.bold('arc ' + cmd)} command not found!`))
-  }
+  },
 }
 
 async function main (args) {

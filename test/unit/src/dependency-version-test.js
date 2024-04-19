@@ -37,7 +37,6 @@ test('All secondary dependencies of owned libraries must be semver ~ or pinned',
   t.plan(plan)
   deps.forEach(dep => {
     if (dep.startsWith('@architect/')) {
-      // eslint-disable-next-line
       let pkg = require(join(process.cwd(), 'node_modules', dep, 'package.json'))
       let subDeps = Object.keys(pkg.dependencies)
       subDeps.forEach(dep => {

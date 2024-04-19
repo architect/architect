@@ -8,7 +8,7 @@ module.exports = function runBanner ({ cmd, inventory }) {
     banner({
       inventory,
       needsValidCreds,
-      version: `Architect ${ver}`
+      version: `Architect ${ver}`,
     })
   }
   catch (e) {

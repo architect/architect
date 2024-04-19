@@ -5,7 +5,7 @@ let bannered
 let returned
 let startup = {
   env: () => {},
-  banner: params => bannered = { params }
+  banner: params => bannered = { params },
 }
 let returner = (cmd, params) => returned = { cmd, params }
 let reset = () => {
@@ -25,7 +25,7 @@ let arc = proxyquire('../../../src', {
   './startup': startup,
   './help': returner.bind({}, './help'),
   './version': returner.bind({}, './version'),
-  'update-notifier-cjs': () => ({ notify: () => {} })
+  'update-notifier-cjs': () => ({ notify: () => {} }),
 })
 
 
