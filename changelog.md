@@ -4,6 +4,21 @@
 
 ---
 
+## [11.0.11] 2024-04-29
+
+### Changed
+
+- Updated dependencies
+- Updated `package.json` `engines.node` property to reflect changes from v11
+
+
+### Fixed
+
+- Fixed potential issues with deployments to projects with a large number of CloudFormation resources; thanks @w5mix!
+- Fixed REST API plugin check; thanks @jonpacker!
+
+---
+
 ## [11.0.9 - 10] 2024-04-08
 
 ### Fixed
