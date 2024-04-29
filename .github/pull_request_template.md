@@ -4,7 +4,7 @@
 
 To maintain a high standard of quality in our releases, before merging every pull request we ask that you've completed the following:
 
-- [ ] Forked the repo and created your branch from `master`
+- [ ] Forked the repo and created your branch from `main`
 - [ ] Made sure tests pass (run `npm it` from the repo root)
 - [ ] Expanded test coverage related to your changes:
   - [ ] Added and/or updated unit tests (if appropriate)
