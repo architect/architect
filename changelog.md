@@ -4,6 +4,14 @@
 
 ---
 
+## [11.0.12] 2024-04-30
+
+### Fixed
+
+- Remove unnecessary legacy validation, including looking for the AWS CLI during deployment; fixes #1482
+
+---
+
 ## [11.0.11] 2024-04-29
 
 ### Changed
