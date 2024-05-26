@@ -4,6 +4,14 @@
 
 ---
 
+## [11.0.13] 2024-05-26
+
+### Added
+
+- Add `@aws-lite/client` as a dependency of `@architect/architect`, which should supersede individual package versions
+
+---
+
 ## [11.0.12] 2024-04-30
 
 ### Fixed
