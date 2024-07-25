@@ -4,6 +4,19 @@
 
 ---
 
+## [11.1.0] 2024-07-24
+
+### Added
+
+- Architect now supports AWS SSO (`aws sso login [options]`) based workflows; fixes #1402
+
+
+### Fixed
+
+- Fixed issue where Hydrate fails on projects with only an ASAP root handler, no other Lambdas; fixes #1491
+
+---
+
 ## [11.0.13] 2024-05-26
 
 ### Added
