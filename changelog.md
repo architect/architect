@@ -4,6 +4,32 @@
 
 ---
 
+## [11.2.0] 2025-03-17
+
+This version bumps some of architect's sub-dependencies:
+
+- [`@architect/deploy` 5.0.7 -> 5.0.8](https://github.com/architect/deploy/blob/main/changelog.md#508-2025-01-23)
+- [`@architect/hydrate` 4.0.7 -> 4.0.8](https://github.com/architect/hydrate/blob/main/changelog.md#408-2024-07-25)
+- [`@architect/inventory` 4.0.5 -> 4.0.6](https://github.com/architect/inventory/blob/main/changelog.md#406-2025-01-17)
+
+The full changelogs for each package are linked above, but a summary of the changes follow:
+
+### Added
+
+- Plugin API methods now have access to a `stackName` parameter; thanks @ryanblock!
+
+### Changed
+
+- Update vendored Python `importlib_metadata`
+- Improved error handling during Lambda direct updates; thanks @ryanblock!
+- Add support for new ESM-only import error message when importing plugins in Node.js 22; thanks @lpsinger!
+
+### Fixed
+
+- Fix issue where ASAP would blow up treeshaking due to malformed file path; thanks @ryanblock!
+
+---
+
 ## [11.1.0] 2024-07-24
 
 ### Added
