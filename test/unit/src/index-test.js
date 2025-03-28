@@ -8,15 +8,24 @@ let startup = {
   banner: params => bannered = { params },
 }
 let returner = (cmd, params) => returned = { cmd, params }
+let invThrow = false
+let inv = async () => {
+  if (invThrow) throw new Error('boom')
+  return {}
+}
+let pauser = { unpause: () => ({}) }
 let reset = () => {
   bannered = null
   returned = null
+  invThrow = false
   if (bannered || returned) throw Error('did not reset')
 }
 
 let arc = proxyquire('../../../src', {
+  '@architect/inventory': inv,
   '@architect/create/src/cli': returner.bind({}, 'create'),
   '@architect/deploy/src/cli': returner.bind({}, 'deploy'),
+  '@architect/deploy/src/utils/pause-sandbox': pauser,
   '@architect/destroy/src/cli': returner.bind({}, 'destroy'),
   '@architect/env/src/cli': returner.bind({}, 'env'),
   '@architect/hydrate/src/cli': returner.bind({}, 'hydrate'),
@@ -187,5 +196,13 @@ test('Commands', async t => {
   t.ok(returned.params, 'Passed options')
   t.ok(returned.params.inventory, 'Passed Inventory')
   t.ok(bannered, 'Printed banner')
+  reset()
+})
+
+test('Non-zero exit codes', async t => {
+  t.notOk(await arc([ 'not-a-command' ]), 'index module should return false when provided an unknown command, signaling exit code 1')
+  reset()
+  invThrow = true
+  t.notOk(await arc([ 'logs' ]), 'index module should return false when command execution throws, signaling exit code 1')
   reset()
 })
