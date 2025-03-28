@@ -8,13 +8,14 @@ let b = chalk.bold
 let helps = {
   help: `${G('arc [command] <options>')}
 
-${chalk.grey.bold('Usage')}
-  ${g('arc', G('init'), '[name or path]')} ${d('................... initialize project files')}
+${D('Global Commands')}
+  ${g('arc', G('<init|create>'), '[name or path]')} ${d('.......... initialize project files')}
+  ${g('arc', G('help'), '<command>')} ${d('........................ get help')}
+  ${g('arc', G('version'))} ${d('............................... get the current version')}
+${D('Project Commands')}
   ${g('arc', G('sandbox'))} ${d('............................... start a local arc development server')}
   ${g('arc', G('deploy'), '[direct|static|production]')} ${d('..... deploy to AWS')}
   ${g('arc', G('logs'), 'path/to/fn', '[production|destroy]')} ${d('.. manage function logs')}
-  ${g('arc', G('help'), '<command>')} ${d('........................ get help')}
-  ${g('arc', G('version'))} ${d('............................... get the current version')}
   ${g('arc', G('env'))} ${d('................................... work with environment variables')}
   ${g('arc', G('destroy'))} ${d('............................... destroy your current project')}
 `,

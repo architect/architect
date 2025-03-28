@@ -30,21 +30,46 @@ let arc = proxyquire('../../../src', {
 
 
 test('Help (and defaults)', t => {
-  t.plan(9)
+  t.plan(21)
   arc([])
   t.equal(returned.cmd, './help', 'No arg defaults to help')
-  t.equal(returned.params.length, 0, 'No options passed')
-  t.notOk(bannered, 'Did not print banner')
+  t.equal(returned.params.length, 0, '..no options passed')
+  t.notOk(bannered, '..did not print banner')
 
   arc([ 'help' ])
-  t.equal(returned.cmd, './help', 'Requesting help succeeds')
-  t.equal(returned.params.length, 0, 'No options passed')
-  t.notOk(bannered, 'Did not print banner')
+  t.equal(returned.cmd, './help', 'Requesting help via `arc help` succeeds')
+  t.equal(returned.params.length, 0, '..no options passed')
+  t.notOk(bannered, '..did not print banner')
+  reset()
+
+  arc([ '--help' ])
+  t.equal(returned.cmd, './help', 'Requesting --help succeeds')
+  t.equal(returned.params.length, 0, '..no options passed')
+  t.notOk(bannered, '..did not print banner')
+  reset()
+
+  arc([ '-h' ])
+  t.equal(returned.cmd, './help', 'Requesting help via -h succeeds')
+  t.equal(returned.params.length, 0, '..no options passed')
+  t.notOk(bannered, '..did not print banner')
+  reset()
 
   arc([ 'help', 'sandbox' ])
   t.equal(returned.cmd, './help', 'Requesting help with a command succeeds')
-  t.equal(returned.params.length, 1, `Options passed: ${returned.params[0]}`)
-  t.notOk(bannered, 'Did not print banner')
+  t.equal(returned.params.length, 1, `..options passed: ${returned.params[0]}`)
+  t.notOk(bannered, '..did not print banner')
+  reset()
+
+  arc([ 'sandbox', '-h' ])
+  t.equal(returned.cmd, './help', 'Requesting help via -h with a command succeeds')
+  t.equal(returned.params.length, 1, `..options passed: ${returned.params[0]}`)
+  t.notOk(bannered, '..did not print banner')
+  reset()
+
+  arc([ 'sandbox', '--help' ])
+  t.equal(returned.cmd, './help', 'Requesting help via --help with a command succeeds')
+  t.equal(returned.params.length, 1, `..options passed: ${returned.params[0]}`)
+  t.notOk(bannered, '..did not print banner')
   reset()
 })
 

@@ -9,7 +9,7 @@ test('cli module exits without error and prints usage from the shell', t => {
     if (err) t.fail(err)
     else {
       t.ok(true, 'exited with non-zero code')
-      t.match(stdout, /usage/i, 'stdout includes the word "usage"')
+      t.match(stdout, /global commands/i, 'stdout includes the word "global commands"')
     }
   })
 })
