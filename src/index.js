@@ -24,6 +24,8 @@ let cmds = {
   destroy,
   env,
   hydrate,
+  '-h': help,
+  '--help': help,
   help,
   logs,
   sandbox,
@@ -58,13 +60,17 @@ async function main (args) {
 
   let cmd = args.shift()
   let opts = args.slice(0)
+  let helpFlag = opts.some(f => [ '-h', '--help' ].includes(f))
 
   if (cmd && !cmds[cmd]) {
     pretty.notFound(cmd)
-    process.exit(1)
+    return false
   }
-  else if (!cmd || cmd === 'help') {
+  else if (!cmd || cmd === 'help' || cmd === '-h' || cmd === '--help') {
     help(opts)
+  }
+  else if (helpFlag) {
+    help([ cmd ])
   }
   else {
     try {
@@ -78,9 +84,10 @@ async function main (args) {
       // Unpause the Sandbox watcher
       pauser.unpause()
       pretty.fail(cmd, err)
-      process.exit(1)
+      return false
     }
   }
+  return true
 }
 
 module.exports = main
@@ -88,6 +95,9 @@ module.exports = main
 // allow direct invoke
 if (require.main === module) {
   (async function () {
-    await main()
+    let ok = await main()
+    if (!ok) {
+      process.exit(1)
+    }
   })()
 }
