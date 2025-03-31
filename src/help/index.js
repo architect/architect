@@ -9,10 +9,11 @@ let helps = {
   help: `${G('arc [command] <options>')}
 
 ${D('Global Commands')}
-  ${g('arc', G('<init|create>'), '[name or path]')} ${d('.......... initialize project files')}
+  ${g('arc', G('<init|create>'), '[name or path]')} ${d('.......... initialize new arc project')}
   ${g('arc', G('help'), '<command>')} ${d('........................ get help')}
   ${g('arc', G('version'))} ${d('............................... get the current version')}
 ${D('Project Commands')}
+  ${g('arc', G('<init|create>'))} ${d('......................... idempotently initialize project files')}
   ${g('arc', G('sandbox'))} ${d('............................... start a local arc development server')}
   ${g('arc', G('deploy'), '[direct|static|production]')} ${d('..... deploy to AWS')}
   ${g('arc', G('logs'), 'path/to/fn', '[production|destroy]')} ${d('.. manage function logs')}
@@ -20,19 +21,23 @@ ${D('Project Commands')}
   ${g('arc', G('destroy'))} ${d('............................... destroy your current project')}
 `,
 
-  init: `${G('arc <init|create>')} ${g('[app-name or path] [options]')}
-Generate an arc project.
-When ${b('no arguments are passed')}, arc will look for an app.arc file in the local directory and ensure any resources defined in it are created locally.
+  init: `${G('arc <init|create>')} ${g('[name or path] [options]')}
+Generate a new arc project at the specified path, or if run in an existing arc project, idempotently initialize any missing function directories.
+When used with the ${g('--plugin')} flag, generates a new arc plugin project at the specified path instead.
+When ${b('no arguments are passed')}, arc will look for an app.arc file in the local directory and idempotently initialize any resources defined in it; that is, if they do not exist, they will be created locally.
 When passed a ${b('path-like argument')}, arc will create a new project in the specified path (including an app.arc project manifest file).
 When passed ${b('any other argument')}, arc will create a new project with that argument as the app name in the current working directory (including an app.arc project manifest file).
 
 ${D('Options')}
-  ${g(`-s${d(',')}`, `--static${d(',')}`)} ${d('........... initialize a static web app')}
-  ${g(`-r${d(',')}`, `--runtime${d(',')}`)} ${d('......... initialize project with a specific runtime; can be one of:')}
-    ${d(D('node'), ',', D('js'), '..... nodejs14.x')}
+  ${g(`-n${d(',')}`, '--name')} ${d('............ app name; sets `@app` in your app.arc file')}
+  ${g('--no-install')} ${d('.......... do not automatically install `@architect/architect` as a dependency in the project')}
+  ${g(`-p${d(',')}`)} ${g('--plugin')} ${d('.......... create a scaffolded architect plugin project')}
+  ${g(`-r${d(',')}`, `--runtime ${d('......... initialize project with a specific runtime. If unspecified, will default to node. Can be one of:')}`)}
+    ${d(D('node'), ',', D('js'), '..... nodejs22.x')}
     ${d(D('deno'), '.......... deno')}
-    ${d(D('rb'), ',', D('ruby'), '..... ruby2.7')}
-    ${d(D('python'), ',', D('py'), '... python3.9')}`
+    ${d(D('rb'), ',', D('ruby'), '..... ruby3.3')}
+    ${d(D('python'), ',', D('py'), '... python3.13')}
+  ${g(`-v${d(',')}`)} ${g('--verbose')} ${d('......... run in verbose mode')}`
   ,
 
   deploy: `${G('arc deploy')} ${g('[options]')}
