@@ -4,6 +4,18 @@
 
 ---
 
+## [11.2.1] 2025-04-03
+
+### Added
+
+- Passing the `-h` or `--help` flag to individual `arc` commands now prints the command's help text; an alias for `arc help <command>`
+
+### Changed
+
+- Updated help text for all `arc` commands.
+
+---
+
 ## [11.2.0] 2025-03-17
 
 This version bumps some of architect's sub-dependencies:
