@@ -62,17 +62,37 @@ ${D('Options')}
 `,
 
   sandbox: `${G('arc sandbox')} ${g('[options]')}
-Start a local web server and in-memory database. This server will mount your @http and @ws functions on the routes you have defined in your app.arc. It will also serve your @static assets. @events and @queues are supported. @tables and @indexes will be created using Dynalite, a fast in-memory database with a DynamoDB API.
+Start a local development server that emulates AWS infrastructure for your Architect application. Sandbox provides a complete local development environment that includes:
+
+- HTTP server for your @http routes
+- WebSocket server for @ws routes
+- Dynalite in-memory database for @tables and @indexes
+- Local event bus for @events and @queues
+- Static asset serving for @static assets
+- File watching and live reloading
 
 ${D('Options')}
-  ${g(`-p${d(',')}`, `--port${d(',')}`)} ${d('..... port the web server will listen on (default is 3333)')}
-  ${g(`--disable-symlinks`)} ${d('... do not use symlinks to mount `src/shared` into all arc functions; instead copy files direct (warning: slower)')}
+  ${g(`-p${d(',')} --port`)} ${d('........................ port the HTTP server will listen on (default is 3333)')}
+  ${g(`-h${d(',')} --host`)} ${d('........................ host the server will bind to')}
+  ${g(`--disable-symlinks`)} ${d('................ do not use symlinks for shared code; use file copying instead (slower)')}
+  ${g(`--disable-delete-vendor`)} ${d('........... do not delete node_modules or vendor directories upon startup')}
+  ${g(`-q${d(',')} --quiet`)} ${d('....................... minimize console output during operation')}
+  ${g(`-v${d(',')} --verbose`)} ${d('..................... print more detailed output during operation')}
+  ${g(`-d${d(',')} --debug`)} ${d('....................... print even more detailed information for debugging')}
+
+${D('Environment Variables')}
+  ${d(`${g('ARC_HTTP_PORT')}, ${g('PORT')} ............... set the HTTP server port (same as --port)`)}
+  ${d(`${g('ARC_EVENTS_PORT')} ................... set the events/queues service port (default 4444)`)}
+  ${d(`${g('ARC_TABLES_PORT')} ................... set the DynamoDB emulator port (default 5555)`)}
+  ${d(`${g('ARC_HOST')} .......................... set the host the server will bind to`)}
+  ${d(`${g('ARC_QUIET')}, ${g('QUIET')} .................. minimize console output (same as --quiet)`)}
 
 ${D('Keyboard Shortcuts')}
-${d('Sandbox registers a few keyboard shortcuts you may invoke to help with local development (note: they are all capital letters!):')}
-  ${g('S')} ${d('..... re-hydrates (installs dependencies) `src/shared` and copies or symlinks it into all function code')}
-  ${g('V')} ${d('..... re-hydrates (installs dependencies) `src/views` and copies or symlinks it into all function code')}
-  ${g('H')} ${d('..... re-hydrates (installs dependencies) both `src/shared` and `src/views` and copies or symlinks both into all function code')}
+${d('Sandbox registers keyboard shortcuts to help with local development (note: they are all capital letters!):')}
+  ${g('S')} ${d('................................. rehydrate only src/shared')}
+  ${g('V')} ${d('................................. rehydrate only src/views')}
+  ${g('H')} ${d('................................. rehydrate both src/shared and src/views')}
+  ${g('Ctrl+C')} ${d('............................ gracefully shut down the sandbox')}
 `,
 
   version: `${G('arc version')}
