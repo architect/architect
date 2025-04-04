@@ -134,13 +134,21 @@ ${D('Options')}
   ${g(`--debug${d(',')} -d`)} ${d('....... print even more detailed information for debugging purposes')}
 `,
 
-  logs: `${G('arc logs [options] <path/to/function>')}
-Anytime your remotely-deployed functions log to stdout, those get stored in CloudWatch. \`arc logs\` lets you retrieve these logs for debugging or monitoring. ${b('You must provide a path argument to one of your functions')} (i.e. \`arc logs src/http/get-index\`). Unless --production is specified, this command will retrieve logs from the staging Stack.
+  logs: `${G('arc logs')} ${g('[options] <path/to/function>')}
+Retrieve or delete CloudWatch logs for your Lambda functions. When your cloud functions log to stdout or stderr, these messages are stored in AWS CloudWatch. This command lets you access these logs.
+${b('You must provide a path to one of your Lambda function directories')} (e.g., ${g('arc logs src/http/get-index')}). By default, this command retrieves logs from your staging environment, unless the ${g('--production')} flag is specified.
+If no function path is provided and your project has a root HTTP handler defined, logs for that handler will be retrieved by default.
 
 ${D('Options')}
-  ${d(`${g('-v')}, ${g(`--verbose`)}, ............... run in verbose mode`)}
-  ${d(`${g('-n')}, ${g(`--destroy`)}, ............... delete logs for the specified function`)}
-  ${d(`${g('-p')}, ${g(`--production`)}, ............ retrieve (or delete, if combined with --destroy) logs for the production Stack`)}
+  ${g(`--destroy`)} ${d('........................ delete logs for the specified function')}
+  ${g(`-p${d(',')} --production`)} ${d('................. retrieve logs from the production environment (default is staging)')}
+  ${g(`-v${d(',')} --verbose`)} ${d('.................... display more detailed information during command execution')}
+  ${g(`-d${d(',')} --debug`)} ${d('...................... display even more detailed information for debugging purposes')}
+
+${D('Examples')}
+  ${g(`arc logs src/http/get-index`)} ${d('................ retrieve logs for the index function from staging')}
+  ${g(`arc logs --production src/http/get-index`)} ${d('... retrieve logs for the index function from production')}
+  ${g(`arc logs --destroy src/events/send-email`)} ${d('... delete logs for the send-email function in staging')}
 `,
 
 }
