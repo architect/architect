@@ -78,16 +78,24 @@ ${d('Sandbox registers a few keyboard shortcuts you may invoke to help with loca
   version: `${G('arc version')}
 Print the current version.`,
 
-  env: `${G('arc env [[--add|--remove] --env <testing|staging|prduction> VARIABLE_NAME variable_value]')}
-Read and write environment variables. Sensitive configuration data, such as API keys, needs to happen outside of revision control and you can use this tool to ensure an entire team and the deployment targets are in sync.
-Any environment variables written using this command will be available to functions at runtime. ${b('The \'testing\' environment is for local execution using `arc sandbox`')}.
-By default, environment variables will be written to the preferences.arc file. However, if a .env file exists in the project root, variables will be written there instead.
+  env: `${G('arc env')} ${g('[options]')}
+Manage environment variables for your Architect application across different environments. This command allows you to read, add, and remove environment variables that will be available to your Lambda functions at runtime.
+When run ${b('without any flags')}, this command will print out all environment variables and their values, across all environments.
+Environment variables are stored in AWS SSM Parameter Store for staging and production environments. For local development (testing environment), variables are stored in your project's preferences.arc file or .env file if one exists.
+${b('The \'testing\' environment is used for local execution with `arc sandbox`')}. Variables for this environment are stored locally, while staging and production variables are stored in AWS SSM.
 
 ${D('Options')}
-${g(`arc env`)} ${d('..................................................................... displays all environment variables for the current app.arc and writes them to prefs.arc or .env')}
-  ${g(`arc env [-e|--env [testing|staging|production]]`)} ${d('........................................ displays all environment variables for the specified environment')}
-  ${g(`arc env <-a|--add> -e <testing|staging|production> VARIABLE_NAME variable_value`)} ${d('................ assigns a value to the specified variable name in the specified environment')}
-  ${g(`arc env <-r|--remove> -e <testing|staging|production> VARIABLE_NAME`)} ${d('... removes the specified variable from the specified environment')}
+  ${g(`-e${d(',')} --env <environment>`)} ${d('... specify environment (testing, staging, or production)')}
+  ${g(`-a${d(',')} --add`)} ${d('................. add a new environment variable')}
+  ${g(`-r${d(',')} --remove`)} ${d('.............. remove an environment variable')}
+  ${g(`-v${d(',')} --verbose`)} ${d('............. print more detailed output')}
+  ${g(`-d${d(',')} --debug`)} ${d('............... print even more detailed information for debugging')}
+
+${D('Examples')}
+  ${g(`arc env`)} ${d('......................................... display all environment variables for all environments')}
+  ${g(`arc env --env staging`)} ${d('........................... display all environment variables for staging')}
+  ${g(`arc env --add --env testing MY_VAR "my value"`)} ${d('... add MY_VAR to testing environment')}
+  ${g(`arc env --remove --env production DB_PASS`)} ${d('....... remove DB_PASS from production environment')}
 `,
 
   destroy: `${G('arc destroy')} ${g('[options]')}
