@@ -41,17 +41,24 @@ ${D('Options')}
   ,
 
   deploy: `${G('arc deploy')} ${g('[options]')}
-Deploy with ${b('AWS SAM')} to a CloudFormation Stack name of the form AppNameEnvironment (default environment is staging)
+Deploy your app, as defined in your app.arc manifest, to a CloudFormation Stack. The @app name and environment (more on this below) determine the Stack your application will deploy to. Furthermore, Stacks are unique per region therefore changing your target AWS region will change the target Stack to deploy to.
+By default, this command deploys a staging version of your application to a dedicated CloudFormation Stack. By providing the ${g('-p')} or ${g('--production')} flag you can deploy to a separate production Stack.
+You can target additional Stacks by using the ${g('--name')} flag; this will append the provided name to the Stack name and is a technique to create arbitrary additional deployment environments beyond staging and production.
+When passed the ${g('--direct')} flag in conjunction with a path-like argument to a Lambda source directory, instead of a full CloudFormation deploy, arc will only deploy source code for the provided Lambda. This will be much faster and may be helpful when wanting to deploy small, isolated changes.
 
 ${D('Options')}
-  ${g(`-p${d(',')}`, `--production${d(',')}`)} ${d(`............ set environment to production, i.e. ${D('--production')} results in a Stack name of ${D('AppNameProduction')}`)}
-  ${g(`--direct${d(',')}`, '<path/to/function>')} ${d('... directly deploy only function code and config by uploading and overwriting; optionally specify a path to one or more functions to only deploy the specified functions')}
-  ${g(`-s${d(',')}`, `--static${d(',')}`)} ${d('.................... upload static assets (by default in /public) to the static S3 bucket')}
-  ${g(`-v${d(',')}`, `--verbose${d(',')}`)} ${d('.................. prints all output to console')}
-  ${g(`-n${d(',')}`, `--name${d(',')}`)} ${d(`........................ append to Stack name, i.e. ${D('--name CI')} results in a Stack name of ${D('AppNameStagingCI')}`)}
-  ${g(`-t${d(',')}`, `--tags${d(',')}`)} ${d('........................ add tags to Stack')}
-  ${g(`--prune${d(',')}`)} ${d('.......................... delete orphaned static files from the static S3 bucket; files that are not present in the local @static directory (by default in /public) will be removed')}
-  ${g('--no-hydrate')} ${d('............................ skip hydrating functions before deploy; arc will not try to install dependencies in each of your function directories')}
+  ${g(`--direct`, '<path/to/function>')} ${d('... directly deploy only provided function code and config by uploading and overwriting; optionally specify a path to one or more functions to only deploy the specified functions')}
+  ${g('--dry-run')} ${d('..................... generate a CloudFormation template but do not deploy it; handy to validate CloudFormation and SAM output or to test Architect plugins')}
+  ${g('--eject')} ${d('....................... generate a CloudFormation template but do not deploy it and print the `aws cloudformation` command to run to deploy it')}
+  ${g(`-f${d(',')}`, `--fast`)} ${d('.................... deploy the Stack but do not wait until deployment completes')}
+  ${g(`-n${d(',')}`, `--name`)} ${d(`.................... append to Stack name, i.e. ${D('--name CI')} results in a Stack name of ${D('AppNameStagingCI')}`)}
+  ${g('--no-hydrate')} ${d('.................. skip hydrating functions before deploy; arc will not try to install dependencies in each of your function directories')}
+  ${g(`-p${d(',')}`, `--production`)} ${d(`.............. set environment to production, i.e. ${D('--production')} results in a Stack name of ${D('AppNameProduction')}`)}
+  ${g(`--prune`)} ${d('....................... delete orphaned static files from the static S3 bucket; files that are not present in the local @static directory (by default in /public) will be removed')}
+  ${g(`-s${d(',')}`, `--static`)} ${d('.................. only upload static assets (by default in /public) to the static S3 bucket')}
+  ${g(`-t${d(',')}`, `--tags`)} ${d('.................... add tags to Stack')}
+  ${g(`-v${d(',')}`, `--verbose`)} ${d('................. print more output to console')}
+  ${g(`-d${d(',')}`, `--debug`)} ${d('................... print even more output to console')}
 `,
 
   sandbox: `${G('arc sandbox')} ${g('[options]')}
