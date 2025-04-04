@@ -90,15 +90,20 @@ ${g(`arc env`)} ${d('...........................................................
   ${g(`arc env <-r|--remove> -e <testing|staging|production> VARIABLE_NAME`)} ${d('... removes the specified variable from the specified environment')}
 `,
 
-  destroy: `${G('arc destroy')}
-Destroy your Architect application. Deletes all resources associated with your app (including CloudFormation Stack, environment variables, CloudWatch Logs and deployment bucket). Unless --production or --name are specified, this command will destroy your staging Stack.
+  destroy: `${G('arc destroy')} ${g('[options]')}
+Completely removes your Architect application from AWS. This command deletes all resources associated with your application, including the CloudFormation Stack, SSM environment variables, CloudWatch Logs, deployment S3 bucket, and static S3 bucket (if applicable). 
+By default, this command destroys your staging environment. Use the ${g('--production')} flag to target the production environment instead. For custom environments created with ${g('deploy --name')}, use the ${g('--name')} flag to specify the environment to destroy.
+For safety reasons, if your application has database tables or static assets, ${b('you must explicitly confirm deletion')} by using the ${g('--force')} flag. There is a 5-second safety delay before destruction begins, which can be bypassed with the ${g('--now')} flag.
 
 ${D('Options')}
-  ${g(`--app`)} ${d('.......... name of your app (required)')}
-  ${g(`--name`)} ${d('......... target custom named environment; used to destroy an app that used `deploy`\'s --name flag')}
-  ${g(`--force`)} ${d('........ destroy an app that has database tables and/or static assets')}
-  ${g(`--production`)} ${d('... destroy the production version of your app')}
-  ${g(`--no-timeout`)} ${d('... by default, `destroy` times out after approximately 150 seconds, but by specifying this flag, `destroy` will wait until all application resources are removed before exiting')}
+  ${g(`--app`)} ${d('............. app name (required for confirmation)')}
+  ${g(`--force${d(',')} -f`)} ${d('....... destroy an app that has database tables and/or static assets')}
+  ${g(`--name`)} ${d('............ target a custom named environment created with `deploy --name`')}
+  ${g(`--now`)} ${d('............. skip the 5-second safety delay before destroying resources')}
+  ${g(`--no-timeout`)} ${d('...... wait indefinitely for all application resources to be removed (by default times out after ~150 seconds)')}
+  ${g(`--production${d(',')} -p`)} ${d('.. destroy the production environment instead of staging')}
+  ${g(`--verbose${d(',')} -v`)} ${d('..... print more detailed information during the destroy process')}
+  ${g(`--debug${d(',')} -d`)} ${d('....... print even more detailed information for debugging purposes')}
 `,
 
   logs: `${G('arc logs [options] <path/to/function>')}
