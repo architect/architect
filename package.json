@@ -33,7 +33,7 @@
     "@architect/destroy": "4.0.5",
     "@architect/env": "4.0.5",
     "@architect/hydrate": "4.0.8",
-    "@architect/inventory": "~4.0.6",
+    "@architect/inventory": "~4.0.8",
     "@architect/logs": "5.0.5",
     "@architect/sandbox": "6.0.5",
     "@architect/utils": "~4.0.6",

@@ -4,6 +4,17 @@
 
 ---
 
+## [11.2.2] 2025-04-05
+
+This version bumps [`@architect/inventory` 4.0.6 -> 4.0.8](https://github.com/architect/inventory/blob/main/changelog.md#408-2025-04-05) and includes the following fixes:
+
+### Fixed
+
+- Fixes [architect/architect#1478](https://github.com/architect/architect/issues/1478): support for loading plugins implemented as `index.mjs` under a plugin folder name
+- Fixed support for loading ESM plugins in node v20.19 (which now supports `require()` of ESM modules)
+
+---
+
 ## [11.2.1] 2025-04-03
 
 ### Added
