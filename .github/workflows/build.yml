@@ -15,7 +15,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [ 18.x, 20.x ]
+        node-version: [ 18.x, 20.x, 22.x ]
         os: [ windows-latest, ubuntu-latest, macOS-latest ]
 
     # Go
@@ -40,14 +40,7 @@ jobs:
     - name: Install
       run: npm install
 
-    - name: Test (Node.js <= 16.x)
-      if: matrix.node-version <= '16.x'
-      run: npm run test:nolint
-      env:
-        CI: true
-
     - name: Test
-      if: matrix.node-version > '16.x'
       run: npm test
       env:
         CI: true
@@ -55,7 +48,7 @@ jobs:
     - name: Notify
       uses: sarisia/actions-status-discord@v1
       # Only fire alert once
-      if: github.ref == 'refs/heads/main' && failure() && matrix.node-version == '20.x' && matrix.os == 'ubuntu-latest'
+      if: github.ref == 'refs/heads/main' && failure() && matrix.node-version == '22.x' && matrix.os == 'ubuntu-latest'
       with:
         webhook: ${{ secrets.DISCORD_WEBHOOK }}
         title: "build and test"
