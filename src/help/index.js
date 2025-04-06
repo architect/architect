@@ -81,6 +81,7 @@ ${D('Options')}
   ${g(`-d${d(',')} --debug`)} ${d('....................... print even more detailed information for debugging')}
 
 ${D('Environment Variables')}
+  ${d(`${g('ARC_DB_EXTERNAL')} ................... use an external DynamoDB tool (such as AWS NoSQL Workbench)`)}
   ${d(`${g('ARC_HTTP_PORT')}, ${g('PORT')} ............... set the HTTP server port (same as --port)`)}
   ${d(`${g('ARC_EVENTS_PORT')} ................... set the events/queues service port (default 4444)`)}
   ${d(`${g('ARC_TABLES_PORT')} ................... set the DynamoDB emulator port (default 5555)`)}
