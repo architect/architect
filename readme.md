@@ -15,10 +15,10 @@
 ## Requirements
 
 - **Platforms:** Linux, macOS, Windows
-- **Architect runtime:** Node.js 14+
+- **Architect runtime:** Node.js 18+
 - **Function runtimes & package managers:**
   - Node.js (optional): [supported versions](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)
-    - [`npm`](https://www.npmjs.com/) (optional): 6+
+    - [`npm`](https://www.npmjs.com/) (optional): 10+
     - [`yarn`](https://yarnpkg.com/) (optional): 1+
   - Python (optional): [supported versions](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)
     - [`pip3`](https://pip.pypa.io/en/stable/) (optional)
@@ -30,7 +30,7 @@
 
 ## Installation
 
-Make sure you have at least Node.js version 14 installed.
+Make sure you have at least Node.js version 18 installed.
 
 Open your terminal to install `arc`:
 
