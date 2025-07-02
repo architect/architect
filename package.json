@@ -35,7 +35,7 @@
     "@architect/hydrate": "4.0.8",
     "@architect/inventory": "~4.0.8",
     "@architect/logs": "5.0.5",
-    "@architect/sandbox": "6.0.5",
+    "@architect/sandbox": "7.1.0",
     "@architect/utils": "~4.0.6",
     "@aws-lite/client": "^0.22.2",
     "chalk": "4.1.2",
