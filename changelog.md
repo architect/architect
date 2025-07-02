@@ -4,6 +4,22 @@
 
 ---
 
+## [11.3.0] 2025-07-01
+
+This version bumps [`@architect/sandbox` 6.0.5 -> 7.1.8](https://github.com/architect/sandbox/blob/main/changelog.md#710-2025-07-01) and includes the following changes:
+
+### Added
+
+- Added ability to load sandbox seed data from `.cjs` and `.mjs` files
+
+### Fixed
+
+- Many dependency updates
+- Fixes [architect/architect#1512](https://github.com/architect/architect/issues/1512): loading seed data in arc projects of `type: module` would result in sandbox crashing
+- Fixes lookup of `external-db` preference
+
+---
+
 ## [11.2.2] 2025-04-05
 
 This version bumps [`@architect/inventory` 4.0.6 -> 4.0.8](https://github.com/architect/inventory/blob/main/changelog.md#408-2025-04-05) and includes the following fixes:
