@@ -6,7 +6,7 @@
 
 ## [11.3.0] 2025-07-01
 
-This version bumps [`@architect/sandbox` 6.0.5 -> 7.1.8](https://github.com/architect/sandbox/blob/main/changelog.md#710-2025-07-01) and includes the following changes:
+This version bumps [`@architect/sandbox` 6.0.5 -> 7.1.0](https://github.com/architect/sandbox/blob/main/changelog.md#710-2025-07-01) and includes the following changes:
 
 ### Added
 
