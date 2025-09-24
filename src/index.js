@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-let chalk = require('chalk')
+let chalk = require('@architect/utils/chalk')
 let _inventory = require('@architect/inventory')
 let create = require('@architect/create/src/cli')
 let deploy = require('@architect/deploy/src/cli')
@@ -8,11 +8,11 @@ let env = require('@architect/env/src/cli')
 let hydrate = require('@architect/hydrate/src/cli')
 let logs = require('@architect/logs/src/cli')
 let sandbox = require('@architect/sandbox/src/cli/arc')
+let pauser = require('@architect/deploy/src/utils/pause-sandbox')
 
 let startup = require('./startup')
 let help = require('./help')
 let version = require('./version')
-let pauser = require('@architect/deploy/src/utils/pause-sandbox')
 
 let update = require('update-notifier-cjs')
 let _pkg = require('../package.json')

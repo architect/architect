@@ -1,4 +1,4 @@
-let chalk = require('chalk')
+let chalk = require('@architect/utils/chalk')
 let { version } = require('../package.json')
 let path = require('path')
 
