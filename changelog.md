@@ -4,6 +4,15 @@
 
 ---
 
+## [12.0.0] 2025-09-25 (Fresno Nightcrawler)
+
+Bumps all deps to next major. Notable changes:
+
+- updated runtime to `node20.x`, `node22.x` and `node24.x`
+- `dynalite` upgraded to latest `leveldb`
+- vendored many stable deps into `@architect/utils` to reduce supply chain threat surface
+- began migration to native node test runner
+
 ## [11.3.0] 2025-07-01
 
 This version bumps [`@architect/sandbox` 6.0.5 -> 7.1.0](https://github.com/architect/sandbox/blob/main/changelog.md#710-2025-07-01) and includes the following changes:

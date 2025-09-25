@@ -21,6 +21,7 @@ test('All primary dependencies must be version locked', t => {
       t.ok(ver.startsWith('^'), `${dep} version is ok: ${ver}`)
     }
     else if (ver.match(startsWithNumber)) {
+      console.log('made it here?')
       t.pass(`${dep} version is ok: ${ver}`)
     }
     else {
