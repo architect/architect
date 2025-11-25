@@ -16,7 +16,7 @@
     "rc": "npm version prerelease --preid RC"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "repository": {
     "type": "git",
@@ -28,15 +28,15 @@
   "author": "Brian LeRoux <b@brian.io>",
   "license": "Apache-2.0",
   "dependencies": {
-    "@architect/create": "6.0.0",
-    "@architect/deploy": "5.1.1-RC.1",
-    "@architect/destroy": "5.0.1",
-    "@architect/env": "5.0.1",
-    "@architect/hydrate": "5.0.0",
-    "@architect/inventory": "~5.0.0",
-    "@architect/logs": "6.0.1",
-    "@architect/sandbox": "8.0.0-RC.2",
-    "@architect/utils": "~5.0.0",
+    "@architect/create": "7.0.0-RC.0",
+    "@architect/deploy": "7.0.0-RC.0",
+    "@architect/destroy": "6.0.0-RC.0",
+    "@architect/env": "6.0.0-RC.0",
+    "@architect/hydrate": "5.0.2-RC.0",
+    "@architect/inventory": "6.0.0-RC.0",
+    "@architect/logs": "7.0.0-RC.0",
+    "@architect/sandbox": "9.0.0-RC.0",
+    "@architect/utils": "6.0.0-RC.1",
     "@aws-lite/client": "^0.23.2",
     "update-notifier-cjs": "5.1.6"
   },
