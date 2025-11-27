@@ -10,8 +10,9 @@ Bumps all deps to next major. Notable changes:
 
 - updated all architect modules to `node22.x` and `node24.x`
 - `dynalite` upgraded to latest `leveldb`
-- vendored many stable deps into `@architect/utils` to reduce supply chain threat surface
+- vendored many stable deps into `@architect/utils` to reduce supply chain threat surface (and nasty warnings)
 - began migration to native node test runner
+- the entire `@architect/architect` package is now 23MB vs 36MB on disk so install is nicer
 
 ## [11.3.0] 2025-07-01
 
