@@ -36,7 +36,7 @@
     "@architect/inventory": "~6.0.0-RC.0",
     "@architect/logs": "7.0.0-RC.0",
     "@architect/sandbox": "9.0.0-RC.0",
-    "@architect/utils": "~6.0.0-RC.1",
+    "@architect/utils": "6.0.0",
     "@aws-lite/client": "^0.23.2",
     "update-notifier-cjs": "5.1.6"
   },
