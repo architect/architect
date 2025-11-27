@@ -8,7 +8,7 @@
 
 Bumps all deps to next major. Notable changes:
 
-- updated runtime to `node20.x`, `node22.x` and `node24.x`
+- updated all architect modules to `node22.x` and `node24.x`
 - `dynalite` upgraded to latest `leveldb`
 - vendored many stable deps into `@architect/utils` to reduce supply chain threat surface
 - began migration to native node test runner
