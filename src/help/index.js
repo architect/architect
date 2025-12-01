@@ -1,4 +1,4 @@
-let chalk = require('chalk')
+let chalk = require('@architect/utils/chalk')
 let d = chalk.grey
 let D = chalk.grey.bold
 let g = chalk.green
