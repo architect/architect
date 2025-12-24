@@ -21,10 +21,10 @@ jobs:
     # Go
     steps:
     - name: Check out repo
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
 
     - name: Set up Node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v6
       with:
         node-version: ${{ matrix.node-version }}
 
@@ -60,6 +60,9 @@ jobs:
   # Publish to package registries
   publish:
     # Setup
+    permissions:
+      id-token: write  # Required for OIDC
+      contents: read
     needs: build
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
@@ -67,26 +70,22 @@ jobs:
     # Go
     steps:
       - name: Check out repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: lts/*
+          node-version: 24.x
           registry-url: https://registry.npmjs.org/
 
       # Publish to npm
       - name: Publish @RC to npm
         if: contains(github.ref, 'RC')
         run: npm publish --tag RC
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish @latest to npm
         if: contains(github.ref, 'RC') == false #'!contains()'' doesn't work lol
         run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Notify
         uses: sarisia/actions-status-discord@v1
