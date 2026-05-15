@@ -92,6 +92,9 @@ async function main (args) {
 
 module.exports = main
 
+// Export testing utilities for plugin authors
+module.exports.testing = require('./testing')
+
 // allow direct invoke
 if (require.main === module) {
   (async function () {
