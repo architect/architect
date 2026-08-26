@@ -4,6 +4,22 @@
 
 ---
 
+## [12.0.1] 2026-08-26
+
+This version bumps some of architect's sub-dependencies:
+
+- [`@architect/deploy` 7.0.0 -> 7.0.3](https://github.com/architect/deploy/blob/main/changelog.md)
+- [`@architect/inventory` ~6.0.0 -> ~6.1.0](https://github.com/architect/inventory/blob/main/changelog.md#610-2026-01-08)
+
+### Fixed
+
+- Fixed `fifo false` on an `@queues` item silently ignored making a FIFO queue instead of a standard queue
+  - `@architect/inventory` 6.1.0 made `fifo` (along with `batchSize` and `batchWindow`) a top-level `@queues` property. Version `~6.0.0` drops the property and falls back to the `true` default
+  - Setting `fifo false` in a queue's own function config did work and still works
+- `@architect/deploy` 7.0.3 pins `@architect/inventory` `~6.1.0`, so the deploy path no longer resolves its own copy of Inventory
+
+---
+
 ## [12.0.0] 2025-09-25 (Fresno Nightcrawler)
 
 Bumps all deps to next major. Notable changes:
