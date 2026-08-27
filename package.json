@@ -29,11 +29,11 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@architect/create": "7.0.0",
-    "@architect/deploy": "7.0.0",
+    "@architect/deploy": "7.0.3",
     "@architect/destroy": "6.0.0",
     "@architect/env": "6.0.0",
     "@architect/hydrate": "6.0.0",
-    "@architect/inventory": "~6.0.0",
+    "@architect/inventory": "~6.1.0",
     "@architect/logs": "7.0.0",
     "@architect/sandbox": "9.0.0",
     "@architect/utils": "~6.0.0",
