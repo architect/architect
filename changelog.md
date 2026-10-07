@@ -30,6 +30,15 @@ Bumps all deps to next major. Notable changes:
 - began migration to native node test runner
 - the entire `@architect/architect` package is now 23MB vs 36MB on disk so install is nicer
 
+### Added
+
+- Official plugin testing utilities for Architect plugin developers
+  - New `@architect/architect/testing` module with mock builders
+  - Mock creators for `inventory`, `arc manifest`, `deploy context`, `sandbox context`, and `lambda invocation`
+  - Pragma-specific fixtures for `@http`, `@events`, `@queues`, `@tables`, and `@websocket`
+  - Comprehensive testing guide at [TESTING.md](./TESTING.md)
+  - Closes [architect/architect#1506](https://github.com/architect/architect/issues/1506)
+
 ## [11.3.0] 2025-07-01
 
 This version bumps [`@architect/sandbox` 6.0.5 -> 7.1.0](https://github.com/architect/sandbox/blob/main/changelog.md#710-2025-07-01) and includes the following changes:

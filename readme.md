@@ -90,6 +90,31 @@ npx arc deploy --production
 – **[Vim](https://github.com/architect/vim-plugin)**
 
 
+## Plugin Development & Testing
+
+Building custom Architect plugins? We provide official testing utilities to help you test your plugins reliably.
+
+**[See the Plugin Testing Guide →](./TESTING.md)**
+
+Key features:
+- Mock Architect internals (inventory, manifests, contexts)
+- Test plugin hooks with realistic scenarios
+- Pragma-specific fixtures for @http, @events, @queues, @tables, and more
+- Composable builders with sensible defaults
+
+Example:
+```javascript
+const { createMockDeployContext } = require('@architect/architect/testing')
+
+test('my plugin works', async t => {
+  let context = createMockDeployContext()
+  let result = await myPlugin.deploy.start(context)
+  t.ok(result)
+})
+```
+
+---
+
 ## Learn more
 
 Head to https://arc.codes to learn more!
